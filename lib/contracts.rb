@@ -1,5 +1,8 @@
 require "contracts/version"
-
-module Contracts
-  # Your code goes here...
-end
+require "contracts/object_properties"
+require "contracts/basic_attribute"
+require "contracts/string_attribute"
+require "contracts/integer_attribute"
+require "contracts/array_attribute"
+require "contracts/object_attribute"
+require "contracts/attribute_factory"
