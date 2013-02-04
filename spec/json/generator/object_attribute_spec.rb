@@ -43,7 +43,7 @@ module JSON
 						}
 					end
 					let(:property_attributes) { double('property attributes') }
-					let(:property) { double('property') }
+					let(:property) { double('property', :required? => true) }
 					let(:generated_property) { double('generated property') }
 
 					it 'should generate an object with one attribute' do
@@ -62,18 +62,22 @@ module JSON
 							'type' => 'object',
 							'properties' => {
 								'foo' => foo_attributes,
-								'bar' => bar_attributes
+								'bar' => bar_attributes,
+								'not_required' => not_required_attributes
 							},
 							'required' => true
 						}
 					end
 					let(:foo_attributes) { double('foo attributes') }
-					let(:foo_property) { double('foo property') }
+					let(:foo_property) { double('foo property', :required? => true) }
 					let(:generated_foo) { double('generated foo') }
 
 					let(:bar_attributes) { double('bar attributes') }
-					let(:bar_property) { double('bar property') }
+					let(:bar_property) { double('bar property', :required? => true) }
 					let(:generated_bar) { double('generated bar') }
+
+					let(:not_required_attributes) { double('not required attributes') }
+					let(:not_required_property) { double('not required property', :required? => false) }
 
 					it 'should generate an object with many attributes' do
 						AttributeFactory.should_receive(:create).with(foo_attributes).and_return(foo_property)
@@ -81,6 +85,8 @@ module JSON
 
 						AttributeFactory.should_receive(:create).with(bar_attributes).and_return(bar_property)
 						bar_property.should_receive(:generate).and_return(generated_bar)
+
+						AttributeFactory.should_receive(:create).with(not_required_attributes).and_return(not_required_property)
 
 						described_class.new(attributes).generate.should == {
 							'foo' => generated_foo,
