@@ -1,13 +1,13 @@
 module JSON
 	module Generator
 		describe BasicAttribute do
-			context 'com valor padrão' do
-				it 'deve retornar o valor padrão' do
-					default = stub('default')
-					properties = {
-						'default' => default
-					}
-					described_class.new(properties).generate.should == default
+			describe '#generate' do
+				context 'with default value' do
+					let(:properties) { {'default' => stub('default')} }
+
+					it 'should return the default value' do
+						described_class.new(properties).generate.should == properties['default']
+					end
 				end
 			end
 		end
