@@ -2,8 +2,16 @@ module JSON
 	module Generator
 		describe ObjectAttribute do
 			describe '#generate' do
+				context 'when not required' do
+					let(:attributes) { {'type' => 'object', 'properties' => {}} }
+
+					it 'should return nil' do
+						described_class.new(attributes).generate.should be_nil
+					end
+				end
+
 				context 'without properties' do
-					let(:attributes) { {'type' => 'object'} }
+					let(:attributes) { {'type' => 'object', 'required' => true} }
 
 					it 'should generate an empty object' do
 						described_class.new(attributes).generate.should == {}
@@ -11,7 +19,13 @@ module JSON
 				end
 
 				context 'with empty properties' do
-					let(:attributes) { {'type' => 'object', 'properties' => {}} }
+					let(:attributes) do
+						{
+							'type' => 'object',
+							'properties' => {},
+							'required' => true
+						}
+					end
 
 					it 'should generate an empty object' do
 						described_class.new(attributes).generate.should == {}
@@ -24,7 +38,8 @@ module JSON
 							'type' => 'object',
 							'properties' => {
 								'foo' => property_attributes
-							}
+							},
+							'required' => true
 						}
 					end
 					let(:property_attributes) { double('property attributes') }
@@ -48,7 +63,8 @@ module JSON
 							'properties' => {
 								'foo' => foo_attributes,
 								'bar' => bar_attributes
-							}
+							},
+							'required' => true
 						}
 					end
 					let(:foo_attributes) { double('foo attributes') }
