@@ -3,6 +3,7 @@ require "contracts/version"
 require "json"
 require "json-generator"
 require "webmock"
+require "ostruct"
 
 require "contracts/request"
 require "contracts/response"

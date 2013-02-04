@@ -5,11 +5,11 @@ module Contracts
     end
 
     def instantiate
-      {
+      OpenStruct.new({
         'status' => @definition['status'],
         'headers' => @definition['headers'],
         'body' => JSON::Generator.generate(@definition['body'])
-      }
+      })
     end
   end
 end

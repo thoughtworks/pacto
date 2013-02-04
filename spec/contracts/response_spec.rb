@@ -15,12 +15,10 @@ module Contracts
 					with(definition['body']).
 					and_return(generated_body)
 
-				response = described_class.new(definition)
-				response.instantiate.should == {
-					'status'  => definition['status'],
-					'headers' => definition['headers'],
-					'body'    => generated_body
-				}
+				response = described_class.new(definition).instantiate
+				response.status.should == definition['status']
+				response.headers.should == definition['headers']
+				response.body.should == generated_body
 			end
 		end
 	end
