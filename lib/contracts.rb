@@ -2,6 +2,7 @@ require "contracts/version"
 
 require "json"
 require "json-generator"
+require "webmock"
 
 require "contracts/request"
 require "contracts/response"
