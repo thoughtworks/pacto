@@ -1,6 +1,7 @@
 require "contracts/version"
 
 require "json"
+require "json-generator"
 
 require "contracts/object_properties"
 require "contracts/basic_attribute"
