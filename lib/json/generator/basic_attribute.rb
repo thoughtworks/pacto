@@ -1,12 +1,16 @@
 module JSON
 	module Generator
 		class BasicAttribute
-			def initialize properties
-				@props = properties
+			def initialize(attributes)
+				@attributes = attributes
 			end
 
 			def generate
-				@props["default"] || self.class::DEFAULT_VALUE
+				@attributes['default'] || self.class::DEFAULT_VALUE
+			end
+
+			def required?
+				@attributes['required']
 			end
 		end
 	end
