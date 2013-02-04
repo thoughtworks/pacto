@@ -1,5 +1,7 @@
 module Contracts
 	describe InstantiatedContract do
-		it "should be implemented"
+		pending '#replace!'
+
+    pending '#stub!'
 	end
 end

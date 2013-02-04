@@ -5,5 +5,8 @@ module Contracts
 
     def replace!(values)
     end
+
+    def stub!
+    end
   end
 end

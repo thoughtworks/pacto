@@ -16,9 +16,12 @@ describe Contracts do
     end
 
     context 'by default' do
+      let(:instantiated_contract) { double('instantiated contract') }
+
       it 'should instantiate a contract with default values' do
+        described_class.registered[contract_name].should_receive(:instantiate).and_return(instantiated_contract)
+        instantiated_contract.should_receive(:stub!)
         described_class.use(contract_name)
-        described_class.instantiated[contract_name].should be_a_kind_of(Contracts::InstantiatedContract)
       end
     end
 
@@ -26,19 +29,6 @@ describe Contracts do
       it 'should raise an argument error' do
         expect { described_class.use('unregistered') }.to raise_error ArgumentError
       end
-    end
-  end
-
-  describe '.reset!' do
-    let(:contract) { stub(:instantiate => 'foo') }
-    before do
-      described_class.register(contract_name, contract_path)
-      described_class.use(contract_name)
-    end
-
-    it 'should remove all instantiated contracts' do
-      described_class.reset!
-      described_class.instantiated.should be_empty
     end
   end
 end

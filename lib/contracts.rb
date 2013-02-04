@@ -18,18 +18,10 @@ module Contracts
 
   def self.use(contract_name, values = {})
     raise ArgumentError unless registered.has_key?(contract_name)
-    instantiated[contract_name] = registered[contract_name].instantiate(values)
-  end
-
-  def self.reset!
-    @instantiated = {}
+    registered[contract_name].instantiate(values).stub!
   end
 
   def self.registered
     @registered ||= {}
-  end
-
-  def self.instantiated
-    @instantiated ||= {}
   end
 end
