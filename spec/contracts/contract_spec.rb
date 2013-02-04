@@ -10,10 +10,11 @@ module Contracts
 
       context 'by default' do
         it 'should instantiate a contract with default attributes' do
-          response.should_receive(:instantiate).with({}).and_return(instantiated_response)
+          response.should_receive(:instantiate).and_return(instantiated_response)
           InstantiatedContract.should_receive(:new).
             with(request, instantiated_response).
             and_return(instantiated_contract)
+          instantiated_contract.should_receive(:replace!).with({})
 
           contract.instantiate.should == instantiated_contract
         end
@@ -23,12 +24,11 @@ module Contracts
         let(:attributes) { {:foo => 'bar'} }
 
         it 'should instantiate a contract and overwrite default attributes' do
-          response.should_receive(:instantiate).
-            with(attributes).
-            and_return(instantiated_response)
+          response.should_receive(:instantiate).and_return(instantiated_response)
           InstantiatedContract.should_receive(:new).
             with(request, instantiated_response).
             and_return(instantiated_contract)
+          instantiated_contract.should_receive(:replace!).with(attributes)
 
           contract.instantiate(attributes).should == instantiated_contract
         end

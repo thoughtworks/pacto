@@ -4,11 +4,11 @@ module Contracts
       @definition = definition
     end
 
-    def instantiate(attributes)
+    def instantiate
       {
         'status' => @definition['status'],
         'headers' => @definition['headers'],
-        'body' => JSON::Generator.generate(@definition['body'], attributes)
+        'body' => JSON::Generator.generate(@definition['body'])
       }
     end
   end

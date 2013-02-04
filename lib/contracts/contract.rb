@@ -5,8 +5,10 @@ module Contracts
       @response = response
     end
 
-    def instantiate(attributes = {})
-      InstantiatedContract.new(@request, @response.instantiate(attributes))
+    def instantiate(values = {})
+      instantiated_contract = InstantiatedContract.new(@request, @response.instantiate)
+      instantiated_contract.replace!(values)
+      instantiated_contract
     end
   end
 end
