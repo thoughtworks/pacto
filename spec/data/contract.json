@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/hello_world",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "description": "A simple response",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
