@@ -1,16 +1,15 @@
 module JSON
   module Generator
     describe IntegerAttribute do
-      it 'deve ser um BasicAttribute' do
+      it 'should be a BasicAttribute' do
         described_class.new(nil).should be_kind_of(BasicAttribute)
       end
 
-      context 'sem valor padrão' do
-        it 'deve retornar o valor padrão' do
-          properties = {
-            'type' => 'integer'
-          }
-          described_class.new(properties).generate.should == 0
+      describe '#generate' do
+        context 'without a default value' do
+          it 'should return the default value' do
+            described_class.new({'type' => 'integer'}).generate.should == 0
+          end
         end
       end
     end

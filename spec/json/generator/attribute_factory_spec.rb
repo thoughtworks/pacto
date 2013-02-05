@@ -4,7 +4,7 @@ module JSON
       describe '.create' do
         let(:attribute) { stub('attribute') }
 
-        context 'quando tipo é string' do
+        context 'when type is a string' do
           let(:properties) { {'type' => 'string'} }
 
           it 'should create a StringAttribute' do
@@ -13,7 +13,7 @@ module JSON
           end
         end
 
-        context 'quando tipo é objeto' do
+        context 'when type is an object' do
           let(:properties) { {'type' => 'object'} }
 
           it 'should create an ObjectAttribute' do
@@ -22,19 +22,19 @@ module JSON
           end
         end
 
-        context 'quando tipo é array' do
+        context 'when type is an array' do
           let(:properties) { {'type' => 'array'} }
 
-          it 'deve criar um array' do
+          it 'should create an ArrayAttribute' do
             ArrayAttribute.should_receive(:new).with(properties).and_return(attribute)
             described_class.create(properties).should == attribute
           end
         end
 
-        context 'quando tipo é integer' do
+        context 'when type is an integer' do
           let(:properties) { {'type' => 'integer'} }
 
-          it 'deve criar um integer' do
+          it 'should create an IntegerAttribute' do
             IntegerAttribute.should_receive(:new).with(properties).and_return(attribute)
             described_class.create(properties).should == attribute
           end
