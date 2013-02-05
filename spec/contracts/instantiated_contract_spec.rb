@@ -1,6 +1,14 @@
 module Contracts
 	describe InstantiatedContract do
-		pending '#replace!'
+		describe '#replace!' do
+      let(:response) { double(:body => double('body')) }
+      let(:values) { double('values') }
+
+      it 'should deep merge response body with given values' do
+        response.body.should_receive(:deep_merge!).with(values)
+        described_class.new(nil, response).replace!(values)
+      end
+    end
 
     describe '#stub!' do
       let(:request) do

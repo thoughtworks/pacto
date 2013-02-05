@@ -3,9 +3,11 @@ module Contracts
     def initialize(request, response)
       @request = request
       @response = response
+      @response_body = response.body
     end
 
     def replace!(values)
+      @response_body.deep_merge!(values)
     end
 
     def stub!
@@ -17,7 +19,7 @@ module Contracts
         to_return({
           :status => @response.status,
           :headers => @response.headers,
-          :body => @response.body
+          :body => @response_body
         })
     end
 

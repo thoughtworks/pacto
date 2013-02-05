@@ -1,5 +1,6 @@
 require "contracts/version"
 
+require "hash_deep_merge"
 require "json"
 require "json-generator"
 require "webmock"
