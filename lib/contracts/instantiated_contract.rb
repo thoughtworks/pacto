@@ -19,7 +19,7 @@ module Contracts
         to_return({
           :status => @response.status,
           :headers => @response.headers,
-          :body => @response_body
+          :body => @response_body.to_json
         })
     end
 

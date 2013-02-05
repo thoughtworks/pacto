@@ -25,7 +25,7 @@ module Contracts
         double({
           :status => 200,
           :headers => {},
-          :body => 'foo'
+          :body => {'message' => 'foo'}
         })
       end
 
@@ -39,7 +39,7 @@ module Contracts
         stubbed_request.should_receive(:to_return).with({
           :status => response.status,
           :headers => response.headers,
-          :body => response.body
+          :body => response.body.to_json
         })
       end
 
