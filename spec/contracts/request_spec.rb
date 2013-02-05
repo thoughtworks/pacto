@@ -2,7 +2,7 @@ module Contracts
   describe Request do
     subject do
       described_class.new('http://localhost', {
-        'method'  => :get,
+        'method'  => 'GET',
         'path'    => '/hello_world',
         'headers' => {'accept' => 'application/json'},
         'params'  => {'foo' => 'bar'}

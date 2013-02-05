@@ -10,7 +10,7 @@ module Contracts
     end
 
     def method
-      @definition['method']
+      @definition['method'].to_s.downcase.to_sym
     end
 
     def path
