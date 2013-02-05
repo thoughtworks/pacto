@@ -16,7 +16,7 @@ module Contracts
           :host => 'http://localhost',
           :method => method,
           :path => '/hello_world',
-          :headers => {},
+          :headers => {'Accept' => 'application/json'},
           :params => {}
         })
       end
@@ -60,6 +60,25 @@ module Contracts
         it 'should use WebMock to stub the request' do
           stubbed_request.should_receive(:with).
             with({:headers => request.headers, :body => request.params}).
+            and_return(stubbed_request)
+          described_class.new(request, response).stub!
+        end
+      end
+
+      context 'a request with no headers' do
+        let(:request) do
+          double({
+            :host => 'http://localhost',
+            :method => :get,
+            :path => '/hello_world',
+            :headers => {},
+            :params => {}
+          })
+        end
+
+        it 'should use WebMock to stub the request' do
+          stubbed_request.should_receive(:with).
+            with({:query => request.params}).
             and_return(stubbed_request)
           described_class.new(request, response).stub!
         end
