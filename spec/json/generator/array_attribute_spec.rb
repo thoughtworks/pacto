@@ -1,6 +1,10 @@
 module JSON
   module Generator
     describe ArrayAttribute do
+      it 'should be a BasicAttribute' do
+        described_class.new(nil).should be_a_kind_of(BasicAttribute)
+      end
+
       describe '#generate' do
         context 'with minItems' do
           it 'should generate an array with two objects of the expected type' do
