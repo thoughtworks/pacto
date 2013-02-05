@@ -6,11 +6,10 @@ require 'contracts/version'
 Gem::Specification.new do |gem|
   gem.name          = "contracts"
   gem.version       = Contracts::VERSION
-  gem.authors       = ["TODO: Write your name"]
-  gem.email         = ["TODO: Write your email address"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.authors       = ["ThoughtWorks VejaSP"]
+  gem.email         = ["abril_vejasp_dev@thoughtworks.com"]
+  gem.description   = %q{Consumer-Driven Contracts}
+  gem.summary       = %q{Consumer-Driven Contracts}
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
