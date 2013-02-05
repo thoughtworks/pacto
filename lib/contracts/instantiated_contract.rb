@@ -9,7 +9,7 @@ module Contracts
     end
 
     def stub!
-      WebMock.stub_request(@request.method, "http://foo.com#{@request.path}").
+      WebMock.stub_request(@request.method, "#{@request.host}#{@request.path}").
         with({
           :headers => @request.headers,
           webmock_params_key => @request.params

@@ -1,18 +1,19 @@
 describe Contracts do
+  let(:host) { 'http://localhost' }
   let(:contract_name) { 'contract' }
   let(:contract_path) { File.join('spec', 'data', "#{contract_name}.json") }
   let(:contract) { double('contract') }
 
   describe '.register' do
     it 'should create a new contract and register it' do
-      described_class.register(contract_name, contract_path)
+      described_class.register(host, contract_name, contract_path)
       described_class.registered[contract_name].should be_a_kind_of(Contracts::Contract)
     end
   end
 
   describe '.use' do
     before do
-      described_class.register(contract_name, contract_path)
+      described_class.register(host, contract_name, contract_path)
     end
 
     context 'by default' do

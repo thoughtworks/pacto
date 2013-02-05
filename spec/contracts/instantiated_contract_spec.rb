@@ -5,6 +5,7 @@ module Contracts
     describe '#stub!' do
       let(:request) do
         double({
+          :host => 'http://localhost',
           :method => method,
           :path => '/hello_world',
           :headers => {},
@@ -24,7 +25,7 @@ module Contracts
 
       before do
         WebMock.should_receive(:stub_request).
-          with(request.method, "http://foo.com#{request.path}").
+          with(request.method, "#{request.host}#{request.path}").
           and_return(stubbed_request)
 
         stubbed_request.should_receive(:to_return).with({

@@ -1,7 +1,12 @@
 module Contracts
   class Request
-    def initialize(definition)
+    def initialize(host, definition)
+      @host = host
       @definition = definition
+    end
+
+    def host
+      @host
     end
 
     def method
