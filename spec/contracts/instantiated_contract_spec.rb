@@ -10,6 +10,14 @@ module Contracts
       end
     end
 
+    describe '#response_body' do
+      let(:response) { double(:body => double('body')) }
+
+      it "should return response body" do
+        described_class.new(nil, response).response_body.should == response.body
+      end
+    end
+
     describe '#stub!' do
       let(:request) do
         double({

@@ -17,12 +17,13 @@ describe Contracts do
     end
 
     context 'by default' do
-      let(:instantiated_contract) { double('instantiated contract') }
+      let(:instantiated_contract) { double('instantiated contract', :response_body => response_body)}
+      let(:response_body) { double('response_body') }
 
       it 'should instantiate a contract with default values' do
         described_class.registered[contract_name].should_receive(:instantiate).and_return(instantiated_contract)
         instantiated_contract.should_receive(:stub!)
-        described_class.use(contract_name)
+        described_class.use(contract_name).should == response_body
       end
     end
 

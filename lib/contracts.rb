@@ -21,7 +21,9 @@ module Contracts
 
   def self.use(contract_name, values = {})
     raise ArgumentError unless registered.has_key?(contract_name)
-    registered[contract_name].instantiate(values).stub!
+    instantiated_contract = registered[contract_name].instantiate(values)
+    instantiated_contract.stub!
+    instantiated_contract.response_body
   end
 
   def self.registered
