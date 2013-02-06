@@ -24,5 +24,9 @@ module Contracts
     def params
       @definition['params']
     end
+
+    def execute
+      Faraday.new(@host).send(method, path, params, headers)
+    end
   end
 end

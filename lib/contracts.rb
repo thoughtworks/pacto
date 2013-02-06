@@ -1,5 +1,6 @@
 require "contracts/version"
 
+require "faraday"
 require "hash_deep_merge"
 require "json"
 require "json-schema"
