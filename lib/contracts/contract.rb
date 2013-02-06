@@ -10,5 +10,9 @@ module Contracts
       instantiated_contract.replace!(values)
       instantiated_contract
     end
+
+    def validate
+      @response.validate(@request.execute)
+    end
   end
 end
