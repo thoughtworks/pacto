@@ -5,15 +5,21 @@ describe Contracts do
   let(:contract) { double('contract') }
 
   describe '.register' do
-    it 'should create a new contract and register it' do
-      described_class.register(host, contract_name, contract_path)
-      described_class.registered[contract_name].should be_a_kind_of(Contracts::Contract)
+    it 'should register a contract under a given name' do
+      described_class.register(contract_name, contract)
+      described_class.registered[contract_name].should == contract
+    end
+  end
+
+  describe '.build_from_file' do
+    it 'should build a contract given a file path and a host' do
+      described_class.build_from_file(contract_path, host).should be_a_kind_of(Contracts::Contract)
     end
   end
 
   describe '.use' do
     before do
-      described_class.register(host, contract_name, contract_path)
+      described_class.register(contract_name, contract)
     end
 
     context 'by default' do

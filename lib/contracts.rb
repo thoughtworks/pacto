@@ -12,11 +12,15 @@ require "contracts/instantiated_contract"
 require "contracts/contract"
 
 module Contracts
-  def self.register(host, contract_name, contract_path)
+  def self.build_from_file(contract_path, host)
     definition = JSON.parse(File.read(contract_path))
     request = Request.new(host, definition["request"])
     response = Response.new(definition["response"])
-    registered[contract_name] = Contract.new(request, response)
+    Contract.new(request, response)
+  end
+
+  def self.register(name, contract)
+    registered[name] = contract
   end
 
   def self.use(contract_name, values = {})
