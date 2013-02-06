@@ -1,12 +1,25 @@
 module Contracts
 	describe InstantiatedContract do
 		describe '#replace!' do
-      let(:response) { double(:body => double('body')) }
+      let(:body) { double('body') }
+      let(:response) { double(:body => body) }
       let(:values) { double('values') }
 
-      it 'should deep merge response body with given values' do
-        response.body.should_receive(:deep_merge!).with(values)
-        described_class.new(nil, response).replace!(values)
+      context 'when response body is a hash' do
+        it 'should deep merge response body with given values' do
+          response.body.should_receive(:deep_merge!).with(values)
+          described_class.new(nil, response).replace!(values)
+        end
+      end
+
+      context 'when response body is nil' do
+        let(:body) { nil }
+
+        it 'should replace response body with given values' do
+          instantiated_contract = described_class.new(nil, response)
+          instantiated_contract.replace!(values)
+          instantiated_contract.response_body.should == values
+        end
       end
     end
 

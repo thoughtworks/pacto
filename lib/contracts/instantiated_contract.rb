@@ -9,7 +9,11 @@ module Contracts
     end
 
     def replace!(values)
-      @response_body.deep_merge!(values)
+      if @response_body.nil?
+        @response_body = values
+      else
+        @response_body.deep_merge!(values)
+      end
     end
 
     def stub!
