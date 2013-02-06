@@ -37,7 +37,7 @@ module Contracts
       context 'when status, headers and body match' do
         it 'should not return any errors' do
           JSON::Validator.should_receive(:fully_validate).
-            with(definition, fake_response.body).
+            with(definition['body'], fake_response.body).
             and_return([])
 
           response = described_class.new(definition)
