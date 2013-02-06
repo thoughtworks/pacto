@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "webmock"
   gem.add_dependency "json"
+  gem.add_dependency "json-schema"
   gem.add_dependency "hash-deep-merge"
 
   gem.add_development_dependency "rake"

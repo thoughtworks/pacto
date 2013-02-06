@@ -11,5 +11,17 @@ module Contracts
         'body' => JSON::Generator.generate(@definition['body'])
       })
     end
+
+    def validate(response)
+      @errors = []
+      if @definition['status'] != response.status
+        @errors << "Invalid status: expected #{@definition['status']} but got #{response.status}"
+      end
+      unless @definition['headers'].subset_of?(response.headers)
+        @errors << "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}"
+      end
+      @errors << JSON::Validator.fully_validate(@definition, response.body)
+      @errors.flatten
+    end
   end
 end

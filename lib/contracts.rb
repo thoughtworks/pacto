@@ -2,10 +2,12 @@ require "contracts/version"
 
 require "hash_deep_merge"
 require "json"
+require "json-schema"
 require "json-generator"
 require "webmock"
 require "ostruct"
 
+require "contracts/extensions"
 require "contracts/request"
 require "contracts/response"
 require "contracts/instantiated_contract"
