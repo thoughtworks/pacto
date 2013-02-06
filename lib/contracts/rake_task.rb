@@ -64,7 +64,7 @@ module Contracts
       end
 
       if @exit_with_error
-        fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".colorized(:red)
+        fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".colorize(:red)
       else
         puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".colorize(:green)
       end
