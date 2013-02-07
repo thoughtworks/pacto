@@ -4,10 +4,23 @@ describe Contracts do
   let(:contract_path) { File.join('spec', 'data', "#{contract_name}.json") }
   let(:contract) { double('contract') }
 
+  after do
+    described_class.unregister_all!
+  end
+
   describe '.register' do
-    it 'should register a contract under a given name' do
-      described_class.register(contract_name, contract)
-      described_class.registered[contract_name].should == contract
+    context 'by default' do
+      it 'should register a contract under a given name' do
+        described_class.register(contract_name, contract)
+        described_class.registered[contract_name].should == contract
+      end
+    end
+
+    context 'when a contract has already been registered with the same name' do
+      it 'should raise an argument error' do
+        described_class.register(contract_name, contract)
+        expect { described_class.register(contract_name, contract) }.to raise_error(ArgumentError)
+      end
     end
   end
 
@@ -37,6 +50,14 @@ describe Contracts do
       it 'should raise an argument error' do
         expect { described_class.use('unregistered') }.to raise_error ArgumentError
       end
+    end
+  end
+
+  describe '.unregister_all!' do
+    it 'should unregister all previously registered contracts' do
+      described_class.register(contract_name, contract)
+      described_class.unregister_all!
+      described_class.registered.should be_empty
     end
   end
 end

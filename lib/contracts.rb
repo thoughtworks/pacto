@@ -23,6 +23,7 @@ module Contracts
   end
 
   def self.register(name, contract)
+    raise ArgumentError if registered.has_key?(name)
     registered[name] = contract
   end
 
@@ -35,5 +36,9 @@ module Contracts
 
   def self.registered
     @registered ||= {}
+  end
+
+  def self.unregister_all!
+    @registered = {}
   end
 end
