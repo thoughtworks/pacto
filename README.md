@@ -30,10 +30,13 @@ Nice to have
 - optional "require"format: # 'required': ['id', 'categorias', 'titulo', ...]
 - contract variables for easy writing. Such as: 'path': '/member/{id}'
 - add JSHinnt / JSLint to the rake task to validate contracts
+- PrettyPrint of Hash in ContractValidator exceptions/errors
+  * use somthing like a Hash Diff to explain the differences
 
 - ref pode apontar para qualquer definição, o nome da definição não precisa ser 'definitions'
 - selecionar o mock mais especifico quando comparando requisições
 - ainda não implementado a comparação do 'header' e do 'method' para selecionar o mock
+
 
 Suposições
 ----------
