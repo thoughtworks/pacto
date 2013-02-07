@@ -28,7 +28,10 @@ module Contracts
 
     private
     def request_details
-      details = { webmock_params_key => @request.params }
+      details = {}
+      unless @request.params.empty?
+        details[webmock_params_key] = @request.params
+      end
       unless @request.headers.empty?
         details[:headers] = @request.headers
       end
