@@ -44,6 +44,16 @@ module Contracts
           response.validate(fake_response).should == []
         end
       end
+      context 'when status, headers and body match' do
+        it 'should not return any errors' do
+          JSON::Validator.should_receive(:fully_validate).
+            with(definition['body'], fake_response.body).
+            and_return([])
+
+          response = described_class.new(definition)
+          response.validate(fake_response).should == []
+        end
+      end
 
       context 'when status does not match' do
         let(:status) { 500 }
@@ -69,6 +79,17 @@ module Contracts
 
       context 'when headers are a subset of expected headers' do
         let(:headers) { {'Content-Type' => 'application/json'} }
+
+        it 'should not return any errors' do
+          JSON::Validator.stub!(:fully_validate).and_return([])
+
+          response = described_class.new(definition)
+          response.validate(fake_response).should == []
+        end
+      end
+
+      context 'when headers values match but keys have different case' do
+        let(:headers) { {'content-type' => 'application/json'} }
 
         it 'should not return any errors' do
           JSON::Validator.stub!(:fully_validate).and_return([])

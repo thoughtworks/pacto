@@ -17,7 +17,7 @@ module Contracts
       if @definition['status'] != response.status
         @errors << "Invalid status: expected #{@definition['status']} but got #{response.status}"
       end
-      unless @definition['headers'].subset_of?(response.headers)
+      unless @definition['headers'].normalize_keys.subset_of?(response.headers.normalize_keys)
         @errors << "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}"
       end
       @errors << JSON::Validator.fully_validate(@definition['body'], response.body)
