@@ -3,6 +3,7 @@ require "json/generator/string_attribute"
 require "json/generator/integer_attribute"
 require "json/generator/array_attribute"
 require "json/generator/object_attribute"
+require "json/generator/boolean_attribute"
 require "json/generator/attribute_factory"
 require "json/generator/dereferencer"
 
