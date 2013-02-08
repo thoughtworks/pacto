@@ -20,6 +20,15 @@ module Contracts
           end
         end
       end
+
+      describe '#normalize_keys' do
+        it 'should turn keys into downcased strings' do
+          {:A => 'a'}.normalize_keys.should == {'a' => 'a'}
+          {:a => 'a'}.normalize_keys.should == {'a' => 'a'}
+          {'A' => 'a'}.normalize_keys.should == {'a' => 'a'}
+          {'a' => 'a'}.normalize_keys.should == {'a' => 'a'}
+        end
+      end
     end
   end
 end
