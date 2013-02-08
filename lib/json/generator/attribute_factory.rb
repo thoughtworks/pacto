@@ -5,7 +5,8 @@ module JSON
         'string' => StringAttribute,
         'object' => ObjectAttribute,
         'integer' => IntegerAttribute,
-        'array' => ArrayAttribute
+        'array' => ArrayAttribute,
+        'boolean' => BooleanAttribute
       }
 
       def self.create(properties)

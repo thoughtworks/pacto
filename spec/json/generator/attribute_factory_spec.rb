@@ -39,6 +39,15 @@ module JSON
             described_class.create(properties).should == attribute
           end
         end
+
+        context 'when type is a boolean' do
+          let(:properties) { {'type' => 'boolean'} }
+
+          it 'should create a BooleanAttribute' do
+            BooleanAttribute.should_receive(:new).with(properties).and_return(attribute)
+            described_class.create(properties).should == attribute
+          end
+        end
       end
     end
   end
