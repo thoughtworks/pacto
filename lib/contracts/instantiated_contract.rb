@@ -12,7 +12,7 @@ module Contracts
       if @response_body.nil?
         @response_body = values
       else
-        @response_body.deep_merge!(values)
+        @response_body = @response_body.normalize_keys.deep_merge(values.normalize_keys)
       end
     end
 

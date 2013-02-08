@@ -6,9 +6,19 @@ module Contracts
       let(:values) { double('values') }
 
       context 'when response body is a hash' do
-        it 'should deep merge response body with given values' do
-          response.body.should_receive(:deep_merge!).with(values)
-          described_class.new(nil, response).replace!(values)
+        let(:normalized_values) { double('normalized values') }
+        let(:normalized_body) { double('normalized body') }
+        let(:merged_body) { double('merged body') }
+
+        it 'should normalize keys and deep merge response body with given values' do
+          values.should_receive(:normalize_keys).and_return(normalized_values)
+          response.body.should_receive(:normalize_keys).and_return(normalized_body)
+          normalized_body.should_receive(:deep_merge).with(normalized_values).and_return(merged_body)
+
+          instantiated_contract = described_class.new(nil, response)
+          instantiated_contract.replace!(values)
+
+          instantiated_contract.response_body.should == merged_body
         end
       end
 
