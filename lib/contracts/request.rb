@@ -26,7 +26,16 @@ module Contracts
     end
 
     def execute
-      Faraday.new(@host).send(method, path, params, headers)
+      response = HTTParty.send(method, @host + path, {
+        httparty_params_key => params,
+        :headers => headers
+      })
+      ResponseAdapter.new(response)
+    end
+
+    private
+    def httparty_params_key
+      method == :get ? :query : :body
     end
   end
 end

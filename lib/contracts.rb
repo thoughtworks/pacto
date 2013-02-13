@@ -1,6 +1,6 @@
 require "contracts/version"
 
-require "faraday"
+require "httparty"
 require "hash_deep_merge"
 require "json"
 require "json-schema"
@@ -10,6 +10,7 @@ require "ostruct"
 
 require "contracts/extensions"
 require "contracts/request"
+require "contracts/response_adapter"
 require "contracts/response"
 require "contracts/instantiated_contract"
 require "contracts/contract"

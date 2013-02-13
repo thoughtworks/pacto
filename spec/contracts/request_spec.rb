@@ -24,15 +24,15 @@ module Contracts
     describe '#execute' do
       let(:connection) { double('connection') }
       let(:response) { double('response') }
-
-      before do
-        Faraday.should_receive(:new).with(host).and_return(connection)
-      end
+      let(:adapted_response) { double('adapted response') }
 
       context 'for a GET request' do
         it 'should make a GET request and return the response' do
-          connection.should_receive(:get).with(path, params, headers).and_return(response)
-          request.execute.should == response
+          HTTParty.should_receive(:get).
+            with(host + path, {:query => params, :headers => headers}).
+            and_return(response)
+          ResponseAdapter.should_receive(:new).with(response).and_return(adapted_response)
+          request.execute.should == adapted_response
         end
       end
 
@@ -40,8 +40,11 @@ module Contracts
         let(:method) { 'POST' }
 
         it 'should make a POST request and return the response' do
-          connection.should_receive(:post).with(path, params, headers).and_return(response)
-          request.execute.should == response
+          HTTParty.should_receive(:post).
+            with(host + path, {:body => params, :headers => headers}).
+            and_return(response)
+          ResponseAdapter.should_receive(:new).with(response).and_return(adapted_response)
+          request.execute.should == adapted_response
         end
       end
     end

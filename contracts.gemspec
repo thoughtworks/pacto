@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "json"
   gem.add_dependency "json-schema"
   gem.add_dependency "hash-deep-merge"
-  gem.add_dependency "faraday"
+  gem.add_dependency "httparty"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"
