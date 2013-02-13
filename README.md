@@ -1,47 +1,112 @@
 # Contracts
 
-TODO: Write a gem description
+Contracts is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html)
+pattern for evolving services. It's main features are:
 
-## Installation
+- A simple language for specifying a contract;
+- An automated way to validate that a producer meets it's consumers requirements;
+- An auto-generated stub to be used in the consumer's acceptance tests.
 
-Add this line to your application's Gemfile:
+It was developed in a micro-services environment, specifically a RESTful one, so expect it to be opinionated. Although
+there is enough functionality implemented to motivate us to open-source this, it is still a work in progress and under active
+development. Check the Constraints session for further information on what works and what doesn't.
 
-    gem 'contracts'
+## Specifying Contracts
 
-And then execute:
+A contract specifies a single message exchange between a consumer and a provider. In a RESTful world, this means
+an HTTP interaction, which is composed of two main parts: a request and a response.
 
-    $ bundle
+A request has the following attributes:
 
-Or install it yourself as:
+- Method: the method of the HTTP request (e.g. GET, POST, PUT, DELETE);
+- Path: the relative path (without host) of the provider's endpoint;
+- Headers: headers sent in the HTTP request;
+- Params: any data or parameters of the HTTP request (e.g. query string for GET, body for POST)
 
-    $ gem install contracts
+A response has the following attributes:
 
-## Usage
+- Status: the HTTP response status code (e.g. 200, 404, 500);
+- Headers: the HTTP response headers;
+- Body: a JSON Schema defining the expected structure of the HTTP response body.
 
-TODO: Write usage instructions here
+Contracts relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
+to the /hello_world endpoint of a provider:
 
-## TODO
+    {
+      "request": {
+        "method": "GET",
+        "path": "/hello_world",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "params": {}
+      },
 
-Nice to have
-------------
-- Cucumber Tests as docs (see https://relishapp.com/cucumber/cucumber/docs/)
-- Fake Server (sinatra app accepting the contracts)
-- Dereferenciator
-- optional "require"format: # 'required': ['id', 'categorias', 'titulo', ...]
-- contract variables for easy writing. Such as: 'path': '/member/{id}'
-- add JSHinnt / JSLint to the rake task to validate contracts
-- PrettyPrint of Hash in ContractValidator exceptions/errors
-  * use somthing like a Hash Diff to explain the differences
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "description": "A simple response",
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
 
-- ref pode apontar para qualquer definição, o nome da definição não precisa ser 'definitions'
-- selecionar o mock mais especifico quando comparando requisições
-- ainda não implementado a comparação do 'header' e do 'method' para selecionar o mock
+The host address is intentionally left out of the request specification so that we can validate a contract against any provider.
+It also reinforces the fact that a contract defines the expectation of a consumer, and not the implementation of any specific provider.
 
+## Validating Contracts
 
-Suposições
-----------
-- todas definições estão no atributo chamado 'definitions' na raíz do schema
+There are two ways to validate a contract against a provider: through a Rake task or programatically.
 
+### Rake Task
+
+Contracts includes a default Rake task. To use it, include it in your Rakefile:
+
+    require 'contracts/rake_task'
+
+Validating a contract against a provider is as simple as running:
+
+    $ rake contracts:validate[host,dir]  # Validates all contracts in a given directory against a given host
+
+It is recommended that you also include [colorize](https://github.com/fazibear/colorize) to get prettier, colorful output.
+
+### Programatically
+
+The easiest way to load a contract from a file and validate it against a host is by using the builder interface:
+
+    > contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
+    > contract.validate
+
+## Auto-Generated Stubs
+
+Contracts provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
+to generate a valid JSON document as the response body, and relies on [WebMock](https://github.com/bblimke/webmock)
+to stub any HTTP requests made by your application. Important: the JSON generator is in very early stages and does not work
+with the entire JSON Schema specification.
+
+First, register the contracts that are going to be used in the acceptance tests suite:
+
+    contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
+    Contracts.register('my_contract', contract)
+
+Then, in the setup phase of the test, specify which contracts will be used for that test:
+
+    Contracts.use('my_contract')
+
+If default values are not specified in the contract's response body, a default value will be automatically generated. It is possible
+to overwrite those values, however, by passing a second argument:
+
+    Contracts.use('my_contract', :value => 'new value')
+
+The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
 
 ## Contributing
 
