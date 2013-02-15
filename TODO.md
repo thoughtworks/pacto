@@ -8,7 +8,7 @@
 - Contract variables for easy writing. Such as: 'path': '/member/{id}';
 - Add JSHint rake task to validate contracts syntax;
 - Pretty output for hash difference (using something like [hashdiff](https://github.com/liufengyun/hashdiff)).
-
+- A default header in the response marking the response as "mocked"
 
 ## Assumptions
 
