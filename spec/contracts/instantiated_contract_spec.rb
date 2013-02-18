@@ -22,6 +22,16 @@ module Contracts
         end
       end
 
+      context 'when response body is a string' do
+        let(:body) { 'foo' }
+
+        it 'should replace response body with given values' do
+          instantiated_contract = described_class.new(nil, response)
+          instantiated_contract.replace!(values)
+          instantiated_contract.response_body.should == values
+        end
+      end
+
       context 'when response body is nil' do
         let(:body) { nil }
 
