@@ -10,7 +10,7 @@ module JSON
       }
 
       def self.create(properties)
-        CLASSES[properties['type']].new(properties)
+        CLASSES[Array(properties['type']).first].new(properties)
       end
     end
   end

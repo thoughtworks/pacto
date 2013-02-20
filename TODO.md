@@ -9,6 +9,9 @@
 - Add JSHint rake task to validate contracts syntax;
 - Pretty output for hash difference (using something like [hashdiff](https://github.com/liufengyun/hashdiff)).
 - A default header in the response marking the response as "mocked"
+- Parameter matcher should use an idea of "subset" instead of matching all the parameters
+- 'default' value to be used when it is present with an array of types
+- Support 'null' attribute type
 
 ## Assumptions
 

@@ -48,6 +48,15 @@ module JSON
             described_class.create(properties).should == attribute
           end
         end
+
+        context 'when we have an array of types' do
+          let(:properties) { {'type' => ['string', 'boolean']} }
+
+          it 'should create a the default attribute for the first type' do
+            StringAttribute.should_receive(:new).with(properties).and_return(attribute)
+            described_class.create(properties).should == attribute
+          end
+        end
       end
     end
   end
