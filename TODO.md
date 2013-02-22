@@ -12,6 +12,7 @@
 - Parameter matcher should use an idea of "subset" instead of matching all the parameters
 - 'default' value to be used when it is present with an array of types
 - Support 'null' attribute type
+- Validate contract structure in a rake task. Then assume all contracts are valid.
 
 ## Assumptions
 
