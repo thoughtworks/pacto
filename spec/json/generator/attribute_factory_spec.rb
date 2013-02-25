@@ -57,6 +57,15 @@ module JSON
             described_class.create(properties).should == attribute
           end
         end
+
+        context 'when there is no type' do
+          let(:properties) { {} }
+
+          it 'should create an EmptyAttribute' do
+            EmptyAttribute.should_receive(:new).with(properties).and_return(attribute)
+            described_class.create(properties).should == attribute
+          end
+        end
       end
     end
   end

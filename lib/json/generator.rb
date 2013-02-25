@@ -1,4 +1,5 @@
 require "json/generator/basic_attribute"
+require "json/generator/empty_attribute"
 require "json/generator/string_attribute"
 require "json/generator/integer_attribute"
 require "json/generator/array_attribute"

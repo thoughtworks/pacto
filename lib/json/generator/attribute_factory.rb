@@ -6,7 +6,8 @@ module JSON
         'object' => ObjectAttribute,
         'integer' => IntegerAttribute,
         'array' => ArrayAttribute,
-        'boolean' => BooleanAttribute
+        'boolean' => BooleanAttribute,
+        nil => EmptyAttribute
       }
 
       def self.create(properties)
