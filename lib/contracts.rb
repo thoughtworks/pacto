@@ -32,7 +32,7 @@ module Contracts
     raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.has_key?(contract_name)
     instantiated_contract = registered[contract_name].instantiate(values)
     instantiated_contract.stub!
-    instantiated_contract.response_body
+    instantiated_contract
   end
 
   def self.registered

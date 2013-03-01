@@ -25,6 +25,10 @@ module Contracts
       @definition['params']
     end
 
+    def absolute_uri
+      @host + path
+    end
+
     def execute
       response = HTTParty.send(method, @host + path, {
         httparty_params_key => params,

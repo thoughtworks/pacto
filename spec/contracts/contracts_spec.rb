@@ -42,7 +42,7 @@ describe Contracts do
       it 'should instantiate a contract with default values' do
         described_class.registered[contract_name].should_receive(:instantiate).and_return(instantiated_contract)
         instantiated_contract.should_receive(:stub!)
-        described_class.use(contract_name).should == response_body
+        described_class.use(contract_name).should == instantiated_contract
       end
     end
 

@@ -48,5 +48,11 @@ module Contracts
         end
       end
     end
+
+    describe "#absolute_uri" do
+      it "should be equal to the host followed by the path" do
+        request.absolute_uri.should == "http://localhost/hello_world"
+      end
+    end
   end
 end
