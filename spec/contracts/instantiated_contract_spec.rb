@@ -51,6 +51,15 @@ module Contracts
       end
     end
 
+    describe '#request_path' do
+      let(:request) { double(:absolute_uri => "http://dummy_link/hello_world") }
+      let(:response) { double(:body => double('body')) }
+
+      it "should return response body" do
+        described_class.new(request, response).request_path.should == "http://dummy_link/hello_world"
+      end
+    end
+
     describe '#stub!' do
       let(:request) do
         double({

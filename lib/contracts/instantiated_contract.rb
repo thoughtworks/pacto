@@ -8,6 +8,10 @@ module Contracts
       @response_body = response.body
     end
 
+    def request_path
+      @request.absolute_uri
+    end
+
     def replace!(values)
       if @response_body.respond_to?(:normalize_keys)
         @response_body = @response_body.normalize_keys.deep_merge(values.normalize_keys)
