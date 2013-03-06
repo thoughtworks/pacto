@@ -28,7 +28,7 @@ module Contracts
     registered[name] = contract
   end
 
-  def self.use(contract_name, values = {})
+  def self.use(contract_name, values = nil)
     raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.has_key?(contract_name)
     instantiated_contract = registered[contract_name].instantiate(values)
     instantiated_contract.stub!

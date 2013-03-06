@@ -7,7 +7,7 @@ module Contracts
 
     def instantiate(values = nil)
       instantiated_contract = InstantiatedContract.new(@request, @response.instantiate)
-      instantiated_contract.replace!(values)
+      instantiated_contract.replace!(values) unless values.nil?
       instantiated_contract
     end
 

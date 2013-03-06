@@ -39,11 +39,25 @@ describe Contracts do
       let(:instantiated_contract) { double('instantiated contract', :response_body => response_body)}
       let(:response_body) { double('response_body') }
 
+      before do
+        described_class.registered[contract_name].stub(:instantiate => instantiated_contract)
+        instantiated_contract.stub(:stub!)
+      end
+
       it 'should instantiate a contract with default values' do
-        described_class.registered[contract_name].should_receive(:instantiate).and_return(instantiated_contract)
-        instantiated_contract.should_receive(:stub!)
+        described_class.registered[contract_name].should_receive(:instantiate).with(nil).and_return(instantiated_contract)
+        described_class.use(contract_name)
+      end
+
+      it 'should return the instantiated contract' do
         described_class.use(contract_name).should == instantiated_contract
       end
+
+      it 'should stub further requests with the instantiated contract' do
+        instantiated_contract.should_receive(:stub!)
+        described_class.use(contract_name)
+      end
+
     end
 
     context 'when contract has not been registered' do
