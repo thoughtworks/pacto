@@ -26,11 +26,20 @@ module Contracts
         to_return({
           :status => @response.status,
           :headers => @response.headers,
-          :body => @response_body.to_json
+          :body => format_body(@response_body)
         })
     end
 
     private
+
+    def format_body(body)
+      if body.is_a? String
+        body
+      else
+        body.to_json
+      end
+    end
+
     def request_details
       details = {}
       unless @request.params.empty?

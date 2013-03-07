@@ -71,12 +71,18 @@ module Contracts
         })
       end
 
+      let(:method) { :get }
+
       let(:response) do
         double({
           :status => 200,
           :headers => {},
-          :body => {'message' => 'foo'}
+          :body => body
         })
+      end
+
+      let(:body) do
+        {'message' => 'foo'}
       end
 
       let(:stubbed_request) { double('stubbed request') }
@@ -86,11 +92,41 @@ module Contracts
           with(request.method, "#{request.host}#{request.path}").
           and_return(stubbed_request)
 
-        stubbed_request.should_receive(:to_return).with({
+        stubbed_request.stub(:to_return).with({
           :status => response.status,
           :headers => response.headers,
           :body => response.body.to_json
         })
+      end
+
+      context 'when the response body is not a String' do
+        it 'should stub the response body with a json representation' do
+          stubbed_request.should_receive(:to_return).with({
+            :status => response.status,
+            :headers => response.headers,
+            :body => response.body.to_json
+          })
+
+          stubbed_request.stub(:with).and_return(stubbed_request)
+
+          described_class.new(request, response).stub!
+        end
+      end
+
+      context 'when the response body is already a String' do
+        let(:body) { "the response" }
+
+        it 'should stub the response body with the same string' do
+          stubbed_request.should_receive(:to_return).with({
+            :status => response.status,
+            :headers => response.headers,
+            :body => response.body
+          })
+
+          stubbed_request.stub(:with).and_return(stubbed_request)
+
+          described_class.new(request, response).stub!
+        end
       end
 
       context 'a GET request' do
