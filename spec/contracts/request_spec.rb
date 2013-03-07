@@ -54,5 +54,20 @@ module Contracts
         request.absolute_uri.should == "http://localhost/hello_world"
       end
     end
+
+    describe "#full_uri" do
+      context "when the query (params) exists" do
+        it "should be equal to the host followed by the path and the query" do
+          request.full_uri.should == "http://localhost/hello_world?foo=bar"
+        end
+      end
+
+      context "when the query (params) does not exists" do
+        let(:params) { {} }
+        it "should be equal to the host followed by the path" do
+          request.full_uri.should == "http://localhost/hello_world"
+        end
+      end
+    end
   end
 end

@@ -12,6 +12,10 @@ module Contracts
       @request.absolute_uri
     end
 
+    def request_uri
+      @request.full_uri
+    end
+
     def replace!(values)
       if @response_body.respond_to?(:normalize_keys)
         @response_body = @response_body.normalize_keys.deep_merge(values.normalize_keys)

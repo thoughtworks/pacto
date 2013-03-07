@@ -29,6 +29,15 @@ module Contracts
       @host + path
     end
 
+    def full_uri
+      return absolute_uri if params.empty?
+
+      uri = Addressable::URI.new
+      uri.query_values = params
+
+      absolute_uri + '?' + uri.query
+    end
+
     def execute
       response = HTTParty.send(method, @host + path, {
         httparty_params_key => params,
