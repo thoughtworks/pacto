@@ -108,7 +108,11 @@ module Contracts
         })
       end
 
-      context 'when the response body is not a String' do
+      context 'when the response body is an object' do
+        let(:body) do
+          {'message' => 'foo'}
+        end
+
         it 'should stub the response body with a json representation' do
           stubbed_request.should_receive(:to_return).with({
             :status => response.status,
@@ -122,10 +126,28 @@ module Contracts
         end
       end
 
-      context 'when the response body is already a String' do
-        let(:body) { "the response" }
+      context 'when the response body is an array' do
+        let(:body) do
+          [1, 2, 3]
+        end
 
-        it 'should stub the response body with the same string' do
+        it 'should stub the response body with a json representation' do
+          stubbed_request.should_receive(:to_return).with({
+            :status => response.status,
+            :headers => response.headers,
+            :body => response.body.to_json
+          })
+
+          stubbed_request.stub(:with).and_return(stubbed_request)
+
+          described_class.new(request, response).stub!
+        end
+      end
+
+      context 'when the response body is not an object or an array' do
+        let(:body) { nil }
+
+        it 'should stub the response body with the original body' do
           stubbed_request.should_receive(:to_return).with({
             :status => response.status,
             :headers => response.headers,

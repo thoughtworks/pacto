@@ -37,10 +37,10 @@ module Contracts
     private
 
     def format_body(body)
-      if body.is_a? String
-        body
-      else
+      if body.is_a?(Hash) or body.is_a?(Array)
         body.to_json
+      else
+        body
       end
     end
 
