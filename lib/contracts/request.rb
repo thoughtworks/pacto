@@ -40,7 +40,7 @@ module Contracts
 
     def execute
       response = HTTParty.send(method, @host + path, {
-        httparty_params_key => params,
+        httparty_params_key => normalized_params,
         :headers => headers
       })
       ResponseAdapter.new(response)
@@ -49,6 +49,10 @@ module Contracts
     private
     def httparty_params_key
       method == :get ? :query : :body
+    end
+
+    def normalized_params
+      method == :get ? params : params.to_json
     end
   end
 end

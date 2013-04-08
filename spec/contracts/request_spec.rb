@@ -41,7 +41,7 @@ module Contracts
 
         it 'should make a POST request and return the response' do
           HTTParty.should_receive(:post).
-            with(host + path, {:body => params, :headers => headers}).
+            with(host + path, {:body => params.to_json, :headers => headers}).
             and_return(response)
           ResponseAdapter.should_receive(:new).with(response).and_return(adapted_response)
           request.execute.should == adapted_response
