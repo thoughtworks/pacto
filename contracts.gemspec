@@ -6,10 +6,13 @@ require 'contracts/version'
 Gem::Specification.new do |gem|
   gem.name          = "contracts"
   gem.version       = Contracts::VERSION
-  gem.authors       = ["ThoughtWorks VejaSP"]
+  gem.authors       = ["ThoughtWorks & Abril"]
   gem.email         = ["abril_vejasp_dev@thoughtworks.com"]
-  gem.description   = %q{Consumer-Driven Contracts}
-  gem.summary       = %q{Consumer-Driven Contracts}
+  gem.description   = %q{Contracts is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) pattern for evolving services}
+  gem.summary       = %q{Consumer-Driven Contracts implementation}
+  gem.homepage      = 'https://github.com/thoughtworks/contracts'
+  gem.license       = 'MIT'
+  
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
