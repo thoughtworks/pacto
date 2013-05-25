@@ -3,8 +3,8 @@
 Contracts is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html)
 pattern for evolving services. It's main features are:
 
-- A simple language for specifying a contract;
-- An automated way to validate that a producer meets it's consumers requirements;
+- A simple language for specifying a contract.
+- An automated way to validate that a producer meets it's consumers requirements.
 - An auto-generated stub to be used in the consumer's acceptance tests.
 
 It was developed in a micro-services environment, specifically a RESTful one, so expect it to be opinionated. Although
@@ -18,15 +18,15 @@ an HTTP interaction, which is composed of two main parts: a request and a respon
 
 A request has the following attributes:
 
-- Method: the method of the HTTP request (e.g. GET, POST, PUT, DELETE);
-- Path: the relative path (without host) of the provider's endpoint;
-- Headers: headers sent in the HTTP request;
-- Params: any data or parameters of the HTTP request (e.g. query string for GET, body for POST)
+- Method: the method of the HTTP request (e.g. GET, POST, PUT, DELETE).
+- Path: the relative path (without host) of the provider's endpoint.
+- Headers: headers sent in the HTTP request.
+- Params: any data or parameters of the HTTP request (e.g. query string for GET, body for POST).
 
 A response has the following attributes:
 
-- Status: the HTTP response status code (e.g. 200, 404, 500);
-- Headers: the HTTP response headers;
+- Status: the HTTP response status code (e.g. 200, 404, 500).
+- Headers: the HTTP response headers.
 - Body: a JSON Schema defining the expected structure of the HTTP response body.
 
 Contracts relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
@@ -82,8 +82,8 @@ It is recommended that you also include [colorize](https://github.com/fazibear/c
 
 The easiest way to load a contract from a file and validate it against a host is by using the builder interface:
 
-    > contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-    > contract.validate
+    contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
+    contract.validate
 
 ## Auto-Generated Stubs
 
