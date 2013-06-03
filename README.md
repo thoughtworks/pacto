@@ -82,6 +82,9 @@ It is recommended that you also include [colorize](https://github.com/fazibear/c
 
 The easiest way to load a contract from a file and validate it against a host is by using the builder interface:
 
+    require 'contracts'
+
+    WebMock.allow_net_connect!
     contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     contract.validate
 
@@ -93,6 +96,8 @@ to stub any HTTP requests made by your application. Important: the JSON generato
 with the entire JSON Schema specification.
 
 First, register the contracts that are going to be used in the acceptance tests suite:
+
+    require 'contracts'
 
     contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     Contracts.register('my_contract', contract)
