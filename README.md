@@ -113,6 +113,10 @@ to overwrite those values, however, by passing a second argument:
 
 The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
 
+## Code status
+
+[![Build Status](https://travis-ci.org/thoughtworks/contracts.png)](https://travis-ci.org/thoughtworks/contracts)
+
 ## Contributing
 
 1. Fork it
