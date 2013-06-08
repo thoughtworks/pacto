@@ -118,6 +118,7 @@ The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-de
 [![Build Status](https://travis-ci.org/thoughtworks/contracts.png)](https://travis-ci.org/thoughtworks/contracts)
 [![Code Climate](https://codeclimate.com/github/thoughtworks/contracts.png)](https://codeclimate.com/github/thoughtworks/contracts)
 [![Dependency Status](https://gemnasium.com/thoughtworks/contracts.png)](https://gemnasium.com/thoughtworks/contracts)
+[![Coverage Status](https://coveralls.io/repos/thoughtworks/contracts/badge.png)](https://coveralls.io/r/thoughtworks/contracts)
 
 ## Contributing
 

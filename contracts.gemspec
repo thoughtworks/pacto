@@ -26,6 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "hash-deep-merge"
   gem.add_dependency "httparty"
   gem.add_dependency "addressable"
+  gem.add_dependency "coveralls"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"
