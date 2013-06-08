@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Consumer-Driven Contracts implementation}
   gem.homepage      = 'https://github.com/thoughtworks/contracts'
   gem.license       = 'MIT'
-  
+
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -32,4 +32,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "guard-rspec"
   gem.add_development_dependency "rb-fsevent" if RUBY_PLATFORM =~ /darwin/i
+  gem.add_development_dependency "terminal-notifier-guard" if RUBY_PLATFORM =~ /darwin/i
 end
