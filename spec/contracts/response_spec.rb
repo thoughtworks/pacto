@@ -59,7 +59,7 @@ module Contracts
         let(:status) { 500 }
 
         it 'should return a status error' do
-          JSON::Validator.stub!(:fully_validate).and_return([])
+          JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
           response.validate(fake_response).should == ["Invalid status: expected #{definition['status']} but got #{status}"]
@@ -70,7 +70,7 @@ module Contracts
         let(:headers) { {'Content-Type' => 'text/html'} }
 
         it 'should return a header error' do
-          JSON::Validator.stub!(:fully_validate).and_return([])
+          JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
           response.validate(fake_response).should == ["Invalid headers: expected #{definition['headers'].inspect} to be a subset of #{headers.inspect}"]
@@ -81,7 +81,7 @@ module Contracts
         let(:headers) { {'Content-Type' => 'application/json'} }
 
         it 'should not return any errors' do
-          JSON::Validator.stub!(:fully_validate).and_return([])
+          JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
           response.validate(fake_response).should == []
@@ -92,7 +92,7 @@ module Contracts
         let(:headers) { {'content-type' => 'application/json'} }
 
         it 'should not return any errors' do
-          JSON::Validator.stub!(:fully_validate).and_return([])
+          JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
           response.validate(fake_response).should == []
@@ -103,7 +103,7 @@ module Contracts
         let(:errors) { [double('error1'), double('error2')] }
 
         it 'should return a list of errors' do
-          JSON::Validator.stub!(:fully_validate).and_return(errors)
+          JSON::Validator.stub(:fully_validate).and_return(errors)
 
           response = described_class.new(definition)
           response.validate(fake_response).should == errors
