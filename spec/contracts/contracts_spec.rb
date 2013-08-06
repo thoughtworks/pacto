@@ -1,7 +1,6 @@
 describe Contracts do
   let(:host) { 'http://localhost' }
   let(:contract_name) { 'contract' }
-  let(:contract_path) { File.join('spec', 'data', "#{contract_name}.json") }
   let(:contract) { double('contract') }
 
   after do
@@ -25,8 +24,19 @@ describe Contracts do
   end
 
   describe '.build_from_file' do
-    it 'should build a contract given a file path and a host' do
-      described_class.build_from_file(contract_path, host).should be_a_kind_of(Contracts::Contract)
+    let(:contract_path) { File.join('spec', 'data', "#{contract_name}.json") }
+    let(:file_pre_processor) { double('file_pre_processor') }
+    let(:file_content) {File.read(contract_path)}
+    
+    it 'should build a contract given a JSON file path and a host' do
+      file_pre_processor.stub(:process).and_return(file_content)
+      described_class.build_from_file(contract_path, host, file_pre_processor).
+        should be_a_kind_of(Contracts::Contract)
+    end
+    
+    it 'should process files using File Pre Processor module' do
+      file_pre_processor.should_receive(:process).with(file_content).and_return(file_content)
+      described_class.build_from_file(contract_path, host, file_pre_processor)
     end
   end
 

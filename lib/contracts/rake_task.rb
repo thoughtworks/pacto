@@ -37,7 +37,7 @@ module Contracts
     def validate_contracts(host, dir)
       WebMock.allow_net_connect!
 
-      contracts = Dir[File.join(dir, '*.json')]
+      contracts = Dir[File.join(dir, '*{.json.erb,.json}')]
       if contracts.empty?
         fail "No contracts found in directory #{dir}".colorize(:yellow)
       end
