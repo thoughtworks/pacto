@@ -1,4 +1,4 @@
-require "contracts/version"
+require "pacto/version"
 
 require "httparty"
 require "hash_deep_merge"
@@ -9,15 +9,15 @@ require "webmock"
 require "ostruct"
 require "erb"
 
-require "contracts/extensions"
-require "contracts/request"
-require "contracts/response_adapter"
-require "contracts/response"
-require "contracts/instantiated_contract"
-require "contracts/contract"
-require "contracts/file_pre_processor"
+require "pacto/extensions"
+require "pacto/request"
+require "pacto/response_adapter"
+require "pacto/response"
+require "pacto/instantiated_contract"
+require "pacto/contract"
+require "pacto/file_pre_processor"
 
-module Contracts
+module Pacto
   def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
     contract_definition_expanded = file_pre_processor.process(File.read(contract_path))
     definition = JSON.parse(contract_definition_expanded)

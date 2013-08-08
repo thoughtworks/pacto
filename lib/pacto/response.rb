@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   class Response
     def initialize(definition)
       @definition = definition

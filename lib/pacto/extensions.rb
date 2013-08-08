@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   module Extensions
     module HashSubsetOf
       def subset_of?(other)
@@ -15,4 +15,4 @@ module Contracts
   end
 end
 
-Hash.send(:include, Contracts::Extensions::HashSubsetOf)
+Hash.send(:include, Pacto::Extensions::HashSubsetOf)

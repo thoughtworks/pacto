@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   describe ResponseAdapter do
     let(:response) do
       double({

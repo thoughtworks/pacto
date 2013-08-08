@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   module Extensions
     describe HashSubsetOf do
       describe '#subset_of?' do

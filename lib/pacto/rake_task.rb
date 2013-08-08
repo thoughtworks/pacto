@@ -1,4 +1,4 @@
-require 'contracts'
+require 'pacto'
 
 unless String.respond_to?(:colors)
   class String
@@ -8,7 +8,7 @@ unless String.respond_to?(:colors)
   end
 end
 
-module Contracts
+module Pacto
   class RakeTask
     include Rake::DSL
 
@@ -47,7 +47,7 @@ module Contracts
       total_failed = 0
       contracts.each do |contract_file|
         print "#{contract_file.split('/').last}:"
-        contract = Contracts.build_from_file(contract_file, host)
+        contract = Pacto.build_from_file(contract_file, host)
         errors = contract.validate
 
         if errors.empty?
@@ -72,4 +72,4 @@ module Contracts
   end
 end
 
-Contracts::RakeTask.new.install
+Pacto::RakeTask.new.install

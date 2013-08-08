@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'contracts/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "contracts"
-  gem.version       = Contracts::VERSION
+  gem.name          = "pacto"
+  gem.version       = Pacto::VERSION
   gem.authors       = ["ThoughtWorks & Abril"]
   gem.email         = ["abril_vejasp_dev@thoughtworks.com"]
-  gem.description   = %q{Contracts is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) pattern for evolving services}
+  gem.description   = %q{Pacto is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) pattern for evolving services}
   gem.summary       = %q{Consumer-Driven Contracts implementation}
-  gem.homepage      = 'https://github.com/thoughtworks/contracts'
+  gem.homepage      = 'https://github.com/thoughtworks/pacto'
   gem.license       = 'MIT'
 
 

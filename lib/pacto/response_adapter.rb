@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   class ResponseAdapter
     def initialize(response)
       @response = response

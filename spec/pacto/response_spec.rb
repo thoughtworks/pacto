@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
 	describe Response do
     let(:definition) do
       {

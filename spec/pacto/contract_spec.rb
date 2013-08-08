@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   describe Contract do
     let(:request) { double('request') }
     let(:response) { double('response') }

@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   class FilePreProcessor
     def process(file_string)
       erb = ERB.new file_string

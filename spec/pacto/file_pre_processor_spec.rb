@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   describe FilePreProcessor do
     describe "#process" do
       it "should return the result of ERB" do

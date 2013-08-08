@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   describe Request do
     let(:host) { 'http://localhost' }
     let(:method) { 'GET' }

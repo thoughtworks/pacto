@@ -1,3 +1,3 @@
-module Contracts
+module Pacto
   VERSION = "0.0.1"
 end

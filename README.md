@@ -1,6 +1,6 @@
-# Contracts
+# Pacto
 
-Contracts is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html)
+Pacto is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html)
 pattern for evolving services. It's main features are:
 
 - A simple language for specifying a contract.
@@ -29,7 +29,7 @@ A response has the following attributes:
 - Headers: the HTTP response headers.
 - Body: a JSON Schema defining the expected structure of the HTTP response body.
 
-Contracts relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
+Pacto relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
 to the /hello_world endpoint of a provider:
 
     {
@@ -68,7 +68,7 @@ There are two ways to validate a contract against a provider: through a Rake tas
 
 ### Rake Task
 
-Contracts includes a default Rake task. To use it, include it in your Rakefile:
+Pacto includes a default Rake task. To use it, include it in your Rakefile:
 
     require 'contracts/rake_task'
 
@@ -85,12 +85,12 @@ The easiest way to load a contract from a file and validate it against a host is
     require 'contracts'
 
     WebMock.allow_net_connect!
-    contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
+    contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     contract.validate
 
 ## Auto-Generated Stubs
 
-Contracts provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
+Pacto provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
 to generate a valid JSON document as the response body, and relies on [WebMock](https://github.com/bblimke/webmock)
 to stub any HTTP requests made by your application. Important: the JSON generator is in very early stages and does not work
 with the entire JSON Schema specification.
@@ -99,17 +99,17 @@ First, register the contracts that are going to be used in the acceptance tests 
 
     require 'contracts'
 
-    contract = Contracts.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-    Contracts.register('my_contract', contract)
+    contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
+    Pacto.register('my_contract', contract)
 
 Then, in the setup phase of the test, specify which contracts will be used for that test:
 
-    Contracts.use('my_contract')
+    Pacto.use('my_contract')
 
 If default values are not specified in the contract's response body, a default value will be automatically generated. It is possible
 to overwrite those values, however, by passing a second argument:
 
-    Contracts.use('my_contract', :value => 'new value')
+    Pacto.use('my_contract', :value => 'new value')
 
 The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
 

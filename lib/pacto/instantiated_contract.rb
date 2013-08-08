@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   class InstantiatedContract
     attr_reader :response_body
 

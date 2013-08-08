@@ -1,4 +1,4 @@
-describe Contracts do
+describe Pacto do
   let(:host) { 'http://localhost' }
   let(:contract_name) { 'contract' }
   let(:contract) { double('contract') }
@@ -31,7 +31,7 @@ describe Contracts do
     it 'should build a contract given a JSON file path and a host' do
       file_pre_processor.stub(:process).and_return(file_content)
       described_class.build_from_file(contract_path, host, file_pre_processor).
-        should be_a_kind_of(Contracts::Contract)
+        should be_a_kind_of(Pacto::Contract)
     end
     
     it 'should process files using File Pre Processor module' do

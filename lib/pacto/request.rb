@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   class Request
     def initialize(host, definition)
       @host = host

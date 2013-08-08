@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
   class Contract
     def initialize(request, response)
       @request = request

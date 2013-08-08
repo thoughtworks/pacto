@@ -1,4 +1,4 @@
-module Contracts
+module Pacto
 	describe InstantiatedContract do
 		describe '#replace!' do
       let(:body) { double('body') }
