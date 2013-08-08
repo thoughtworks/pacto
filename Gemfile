@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in contracts.gemspec
+# Specify your gem's dependencies in pacto.gemspec
 gemspec

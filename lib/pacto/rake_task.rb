@@ -17,8 +17,8 @@ module Pacto
     end
 
     def install
-      desc "Tasks for contracts gem"
-      namespace :contracts do
+      desc "Tasks for Pacto gem"
+      namespace :pacto do
         validate_task
       end
     end
@@ -27,7 +27,7 @@ module Pacto
       desc "Validates all contracts in a given directory against a given host"
       task :validate, :host, :dir do |t, args|
         if args.to_a.size < 2
-          fail "USAGE: rake contracts:validate[<host>, <contract_dir>]".colorize(:yellow)
+          fail "USAGE: rake pacto:validate[<host>, <contract_dir>]".colorize(:yellow)
         end
 
         validate_contracts(args[:host], args[:dir])

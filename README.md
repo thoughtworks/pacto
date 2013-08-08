@@ -70,11 +70,11 @@ There are two ways to validate a contract against a provider: through a Rake tas
 
 Pacto includes a default Rake task. To use it, include it in your Rakefile:
 
-    require 'contracts/rake_task'
+    require 'pacto/rake_task'
 
 Validating a contract against a provider is as simple as running:
 
-    $ rake contracts:validate[host,dir]  # Validates all contracts in a given directory against a given host
+    $ rake pacto:validate[host,dir]  # Validates all contracts in a given directory against a given host
 
 It is recommended that you also include [colorize](https://github.com/fazibear/colorize) to get prettier, colorful output.
 
@@ -82,7 +82,7 @@ It is recommended that you also include [colorize](https://github.com/fazibear/c
 
 The easiest way to load a contract from a file and validate it against a host is by using the builder interface:
 
-    require 'contracts'
+    require 'pacto'
 
     WebMock.allow_net_connect!
     contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
@@ -97,7 +97,7 @@ with the entire JSON Schema specification.
 
 First, register the contracts that are going to be used in the acceptance tests suite:
 
-    require 'contracts'
+    require 'pacto'
 
     contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     Pacto.register('my_contract', contract)
@@ -115,10 +115,10 @@ The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-de
 
 ## Code status
 
-[![Build Status](https://travis-ci.org/thoughtworks/contracts.png)](https://travis-ci.org/thoughtworks/contracts)
-[![Code Climate](https://codeclimate.com/github/thoughtworks/contracts.png)](https://codeclimate.com/github/thoughtworks/contracts)
-[![Dependency Status](https://gemnasium.com/thoughtworks/contracts.png)](https://gemnasium.com/thoughtworks/contracts)
-[![Coverage Status](https://coveralls.io/repos/thoughtworks/contracts/badge.png)](https://coveralls.io/r/thoughtworks/contracts)
+[![Build Status](https://travis-ci.org/thoughtworks/pacto.png)](https://travis-ci.org/thoughtworks/pacto)
+[![Code Climate](https://codeclimate.com/github/thoughtworks/pacto.png)](https://codeclimate.com/github/thoughtworks/pacto)
+[![Dependency Status](https://gemnasium.com/thoughtworks/pacto.png)](https://gemnasium.com/thoughtworks/pacto)
+[![Coverage Status](https://coveralls.io/repos/thoughtworks/pacto/badge.png)](https://coveralls.io/r/thoughtworks/pacto)
 
 ## Contributing
 
