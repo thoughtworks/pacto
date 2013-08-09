@@ -13,6 +13,7 @@
 - 'default' value to be used when it is present with an array of types
 - Support 'null' attribute type
 - Validate contract structure in a rake task. Then assume all contracts are valid.
+- When a request is not OK (200), the body may not be a json. Add support to ignore the body.
 
 ## Assumptions
 
