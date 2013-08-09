@@ -44,23 +44,13 @@ module Pacto
           response.validate(fake_response).should == []
         end
       end
-      context 'when status, headers and body match' do
-        it 'should not return any errors' do
-          JSON::Validator.should_receive(:fully_validate).
-            with(definition['body'], fake_response.body).
-            and_return([])
-
-          response = described_class.new(definition)
-          response.validate(fake_response).should == []
-        end
-      end
-
+      
       context 'when status does not match' do
         let(:status) { 500 }
 
         it 'should return a status error' do
-          JSON::Validator.stub(:fully_validate).and_return([])
-
+          JSON::Validator.should_not_receive(:fully_validate)
+          
           response = described_class.new(definition)
           response.validate(fake_response).should == ["Invalid status: expected #{definition['status']} but got #{status}"]
         end
@@ -70,7 +60,7 @@ module Pacto
         let(:headers) { {'Content-Type' => 'text/html'} }
 
         it 'should return a header error' do
-          JSON::Validator.stub(:fully_validate).and_return([])
+          JSON::Validator.should_not_receive(:fully_validate)
 
           response = described_class.new(definition)
           response.validate(fake_response).should == ["Invalid headers: expected #{definition['headers'].inspect} to be a subset of #{headers.inspect}"]

@@ -13,15 +13,15 @@ module Pacto
     end
 
     def validate(response)
-      @errors = []
       if @definition['status'] != response.status
-        @errors << "Invalid status: expected #{@definition['status']} but got #{response.status}"
+        return [ "Invalid status: expected #{@definition['status']} but got #{response.status}" ]
       end
+      
       unless @definition['headers'].normalize_keys.subset_of?(response.headers.normalize_keys)
-        @errors << "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}"
+        return [ "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}" ]
       end
-      @errors << JSON::Validator.fully_validate(@definition['body'], response.body)
-      @errors.flatten
+      
+      JSON::Validator.fully_validate(@definition['body'], response.body)
     end
   end
 end
