@@ -99,6 +99,25 @@ module Pacto
           response.validate(fake_response).should == errors
         end
       end
+
+      context 'when body not specified' do
+        let(:definition) do
+          {
+            'status' => status,
+            'headers' => headers
+          }
+        end
+
+        it 'should not validate body' do
+          JSON::Validator.should_not_receive(:fully_validate)
+          response = described_class.new(definition)
+        end
+
+        it 'should give no errors' do
+          response = described_class.new(definition)
+          response.validate(fake_response).should == []
+        end
+      end
     end
 	end
 end

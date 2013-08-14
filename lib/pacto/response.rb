@@ -21,7 +21,11 @@ module Pacto
         return [ "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}" ]
       end
       
-      JSON::Validator.fully_validate(@definition['body'], response.body)
+      if @definition['body']
+        JSON::Validator.fully_validate(@definition['body'], response.body)
+      else
+        []
+      end
     end
   end
 end
