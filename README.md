@@ -1,10 +1,10 @@
 # Pacto
 
 Pacto is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html)
-pattern for evolving services. It's main features are:
+pattern for evolving services. Its main features are:
 
-- A simple language for specifying a contract.
-- An automated way to validate that a producer meets it's consumers requirements.
+- A simple language for specifying a contract;
+- An automated way to validate that a producer meets its consumer's requirements;
 - An auto-generated stub to be used in the consumer's acceptance tests.
 
 It was developed in a micro-services environment, specifically a RESTful one, so expect it to be opinionated. Although
@@ -18,15 +18,15 @@ an HTTP interaction, which is composed of two main parts: a request and a respon
 
 A request has the following attributes:
 
-- Method: the method of the HTTP request (e.g. GET, POST, PUT, DELETE).
-- Path: the relative path (without host) of the provider's endpoint.
-- Headers: headers sent in the HTTP request.
+- Method: the method of the HTTP request (e.g. GET, POST, PUT, DELETE);
+- Path: the relative path (without host) of the provider's endpoint;
+- Headers: headers sent in the HTTP request;
 - Params: any data or parameters of the HTTP request (e.g. query string for GET, body for POST).
 
 A response has the following attributes:
 
-- Status: the HTTP response status code (e.g. 200, 404, 500).
-- Headers: the HTTP response headers.
+- Status: the HTTP response status code (e.g. 200, 404, 500);
+- Headers: the HTTP response headers;
 - Body: a JSON Schema defining the expected structure of the HTTP response body.
 
 Pacto relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
@@ -74,7 +74,7 @@ Pacto includes a default Rake task. To use it, include it in your Rakefile:
 
 Validating a contract against a provider is as simple as running:
 
-    $ rake pacto:validate[host,dir]  # Validates all contracts in a given directory against a given host
+    $ rake pacto:validate[host,dir] # Validates all contracts in a given directory against a given host
 
 It is recommended that you also include [colorize](https://github.com/fazibear/colorize) to get prettier, colorful output.
 
