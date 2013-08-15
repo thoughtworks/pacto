@@ -15,15 +15,12 @@ require "pacto/response_adapter"
 require "pacto/response"
 require "pacto/instantiated_contract"
 require "pacto/contract"
+require "pacto/contract_factory"
 require "pacto/file_pre_processor"
 
 module Pacto
   def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
-    contract_definition_expanded = file_pre_processor.process(File.read(contract_path))
-    definition = JSON.parse(contract_definition_expanded)
-    request = Request.new(host, definition["request"])
-    response = Response.new(definition["response"])
-    Contract.new(request, response)
+    ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
   def self.register(name, contract)
