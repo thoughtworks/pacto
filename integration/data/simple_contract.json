@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/simple_contract.json",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "params": {}
+  },
+
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
