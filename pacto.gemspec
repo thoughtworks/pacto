@@ -13,14 +13,13 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://github.com/thoughtworks/pacto'
   gem.license       = 'MIT'
 
-
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
   gem.add_dependency "webmock"
-  gem.add_dependency "json"
+  gem.add_dependency "yajl-ruby"
   gem.add_dependency "json-schema", "1.0.4"
   gem.add_dependency "json-generator"
   gem.add_dependency "hash-deep-merge"
