@@ -1,12 +1,16 @@
 require "bundler/gem_tasks"
 require 'rspec/core/rake_task'
 
-task :integration do
-  system('bundle exec rspec integration -I integration')
-end
-
 if defined?(RSpec)
-  RSpec::Core::RakeTask.new('spec')
+  desc "Run unit tests"
+  task :spec do
+    abort unless system('rspec --option .rspec')
+  end
+
+  desc "Run integration tests"
+  task :integration do
+    abort unless system('rspec --option .rspec_integration')
+  end
 
   task :default => [:spec, :integration]
 end
