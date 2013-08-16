@@ -8,7 +8,7 @@ describe "Pacto" do
     @server.terminate
   end
 
-  let(:contract_path) { 'integration/data/simple_contract.json' }
+  let(:contract_path) { 'spec/integration/data/simple_contract.json' }
   let(:end_point_address) { 'http://localhost:8000' }
 
   it "validates a contract against a server" do
