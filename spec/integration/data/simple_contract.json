@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "path": "/simple_contract.json",
+    "path": "/hello",
     "headers": {
       "Accept": "application/json"
     },
@@ -15,9 +15,11 @@
     },
     "body": {
       "type": "object",
+      "required": true,
       "properties": {
         "message": {
-          "type": "string"
+          "type": "string",
+          "required": true
         }
       }
     }

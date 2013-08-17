@@ -14,11 +14,11 @@ class Servlet < WEBrick::HTTPServlet::AbstractServlet
 end
 
 class DummyServer
-  def initialize
-    @server = WEBrick::HTTPServer.new :Port => 8000,
+  def initialize port, path, response
+    @server = WEBrick::HTTPServer.new :Port => port,
       :AccessLog => [],
       :Logger => WEBrick::Log::new("/dev/null", 7)
-    @server.mount "/simple_contract.json", Servlet, '{"message": "Hello World!"}'
+    @server.mount path, Servlet, response
   end
 
   def start

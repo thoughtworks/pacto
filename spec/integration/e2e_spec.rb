@@ -1,26 +1,38 @@
-describe "Pacto" do
-  before :all do
-    @server = DummyServer.new
-    @server.start
-  end
-
-  after :all do
-    @server.terminate
-  end
-
+describe 'Pacto' do
   let(:contract_path) { 'spec/integration/data/simple_contract.json' }
-  let(:end_point_address) { 'http://localhost:8000' }
 
-  it "validates a contract against a server" do
+  before :all do
     WebMock.allow_net_connect!
-    contract = Pacto.build_from_file(contract_path, end_point_address)
-    contract.validate.should == []
   end
 
-  pending "generates a mocked response based on a contract specification" do
-    contract = Pacto.build_from_file(contract_path, end_point_address)
-    Pacto.register('my_contract', contract)
-    Pacto.use('my_contract')
+  context 'Contract validation' do
+    before :all do
+      @server = DummyServer.new 8000, '/hello', '{"message": "Hello World!"}'
+      @server.start
+    end
 
+    after :all do
+      @server.terminate
+    end
+
+    it 'verifies the contract against a producer' do
+      contract = Pacto.build_from_file(contract_path, 'http://localhost:8000')
+      contract.validate.should == []
+    end
+  end
+
+  context 'Stub generation' do
+    it 'generates a stub to be used by a consumer' do
+      contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
+      Pacto.register('my_contract', contract)
+      Pacto.use('my_contract')
+      response.keys.should == ['message']
+      response['message'].should be_kind_of(String)
+    end
+
+    let :response do
+      raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
+      JSON.parse(raw_response.body)
+    end
   end
 end
