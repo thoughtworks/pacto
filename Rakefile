@@ -3,8 +3,8 @@ require 'rspec/core/rake_task'
 
 if defined?(RSpec)
   desc "Run unit tests"
-  task :spec do
-    abort unless system('rspec --option .rspec')
+  task :unit do
+    abort unless system('rspec --option .rspec_unit')
   end
 
   desc "Run integration tests"
@@ -12,5 +12,5 @@ if defined?(RSpec)
     abort unless system('rspec --option .rspec_integration')
   end
 
-  task :default => [:spec, :integration]
+  task :default => [:unit, :integration]
 end
