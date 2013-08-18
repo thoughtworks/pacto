@@ -6,6 +6,7 @@ module Pacto
       @request = request
       @response = response
       @response_body = response.body
+      @stub_provider = ::Pacto::Stubs::StubProvider.instance
     end
 
     def request_path
@@ -25,38 +26,7 @@ module Pacto
     end
 
     def stub!
-      WebMock.stub_request(@request.method, "#{@request.host}#{@request.path}").
-        with(request_details).
-        to_return({
-          :status => @response.status,
-          :headers => @response.headers,
-          :body => format_body(@response_body)
-        })
-    end
-
-    private
-
-    def format_body(body)
-      if body.is_a?(Hash) or body.is_a?(Array)
-        body.to_json
-      else
-        body
-      end
-    end
-
-    def request_details
-      details = {}
-      unless @request.params.empty?
-        details[webmock_params_key] = @request.params
-      end
-      unless @request.headers.empty?
-        details[:headers] = @request.headers
-      end
-      details
-    end
-
-    def webmock_params_key
-      @request.method == :get ? :query : :body
+      @stub_provider.stub!(@request, @response, @response_body)
     end
   end
 end
