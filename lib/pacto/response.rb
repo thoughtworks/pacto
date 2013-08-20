@@ -22,10 +22,34 @@ module Pacto
       end
       
       if @definition['body']
-        JSON::Validator.fully_validate(@definition['body'], response.body)
+        if @definition['body']['type'] && @definition['body']['type'] == 'string'
+          validate_as_pure_string response.body
+        else
+          validate_as_json response.body
+        end
       else
         []
       end
+    end
+    
+    private
+    
+    def validate_as_pure_string response_body
+      errors = []
+      if @definition['body']['required'] && response_body.nil?
+        errors << "The response does not contain a body"
+      end
+      
+      pattern = @definition['body']['pattern']
+      if pattern && !(response_body =~ Regexp.new(pattern))
+        errors << "The response does not match the pattern #{pattern}"
+      end
+      
+      errors
+    end
+    
+    def validate_as_json response_body
+      JSON::Validator.fully_validate(@definition['body'], response_body)
     end
   end
 end

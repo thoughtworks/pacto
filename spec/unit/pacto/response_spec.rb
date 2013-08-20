@@ -1,10 +1,13 @@
 module Pacto
 	describe Response do
+    let(:body_definition) do
+      {:type => "object", :required => true, :properties => double("body definition properties")}
+    end
     let(:definition) do
       {
         'status' => 200,
         'headers' => {'Content-Type' => 'application/json'},
-        'body' => double('definition body')
+        'body' => body_definition
       }
     end
 
@@ -26,11 +29,12 @@ module Pacto
     describe '#validate' do
       let(:status) { 200 }
       let(:headers) { {'Content-Type' => 'application/json', 'Age' => '60'} }
+      let(:response_body) { {'message' => 'response'} }
       let(:fake_response) do
         double({
           :status => status,
           :headers => headers,
-          :body => 'body'
+          :body => response_body
         })
       end
 
@@ -42,6 +46,80 @@ module Pacto
 
           response = described_class.new(definition)
           response.validate(fake_response).should == []
+        end
+      end
+      
+      context 'when body is a pure string and matches the description' do
+        let(:string_required) { true }
+        let(:body_definition) do
+          { 'type' => 'string', 'required' => string_required }
+        end
+        let(:response_body) { "a simple string" }
+        
+        it 'should not validate using JSON Schema' do
+          response = described_class.new(definition)
+          
+          JSON::Validator.should_not_receive(:fully_validate)
+          response.validate(fake_response)
+        end
+        
+        context 'if required' do
+          it 'should not return an error when body is a string' do
+            response = described_class.new(definition)
+          
+            response.validate(fake_response).should == []
+          end
+          
+          it 'should return an error when body is nil' do
+            response = described_class.new(definition)
+            
+            fake_response.stub(:body).and_return(nil)
+            response.validate(fake_response).size.should == 1
+          end
+        end
+        
+        context 'if not required' do
+          let(:string_required) { false }
+          
+          it 'should not return an error when body is a string' do
+            response = described_class.new(definition)
+          
+            response.validate(fake_response).should == []
+          end
+          
+          it 'should not return an error when body is nil' do
+            response = described_class.new(definition)
+            
+            fake_response.stub(:body).and_return(nil)
+            response.validate(fake_response).should == []
+          end
+        end
+        
+        context 'if contains pattern' do
+          let(:body_definition) do
+            { 'type' => 'string', 'required' => string_required, 'pattern' => 'a.c' }
+          end
+          
+          context 'body matches pattern' do
+            let(:response_body) { 'cabcd' }
+            
+            it "should not return an error" do
+              response = described_class.new(definition)
+              
+              response.validate(fake_response).should == []
+            end
+          end
+          
+          context 'body does not match pattern' do
+            let(:response_body) { 'cabscd' }
+            
+            it "should return an error" do
+              response = described_class.new(definition)
+              
+              response.validate(fake_response).size.should == 1
+            end
+          end
+          
         end
       end
       
