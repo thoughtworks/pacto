@@ -1,0 +1,2 @@
+class InvalidContract < ArgumentError
+end

@@ -4,7 +4,8 @@
     "path": "/hello_world",
     "headers": {
       "Accept": "application/json"
-    }
+    },
+    "params": {}
   },
 
   "response": {

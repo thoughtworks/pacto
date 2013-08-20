@@ -9,6 +9,7 @@ require "webmock"
 require "ostruct"
 require "erb"
 
+require "pacto/exceptions/invalid_contract.rb"
 require "pacto/extensions"
 require "pacto/request"
 require "pacto/response_adapter"
