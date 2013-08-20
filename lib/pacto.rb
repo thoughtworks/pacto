@@ -2,7 +2,7 @@ require "pacto/version"
 
 require "httparty"
 require "hash_deep_merge"
-require "yajl/json_gem"
+require "json"
 require "json-schema"
 require "json-generator"
 require "webmock"
