@@ -22,13 +22,13 @@ class DummyServer
   end
 
   def start
-    @pid = fork do
+    @pid = Thread.new do
       trap 'INT' do @server.shutdown end
       @server.start
     end
   end
 
   def terminate
-    Process.kill('INT', @pid)
+    @pid.kill
   end
 end
