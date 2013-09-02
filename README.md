@@ -31,7 +31,7 @@ A response has the following attributes:
 
 Pacto relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
 to the /hello_world endpoint of a provider:
-
+```json
     {
       "request": {
         "method": "GET",
@@ -58,6 +58,7 @@ to the /hello_world endpoint of a provider:
         }
       }
     }
+```
 
 The host address is intentionally left out of the request specification so that we can validate a contract against any provider.
 It also reinforces the fact that a contract defines the expectation of a consumer, and not the implementation of any specific provider.
@@ -69,9 +70,9 @@ There are two ways to validate a contract against a provider: through a Rake tas
 ### Rake Task
 
 Pacto includes a default Rake task. To use it, include it in your Rakefile:
-
+```ruby
     require 'pacto/rake_task'
-
+```
 Validating a contract against a provider is as simple as running:
 
     $ rake pacto:validate[host,dir] # Validates all contracts in a given directory against a given host
@@ -81,13 +82,13 @@ It is recommended that you also include [colorize](https://github.com/fazibear/c
 ### Programatically
 
 The easiest way to load a contract from a file and validate it against a host is by using the builder interface:
-
+```ruby
     require 'pacto'
 
     WebMock.allow_net_connect!
     contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     contract.validate
-
+```
 ## Auto-Generated Stubs
 
 Pacto provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
@@ -96,21 +97,21 @@ to stub any HTTP requests made by your application. Important: the JSON generato
 with the entire JSON Schema specification.
 
 First, register the contracts that are going to be used in the acceptance tests suite:
-
+```ruby
     require 'pacto'
 
     contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     Pacto.register('my_contract', contract)
-
+```
 Then, in the setup phase of the test, specify which contracts will be used for that test:
-
+```ruby
     Pacto.use('my_contract')
-
+```
 If default values are not specified in the contract's response body, a default value will be automatically generated. It is possible
 to overwrite those values, however, by passing a second argument:
-
+```ruby
     Pacto.use('my_contract', :value => 'new value')
-
+```
 The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
 
 ## Code status
