@@ -1,0 +1,12 @@
+{
+  "title": "Example Schema",
+  "type": "object",
+  "properties": {
+    "request": {
+      "type": "object"
+    },
+    "response": {
+      "type": "object"
+    }
+  }
+}

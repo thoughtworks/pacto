@@ -22,6 +22,23 @@ require "pacto/contract_factory"
 require "pacto/file_pre_processor"
 
 module Pacto
+  def self.contract_schema
+    File.join(File.dirname(File.expand_path(__FILE__)), '../resources/contract_schema.json')
+  end
+
+  def self.validate_contract contract
+    errors = JSON::Validator.fully_validate(Pacto.contract_schema, contract)
+    if errors.empty?
+      puts "All contracts successfully meta-validated"
+    else
+      puts "Validation errors detected"
+      errors.each do |e|
+        puts "  Error: #{e}"
+      end
+    end
+    errors.empty?
+  end
+
   def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
