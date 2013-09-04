@@ -20,6 +20,7 @@ module Pacto
       desc "Tasks for Pacto gem"
       namespace :pacto do
         validate_task
+        meta_validate
       end
     end
 
@@ -31,6 +32,17 @@ module Pacto
         end
 
         validate_contracts(args[:host], args[:dir])
+      end
+    end
+
+    def meta_validate
+      desc "Validates a given contract definition"
+      task :meta_validate, :file do |t, args|
+        if args.to_a.size < 1
+          fail "USAGE: rake pacto:meta_validate[<contract_file>]".colorize(:yellow)
+        end
+
+        fail unless Pacto.validate_contract args[:file]
       end
     end
 
