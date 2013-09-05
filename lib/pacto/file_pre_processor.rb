@@ -1,6 +1,7 @@
 module Pacto
   class FilePreProcessor
     def process(file_string)
+      key = "xxx"
       erb = ERB.new file_string
       erb_result = erb.result binding
       if ENV["DEBUG_PACTO"]

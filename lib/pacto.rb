@@ -22,7 +22,25 @@ require "pacto/contract_factory"
 require "pacto/file_pre_processor"
 
 module Pacto
-  def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
+  
+  class Configuration
+    attr_accessor :preprocessor
+    def initialize
+      @preprocessor = FilePreProcessor.new
+    end
+  end
+  
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+    
+    def configure
+      yield(configuration)
+    end
+  end
+  
+  def self.build_from_file(contract_path, host, file_pre_processor=Pacto.configuration.preprocessor)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 

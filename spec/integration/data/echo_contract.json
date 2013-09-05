@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/echo",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "params": {
+    }
+  },
+
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "body": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "message": { "type": "string", "default": "<%=key%>", "required": true }
+      }
+    }
+  }
+}

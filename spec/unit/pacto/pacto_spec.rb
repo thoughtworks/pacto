@@ -83,4 +83,14 @@ describe Pacto do
       described_class.registered.should be_empty
     end
   end
+  
+  describe "configure" do
+    it 'should allow preprocessor manual configuration' do
+      Pacto.configuration.preprocessor.should_not be_nil
+      Pacto.configure do |c|
+        c.preprocessor = nil
+      end
+      Pacto.configuration.preprocessor.should be_nil
+    end
+  end
 end
