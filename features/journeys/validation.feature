@@ -4,7 +4,7 @@ Feature: Validation journey
     """
         {
         "request": {
-          "method": "GET",
+          "method": "GET",    
           "path": "/hello_world",
           "headers": {
             "Accept": "application/json"
@@ -41,3 +41,13 @@ Feature: Validation journey
     When I run `rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
     And the output should contain "did not match the following type"
+
+
+  Scenario: Meta-validation of a contract with empty request and response
+    Given a file named "contracts/my_contract.json" with:
+    """
+    {"request": {}, "response": {}}
+    """
+    When I run `rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
+    Then the exit status should be 1
+    And the output should contain "did not contain a required property"

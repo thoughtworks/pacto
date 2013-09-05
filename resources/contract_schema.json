@@ -3,10 +3,36 @@
   "type": "object",
   "properties": {
     "request": {
-      "type": "object"
+      "type": "object",
+      "required": true,
+      "properties": {
+        "method": {
+          "type": "string",
+          "required": true          
+        },
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "headers": {
+          "type": "object",
+          "required": false
+        },
+        "params": {   
+          "type": "object",
+          "required": false
+        }
+      }
     },
     "response": {
-      "type": "object"
+      "type": "object",
+      "required": true,
+      "properties": {
+        "status":{
+          "type": "integer",
+          "required": true
+        }
+      }
     }
   }
 }
