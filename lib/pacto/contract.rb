@@ -7,10 +7,9 @@ module Pacto
 
     def instantiate(values = nil)
       instantiated_contract = InstantiatedContract.new(@request, @response.instantiate)
-      instantiated_contract.replace!(values) unless values.nil?
       processor = Pacto.configuration.postprocessor
       unless processor.nil?
-        instantiated_contract = processor.process(instantiated_contract)
+        instantiated_contract = processor.process(instantiated_contract, values)
       end
       instantiated_contract
     end

@@ -20,6 +20,7 @@ require "pacto/instantiated_contract"
 require "pacto/contract"
 require "pacto/contract_factory"
 require "pacto/erb_processor"
+require "pacto/hash_merge_processor"
 
 module Pacto
   
@@ -27,7 +28,7 @@ module Pacto
     attr_accessor :preprocessor, :postprocessor
     def initialize
       @preprocessor = ERBProcessor.new
-      @postprocessor = nil
+      @postprocessor = HashMergeProcessor.new
     end
   end
   

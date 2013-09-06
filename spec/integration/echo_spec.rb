@@ -21,9 +21,10 @@ describe 'Echo' do
 
   context 'No processing' do
     
-    xit 'should not proccess erb tag' do
+    it 'should not proccess erb tag' do
       Pacto.configure do |c|
         c.preprocessor = nil
+        c.postprocessor = nil
       end
       
       response.keys.should == ['message']
