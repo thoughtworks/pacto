@@ -12,7 +12,7 @@ module Pacto
     end
 
 		describe '#instantiate' do
-			let(:generated_body) { double('generated body') }
+			let(:generated_body) { double ('generated body') }
 
 			it 'should instantiate a response with a body that matches the given definition' do
 				JSON::Generator.should_receive(:generate).

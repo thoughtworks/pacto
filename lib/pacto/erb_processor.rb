@@ -1,7 +1,7 @@
 module Pacto
-  class FilePreProcessor
+  class ERBProcessor
+  
     def process(file_string)
-      key = "xxx"
       erb = ERB.new file_string
       erb_result = erb.result binding
       if ENV["DEBUG_PACTO"]
@@ -9,5 +9,6 @@ module Pacto
       end
       erb_result
     end
+  
   end
 end

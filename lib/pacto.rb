@@ -19,14 +19,15 @@ require "pacto/stubs/stub_provider"
 require "pacto/instantiated_contract"
 require "pacto/contract"
 require "pacto/contract_factory"
-require "pacto/file_pre_processor"
+require "pacto/erb_processor"
 
 module Pacto
   
   class Configuration
-    attr_accessor :preprocessor
+    attr_accessor :preprocessor, :postprocessor
     def initialize
-      @preprocessor = FilePreProcessor.new
+      @preprocessor = ERBProcessor.new
+      @postprocessor = nil
     end
   end
   
