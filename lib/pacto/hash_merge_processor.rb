@@ -1,15 +1,14 @@
 module Pacto
   class HashMergeProcessor
-    def process(contract, values)
+    def process(response_body, values = {})
       unless values.nil?
-        response_body = contract.response_body
         if response_body.respond_to?(:normalize_keys)
-          contract.response_body = response_body.normalize_keys.deep_merge(values.normalize_keys)
+          response_body = response_body.normalize_keys.deep_merge(values.normalize_keys)
         else
-          contract.response_body = values
+          response_body = values
         end
       end
-      contract
+      response_body.to_s
     end
   end
 end

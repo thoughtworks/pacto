@@ -1,10 +1,10 @@
 module Pacto
   class ContractFactory
-    def self.build_from_file(contract_path, host, file_pre_processor)
+    def self.build_from_file(contract_path, host, preprocessor)
       
       contract_definition = File.read(contract_path)
-      if file_pre_processor
-        contract_definition = file_pre_processor.process(File.read(contract_path))
+      if preprocessor
+        contract_definition = preprocessor.process(File.read(contract_path))
       end
       definition = JSON.parse(contract_definition)
       validate_contract definition, contract_path
