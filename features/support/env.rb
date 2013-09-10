@@ -1,3 +1,4 @@
+require_relative '../../spec/coveralls_helper'
 require "rake"
 require "aruba"
 require 'aruba/cucumber'
