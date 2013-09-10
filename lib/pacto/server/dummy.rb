@@ -1,17 +1,17 @@
 require 'webrick'
+require 'forwardable'
+
 module Pacto
   module Server
     class Servlet < WEBrick::HTTPServlet::AbstractServlet
-      def initialize(server, json)
+      extend Forwardable
+
+      def initialize server, json
         super(server)
-        @json = json
+        @doer = PlaybackServlet.new json
       end
 
-      def do_GET(request, response)
-        response.status = 200
-        response['Content-Type'] = 'application/json'
-        response.body = @json
-      end
+      def_delegator :@doer, :do_GET
     end
 
     class Dummy
