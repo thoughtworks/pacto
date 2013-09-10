@@ -20,6 +20,7 @@ module Pacto
       desc "Tasks for Pacto gem"
       namespace :pacto do
         validate_task
+        meta_validate
       end
     end
 
@@ -34,18 +35,26 @@ module Pacto
       end
     end
 
+    def meta_validate
+      desc "Validates a directory of contract definitions"
+      task :meta_validate, :dir do |t, args|
+        if args.to_a.size < 1
+          fail "USAGE: rake pacto:meta_validate[<contract_dir>]".colorize(:yellow)
+        end
+
+        each_contract(args[:dir]) do |contract_file|
+          puts "Validating #{contract_file}"
+          fail unless Pacto.validate_contract contract_file
+        end
+      end
+    end
+
     def validate_contracts(host, dir)
       WebMock.allow_net_connect!
-
-      contracts = Dir[File.join(dir, '*{.json.erb,.json}')]
-      if contracts.empty?
-        fail "No contracts found in directory #{dir}".colorize(:yellow)
-      end
-
       puts "Validating contracts in directory #{dir} against host #{host}\n\n"
 
       total_failed = 0
-      contracts.sort.each do |contract_file|
+      each_contract(dir) do |contact_file|
         print "#{contract_file.split('/').last}:"
         contract = Pacto.build_from_file(contract_file, host)
         errors = contract.validate
@@ -67,6 +76,21 @@ module Pacto
         fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".colorize(:red)
       else
         puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".colorize(:green)
+      end
+    end
+
+    private
+    def each_contract(dir)
+      if File.file? dir
+        yield dir
+      else
+        contracts = Dir[File.join(dir, '*{.json.erb,.json}')]
+        fail "No contracts found in directory #{dir}".colorize(:yellow) if contracts.empty?
+
+
+        contracts.sort.each do |contract_file|
+          yield contract_file
+        end
       end
     end
   end

@@ -69,11 +69,17 @@ There are two ways to validate a contract against a provider: through a Rake tas
 
 ### Rake Task
 
-Pacto includes a default Rake task. To use it, include it in your Rakefile:
+Pacto includes two Rake tasks.  In order to use them, include this in your Rakefile:
+
 ```ruby
     require 'pacto/rake_task'
 ```
-Validating a contract against a provider is as simple as running:
+
+Pacto can validate the contract files:
+
+    $ rake pacto:meta_validate[dir]  # Validates a directory of contract definitions
+
+Or it can validate contracts against a provider:
 
     $ rake pacto:validate[host,dir] # Validates all contracts in a given directory against a given host
 

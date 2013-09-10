@@ -22,6 +22,20 @@ require "pacto/contract_factory"
 require "pacto/file_pre_processor"
 
 module Pacto
+  def self.validate_contract contract
+    begin
+      Pacto::ContractFactory.validate_contract contract
+      puts "All contracts successfully meta-validated"
+      true
+    rescue InvalidContract => e
+      puts "Validation errors detected"
+      e.errors.each do |e|
+        puts "  Error: #{e}"
+      end
+      false
+    end
+  end
+
   def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
