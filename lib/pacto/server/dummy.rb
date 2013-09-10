@@ -8,7 +8,12 @@ module Pacto
 
       def initialize server, json
         super(server)
-        @doer = PlaybackServlet.new json
+
+        @doer = PlaybackServlet.new({
+          status: 200,
+          headers: {"Content-Type" => "application/json"},
+          body: json
+        })
       end
 
       def_delegator :@doer, :do_GET
