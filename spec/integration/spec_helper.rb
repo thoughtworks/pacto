@@ -1,1 +1,1 @@
-require_relative 'utils/dummy_server'
+require_relative '../../lib/pacto/server/dummy'
