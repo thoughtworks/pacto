@@ -27,16 +27,17 @@ module Pacto
   end
 
   def self.validate_contract contract
-    errors = JSON::Validator.fully_validate(Pacto.contract_schema, contract)
-    if errors.empty?
+    begin
+      Pacto::ContractFactory.validate_contract contract
       puts "All contracts successfully meta-validated"
-    else
+      true
+    rescue InvalidContract => e
       puts "Validation errors detected"
-      errors.each do |e|
+      e.errors.each do |e|
         puts "  Error: #{e}"
       end
+      false
     end
-    errors.empty?
   end
 
   def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)

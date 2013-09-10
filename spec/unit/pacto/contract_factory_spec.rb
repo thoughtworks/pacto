@@ -38,13 +38,13 @@ module Pacto
               }
             }
           }
-          described_class.validate_contract(definition, contract_path)
+          described_class.validate_contract(definition)
         }.not_to raise_error
       end
       
       it 'should raise InvalidContract if contract do not contain a Request' do
         expect {
-          described_class.validate_contract({}, contract_path)
+          described_class.validate_contract({})
         }.to raise_error(InvalidContract)
       end
     end
