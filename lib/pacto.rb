@@ -22,10 +22,6 @@ require "pacto/contract_factory"
 require "pacto/file_pre_processor"
 
 module Pacto
-  def self.contract_schema
-    File.join(File.dirname(File.expand_path(__FILE__)), '../resources/contract_schema.json')
-  end
-
   def self.validate_contract contract
     begin
       Pacto::ContractFactory.validate_contract contract
