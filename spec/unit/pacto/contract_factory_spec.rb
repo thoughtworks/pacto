@@ -18,35 +18,5 @@ module Pacto
         described_class.build_from_file(contract_path, host, file_pre_processor)
       end
     end
-
-    describe '.validate_contract' do
-      it 'should not raise error if contract is correct' do
-        expect {
-          definition = {
-            'request' => {
-              'method' => 'GET',
-              'path' => '/a/path',
-              'params' => {},
-              'headers' => {}
-            },
-            'response' => {
-              'status' => 200,
-              'headers' => {},
-              'body' => {
-                'type' => 'string',
-                'required' => true
-              }
-            }
-          }
-          described_class.validate_contract(definition)
-        }.not_to raise_error
-      end
-      
-      it 'should raise InvalidContract if contract do not contain a Request' do
-        expect {
-          described_class.validate_contract({})
-        }.to raise_error(InvalidContract)
-      end
-    end
   end
 end

@@ -1,0 +1,70 @@
+module Pacto
+  describe MetaSchema do
+    let(:valid_contract) do
+      <<-EOF
+        {
+          "request": {
+            "method": "GET",    
+            "path": "/hello_world",
+            "headers": {
+              "Accept": "application/json"
+            },
+            "params": {}
+          },
+
+          "response": {
+            "status": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "description": "A simple response",
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      EOF
+    end
+
+    let(:invalid_contract) do
+      <<-EOF
+        {
+          "request": {
+            "method": "GET",    
+            "path": "/hello_world",
+            "headers": {
+              "Accept": "application/json"
+            },
+            "params": {}
+          }
+
+        }
+      EOF
+    end
+
+    subject(:schema) { MetaSchema.new }
+
+    describe 'when validating a contract against the master schema' do
+      context 'with a valid contract structure' do
+        it 'should not raise any exceptions' do
+          expect {
+            schema.validate(valid_contract) 
+          }.to_not raise_error(Exception)
+        end
+      end
+
+      context 'with an invalid contract structure' do
+        it 'should raise InvalidContract exception' do
+          expect {
+            schema.validate(invalid_contract) 
+          }.to raise_error(InvalidContract)
+        end
+      end
+    end
+  end
+end
