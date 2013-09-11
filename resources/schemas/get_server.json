@@ -1,0 +1,208 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "properties": {
+        "response": {
+            "required": true, 
+            "type": "object",
+            "properties": {
+                "server": {
+                    "required": true, 
+                    "type": "object",
+                    "properties": {
+                        "OS-DCF:diskConfig": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "OS-EXT-STS:power_state": {
+                            "required": true, 
+                            "type": "number"
+                        }, 
+                        "OS-EXT-STS:task_state": {
+                            "required": true, 
+                            "type": "null"
+                        }, 
+                        "OS-EXT-STS:vm_state": {
+                            "required": true,
+							"default": "active",
+                            "type": "string"
+                        }, 
+                        "RAX-SI:image_schedule": {
+                            "properties": {
+                                "retention": {
+                                    "required": true, 
+                                    "type": "number"
+                                }
+                            }, 
+                            "required": true, 
+                            "type": "object"
+                        }, 
+                        "accessIPv4": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "accessIPv6": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "addresses": {
+                            "properties": {
+                                "private": {
+                                    "items": {
+                                        "properties": {
+                                            "addr": {
+                                                "required": true, 
+                                                "type": "string"
+                                            }, 
+                                            "version": {
+                                                "required": true, 
+                                                "type": "number"
+                                            }
+                                        }, 
+                                        "required": true, 
+                                        "type": "object"
+                                    }, 
+                                    "required": true, 
+                                    "type": "array"
+                                }, 
+                                "public": {
+                                    "items": {
+                                        "properties": {
+                                            "addr": {
+                                                "required": true, 
+                                                "type": "string"
+                                            }, 
+                                            "version": {
+                                                "required": true, 
+                                                "type": "number"
+                                            }
+                                        }, 
+                                        "required": true, 
+                                        "type": "object"
+                                    }, 
+                                    "required": true, 
+                                    "type": "array"
+                                }
+                            }, 
+                            "required": true, 
+                            "type": "object"
+                        }, 
+                        "created": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "flavor": {
+                            "properties": {
+                                "id": {
+                                    "required": true, 
+                                    "type": "string"
+                                }, 
+                                "links": {
+                                    "items": {
+                                        "properties": {
+                                            "href": {
+                                                "required": true, 
+                                                "type": "string"
+                                            }, 
+                                            "rel": {
+                                                "required": true, 
+                                                "type": "string"
+                                            }
+                                        }, 
+                                        "required": true, 
+                                        "type": "object"
+                                    }, 
+                                    "required": true, 
+                                    "type": "array"
+                                }
+                            }, 
+                            "required": true, 
+                            "type": "object"
+                        }, 
+                        "hostId": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "id": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "image": {
+                            "properties": {
+                                "id": {
+                                    "required": true, 
+                                    "type": "string"
+                                }, 
+                                "links": {
+                                    "items": {
+                                        "properties": {
+                                            "href": {
+                                                "required": true, 
+                                                "type": "string"
+                                            }, 
+                                            "rel": {
+                                                "required": true, 
+                                                "type": "string"
+                                            }
+                                        }, 
+                                        "required": true, 
+                                        "type": "object"
+                                    }, 
+                                    "required": true, 
+                                    "type": "array"
+                                }
+                            }, 
+                            "required": true, 
+                            "type": "object"
+                        }, 
+                        "links": {
+                            "items": {
+                                "properties": {
+                                    "href": {
+                                        "required": true, 
+                                        "type": "string"
+                                    }, 
+                                    "rel": {
+                                        "required": true, 
+                                        "type": "string"
+                                    }
+                                }, 
+                                "required": true, 
+                                "type": "object"
+                            }, 
+                            "required": true, 
+                            "type": "array"
+                        }, 
+                        "metadata": {
+                            "required": true, 
+                            "type": "object"
+                        }, 
+                        "name": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "progress": {
+                            "required": true, 
+                            "type": "number"
+                        }, 
+                        "status": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "tenant_id": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "updated": {
+                            "required": true, 
+                            "type": "string"
+                        }, 
+                        "user_id": {
+                            "required": true, 
+                            "type": "string"
+                        }
+                    }                   
+                }
+            }            
+        }
+    }
+}

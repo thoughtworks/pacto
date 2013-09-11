@@ -19,11 +19,17 @@ require "pacto/stubs/stub_provider"
 require "pacto/instantiated_contract"
 require "pacto/contract"
 require "pacto/contract_factory"
+<<<<<<< HEAD
 require "pacto/erb_processor"
 require "pacto/hash_merge_processor"
 require "pacto/stubs/built_in"
 require "pacto/configuration"
 require "pacto/meta_schema"
+=======
+require "pacto/file_pre_processor"
+require "pacto/schema_factory"
+require "pacto/contract_schema"
+>>>>>>> +raquelguimaraes introducing shcema validation
 
 module Pacto
   class << self
@@ -67,8 +73,13 @@ module Pacto
     instantiated_contract
   end
   
+<<<<<<< HEAD
   def self.load(schema_name)
     SchemaFactory.build_from_file(schema_name)
+=======
+  def self.load_schema(schema_name)
+    Pacto::Schema::SchemaFactory.build_from_file(schema_name)
+>>>>>>> +raquelguimaraes introducing shcema validation
   end
 
   def self.registered
