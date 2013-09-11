@@ -66,6 +66,10 @@ module Pacto
     instantiated_contract.stub!
     instantiated_contract
   end
+  
+  def self.load(schema_name)
+    SchemaFactory.build_from_file(schema_name)
+  end
 
   def self.registered
     @registered ||= {}

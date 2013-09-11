@@ -1,0 +1,134 @@
+{
+	"$schema": "http://json-schema.org/draft-03/schema",
+	"properties":{
+		"request": {
+			"type":"object",
+			"required":true,
+			"properties":{
+				"server": {
+					"type":"object",
+					"required":true,
+					"properties":{
+						"OS-DCF:diskConfig": {
+							"type":"string",
+							"required":false
+						},
+						"flavorRef": {
+							"type":"string",
+							"required":true
+						},
+						"imageRef": {
+							"type":"string",
+							"required":true
+						},
+						"keypair": {
+							"type":"object",
+							"required":false,
+							"properties":{
+								"name": {
+									"type":"string",
+									"required":false
+								},
+								"public_key": {
+									"type":"string",
+									"required":false
+								}
+							}
+						},
+						"metadata": {
+							"type":"object",
+							"required":false,
+							"properties":{
+								"My Server Name": {
+									"type":"string",
+									"required":false
+								}
+							}
+						},
+						"name": {
+							"type":"string",
+							"required":true
+						},
+						"networks": {
+							"type":"array",
+							"required":false,
+							"items":
+								{
+									"type":"object",
+									"required":false,
+									"properties":{
+										"uuid": {
+											"type":"string",
+											"required":false
+										}
+									}
+								}
+						},
+						"personality": {
+							"type":"array",
+							"required":false,
+							"items":
+								{
+									"type":"object",
+									"required":false,
+									"properties":{
+										"contents": {
+											"type":"string",
+											"required":false
+										},
+										"path": {
+											"type":"string",
+											"required":false
+										}
+									}
+								}
+						}
+					}
+				}
+			}
+		},
+		"response": {
+			"type":"object",
+			"required":true,
+			"properties":{
+				"server": {
+					"type":"object",
+					"required":true,
+					"properties":{
+						"OS-DCF:diskConfig": {
+							"type":"string",
+							"required":true
+						},
+						"adminPass": {
+							"type":"string",
+							"required":true
+						},
+						"id": {
+							"type":"string",
+							"required":true
+						},
+						"links": {
+							"type":"array",
+							"required":true,
+							"items":
+								{
+									"type":"object",
+									"required":true,
+									"properties":{
+										"href": {
+											"type":"string",
+											"required":true
+										},
+										"rel": {
+											"type":"string",
+											"required":true
+										}
+									}
+								}
+						}
+					}
+				}
+			}
+		}
+	}
+}
