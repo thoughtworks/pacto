@@ -1,18 +1,23 @@
 require 'securerandom'
 require 'pacto/erb_processor'
 
-describe 'Echo' do
+describe 'Templating' do
   
-  let(:contract_path) { 'spec/integration/data/echo_contract.json' }
+  let(:contract_path) { 'spec/integration/data/templating_contract.json' }
   
   let(:key) { SecureRandom.hex }
+  let(:auth_token) { SecureRandom.hex }
   let :response do
     contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-    
     Pacto.register('my_contract', contract)
-    Pacto.use('my_contract', {:key => key})
+    Pacto.use('my_contract', {:key => key, :auth_token => auth_token})
     
-    raw_response = HTTParty.get("http://dummyprovider.com/echo", headers: {'Accept' => 'application/json' })
+    raw_response = HTTParty.get("http://dummyprovider.com/echo", headers: {
+      'Accept' => 'application/json',
+      "Custom-Auth-Token" => "#{auth_token}",
+      "X-Message" => "#{key}"
+      }
+    )
     JSON.parse(raw_response.body)
   end
 
@@ -29,7 +34,7 @@ describe 'Echo' do
       end
       
       response.keys.should == ['message']
-      response['message'].should eql('<%=key%>')
+      response['message'].should eql("<%= req['HEADERS']['X-Message'].reverse %>")
     end
   
   end
@@ -43,7 +48,7 @@ describe 'Echo' do
       end
       
       response.keys.should == ['message']
-      response['message'].should eql(key)
+      response['message'].should eql(key.reverse)
     end
   
   end
