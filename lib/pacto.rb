@@ -20,11 +20,12 @@ require "pacto/instantiated_contract"
 require "pacto/contract"
 require "pacto/contract_factory"
 require "pacto/file_pre_processor"
+require "pacto/meta_schema"
 
 module Pacto
   def self.validate_contract contract
     begin
-      Pacto::ContractFactory.validate_contract contract
+      Pacto::MetaSchema.new.validate contract
       puts "All contracts successfully meta-validated"
       true
     rescue InvalidContract => e
