@@ -54,7 +54,7 @@ describe Pacto do
       end
 
       it 'should instantiate a contract with default values' do
-        described_class.registered[contract_name].should_receive(:instantiate).with(nil).and_return(instantiated_contract)
+        described_class.registered[contract_name].should_receive(:instantiate).and_return(instantiated_contract)
         described_class.use(contract_name)
       end
 

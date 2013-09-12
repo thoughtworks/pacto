@@ -4,7 +4,7 @@ module Pacto
       
       contract_definition = File.read(contract_path)
       if preprocessor
-        contract_definition = preprocessor.process(File.read(contract_path))
+        contract_definition = preprocessor.process(contract_definition)
       end
       definition = JSON.parse(contract_definition)
       validate_contract definition, contract_path

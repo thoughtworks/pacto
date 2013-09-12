@@ -5,7 +5,7 @@ module Pacto
       @response = response
     end
 
-    def instantiate(values = nil)
+    def instantiate
       instantiated_contract = InstantiatedContract.new(@request, @response.instantiate)
       instantiated_contract
     end

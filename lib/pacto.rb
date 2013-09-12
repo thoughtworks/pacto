@@ -22,18 +22,9 @@ require "pacto/contract_factory"
 require "pacto/erb_processor"
 require "pacto/hash_merge_processor"
 require "pacto/stubs/built_in"
+require "pacto/configuration"
 
 module Pacto
-  
-  class Configuration
-    attr_accessor :preprocessor, :postprocessor, :provider
-    def initialize
-      @preprocessor = ERBProcessor.new
-      @postprocessor = HashMergeProcessor.new
-      @provider = Pacto::Stubs::BuiltIn.new
-    end
-  end
-  
   class << self
     def configuration
       @configuration ||= Configuration.new
@@ -56,7 +47,7 @@ module Pacto
   def self.use(contract_name, values = nil)
     raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.has_key?(contract_name)
     configuration.provider.values = values
-    instantiated_contract = registered[contract_name].instantiate(values)
+    instantiated_contract = registered[contract_name].instantiate
     instantiated_contract.stub!
     instantiated_contract
   end

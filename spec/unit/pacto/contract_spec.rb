@@ -30,7 +30,7 @@ module Pacto
             with(request, instantiated_response).
             and_return(instantiated_contract)
 
-          contract.instantiate(attributes).should == instantiated_contract
+          contract.instantiate.should == instantiated_contract
         end
       end
     end
