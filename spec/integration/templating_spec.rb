@@ -31,6 +31,7 @@ describe 'Templating' do
       Pacto.configure do |c|
         c.preprocessor = nil
         c.postprocessor = nil
+        c.strict_matchers = false
       end
       
       response.keys.should == ['message']
