@@ -1,6 +1,6 @@
 module Pacto
   module Stubs
-    describe BuiltIn do
+    describe WebMockProvider do
       let(:request) do
         double({
           :host => 'http://localhost',
