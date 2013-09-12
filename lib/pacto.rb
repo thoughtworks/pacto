@@ -19,10 +19,23 @@ require "pacto/stubs/stub_provider"
 require "pacto/instantiated_contract"
 require "pacto/contract"
 require "pacto/contract_factory"
-require "pacto/file_pre_processor"
+require "pacto/erb_processor"
+require "pacto/hash_merge_processor"
+require "pacto/stubs/built_in"
+require "pacto/configuration"
 require "pacto/meta_schema"
 
 module Pacto
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield(configuration)
+    end
+  end
+
   def self.validate_contract contract
     begin
       Pacto::MetaSchema.new.validate contract
@@ -37,7 +50,7 @@ module Pacto
     end
   end
 
-  def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
+  def self.build_from_file(contract_path, host, file_pre_processor=Pacto.configuration.preprocessor)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
@@ -48,7 +61,8 @@ module Pacto
 
   def self.use(contract_name, values = nil)
     raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.has_key?(contract_name)
-    instantiated_contract = registered[contract_name].instantiate(values)
+    configuration.provider.values = values
+    instantiated_contract = registered[contract_name].instantiate
     instantiated_contract.stub!
     instantiated_contract
   end

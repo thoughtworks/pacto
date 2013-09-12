@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/echo",
+    "headers": {
+      "Accept": "application/json",
+      "Custom-Auth-Token": "<%= auth_token %>",
+      "X-Message": "<%= key %>"
+    },
+    "params": {
+    }
+  },
+
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "body": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "message": { "type": "string", "default": "<%= req['HEADERS']['X-Message'].reverse %>", "required": true }
+      }
+    }
+  }
+}

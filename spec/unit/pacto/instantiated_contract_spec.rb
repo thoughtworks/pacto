@@ -1,48 +1,6 @@
 module Pacto
 	describe InstantiatedContract do
-		describe '#replace!' do
-      let(:body) { double('body') }
-      let(:response) { double(:body => body) }
-      let(:values) { double('values') }
-
-      context 'when response body is a hash' do
-        let(:normalized_values) { double('normalized values') }
-        let(:normalized_body) { double('normalized body') }
-        let(:merged_body) { double('merged body') }
-
-        it 'should normalize keys and deep merge response body with given values' do
-          values.should_receive(:normalize_keys).and_return(normalized_values)
-          response.body.should_receive(:normalize_keys).and_return(normalized_body)
-          normalized_body.should_receive(:deep_merge).with(normalized_values).and_return(merged_body)
-
-          instantiated_contract = described_class.new(nil, response)
-          instantiated_contract.replace!(values)
-
-          instantiated_contract.response_body.should == merged_body
-        end
-      end
-
-      context 'when response body is a string' do
-        let(:body) { 'foo' }
-
-        it 'should replace response body with given values' do
-          instantiated_contract = described_class.new(nil, response)
-          instantiated_contract.replace!(values)
-          instantiated_contract.response_body.should == values
-        end
-      end
-
-      context 'when response body is nil' do
-        let(:body) { nil }
-
-        it 'should replace response body with given values' do
-          instantiated_contract = described_class.new(nil, response)
-          instantiated_contract.replace!(values)
-          instantiated_contract.response_body.should == values
-        end
-      end
-    end
-
+		
     describe '#response_body' do
       let(:response) { double(:body => double('body')) }
 
