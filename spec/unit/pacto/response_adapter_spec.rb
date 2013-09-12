@@ -1,27 +1,25 @@
 module Pacto
   describe ResponseAdapter do
     let(:response) do
-      double({
+      double(
         :code => 200,
         :headers => {'foo' => ['bar', 'baz'], 'hello' => ['world']},
         :body => double('body')
-      })
+      )
     end
 
-    before do
-      @response_adapter = described_class.new(response)
-    end
+    subject(:response_adapter) { described_class.new response }
 
     it 'should have a status' do
-      @response_adapter.status.should == response.code
+      expect(response_adapter.status).to eq response.code
     end
 
     it 'should have a body' do
-      @response_adapter.body.should == response.body
+      expect(response_adapter.body).to eq response.body
     end
 
     it 'should normalize headers values according to RFC2616' do
-      @response_adapter.headers.should == {'foo' => 'bar,baz', 'hello' => 'world'}
+      expect(response_adapter.headers).to eq({'foo' => 'bar,baz', 'hello' => 'world'})
     end
   end
 end

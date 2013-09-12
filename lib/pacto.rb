@@ -23,18 +23,33 @@ require "pacto/erb_processor"
 require "pacto/hash_merge_processor"
 require "pacto/stubs/built_in"
 require "pacto/configuration"
+require "pacto/meta_schema"
 
 module Pacto
   class << self
     def configuration
       @configuration ||= Configuration.new
     end
-    
+
     def configure
       yield(configuration)
     end
   end
-  
+
+  def self.validate_contract contract
+    begin
+      Pacto::MetaSchema.new.validate contract
+      puts "All contracts successfully meta-validated"
+      true
+    rescue InvalidContract => e
+      puts "Validation errors detected"
+      e.errors.each do |e|
+        puts "  Error: #{e}"
+      end
+      false
+    end
+  end
+
   def self.build_from_file(contract_path, host, file_pre_processor=Pacto.configuration.preprocessor)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end

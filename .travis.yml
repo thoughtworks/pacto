@@ -3,5 +3,3 @@ rvm:
   - 1.9.3
   - 2.0.0
   - jruby
-env:
-  - CI=true
