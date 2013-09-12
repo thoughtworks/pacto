@@ -1,6 +1,6 @@
 module Pacto
   module Stubs
-    class BuiltIn
+    class WebMockProvider
       def stub! request, response, response_body
         WebMock.stub_request(request.method, "#{request.host}#{request.path}").
           with(request_details(request)).
