@@ -3,7 +3,7 @@ module Pacto
     class StubProvider
       class << self
         def instance
-          @instance = BuiltIn.new
+          @instance = Pacto.configuration.provider
         end
       end
     end
