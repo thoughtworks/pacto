@@ -45,5 +45,18 @@ module Pacto
         contract.validate.should == validation_result
       end
     end
+    
+    describe '#validate_response' do
+      let(:contract_path) { 'spec/integration/data/simple_contract.json' }
+      let(:invalid_response) { {} }
+      let(:valid_response) { '{"message": "Hello World!"}' }
+    
+      it 'should execute the request and match it against the expected response' do
+        contract = Pacto.build_from_file(contract_path, nil)
+        contract.validate_response(invalid_response, body_only: true).should_not be_empty
+        contract.validate_response(valid_response, body_only: true).should be_empty
+      end
+    end
+    
   end
 end
