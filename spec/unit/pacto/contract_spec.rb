@@ -35,14 +35,14 @@ module Pacto
       end
     end
 
-    describe '#validate' do
+    describe '#replay' do
       let(:fake_response) { double('fake response') }
       let(:validation_result) { double('validation result') }
 
       it 'should execute the request and match it against the expected response' do
         request.should_receive(:execute).and_return(fake_response)
         response.should_receive(:validate).with(fake_response).and_return(validation_result)
-        contract.validate.should == validation_result
+        contract.replay.should == validation_result
       end
     end
     

@@ -17,7 +17,7 @@ describe 'Pacto' do
 
     it 'verifies the contract against a producer' do
       contract = Pacto.build_from_file(contract_path, 'http://localhost:8000')
-      contract.validate.should == []
+      contract.replay.should == []
     end
   end
 

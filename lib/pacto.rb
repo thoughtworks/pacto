@@ -24,8 +24,6 @@ require "pacto/hash_merge_processor"
 require "pacto/stubs/built_in"
 require "pacto/configuration"
 require "pacto/meta_schema"
-require "pacto/schema_factory"
-require "pacto/contract_schema"
 
 module Pacto
   class << self
@@ -70,7 +68,6 @@ module Pacto
   end
   
   def self.load(contract_name)
-    require 'pry'; binding.pry;
     build_from_file(path_for(contract_name), nil)
   end
 
@@ -84,6 +81,7 @@ module Pacto
   
   private
   def self.path_for (contract)
-    "#{configuration.contracts_path}/#{contract}.json"
+    require 'pry'; binding.pry;
+    File.join(configuration.contracts_path, "#{contract}.json")
   end
 end

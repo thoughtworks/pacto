@@ -14,13 +14,13 @@ module Pacto
       @response.validate(reponse_gotten, opt)
     end
 
-    def validate
+    def replay
       response_gotten = @request.execute
       if ENV["DEBUG_CONTRACTS"]
- require "contract"
         puts "[DEBUG] Response: #{response_gotten.inspect}"
       end
       @response.validate(response_gotten)
     end
+    
   end
 end
