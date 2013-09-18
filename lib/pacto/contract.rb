@@ -10,16 +10,20 @@ module Pacto
       instantiated_contract
     end
     
-    def validate_response (reponse_gotten, opt={})
-      @response.validate(reponse_gotten, opt)
-    end
-
-    def replay
-      response_gotten = @request.execute
+    def validate (request = nil, response_gotten = nil, opt={})
+      
+      request, response_gotten = play_from_contract if (request.nil? && response_gotten.nil?) 
+        
+      raise ArgumentError, "Pass no args or both request and response" if (response_gotten.nil?)
       if ENV["DEBUG_CONTRACTS"]
         puts "[DEBUG] Response: #{response_gotten.inspect}"
       end
-      @response.validate(response_gotten)
+      @response.validate(response_gotten, opt)
+    end
+    
+    private
+    def play_from_contract
+      [@request, @request.execute]
     end
     
   end
