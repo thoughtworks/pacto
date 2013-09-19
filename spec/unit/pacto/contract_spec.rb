@@ -49,15 +49,10 @@ module Pacto
       let(:invalid_response) { {} }
       let(:valid_response) { '{"message": "Hello World!"}' }
     
-      it 'should raise argument exception if response is nil' do
-        contract = Pacto.build_from_file(contract_path, nil)
-        expect {contract.validate(request, nil)}.to raise_error(ArgumentError)
-      end
-      
       it 'should execute the request and match it against the expected response' do
         contract = Pacto.build_from_file(contract_path, nil)
-        contract.validate(nil, invalid_response, body_only: true).should_not be_empty
-        contract.validate(nil, valid_response, body_only: true).should be_empty
+        contract.validate(invalid_response, body_only: true).should_not be_empty
+        contract.validate(valid_response, body_only: true).should be_empty
       end
     end
     
