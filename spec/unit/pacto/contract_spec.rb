@@ -41,9 +41,20 @@ module Pacto
 
       it 'should execute the request and match it against the expected response' do
         request.should_receive(:execute).and_return(fake_response)
-        response.should_receive(:validate).with(fake_response).and_return(validation_result)
+        response.should_receive(:validate).with(fake_response, {}).and_return(validation_result)
         contract.validate.should == validation_result
       end
+      
+      let(:contract_path) { 'spec/integration/data/simple_contract.json' }
+      let(:invalid_response) { {} }
+      let(:valid_response) { '{"message": "Hello World!"}' }
+    
+      it 'should execute the request and match it against the expected response' do
+        contract = Pacto.build_from_file(contract_path, nil)
+        contract.validate(invalid_response, body_only: true).should_not be_empty
+        contract.validate(valid_response, body_only: true).should be_empty
+      end
     end
+    
   end
 end

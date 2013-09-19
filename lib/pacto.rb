@@ -66,6 +66,10 @@ module Pacto
     instantiated_contract.stub!
     instantiated_contract
   end
+  
+  def self.load(contract_name)
+    build_from_file(path_for(contract_name), nil)
+  end
 
   def self.registered
     @registered ||= {}
@@ -73,5 +77,10 @@ module Pacto
 
   def self.unregister_all!
     @registered = {}
+  end
+  
+  private
+  def self.path_for(contract)
+    File.join(configuration.contracts_path, "#{contract}.json")
   end
 end

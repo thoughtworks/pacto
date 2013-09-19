@@ -12,20 +12,23 @@ module Pacto
       })
     end
 
-    def validate(response)
-      if @definition['status'] != response.status
-        return [ "Invalid status: expected #{@definition['status']} but got #{response.status}" ]
-      end
+    def validate(response, opt = {})
       
-      unless @definition['headers'].normalize_keys.subset_of?(response.headers.normalize_keys)
-        return [ "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}" ]
+      unless opt[:body_only]
+        if @definition['status'] != response.status
+          return [ "Invalid status: expected #{@definition['status']} but got #{response.status}" ]
+        end
+      
+        unless @definition['headers'].normalize_keys.subset_of?(response.headers.normalize_keys)
+          return [ "Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}" ]
+        end
       end
       
       if @definition['body']
         if @definition['body']['type'] && @definition['body']['type'] == 'string'
           validate_as_pure_string response.body
         else
-          validate_as_json response.body
+          response.respond_to?(:body) ? validate_as_json(response.body) : validate_as_json(response)
         end
       else
         []
