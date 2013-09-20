@@ -29,7 +29,7 @@ Feature: Validation journey
         }
       }
     """
-    When I successfully run `rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
+    When I successfully run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the output should contain "All contracts successfully meta-validated"
 
 
@@ -38,7 +38,7 @@ Feature: Validation journey
     """
     {"request": "yes"}
     """
-    When I run `rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
+    When I run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
     And the output should contain "did not match the following type"
 
@@ -48,7 +48,7 @@ Feature: Validation journey
     """
     {"request": {}, "response": {}}
     """
-    When I run `rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
+    When I run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
     And the output should contain "did not contain a required property"
 
@@ -69,6 +69,6 @@ Feature: Validation journey
           }
         }
     """
-    When I run `rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
+    When I run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
     And the output should contain "did not match the following type"

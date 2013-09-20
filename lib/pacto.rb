@@ -78,6 +78,10 @@ module Pacto
       result << instantiated_contract
     end
   end
+  
+  def self.load(contract_name)
+    build_from_file(path_for(contract_name), nil)
+  end
 
   def self.registered
     @registered ||= Hash.new { |hash, key| hash[key] = Set.new }
@@ -85,5 +89,10 @@ module Pacto
 
   def self.unregister_all!
     @registered = nil
+  end
+  
+  private
+  def self.path_for(contract)
+    File.join(configuration.contracts_path, "#{contract}.json")
   end
 end

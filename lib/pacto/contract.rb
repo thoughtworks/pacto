@@ -6,16 +6,21 @@ module Pacto
     end
 
     def instantiate
-      instantiated_contract = InstantiatedContract.new(@request, @response.instantiate)
-      instantiated_contract
+      InstantiatedContract.new(@request, stub_response)
+    end
+    
+    def validate (response_gotten = provider_response, opt={})
+      @response.validate(response_gotten, opt)
+    end
+    
+    private
+
+    def provider_response
+      @request.execute
     end
 
-    def validate
-      response_gotten = @request.execute
-      if ENV["DEBUG_CONTRACTS"]
-        puts "[DEBUG] Response: #{response_gotten.inspect}"
-      end
-      @response.validate(response_gotten)
+    def stub_response
+      @response.instantiate
     end
   end
 end
