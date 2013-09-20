@@ -26,7 +26,11 @@ module Pacto
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
-  def self.register(contract, *tags)
+  def self.register(&block)
+    yield self
+  end
+
+  def self.register_contract(contract = nil, *tags, &block)
     tags.uniq.each do |tag| 
       registered[tag] << contract
     end
