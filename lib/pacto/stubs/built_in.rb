@@ -1,17 +1,44 @@
 module Pacto
   module Stubs
     class BuiltIn
+      attr_accessor :values
+
+      def initialize
+        register_callbacks
+      end
+
       def stub! request, response, response_body
-        WebMock.stub_request(request.method, "#{request.host}#{request.path}").
-          with(request_details(request)).
-          to_return({
+        stub = WebMock.stub_request(request.method, "#{request.host}#{request.path}")
+        stub = stub.with(request_details(request)) if Pacto.configuration.strict_matchers
+        stub.to_return({
             :status => response.status,
             :headers => response.headers,
             :body => format_body(response_body)
           })
       end
 
+      def process(request_signature, response)
+        unless processor.nil?
+          bound_values = {}
+          bound_values.merge!({:req => {'HEADERS' => request_signature.headers}}) if processor.class == ERBProcessor
+          bound_values.merge @values unless @values.nil?
+          response.body = processor.process response.body, bound_values
+        end
+        response.body
+      end
+
       private
+
+      def register_callbacks
+        WebMock.after_request do |request_signature, response|
+          self.process request_signature, response
+        end
+      end
+
+      def processor
+        Pacto.configuration.postprocessor
+      end
+
       def format_body(body)
         if body.is_a?(Hash) or body.is_a?(Array)
           body.to_json

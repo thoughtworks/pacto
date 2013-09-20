@@ -29,9 +29,8 @@ module Pacto
           InstantiatedContract.should_receive(:new).
             with(request, instantiated_response).
             and_return(instantiated_contract)
-          instantiated_contract.should_receive(:replace!).with(attributes)
 
-          contract.instantiate(attributes).should == instantiated_contract
+          contract.instantiate.should == instantiated_contract
         end
       end
     end

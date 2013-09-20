@@ -4,8 +4,48 @@ describe Pacto do
   let(:contract) { double('contract') }
   let(:another_contract) { double('another_contract') }
 
+  around(:each) do |example|
+    $stdout = StringIO.new
+    example.run
+    $stdout = STDOUT
+  end
+
+  def output
+    $stdout.string.strip
+  end
+
   after do
     described_class.unregister_all!
+  end
+
+  def mock_validation(errors)
+    expect(JSON::Validator).to receive(:fully_validate).with(any_args()).and_return errors
+  end
+
+  describe '.validate_contract' do
+    context 'valid' do
+      it 'should display a success message and return true' do
+        mock_validation []
+        success = Pacto.validate_contract 'my_contract.json'
+        output.should eq "All contracts successfully meta-validated"
+        success.should be_true
+      end
+    end
+
+    context 'invalid' do
+      it 'should display one error messages and return false' do
+        mock_validation ['Error 1']
+        success = Pacto.validate_contract 'my_contract.json'
+        output.should match /error/
+        success.should be_false
+      end
+
+      it 'should display several error messages and return false' do
+        mock_validation ['Error 1', 'Error 2']
+        success = Pacto.validate_contract 'my_contract.json'
+        success.should be_false
+      end
+    end
   end
 
   describe '.register' do
@@ -84,7 +124,7 @@ describe Pacto do
       end
 
       it 'should instantiate a contract with default values' do
-        contract.should_receive(:instantiate).with(nil).and_return(instantiated_contract)
+        contract.should_receive(:instantiate).and_return(instantiated_contract)
         described_class.use(tag)
       end
 
@@ -113,5 +153,13 @@ describe Pacto do
       described_class.registered.should be_empty
     end
   end
-
+  describe "configure" do
+    it 'should allow preprocessor manual configuration' do
+      Pacto.configuration.preprocessor.should_not be_nil
+      Pacto.configure do |c|
+        c.preprocessor = nil
+      end
+      Pacto.configuration.preprocessor.should be_nil
+    end
+  end
 end

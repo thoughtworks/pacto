@@ -19,10 +19,38 @@ require "pacto/stubs/stub_provider"
 require "pacto/instantiated_contract"
 require "pacto/contract"
 require "pacto/contract_factory"
-require "pacto/file_pre_processor"
+require "pacto/erb_processor"
+require "pacto/hash_merge_processor"
+require "pacto/stubs/built_in"
+require "pacto/configuration"
+require "pacto/meta_schema"
 
 module Pacto
-  def self.build_from_file(contract_path, host, file_pre_processor=FilePreProcessor.new)
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield(configuration)
+    end
+  end
+
+  def self.validate_contract contract
+    begin
+      Pacto::MetaSchema.new.validate contract
+      puts "All contracts successfully meta-validated"
+      true
+    rescue InvalidContract => e
+      puts "Validation errors detected"
+      e.errors.each do |e|
+        puts "  Error: #{e}"
+      end
+      false
+    end
+  end
+
+  def self.build_from_file(contract_path, host, file_pre_processor=Pacto.configuration.preprocessor)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
@@ -39,11 +67,13 @@ module Pacto
 
   def self.use(tag, values = nil)
     raise ArgumentError, "contract \"#{tag}\" not found" unless registered.has_key?(tag)
+    configuration.provider.values = values
+    
     registered[tag].inject(Set.new) do |result, contract|
-     instantiated_contract = contract.instantiate(values)
-     instantiated_contract.stub!
-     result << instantiated_contract
-   end
+      instantiated_contract = contract.instantiate
+      instantiated_contract.stub!
+      result << instantiated_contract
+    end
   end
 
   def self.registered

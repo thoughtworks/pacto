@@ -26,6 +26,17 @@ module Pacto
       end
 
       let(:stubbed_request) { double('stubbed request') }
+      let(:processor) { double('processor') }
+
+      describe '#initialize' do
+        it 'should setup a callback' do
+          WebMock.should_receive(:after_request) do | arg, &block |
+            block.parameters.size.should == 2
+          end
+
+          described_class.new
+        end
+      end
 
       describe '#stub!' do
         before do
@@ -39,6 +50,7 @@ module Pacto
             :body => response.body.to_json
           })
         end
+
 
         context 'when the response body is an object' do
           let(:body) do
