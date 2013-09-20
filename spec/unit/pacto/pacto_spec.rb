@@ -1,27 +1,42 @@
 describe Pacto do
-  let(:contract_tag) { 'contract_tag' }
+  let(:tag) { 'contract_tag' }
+  let(:another_tag) { 'another_tag' }
   let(:contract) { double('contract') }
+  let(:another_contract) { double('another_contract') }
 
   after do
     described_class.unregister_all!
   end
 
   describe '.register' do
-    context 'by default' do
+    context 'one tag' do
       it 'should register a contract under a given tag' do
+        described_class.register(contract, tag)
+        expect(described_class.registered[tag]).to include(contract)
+      end
 
-        described_class.register(contract, contract_tag)
-        described_class.registered[contract_tag].should == contract
+      it 'should not duplicate a contract when it has already been registered with the same tag' do
+        described_class.register(contract, tag)
+        described_class.register(contract, tag)
+        expect(described_class.registered[tag]).to include(contract)
+        described_class.registered[tag].should have(1).items
       end
     end
 
-    context 'when a contract has already been registered with the same name' do
-      it 'should raise an argument error' do
-        described_class.register(contract, contract_tag)
-        expect { described_class.register(contract, contract_tag) }.to raise_error(ArgumentError, "contract \"contract_tag\" has already been registered")
+    context 'multiple tags' do
+      it 'should register a contract using different tags' do
+        described_class.register(contract, tag, another_tag)
+        expect(described_class.registered[tag]).to include(contract)
+        expect(described_class.registered[another_tag]).to include(contract)
+      end
 
+      it 'should register a tag with different contracts ' do
+        described_class.register(contract, tag)
+        described_class.register(another_contract, tag)
+        expect(described_class.registered[tag]).to include(contract, another_contract)
       end
     end
+
   end
 
   describe '.build_from_file' do
@@ -43,7 +58,7 @@ describe Pacto do
 
   describe '.use' do
     before do
-      described_class.register(contract, contract_tag)
+      described_class.register(contract, tag)
     end
 
     context 'by default' do
@@ -51,22 +66,22 @@ describe Pacto do
       let(:response_body) { double('response_body') }
 
       before do
-        described_class.registered[contract_tag].stub(:instantiate => instantiated_contract)
+        contract.stub(:instantiate => instantiated_contract)
         instantiated_contract.stub(:stub!)
       end
 
       it 'should instantiate a contract with default values' do
-        described_class.registered[contract_tag].should_receive(:instantiate).with(nil).and_return(instantiated_contract)
-        described_class.use(contract_tag)
+        contract.should_receive(:instantiate).with(nil).and_return(instantiated_contract)
+        described_class.use(tag)
       end
 
-      it 'should return the instantiated contract' do
-        described_class.use(contract_tag).should == instantiated_contract
+      it 'should return a set including the instantiated contract' do
+        expect(described_class.use(tag)).to include(instantiated_contract)
       end
 
       it 'should stub further requests with the instantiated contract' do
         instantiated_contract.should_receive(:stub!)
-        described_class.use(contract_tag)
+        described_class.use(tag)
       end
 
     end
@@ -80,7 +95,7 @@ describe Pacto do
 
   describe '.unregister_all!' do
     it 'should unregister all previously registered contracts' do
-      described_class.register(contract, contract_tag)
+      described_class.register(contract, tag)
       described_class.unregister_all!
       described_class.registered.should be_empty
     end
