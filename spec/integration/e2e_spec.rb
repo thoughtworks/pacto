@@ -24,7 +24,7 @@ describe 'Pacto' do
   context 'Stub generation' do
     it 'generates a stub to be used by a consumer' do
       contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-      Pacto.register('my_contract', contract)
+      Pacto.register(contract, 'my_contract')
       Pacto.use('my_contract')
       response.keys.should == ['message']
       response['message'].should be_kind_of(String)

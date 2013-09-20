@@ -26,14 +26,14 @@ module Pacto
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
-  def self.register(name, contract)
-    raise ArgumentError, "contract \" #{name}\" has already been registered" if registered.has_key?(name)
-    registered[name] = contract
+  def self.register(contract, contract_tag)
+    raise ArgumentError, "contract \"#{contract_tag}\" has already been registered" if registered.has_key?(contract_tag)
+    registered[contract_tag] = contract
   end
 
-  def self.use(contract_name, values = nil)
-    raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.has_key?(contract_name)
-    instantiated_contract = registered[contract_name].instantiate(values)
+  def self.use(contract_tag, values = nil)
+    raise ArgumentError, "contract \"#{contract_tag}\" not found" unless registered.has_key?(contract_tag)
+    instantiated_contract = registered[contract_tag].instantiate(values)
     instantiated_contract.stub!
     instantiated_contract
   end
