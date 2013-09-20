@@ -39,13 +39,20 @@ describe 'Pacto' do
 
   context 'Journey' do
     it 'stubs multiple services with a single use' do
+      
+      Pacto.configure do |c|
+        c.postprocessor = Pacto::ERBProcessor.new
+        c.preprocessor = nil
+      end
+
       login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
       contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
+
       Pacto.register do |r|
         r.register_contract login_contract, :default
         r.register_contract contract, :devices
       end
-      Pacto.use(:devices)
+      Pacto.use(:devices, {:device_id => 42})
 
       raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
       login_response = JSON.parse(raw_response.body)
@@ -55,7 +62,8 @@ describe 'Pacto' do
       devices_response = HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
       devices_response = JSON.parse(devices_response.body)
       devices_response['devices'].should have(2).items
-      devices_response['devices'][0].should == '/dev/1'
+      devices_response['devices'][0].should == '/dev/42'
+      # devices_response['devices'][1].should == '/dev/43'
     end
   end
 end

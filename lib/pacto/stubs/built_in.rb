@@ -21,7 +21,7 @@ module Pacto
         unless processor.nil?
           bound_values = {}
           bound_values.merge!({:req => {'HEADERS' => request_signature.headers}}) if processor.class == ERBProcessor
-          bound_values.merge @values unless @values.nil?
+          bound_values.merge! @values unless @values.nil?
           response.body = processor.process response.body, bound_values
         end
         response.body

@@ -21,7 +21,7 @@
             "items": {
               "type": "string",
               "required": true,
-              "default": "/dev/1",
+              "default": "/dev/<%= device_id %>",
               "pattern": "^/dev/[^/]+(/[^/]+)*$"
             },
             "required": true,
