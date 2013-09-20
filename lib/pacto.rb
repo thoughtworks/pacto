@@ -66,10 +66,13 @@ module Pacto
   end
 
   def self.use(tag, values = nil)
-    raise ArgumentError, "contract \"#{tag}\" not found" unless registered.has_key?(tag)
-    configuration.provider.values = values
+    merged_contracts = registered[:default].merge registered[tag]
+
+    raise ArgumentError, "contract \"#{tag}\" not found" if merged_contracts.empty?
     
-    registered[tag].inject(Set.new) do |result, contract|
+    configuration.provider.values = values    
+
+    merged_contracts.inject(Set.new) do |result, contract|
       instantiated_contract = contract.instantiate
       instantiated_contract.stub!
       result << instantiated_contract

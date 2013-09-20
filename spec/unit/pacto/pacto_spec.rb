@@ -75,6 +75,7 @@ describe Pacto do
         described_class.register_contract(another_contract, tag)
         expect(described_class.registered[tag]).to include(contract, another_contract)
       end
+
     end
 
     context 'with a block' do
@@ -137,6 +138,11 @@ describe Pacto do
         described_class.use(tag)
       end
 
+      it 'should use contracts within the default tag' do
+        described_class.register_contract(contract, :default)
+        contract.should_receive(:instantiate).and_return(instantiated_contract)
+        described_class.use('junk')
+      end
     end
 
     context 'when contract has not been registered' do
