@@ -107,16 +107,16 @@ First, register the contracts that are going to be used in the acceptance tests 
     require 'pacto'
 
     contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-    Pacto.register('my_contract', contract)
+    Pacto.register_contract(contract, 'my_tag')
 ```
 Then, in the setup phase of the test, specify which contracts will be used for that test:
 ```ruby
-    Pacto.use('my_contract')
+    Pacto.use('my_tag')
 ```
 If default values are not specified in the contract's response body, a default value will be automatically generated. It is possible
 to overwrite those values, however, by passing a second argument:
 ```ruby
-    Pacto.use('my_contract', :value => 'new value')
+    Pacto.use('my_tag', :value => 'new value')
 ```
 The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
 
