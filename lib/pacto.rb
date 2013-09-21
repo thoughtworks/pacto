@@ -40,10 +40,10 @@ module Pacto
     Pacto::MetaSchema.new.validate contract
     puts "All contracts successfully meta-validated"
     true
-  rescue InvalidContract => e
+  rescue InvalidContract => exception
     puts "Validation errors detected"
-    e.errors.each do |e|
-      puts "  Error: #{e}"
+    exception.errors.each do |error|
+      puts "  Error: #{error}"
     end
     false
   end

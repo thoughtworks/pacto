@@ -38,9 +38,6 @@ MethodAndVariableSnakeCase:
 MethodLength:
   Enabled: false
 
-ShadowingOuterLocalVariable:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
