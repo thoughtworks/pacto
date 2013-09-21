@@ -36,25 +36,34 @@ module Pacto
     end
 
     describe '#validate' do
-      let(:fake_response) { double('fake response') }
-      let(:validation_result) { double('validation result') }
+      before do
+        response.stub(:validate => validation_result)
+        request.stub(:execute => fake_response)
+      end
 
-      it 'should execute the request and match it against the expected response' do
-        request.should_receive(:execute).and_return(fake_response)
-        response.should_receive(:validate).with(fake_response, {}).and_return(validation_result)
+      let(:validation_result) { double 'validation result' }
+      let(:fake_response) { double('fake response') }
+
+      it 'validates the generated response' do
+        response.should_receive(:validate).with(fake_response, {})
         contract.validate.should == validation_result
       end
-      
-      let(:contract_path) { 'spec/integration/data/simple_contract.json' }
-      let(:invalid_response) { {} }
-      let(:valid_response) { '{"message": "Hello World!"}' }
-    
-      it 'should execute the request and match it against the expected response' do
-        contract = Pacto.build_from_file(contract_path, nil)
-        contract.validate(invalid_response, body_only: true).should_not be_empty
-        contract.validate(valid_response, body_only: true).should be_empty
+
+      it 'returns the result of the validation' do
+        contract.validate.should == validation_result
+      end
+
+      it 'generates the response' do
+        request.should_receive(:execute)
+        contract.validate
+      end
+
+      context 'when response gotten is provided' do
+        it 'does not generate the response' do
+          request.should_not_receive(:execute)
+          contract.validate
+        end
       end
     end
-    
   end
 end
