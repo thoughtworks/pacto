@@ -9,7 +9,7 @@ module Pacto
       InstantiatedContract.new(@request, stub_response)
     end
 
-    def validate(response_gotten = provider_response, opt={})
+    def validate(response_gotten = provider_response, opt = {})
       @response.validate(response_gotten, opt)
     end
 
