@@ -3,9 +3,16 @@ require 'rspec/core/rake_task'
 require 'pacto/rake_task'
 require 'cucumber'
 require 'cucumber/rake/task'
-
 require 'coveralls/rake/task'
+require 'rubocop/rake_task'
+
 Coveralls::RakeTask.new
+
+Rubocop::RakeTask.new(:rubocop) do |task|
+  task.patterns = ['**/*.rb']
+  # abort rake on failure
+  task.fail_on_error = false
+end
 
 Cucumber::Rake::Task.new(:journeys) do |t|
   t.cucumber_opts = "features --format pretty"
