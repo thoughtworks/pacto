@@ -17,7 +17,7 @@ module Pacto
     end
 
     def install
-      desc "Tasks for Pacto gem"
+      desc 'Tasks for Pacto gem'
       namespace :pacto do
         validate_task
         meta_validate
@@ -25,10 +25,10 @@ module Pacto
     end
 
     def validate_task
-      desc "Validates all contracts in a given directory against a given host"
+      desc 'Validates all contracts in a given directory against a given host'
       task :validate, :host, :dir do |t, args|
         if args.to_a.size < 2
-          fail "USAGE: rake pacto:validate[<host>, <contract_dir>]".colorize(:yellow)
+          fail 'USAGE: rake pacto:validate[<host>, <contract_dir>]'.colorize(:yellow)
         end
 
         validate_contracts(args[:host], args[:dir])
@@ -36,10 +36,10 @@ module Pacto
     end
 
     def meta_validate
-      desc "Validates a directory of contract definitions"
+      desc 'Validates a directory of contract definitions'
       task :meta_validate, :dir do |t, args|
         if args.to_a.size < 1
-          fail "USAGE: rake pacto:meta_validate[<contract_dir>]".colorize(:yellow)
+          fail 'USAGE: rake pacto:meta_validate[<contract_dir>]'.colorize(:yellow)
         end
 
         each_contract(args[:dir]) do |contract_file|
@@ -60,15 +60,15 @@ module Pacto
         errors = contract.validate
 
         if errors.empty?
-          puts " OK!".colorize(:green)
+          puts ' OK!'.colorize(:green)
         else
           @exit_with_error = true
           total_failed += 1
-          puts " FAILED!".colorize(:red)
+          puts ' FAILED!'.colorize(:red)
           errors.each do |error|
             puts "\t* #{error}".colorize(:light_red)
           end
-          puts ""
+          puts ''
         end
       end
 

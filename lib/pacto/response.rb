@@ -40,7 +40,7 @@ module Pacto
     def validate_as_pure_string response_body
       errors = []
       if @definition['body']['required'] && response_body.nil?
-        errors << "The response does not contain a body"
+        errors << 'The response does not contain a body'
       end
 
       pattern = @definition['body']['pattern']

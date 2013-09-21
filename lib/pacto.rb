@@ -1,29 +1,29 @@
-require "pacto/version"
+require 'pacto/version'
 
-require "httparty"
-require "hash_deep_merge"
-require "json"
-require "json-schema"
-require "json-generator"
-require "webmock"
-require "ostruct"
-require "erb"
+require 'httparty'
+require 'hash_deep_merge'
+require 'json'
+require 'json-schema'
+require 'json-generator'
+require 'webmock'
+require 'ostruct'
+require 'erb'
 
-require "pacto/exceptions/invalid_contract.rb"
-require "pacto/extensions"
-require "pacto/request"
-require "pacto/response_adapter"
-require "pacto/response"
-require "pacto/stubs/built_in"
-require "pacto/stubs/stub_provider"
-require "pacto/instantiated_contract"
-require "pacto/contract"
-require "pacto/contract_factory"
-require "pacto/erb_processor"
-require "pacto/hash_merge_processor"
-require "pacto/stubs/built_in"
-require "pacto/configuration"
-require "pacto/meta_schema"
+require 'pacto/exceptions/invalid_contract.rb'
+require 'pacto/extensions'
+require 'pacto/request'
+require 'pacto/response_adapter'
+require 'pacto/response'
+require 'pacto/stubs/built_in'
+require 'pacto/stubs/stub_provider'
+require 'pacto/instantiated_contract'
+require 'pacto/contract'
+require 'pacto/contract_factory'
+require 'pacto/erb_processor'
+require 'pacto/hash_merge_processor'
+require 'pacto/stubs/built_in'
+require 'pacto/configuration'
+require 'pacto/meta_schema'
 
 module Pacto
   class << self
@@ -38,10 +38,10 @@ module Pacto
 
   def self.validate_contract contract
     Pacto::MetaSchema.new.validate contract
-    puts "All contracts successfully meta-validated"
+    puts 'All contracts successfully meta-validated'
     true
   rescue InvalidContract => exception
-    puts "Validation errors detected"
+    puts 'Validation errors detected'
     exception.errors.each do |error|
       puts "  Error: #{error}"
     end

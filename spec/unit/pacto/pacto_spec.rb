@@ -25,7 +25,7 @@ describe Pacto do
       it 'should display a success message and return true' do
         mock_validation []
         success = Pacto.validate_contract 'my_contract.json'
-        output.should eq "All contracts successfully meta-validated"
+        output.should eq 'All contracts successfully meta-validated'
         success.should be_true
       end
     end
@@ -124,9 +124,9 @@ describe Pacto do
     end
   end
 
-  describe "configure" do
+  describe 'configure' do
 
-    let(:contracts_path) { "path_to_contracts" }
+    let(:contracts_path) { 'path_to_contracts' }
     it 'should allow preprocessor manual configuration' do
       Pacto.configuration.preprocessor.should_not be_nil
       Pacto.configure do |c|

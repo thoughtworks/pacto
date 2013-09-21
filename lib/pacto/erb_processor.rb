@@ -5,7 +5,7 @@ module Pacto
       values ||= {}
       erb = ERB.new(contract)
       erb_result = erb.result hash_binding(values)
-      if ENV["DEBUG_PACTO"]
+      if ENV['DEBUG_PACTO']
         puts "[DEBUG] Processed contract: #{erb_result.inspect}"
       end
       erb_result

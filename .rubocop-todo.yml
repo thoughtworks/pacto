@@ -41,9 +41,6 @@ MethodLength:
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
-StringLiterals:
-  Enabled: false
-
 SymbolName:
   Enabled: false
 

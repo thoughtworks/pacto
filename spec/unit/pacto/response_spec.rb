@@ -1,7 +1,7 @@
 module Pacto
   describe Response do
     let(:body_definition) do
-      {:type => "object", :required => true, :properties => double("body definition properties")}
+      {:type => 'object', :required => true, :properties => double('body definition properties')}
     end
     let(:definition) do
       {
@@ -54,7 +54,7 @@ module Pacto
         let(:body_definition) do
           { 'type' => 'string', 'required' => string_required }
         end
-        let(:response_body) { "a simple string" }
+        let(:response_body) { 'a simple string' }
 
         it 'should not validate using JSON Schema' do
           response = described_class.new(definition)
@@ -103,7 +103,7 @@ module Pacto
           context 'body matches pattern' do
             let(:response_body) { 'cabcd' }
 
-            it "should not return an error" do
+            it 'should not return an error' do
               response = described_class.new(definition)
 
               response.validate(fake_response).should == []
@@ -113,7 +113,7 @@ module Pacto
           context 'body does not match pattern' do
             let(:response_body) { 'cabscd' }
 
-            it "should return an error" do
+            it 'should return an error' do
               response = described_class.new(definition)
 
               response.validate(fake_response).size.should == 1
