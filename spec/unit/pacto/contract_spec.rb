@@ -1,9 +1,9 @@
 module Pacto
   describe Contract do
-    let(:request) { double('request') }
-    let(:response) { double('response') }
+    let(:request)  { double 'request' }
+    let(:response) { double 'response' }
 
-    let(:contract) { described_class.new(request, response) }
+    let(:contract) { described_class.new request, response }
 
     describe '#instantiate' do
       before do
@@ -11,11 +11,11 @@ module Pacto
         InstantiatedContract.stub(:new => instantiated_contract)
       end
 
-      let(:instantiated_response) { double('instantiated response') }
-      let(:instantiated_contract) { double('instantiated contract') }
+      let(:instantiated_response) { double 'instantiated response' }
+      let(:instantiated_contract) { double 'instantiated contract' }
 
       it 'instantiates the response' do
-        response.should_receive(:instantiate)
+        response.should_receive :instantiate
         contract.instantiate
       end
 
@@ -38,26 +38,26 @@ module Pacto
       end
 
       let(:validation_result) { double 'validation result' }
-      let(:fake_response) { double('fake response') }
+      let(:fake_response)     { double 'fake response' }
 
       it 'validates the generated response' do
         response.should_receive(:validate).with(fake_response, {})
-        contract.validate.should == validation_result
+        expect(contract.validate).to eq validation_result
       end
 
       it 'returns the result of the validation' do
-        contract.validate.should == validation_result
+        expect(contract.validate).to eq validation_result
       end
 
       it 'generates the response' do
-        request.should_receive(:execute)
+        request.should_receive :execute
         contract.validate
       end
 
       context 'when response gotten is provided' do
         it 'does not generate the response' do
-          request.should_not_receive(:execute)
-          contract.validate
+          request.should_not_receive :execute
+          contract.validate fake_response
         end
       end
     end
