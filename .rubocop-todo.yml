@@ -38,9 +38,6 @@ MethodAndVariableSnakeCase:
 MethodLength:
   Enabled: false
 
-RedundantSelf:
-  Enabled: false
-
 ShadowingOuterLocalVariable:
   Enabled: false
 

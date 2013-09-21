@@ -31,7 +31,7 @@ module Pacto
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
-          self.process request_signature, response
+          process request_signature, response
         end
       end
 
