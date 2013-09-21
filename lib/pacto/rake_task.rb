@@ -80,6 +80,7 @@ module Pacto
     end
 
     private
+
     def each_contract(dir)
       if File.file? dir
         yield dir

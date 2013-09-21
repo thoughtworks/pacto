@@ -80,6 +80,7 @@ module Pacto
   end
 
   private
+
   def self.path_for(contract)
     File.join(configuration.contracts_path, "#{contract}.json")
   end

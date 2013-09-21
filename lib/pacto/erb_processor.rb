@@ -12,6 +12,7 @@ module Pacto
     end
 
     private
+
     def hash_binding(values)
       namespace = OpenStruct.new(values)
       namespace.instance_eval { binding }

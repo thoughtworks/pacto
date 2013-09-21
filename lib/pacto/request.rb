@@ -47,6 +47,7 @@ module Pacto
     end
 
     private
+
     def httparty_params_key
       method == :get ? :query : :body
     end
