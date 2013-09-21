@@ -44,9 +44,6 @@ SpaceInsideHashLiteralBraces:
 SymbolName:
   Enabled: false
 
-TrivialAccessors:
-  Enabled: false
-
 Void:
   Enabled: false
 
