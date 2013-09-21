@@ -21,9 +21,12 @@ module Pacto
 
     class Dummy
       def initialize port, path, response
-        @server = WEBrick::HTTPServer.new :Port => port,
+        params = {
+          :Port => port,
           :AccessLog => [],
           :Logger => WEBrick::Log::new("/dev/null", 7)
+        }
+        @server = WEBrick::HTTPServer.new params
         @server.mount path, Servlet, response
       end
 
