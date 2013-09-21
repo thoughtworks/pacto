@@ -29,5 +29,5 @@ if defined?(RSpec)
     abort unless system('rspec --option .rspec_integration')
   end
 
-  task :default => [:unit, :integration, :journeys, 'coveralls:push']
+  task :default => [:unit, :integration, :journeys, :rubocop, 'coveralls:push']
 end
