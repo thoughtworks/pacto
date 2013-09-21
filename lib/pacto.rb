@@ -55,12 +55,12 @@ module Pacto
   end
 
   def self.register(name, contract)
-    raise ArgumentError, "contract \" #{name}\" has already been registered" if registered.has_key?(name)
+    raise ArgumentError, "contract \" #{name}\" has already been registered" if registered.key?(name)
     registered[name] = contract
   end
 
   def self.use(contract_name, values = nil)
-    raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.has_key?(contract_name)
+    raise ArgumentError, "contract \"#{contract_name}\" not found" unless registered.key?(contract_name)
     configuration.provider.values = values
     instantiated_contract = registered[contract_name].instantiate
     instantiated_contract.stub!
