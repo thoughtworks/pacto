@@ -71,9 +71,6 @@ StringLiterals:
 SymbolName:
   Enabled: false
 
-TrailingWhitespace:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 
