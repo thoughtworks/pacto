@@ -32,9 +32,6 @@ DotPosition:
 Encoding:
   Enabled: false
 
-FinalNewline:
-  Enabled: false
-
 HashMethods:
   Enabled: false
 
