@@ -17,7 +17,7 @@ describe Pacto do
   end
 
   def mock_validation(errors)
-    expect(JSON::Validator).to receive(:fully_validate).with(any_args()).and_return errors
+    expect(JSON::Validator).to receive(:fully_validate).with(any_args).and_return errors
   end
 
   describe '.validate_contract' do
@@ -25,7 +25,7 @@ describe Pacto do
       it 'should display a success message and return true' do
         mock_validation []
         success = Pacto.validate_contract 'my_contract.json'
-        output.should eq "All contracts successfully meta-validated"
+        output.should eq 'All contracts successfully meta-validated'
         success.should be_true
       end
     end
@@ -85,7 +85,7 @@ describe Pacto do
     end
 
     context 'by default' do
-      let(:instantiated_contract) { double('instantiated contract', :response_body => response_body)}
+      let(:instantiated_contract) { double('instantiated contract', :response_body => response_body) }
       let(:response_body) { double('response_body') }
 
       before do
@@ -123,10 +123,10 @@ describe Pacto do
       described_class.registered.should be_empty
     end
   end
-  
-  describe "configure" do
-    
-    let (:contracts_path) {"path_to_contracts"}
+
+  describe 'configure' do
+
+    let(:contracts_path) { 'path_to_contracts' }
     it 'should allow preprocessor manual configuration' do
       Pacto.configuration.preprocessor.should_not be_nil
       Pacto.configure do |c|
@@ -134,7 +134,7 @@ describe Pacto do
       end
       Pacto.configuration.preprocessor.should be_nil
     end
-    
+
     it 'should allow contracts_path manual configuration' do
       Pacto.configuration.contracts_path.should be_nil
       Pacto.configure do |c|

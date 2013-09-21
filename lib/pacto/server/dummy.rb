@@ -11,7 +11,7 @@ module Pacto
 
         @doer = PlaybackServlet.new({
           status: 200,
-          headers: {"Content-Type" => "application/json"},
+          headers: {'Content-Type' => 'application/json'},
           body: json
         })
       end
@@ -21,9 +21,12 @@ module Pacto
 
     class Dummy
       def initialize port, path, response
-        @server = WEBrick::HTTPServer.new :Port => port,
+        params = {
+          :Port => port,
           :AccessLog => [],
-          :Logger => WEBrick::Log::new("/dev/null", 7)
+          :Logger => WEBrick::Log::new('/dev/null', 7)
+        }
+        @server = WEBrick::HTTPServer.new params
         @server.mount path, Servlet, response
       end
 
