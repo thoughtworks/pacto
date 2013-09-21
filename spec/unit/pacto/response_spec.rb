@@ -188,7 +188,7 @@ module Pacto
 
         it 'should not validate body' do
           JSON::Validator.should_not_receive(:fully_validate)
-          response = described_class.new(definition)
+          described_class.new(definition)
         end
 
         it 'should give no errors' do

@@ -47,9 +47,6 @@ LineLength:
 MethodAndVariableSnakeCase:
   Enabled: false
 
-MethodCallParentheses:
-  Enabled: false
-
 MethodLength:
   Enabled: false
 
@@ -72,9 +69,6 @@ SymbolName:
   Enabled: false
 
 TrivialAccessors:
-  Enabled: false
-
-UselessAssignment:
   Enabled: false
 
 Void:
