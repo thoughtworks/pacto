@@ -126,7 +126,7 @@ describe Pacto do
 
   describe "configure" do
 
-    let(:contracts_path) {"path_to_contracts"}
+    let(:contracts_path) { "path_to_contracts" }
     it 'should allow preprocessor manual configuration' do
       Pacto.configuration.preprocessor.should_not be_nil
       Pacto.configure do |c|
