@@ -85,7 +85,7 @@ describe Pacto do
     end
 
     context 'by default' do
-      let(:instantiated_contract) { double('instantiated contract', :response_body => response_body)}
+      let(:instantiated_contract) { double('instantiated contract', :response_body => response_body) }
       let(:response_body) { double('response_body') }
 
       before do
