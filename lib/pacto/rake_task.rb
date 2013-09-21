@@ -87,7 +87,6 @@ module Pacto
         contracts = Dir[File.join(dir, '*{.json.erb,.json}')]
         fail "No contracts found in directory #{dir}".colorize(:yellow) if contracts.empty?
 
-
         contracts.sort.each do |contract_file|
           yield contract_file
         end

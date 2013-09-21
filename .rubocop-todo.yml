@@ -29,9 +29,6 @@ Documentation:
 DotPosition:
   Enabled: false
 
-EmptyLines:
-  Enabled: false
-
 Encoding:
   Enabled: false
 
