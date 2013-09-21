@@ -6,17 +6,28 @@ module Pacto
     let(:contract) { described_class.new(request, response) }
 
     describe '#instantiate' do
+      before do
+        response.stub(:instantiate => instantiated_response)
+        InstantiatedContract.stub(:new => instantiated_contract)
+      end
+
       let(:instantiated_response) { double('instantiated response') }
       let(:instantiated_contract) { double('instantiated contract') }
 
-      it 'should instantiate a contract with default attributes' do
-        response.should_receive(:instantiate).and_return(instantiated_response)
+      it 'instantiates the response' do
+        response.should_receive(:instantiate)
+        contract.instantiate
+      end
+
+      it 'creates a new InstantiatedContract' do
         InstantiatedContract.should_receive(:new).
           with(request, instantiated_response).
           and_return(instantiated_contract)
-        instantiated_contract.should_not_receive(:replace!)
+        contract.instantiate
+      end
 
-        contract.instantiate.should == instantiated_contract
+      it 'returns the new instantiated contract' do
+        expect(contract.instantiate).to eq instantiated_contract
       end
     end
 
