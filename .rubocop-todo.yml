@@ -41,9 +41,6 @@ HashSyntax:
 IfUnlessModifier:
   Enabled: false
 
-IndentationWidth:
-  Enabled: false
-
 LineLength:
   Enabled: false
 
