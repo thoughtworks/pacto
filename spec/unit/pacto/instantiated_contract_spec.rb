@@ -1,29 +1,29 @@
 module Pacto
-	describe InstantiatedContract do
-		
+  describe InstantiatedContract do
+
     describe '#response_body' do
       let(:response) { double(:body => double('body')) }
 
-      it "should return response body" do
+      it 'should return response body' do
         described_class.new(nil, response).response_body.should == response.body
       end
     end
 
     describe '#request_path' do
-      let(:request) { double('request', :absolute_uri => "http://dummy_link/hello_world") }
+      let(:request) { double('request', :absolute_uri => 'http://dummy_link/hello_world') }
       let(:response) { double('response', :body => double('body')) }
 
-      it "should return the request absolute uri" do
-        described_class.new(request, response).request_path.should == "http://dummy_link/hello_world"
+      it 'should return the request absolute uri' do
+        described_class.new(request, response).request_path.should == 'http://dummy_link/hello_world'
       end
     end
 
     describe '#request_uri' do
-      let(:request) { double('request', :full_uri => "http://dummy_link/hello_world?param=value#fragment") }
+      let(:request) { double('request', :full_uri => 'http://dummy_link/hello_world?param=value#fragment') }
       let(:response) { double('response', :body => double('body')) }
 
-      it "should return request full uri" do
-        described_class.new(request, response).request_uri.should == "http://dummy_link/hello_world?param=value#fragment"
+      it 'should return request full uri' do
+        described_class.new(request, response).request_uri.should == 'http://dummy_link/hello_world?param=value#fragment'
       end
     end
 

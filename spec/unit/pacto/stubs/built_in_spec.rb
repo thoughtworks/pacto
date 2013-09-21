@@ -51,7 +51,6 @@ module Pacto
           })
         end
 
-
         context 'when the response body is an object' do
           let(:body) do
             {'message' => 'foo'}

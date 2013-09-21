@@ -31,7 +31,7 @@ module Pacto
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
-          self.process request_signature, response
+          process request_signature, response
         end
       end
 
@@ -40,7 +40,7 @@ module Pacto
       end
 
       def format_body(body)
-        if body.is_a?(Hash) or body.is_a?(Array)
+        if body.is_a?(Hash) || body.is_a?(Array)
           body.to_json
         else
           body

@@ -4,7 +4,7 @@ module Pacto
       <<-EOF
         {
           "request": {
-            "method": "GET",    
+            "method": "GET",
             "path": "/hello_world",
             "headers": {
               "Accept": "application/json"
@@ -35,7 +35,7 @@ module Pacto
       <<-EOF
         {
           "request": {
-            "method": "GET",    
+            "method": "GET",
             "path": "/hello_world",
             "headers": {
               "Accept": "application/json"
@@ -53,7 +53,7 @@ module Pacto
       context 'with a valid contract structure' do
         it 'should not raise any exceptions' do
           expect {
-            schema.validate(valid_contract) 
+            schema.validate(valid_contract)
           }.to_not raise_error(Exception)
         end
       end
@@ -61,7 +61,7 @@ module Pacto
       context 'with an invalid contract structure' do
         it 'should raise InvalidContract exception' do
           expect {
-            schema.validate(invalid_contract) 
+            schema.validate(invalid_contract)
           }.to raise_error(InvalidContract)
         end
       end

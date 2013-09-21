@@ -97,24 +97,24 @@ module Pacto
       end
     end
 
-    describe ".absolute_uri" do
-      it "returns the host followed by the path" do
+    describe '.absolute_uri' do
+      it 'returns the host followed by the path' do
         expect(request.absolute_uri).to eq absolute_uri
       end
     end
 
-    describe ".full_uri" do
-      context "when the request has a query" do
-        it "returns the host followed by the path and the query" do
-          expect(request.full_uri).to eq "http://localhost/hello_world?foo=bar"
+    describe '.full_uri' do
+      context 'when the request has a query' do
+        it 'returns the host followed by the path and the query' do
+          expect(request.full_uri).to eq 'http://localhost/hello_world?foo=bar'
         end
       end
 
-      context "when the query does not have a query" do
+      context 'when the query does not have a query' do
         let(:params) { {} }
 
-        it "returns the host followed by the path" do
-          expect(request.absolute_uri).to eq "http://localhost/hello_world"
+        it 'returns the host followed by the path' do
+          expect(request.absolute_uri).to eq 'http://localhost/hello_world'
         end
       end
     end
