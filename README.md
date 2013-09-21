@@ -95,6 +95,17 @@ The easiest way to load a contract from a file and validate it against a host is
     contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
     contract.validate
 ```
+
+If you don't want to depend on Pacto to do the request you can also validate a response from a real request:
+```ruby
+    require 'pacto'
+
+    WebMock.allow_net_connect!
+    contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
+    # Doing the request with ruby stdlib, you can use your favourite lib to do the request
+    response = Net::HTTP.get_response(URI.parse('http://dummyprovider.com')).body
+    contract.validate response, body_only: true
+```
 ## Auto-Generated Stubs
 
 Pacto provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
