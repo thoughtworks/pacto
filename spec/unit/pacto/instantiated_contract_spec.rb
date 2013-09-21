@@ -1,6 +1,6 @@
 module Pacto
-	describe InstantiatedContract do
-		
+  describe InstantiatedContract do
+
     describe '#response_body' do
       let(:response) { double(:body => double('body')) }
 

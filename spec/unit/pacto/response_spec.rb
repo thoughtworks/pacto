@@ -1,5 +1,5 @@
 module Pacto
-	describe Response do
+  describe Response do
     let(:body_definition) do
       {:type => "object", :required => true, :properties => double("body definition properties")}
     end
@@ -14,17 +14,17 @@ module Pacto
     describe '#instantiate' do
       let(:generated_body) { double('generated body') }
 
-			it 'should instantiate a response with a body that matches the given definition' do
-				JSON::Generator.should_receive(:generate).
-					with(definition['body']).
-					and_return(generated_body)
+      it 'should instantiate a response with a body that matches the given definition' do
+        JSON::Generator.should_receive(:generate).
+          with(definition['body']).
+          and_return(generated_body)
 
-				response = described_class.new(definition).instantiate
-				response.status.should == definition['status']
-				response.headers.should == definition['headers']
-				response.body.should == generated_body
-			end
-		end
+        response = described_class.new(definition).instantiate
+        response.status.should == definition['status']
+        response.headers.should == definition['headers']
+        response.body.should == generated_body
+      end
+    end
 
     describe '#validate' do
       let(:status) { 200 }
@@ -197,5 +197,5 @@ module Pacto
         end
       end
     end
-	end
+  end
 end
