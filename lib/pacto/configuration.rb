@@ -1,6 +1,7 @@
 module Pacto
   class Configuration
     attr_accessor :preprocessor, :postprocessor, :provider, :strict_matchers, :contracts_path
+
     def initialize
       @preprocessor = ERBProcessor.new
       @postprocessor = HashMergeProcessor.new
