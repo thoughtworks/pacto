@@ -124,23 +124,15 @@ describe Pacto do
     end
   end
 
-  describe 'configure' do
-
-    let(:contracts_path) { 'path_to_contracts' }
-    it 'should allow preprocessor manual configuration' do
-      Pacto.configuration.preprocessor.should_not be_nil
-      Pacto.configure do |c|
-        c.preprocessor = nil
-      end
-      Pacto.configuration.preprocessor.should be_nil
+  describe 'about configuration' do
+    it 'provides a way to access the current configuration' do
+      expect(described_class.configuration).to be_kind_of Pacto::Configuration
     end
 
-    it 'should allow contracts_path manual configuration' do
-      Pacto.configuration.contracts_path.should be_nil
-      Pacto.configure do |c|
-        c.contracts_path = contracts_path
+    it 'provides a way to configure Pacto' do
+      described_class.configure do |configuration|
+        expect(configuration).to eq described_class.configuration
       end
-      Pacto.configuration.contracts_path.should eql(contracts_path)
     end
   end
 end
