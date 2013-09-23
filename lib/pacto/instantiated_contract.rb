@@ -6,7 +6,7 @@ module Pacto
       @request = request
       @response = response
       @response_body = response.body
-      @stub_provider = ::Pacto::Stubs::StubProvider.instance
+      @stub_provider = Pacto.configuration.provider
     end
 
     def request_path

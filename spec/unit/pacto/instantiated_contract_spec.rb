@@ -32,11 +32,10 @@ module Pacto
       let(:response) { double :response, body: double(:body) }
       let(:stub_provider) { double :stub_provider }
 
-      before do
-        Pacto::Stubs::StubProvider.stub(instance: stub_provider)
-      end
-
       it 'delegates the stubbing to the current stub provider' do
+        Pacto.configure do |c|
+          c.provider = stub_provider
+        end
         stub_provider.should_receive(:stub!).with(request, response, response.body)
         described_class.new(request, response).stub!
       end
