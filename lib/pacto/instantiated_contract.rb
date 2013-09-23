@@ -5,11 +5,7 @@ module Pacto
     def initialize(request, response)
       @request = request
       @response = response
-      @stub_provider = Pacto.configuration.provider
-    end
-
-    def stub!
-      @stub_provider.stub!(@request, @response)
+      @stub = Pacto.configuration.provider.stub!(@request, @response) unless request.nil?
     end
   end
 end
