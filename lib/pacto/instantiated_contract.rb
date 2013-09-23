@@ -1,11 +1,10 @@
 module Pacto
   class InstantiatedContract
-    attr_reader :response_body
+    attr_reader :response
 
     def initialize(request, response)
       @request = request
       @response = response
-      @response_body = response.body
       @stub_provider = Pacto.configuration.provider
     end
 
@@ -18,7 +17,7 @@ module Pacto
     end
 
     def stub!
-      @stub_provider.stub!(@request, @response, @response_body)
+      @stub_provider.stub!(@request, @response)
     end
   end
 end

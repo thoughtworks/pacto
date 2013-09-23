@@ -1,11 +1,11 @@
 module Pacto
   describe InstantiatedContract do
 
-    describe '#response_body' do
+    describe '#response' do
       let(:response) { double(:body => double('body')) }
 
-      it 'should return response body' do
-        described_class.new(nil, response).response_body.should == response.body
+      it 'should return response' do
+        described_class.new(nil, response).response.should == response
       end
     end
 
@@ -36,7 +36,7 @@ module Pacto
         Pacto.configure do |c|
           c.provider = stub_provider
         end
-        stub_provider.should_receive(:stub!).with(request, response, response.body)
+        stub_provider.should_receive(:stub!).with(request, response)
         described_class.new(request, response).stub!
       end
     end

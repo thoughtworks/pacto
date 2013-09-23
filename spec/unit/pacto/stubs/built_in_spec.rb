@@ -65,7 +65,7 @@ module Pacto
 
             stubbed_request.stub(:with).and_return(stubbed_request)
 
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
 
@@ -83,7 +83,7 @@ module Pacto
 
             stubbed_request.stub(:with).and_return(stubbed_request)
 
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
 
@@ -99,7 +99,7 @@ module Pacto
 
             stubbed_request.stub(:with).and_return(stubbed_request)
 
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
 
@@ -110,7 +110,7 @@ module Pacto
             stubbed_request.should_receive(:with).
               with({:headers => request.headers, :query => request.params}).
               and_return(stubbed_request)
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
 
@@ -121,7 +121,7 @@ module Pacto
             stubbed_request.should_receive(:with).
               with({:headers => request.headers, :body => request.params}).
               and_return(stubbed_request)
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
 
@@ -140,7 +140,7 @@ module Pacto
             stubbed_request.should_receive(:with).
               with({:query => request.params}).
               and_return(stubbed_request)
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
 
@@ -159,7 +159,7 @@ module Pacto
             stubbed_request.should_receive(:with).
               with({}).
               and_return(stubbed_request)
-            described_class.new.stub! request, response, response.body
+            described_class.new.stub! request, response
           end
         end
       end
