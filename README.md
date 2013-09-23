@@ -77,11 +77,15 @@ Pacto includes two Rake tasks.  In order to use them, include this in your Rakef
 
 Pacto can validate the contract files:
 
+```sh
     $ rake pacto:meta_validate[dir]  # Validates a directory of contract definitions
+```
 
 Or it can validate contracts against a provider:
 
+```sh
     $ rake pacto:validate[host,dir] # Validates all contracts in a given directory against a given host
+```
 
 It is recommended that you also include [colorize](https://github.com/fazibear/colorize) to get prettier, colorful output.
 
