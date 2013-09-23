@@ -14,3 +14,9 @@ guard :rspec do
   watch('spec/integration/spec_helper.rb')    { "spec/integration" }
   watch(%r{^spec/integration/data/.+\.json$}) { "spec/integration" }
 end
+
+guard :rubocop do
+  watch(%r{.+\.rb$})
+  watch('.rubocop.yml')      { '.' }
+  watch('.rubocop-todo.yml') { '.' }
+end
