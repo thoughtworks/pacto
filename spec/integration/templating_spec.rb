@@ -8,7 +8,7 @@ describe 'Templating' do
   let(:auth_token) { SecureRandom.hex }
   let :response do
     contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-    Pacto.register('my_contract', contract)
+    Pacto.register_contract(contract, 'my_contract')
     Pacto.use('my_contract', {:key => key, :auth_token => auth_token})
 
     raw_response = HTTParty.get('http://dummyprovider.com/echo', headers: {

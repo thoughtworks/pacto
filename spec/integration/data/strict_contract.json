@@ -1,0 +1,33 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/strict",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "params": {}
+  },
+
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "body": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "devices": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string",
+              "required": true,
+              "default": "/dev/<%= device_id %>",
+              "pattern": "^/dev/[^/]+(/[^/]+)*$"
+            },
+            "required": true,
+            "uniqueItems": true
+        }
+      }
+    }
+  }
+}

@@ -11,5 +11,9 @@ module Pacto
       @logger = Logger.instance
       @logger.level = :debug if ENV['PACTO_DEBUG']
     end
+
+    def register_contract(contract = nil, *tags)
+      Pacto.register_contract(contract, *tags)
+    end
   end
 end
