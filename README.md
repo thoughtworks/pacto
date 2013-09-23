@@ -120,21 +120,25 @@ to generate a valid JSON document as the response body, and relies on [WebMock](
 to stub any HTTP requests made by your application. Important: the JSON generator is in very early stages and does not work
 with the entire JSON Schema specification.
 
-First, register the contracts that are going to be used in the acceptance tests suite:
+First, register the contracts that are going to be used in the acceptance tests suite.  The register_contract method accepts zero or more tags:
 ```ruby
 require 'pacto'
 
-contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-Pacto.register('my_contract', contract)
+contract1 = Pacto.build_from_file('/path/to/contract1.json', 'http://dummyprovider.com')
+contract2 = Pacto.build_from_file('/path/to/contract2.json', 'http://dummyprovider.com')
+contract3 = Pacto.build_from_file('/path/to/contract3.json', 'http://dummyprovider.com')
+Pacto.register_contract(contract1)
+Pacto.register_contract(contract2, :public_api)
+Pacto.register_contract(contract3, :public_api, :wip)
 ```
 Then, in the setup phase of the test, specify which contracts will be used for that test:
 ```ruby
-Pacto.use('my_contract')
+Pacto.use('my_tag')
 ```
 If default values are not specified in the contract's response body, a default value will be automatically generated. It is possible
 to overwrite those values, however, by passing a second argument:
 ```ruby
-Pacto.use('my_contract', :value => 'new value')
+Pacto.use('my_tag', :value => 'new value')
 ```
 The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
 
