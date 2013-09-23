@@ -9,6 +9,13 @@ describe Pacto do
   end
 
   describe '.register' do
+    context 'no tag' do
+      it 'should register the contract with the default tag' do
+        described_class.register_contract contract
+        expect(described_class.registered[:default]).to include(contract)
+      end
+    end
+
     context 'one tag' do
       it 'should register a contract under a given tag' do
         described_class.register_contract(contract, tag)

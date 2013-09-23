@@ -124,12 +124,12 @@ First, register the contracts that are going to be used in the acceptance tests 
 ```ruby
 require 'pacto'
 
-    contract1 = Pacto.build_from_file('/path/to/contract1.json', 'http://dummyprovider.com')
-    contract2 = Pacto.build_from_file('/path/to/contract2.json', 'http://dummyprovider.com')
-    contract3 = Pacto.build_from_file('/path/to/contract3.json', 'http://dummyprovider.com')
-    Pacto.register_contract(contract1)
-    Pacto.register_contract(contract2, :public_api)
-    Pacto.register_contract(contract3, :public_api, :wip)
+contract1 = Pacto.build_from_file('/path/to/contract1.json', 'http://dummyprovider.com')
+contract2 = Pacto.build_from_file('/path/to/contract2.json', 'http://dummyprovider.com')
+contract3 = Pacto.build_from_file('/path/to/contract3.json', 'http://dummyprovider.com')
+Pacto.register_contract(contract1)
+Pacto.register_contract(contract2, :public_api)
+Pacto.register_contract(contract3, :public_api, :wip)
 ```
 Then, in the setup phase of the test, specify which contracts will be used for that test:
 ```ruby

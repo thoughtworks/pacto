@@ -2,6 +2,7 @@ module Pacto
   class << self
 
     def register_contract(contract = nil, *tags)
+      tags << :default if tags.empty?
       start_count = registered.count
       tags.uniq.each do |tag|
         registered[tag] << contract
