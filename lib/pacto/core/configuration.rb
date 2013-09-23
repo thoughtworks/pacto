@@ -8,5 +8,9 @@ module Pacto
       @strict_matchers = true
       @contracts_path = nil
     end
+
+    def register_contract(contract = nil, *tags)
+      Pacto.register_contract(contract, *tags)
+    end
   end
 end

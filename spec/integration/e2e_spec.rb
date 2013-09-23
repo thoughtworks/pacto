@@ -48,9 +48,9 @@ describe 'Pacto' do
       login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
       contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
 
-      Pacto.register do |r|
-        r.register_contract login_contract, :default
-        r.register_contract contract, :devices
+      Pacto.configure do |c|
+        c.register_contract login_contract, :default
+        c.register_contract contract, :devices
       end
       Pacto.use(:devices, {:device_id => 42})
 
