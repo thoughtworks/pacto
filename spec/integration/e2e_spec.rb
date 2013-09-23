@@ -39,7 +39,7 @@ describe 'Pacto' do
 
   context 'Journey' do
     it 'stubs multiple services with a single use' do
-      
+
       Pacto.configure do |c|
         c.postprocessor = Pacto::ERBProcessor.new
         c.preprocessor = nil
@@ -67,8 +67,3 @@ describe 'Pacto' do
     end
   end
 end
-
-
-
-
-

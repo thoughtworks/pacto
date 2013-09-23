@@ -9,22 +9,22 @@ require 'webmock'
 require 'ostruct'
 require 'erb'
 
-require "pacto/core/contract_repository"
-require "pacto/core/configuration"
-require "pacto/exceptions/invalid_contract.rb"
-require "pacto/extensions"
-require "pacto/request"
-require "pacto/response_adapter"
-require "pacto/response"
-require "pacto/stubs/built_in"
-require "pacto/stubs/stub_provider"
-require "pacto/instantiated_contract"
-require "pacto/contract"
-require "pacto/contract_factory"
-require "pacto/erb_processor"
-require "pacto/hash_merge_processor"
-require "pacto/stubs/built_in"
-require "pacto/meta_schema"
+require 'pacto/core/contract_repository'
+require 'pacto/core/configuration'
+require 'pacto/exceptions/invalid_contract.rb'
+require 'pacto/extensions'
+require 'pacto/request'
+require 'pacto/response_adapter'
+require 'pacto/response'
+require 'pacto/stubs/built_in'
+require 'pacto/stubs/stub_provider'
+require 'pacto/instantiated_contract'
+require 'pacto/contract'
+require 'pacto/contract_factory'
+require 'pacto/erb_processor'
+require 'pacto/hash_merge_processor'
+require 'pacto/stubs/built_in'
+require 'pacto/meta_schema'
 
 module Pacto
   class << self
@@ -58,8 +58,6 @@ module Pacto
     build_from_file(path_for(contract_name), nil)
   end
 
-
-  
   private
 
   def self.path_for(contract)
