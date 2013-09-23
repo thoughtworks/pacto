@@ -2,10 +2,11 @@ module Pacto
   class << self
 
     def register_contract(contract = nil, *tags)
+      start_count = registered.count
       tags.uniq.each do |tag|
         registered[tag] << contract
       end
-      nil
+      registered.count - start_count
     end
 
     def use(tag, values = nil)
