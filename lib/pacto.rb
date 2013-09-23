@@ -58,7 +58,7 @@ module Pacto
     yield self
   end
 
-  def self.register_contract(contract = nil, *tags, &block)
+  def self.register_contract(contract = nil, *tags)
     tags.uniq.each do |tag| 
       registered[tag] << contract
     end
@@ -88,7 +88,7 @@ module Pacto
   end
 
   def self.unregister_all!
-    @registered = nil
+    registered.clear
   end
   
   private
