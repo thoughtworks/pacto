@@ -11,7 +11,7 @@ describe Pacto do
   end
 
   def mock_validation(errors)
-    expect(JSON::Validator).to receive(:fully_validate).with(any_args()).and_return errors
+    expect(JSON::Validator).to receive(:fully_validate).with(any_args).and_return errors
   end
 
   describe '.validate_contract' do
@@ -19,7 +19,7 @@ describe Pacto do
       it 'should display a success message and return true' do
         mock_validation []
         success = Pacto.validate_contract 'my_contract.json'
-        output.should eq "All contracts successfully meta-validated"
+        output.should eq 'All contracts successfully meta-validated'
         success.should be_true
       end
     end

@@ -1,60 +1,65 @@
 module Pacto
   describe Contract do
-    let(:request) { double('request') }
-    let(:response) { double('response') }
+    let(:request)  { double 'request' }
+    let(:response) { double 'response' }
 
-    let(:contract) { described_class.new(request, response) }
+    let(:contract) { described_class.new request, response }
 
     describe '#instantiate' do
-      let(:instantiated_response) { double('instantiated response') }
-      let(:instantiated_contract) { double('instantiated contract') }
-
-      context 'by default' do
-        it 'should instantiate a contract with default attributes' do
-          response.should_receive(:instantiate).and_return(instantiated_response)
-          InstantiatedContract.should_receive(:new).
-            with(request, instantiated_response).
-            and_return(instantiated_contract)
-          instantiated_contract.should_not_receive(:replace!)
-
-          contract.instantiate.should == instantiated_contract
-        end
+      before do
+        response.stub(:instantiate => instantiated_response)
+        InstantiatedContract.stub(:new => instantiated_contract)
       end
 
-      context 'with extra attributes' do
-        let(:attributes) { {:foo => 'bar'} }
+      let(:instantiated_response) { double 'instantiated response' }
+      let(:instantiated_contract) { double 'instantiated contract' }
 
-        it 'should instantiate a contract and overwrite default attributes' do
-          response.should_receive(:instantiate).and_return(instantiated_response)
-          InstantiatedContract.should_receive(:new).
-            with(request, instantiated_response).
-            and_return(instantiated_contract)
+      it 'instantiates the response' do
+        response.should_receive :instantiate
+        contract.instantiate
+      end
 
-          contract.instantiate.should == instantiated_contract
-        end
+      it 'creates a new InstantiatedContract' do
+        InstantiatedContract.should_receive(:new).
+          with(request, instantiated_response).
+          and_return(instantiated_contract)
+        contract.instantiate
+      end
+
+      it 'returns the new instantiated contract' do
+        expect(contract.instantiate).to eq instantiated_contract
       end
     end
 
     describe '#validate' do
-      let(:fake_response) { double('fake response') }
-      let(:validation_result) { double('validation result') }
-
-      it 'should execute the request and match it against the expected response' do
-        request.should_receive(:execute).and_return(fake_response)
-        response.should_receive(:validate).with(fake_response, {}).and_return(validation_result)
-        contract.validate.should == validation_result
+      before do
+        response.stub(:validate => validation_result)
+        request.stub(:execute => fake_response)
       end
-      
-      let(:contract_path) { 'spec/integration/data/simple_contract.json' }
-      let(:invalid_response) { {} }
-      let(:valid_response) { '{"message": "Hello World!"}' }
-    
-      it 'should execute the request and match it against the expected response' do
-        contract = Pacto.build_from_file(contract_path, nil)
-        contract.validate(invalid_response, body_only: true).should_not be_empty
-        contract.validate(valid_response, body_only: true).should be_empty
+
+      let(:validation_result) { double 'validation result' }
+      let(:fake_response)     { double 'fake response' }
+
+      it 'validates the generated response' do
+        response.should_receive(:validate).with(fake_response, {})
+        expect(contract.validate).to eq validation_result
+      end
+
+      it 'returns the result of the validation' do
+        expect(contract.validate).to eq validation_result
+      end
+
+      it 'generates the response' do
+        request.should_receive :execute
+        contract.validate
+      end
+
+      context 'when response gotten is provided' do
+        it 'does not generate the response' do
+          request.should_not_receive :execute
+          contract.validate fake_response
+        end
       end
     end
-    
   end
 end

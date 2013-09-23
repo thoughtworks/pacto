@@ -1,12 +1,10 @@
 module Pacto
   class Request
+    attr_reader :host
+
     def initialize(host, definition)
       @host = host
       @definition = definition
-    end
-
-    def host
-      @host
     end
 
     def method
@@ -47,6 +45,7 @@ module Pacto
     end
 
     private
+
     def httparty_params_key
       method == :get ? :query : :body
     end

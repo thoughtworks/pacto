@@ -1,13 +1,13 @@
-require "pacto/version"
+require 'pacto/version'
 
-require "httparty"
-require "hash_deep_merge"
-require "json"
-require "json-schema"
-require "json-generator"
-require "webmock"
-require "ostruct"
-require "erb"
+require 'httparty'
+require 'hash_deep_merge'
+require 'json'
+require 'json-schema'
+require 'json-generator'
+require 'webmock'
+require 'ostruct'
+require 'erb'
 
 require "pacto/core/contract_repository"
 require "pacto/core/configuration"
@@ -39,20 +39,18 @@ module Pacto
   end
 
   def self.validate_contract contract
-    begin
-      Pacto::MetaSchema.new.validate contract
-      puts "All contracts successfully meta-validated"
-      true
-    rescue InvalidContract => e
-      puts "Validation errors detected"
-      e.errors.each do |e|
-        puts "  Error: #{e}"
-      end
-      false
+    Pacto::MetaSchema.new.validate contract
+    puts 'All contracts successfully meta-validated'
+    true
+  rescue InvalidContract => exception
+    puts 'Validation errors detected'
+    exception.errors.each do |error|
+      puts "  Error: #{error}"
     end
+    false
   end
 
-  def self.build_from_file(contract_path, host, file_pre_processor=Pacto.configuration.preprocessor)
+  def self.build_from_file(contract_path, host, file_pre_processor = Pacto.configuration.preprocessor)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
@@ -63,6 +61,7 @@ module Pacto
 
   
   private
+
   def self.path_for(contract)
     File.join(configuration.contracts_path, "#{contract}.json")
   end
