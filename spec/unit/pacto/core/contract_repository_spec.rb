@@ -60,4 +60,40 @@ describe Pacto do
     end
   end
 
+  describe '.use' do
+    before do
+      described_class.register_contract(contract, tag)
+      described_class.register_contract(another_contract, :default)
+    end
+
+    context 'when a contract has been registered' do
+      let(:response_body) { double('response_body') }
+
+      it 'should stub a contract with default values' do
+        contract.should_receive(:stub!)
+        another_contract.should_receive(:stub!)
+        described_class.use(tag).should == 2
+      end
+
+      it 'should stub default contract if unused tag' do
+        another_contract.should_receive(:stub!)
+        described_class.use(another_tag).should == 1
+      end
+    end
+
+    context 'when contract has not been registered' do
+      it 'should raise an argument error' do
+        described_class.unregister_all!
+        expect { described_class.use('unregistered') }.to raise_error ArgumentError
+      end
+    end
+  end
+
+  describe '.unregister_all!' do
+    it 'should unregister all previously registered contracts' do
+      described_class.register_contract(contract, tag)
+      described_class.unregister_all!
+      described_class.registered.should be_empty
+    end
+  end
 end

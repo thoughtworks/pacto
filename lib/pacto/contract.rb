@@ -5,8 +5,8 @@ module Pacto
       @response = response
     end
 
-    def instantiate
-      InstantiatedContract.new(@request, stub_response)
+    def stub!
+      Pacto.configuration.provider.stub!(@request, stub_response) unless @request.nil?
     end
 
     def validate(response_gotten = provider_response, opt = {})

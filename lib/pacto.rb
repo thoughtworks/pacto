@@ -19,7 +19,6 @@ require 'pacto/request'
 require 'pacto/response_adapter'
 require 'pacto/response'
 require 'pacto/stubs/built_in'
-require 'pacto/instantiated_contract'
 require 'pacto/contract'
 require 'pacto/contract_factory'
 require 'pacto/erb_processor'
@@ -32,6 +31,11 @@ module Pacto
 
     def configuration
       @configuration ||= Configuration.new
+    end
+
+    def clear!
+      @configuration = nil
+      unregister_all!
     end
 
     def configure
