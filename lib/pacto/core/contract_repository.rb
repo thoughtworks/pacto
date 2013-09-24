@@ -17,11 +17,10 @@ module Pacto
 
       configuration.provider.values = values
 
-      merged_contracts.inject(Set.new) do |result, contract|
-        instantiated_contract = contract.instantiate
-        instantiated_contract.stub!
-        result << instantiated_contract
+      merged_contracts.each do |contract|
+        contract.stub!
       end
+      merged_contracts.count
     end
 
     def registered
