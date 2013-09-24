@@ -3,6 +3,7 @@ describe Pacto do
   let(:another_tag) { 'another_tag' }
   let(:contract) { double('contract') }
   let(:another_contract) { double('another_contract') }
+  let(:request_signature) { double('request_signature') }
 
   after do
     described_class.unregister_all!
@@ -96,4 +97,42 @@ describe Pacto do
       described_class.registered.should be_empty
     end
   end
+
+  describe '.contract_for' do
+    context 'when no contracts are found for a request' do
+      it 'should return an empty list' do
+        expect(described_class.contract_for request_signature).to be_empty
+      end
+    end
+    context 'when contracts are found for a request' do
+      it 'should return the matching contracts' do
+        my_contracts = 5.times.inject([]) do |res|
+          res << create_dummy_contract
+        end
+
+        described_class.configure do |c|
+          my_contracts.each do |contract|
+            c.register_contract contract
+          end
+        end
+        Pacto::Contract.any_instance.stub(:stub!).and_return(double('request_matcher'))
+        result_bitmap = [false, true, true, false, false]
+        Pacto::Contract.any_instance.stub(:matches?).and_return do
+          result_bitmap.shift
+        end
+        Pacto.use :default
+
+        expected_contracts = Set.new [my_contracts[1], my_contracts[2]]
+
+        expect(described_class.contract_for request_signature).to eq(expected_contracts)
+      end
+    end
+  end
+
+  def create_dummy_contract
+    request = double('request')
+    response = double('response')
+    Pacto::Contract.new request, response
+  end
+
 end
