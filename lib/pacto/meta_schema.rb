@@ -8,7 +8,7 @@ module Pacto
     end
 
     def validate definition
-      errors = engine.fully_validate(schema, definition)
+      errors = engine.fully_validate(schema, definition, :version => :draft3)
       unless errors.empty?
         raise InvalidContract.new(errors)
       end

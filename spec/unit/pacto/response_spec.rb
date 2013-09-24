@@ -41,7 +41,7 @@ module Pacto
       context 'when status, headers and body match' do
         it 'should not return any errors' do
           JSON::Validator.should_receive(:fully_validate).
-            with(definition['body'], fake_response.body).
+            with(definition['body'], fake_response.body, :version => :draft3).
             and_return([])
 
           response = described_class.new(definition)
