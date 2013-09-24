@@ -52,7 +52,7 @@ module Pacto
     end
 
     def validate_as_json response_body
-      JSON::Validator.fully_validate(@definition['body'], response_body)
+      JSON::Validator.fully_validate(@definition['body'], response_body, :version => :draft3)
     end
   end
 end
