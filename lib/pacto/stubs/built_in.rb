@@ -17,7 +17,7 @@ module Pacto
           })
       end
 
-      def process(request_signature, response)
+      def process(contracts, request_signature, response)
         unless processor.nil?
           bound_values = {}
           bound_values.merge!({:req => {'HEADERS' => request_signature.headers}}) if processor.class == ERBProcessor
@@ -31,7 +31,10 @@ module Pacto
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
-          process request_signature, response
+          contracts = Pacto.contract_for request_signature
+
+          process contracts, request_signature, response
+          Pacto.configuration.callback.call contracts, request_signature, response
         end
       end
 

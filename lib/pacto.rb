@@ -12,6 +12,7 @@ require 'logger'
 
 require 'pacto/core/contract_repository'
 require 'pacto/core/configuration'
+require 'pacto/core/callback'
 require 'pacto/logger'
 require 'pacto/exceptions/invalid_contract.rb'
 require 'pacto/extensions'
