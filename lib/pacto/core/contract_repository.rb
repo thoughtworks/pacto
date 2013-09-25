@@ -30,5 +30,11 @@ module Pacto
     def unregister_all!
       registered.clear
     end
+
+    def contract_for(request_signature)
+      registered.values.inject(Set.new) do |result, contract_set|
+        result.merge(contract_set.keep_if { |c| c.matches? request_signature })
+      end
+    end
   end
 end
