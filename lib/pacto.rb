@@ -26,6 +26,7 @@ require 'pacto/erb_processor'
 require 'pacto/hash_merge_processor'
 require 'pacto/stubs/built_in'
 require 'pacto/meta_schema'
+require 'pacto/hooks/erb_hook'
 
 module Pacto
   class << self

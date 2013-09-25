@@ -1,12 +1,14 @@
 module Pacto
   class Contract
+    attr_reader :values
 
     def initialize(request, response)
       @request = request
       @response = response
     end
 
-    def stub!
+    def stub! values = {}
+      @values = values
       @stub = Pacto.configuration.provider.stub!(@request, stub_response) unless @request.nil?
     end
 

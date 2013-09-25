@@ -11,7 +11,7 @@ module Pacto
       @contracts_path = nil
       @logger = Logger.instance
       @logger.level = :debug if ENV['PACTO_DEBUG']
-      @callback = Pacto::Callback.new { }
+      @callback = Pacto::Hooks::ERBHook.new
     end
 
     def register_contract(contract = nil, *tags)

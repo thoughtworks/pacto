@@ -30,6 +30,9 @@ describe 'Templating' do
         c.preprocessor = nil
         c.postprocessor = nil
         c.strict_matchers = false
+        c.register_callback do |contracts, req, res|
+          res
+        end
       end
 
       response.keys.should == ['message']
