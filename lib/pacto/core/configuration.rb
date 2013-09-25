@@ -18,8 +18,13 @@ module Pacto
       Pacto.register_contract(contract, *tags)
     end
 
-    def register_callback(&block)
-      @callback = Pacto::Callback.new(&block)
+    def register_callback(callback = nil, &block)
+      if block_given?
+        @callback = Pacto::Callback.new(&block)
+      else
+        raise "Expected a Pacto::Callback" unless callback.is_a? Pacto::Callback
+        @callback = callback
+      end
     end
   end
 end

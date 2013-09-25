@@ -21,7 +21,7 @@ module Pacto
       def register_callbacks
         WebMock.after_request do |request_signature, response|
           contracts = Pacto.contract_for request_signature
-          Pacto.configuration.callback.call contracts, request_signature, response
+          Pacto.configuration.callback.process contracts, request_signature, response
         end
       end
 

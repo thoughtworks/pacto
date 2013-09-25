@@ -26,6 +26,7 @@ module Pacto
     end
 
     def unregister_all!
+      WebMock.reset!
       registered.clear
     end
 

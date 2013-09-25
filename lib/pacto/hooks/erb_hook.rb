@@ -1,6 +1,6 @@
 module Pacto
   module Hooks
-    class ERBHook
+    class ERBHook < Pacto::Callback
       def initialize
         @processor = ERBProcessor.new
       end
@@ -11,10 +11,7 @@ module Pacto
         response.body = @processor.process response.body, bound_values
         response.body
       end
-      
-      def call(contracts, request_signature, response)
-        process contracts, request_signature, response
-      end
+
     end
   end
 end
