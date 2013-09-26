@@ -39,27 +39,16 @@ describe 'Pacto' do
 
   context 'Journey' do
     it 'stubs multiple services with a single use' do
-<<<<<<< HEAD
-
-=======
->>>>>>> f4a2bc0... fix test configuration
+      Pacto.clear!
       Pacto.configure do |c|
         c.strict_matchers = false
         c.postprocessor = Pacto::ERBProcessor.new
         c.preprocessor = nil
-<<<<<<< HEAD
       end
 
-      login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-      contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
-
-=======
-        c.register_callback Pacto::Hooks::ERBHook.new
-      end
       # Preprocessor must be off before building!
       login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
       contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
->>>>>>> f4a2bc0... fix test configuration
       Pacto.configure do |c|
         c.register_contract login_contract, :default
         c.register_contract contract, :devices

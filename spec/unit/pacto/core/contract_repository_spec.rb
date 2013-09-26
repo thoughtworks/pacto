@@ -121,7 +121,7 @@ describe Pacto do
   def create_contracts(total, matches)
     total.times.map do
       double('contract',
-             :stub! => double('request matcher'),
+             :stub_contract! => double('request matcher'),
              :matches? => matches)
     end.to_set
   end

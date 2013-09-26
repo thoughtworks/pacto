@@ -66,15 +66,9 @@ module Pacto
       end
 
       context 'when the contract is stubbed' do
-<<<<<<< HEAD
         it 'returns true if it matches the request' do
-          provider.should_receive(:stub!).with(request, instantiated_response).and_return(request_matcher)
-          contract.stub!
-=======
-        it 'should return true if it matches the request' do
           provider.should_receive(:stub_request!).with(request, instantiated_response).and_return(request_matcher)
           contract.stub_contract!
->>>>>>> 62baab2... stub! -> stub_contract! and stub_request! to avoid possible conflict
           expect(contract.matches? request_signature).to be_true
           expect(contract.matches? :anything).to be_false
         end

@@ -17,6 +17,10 @@ module Pacto
           })
       end
 
+      def reset!
+        WebMock.reset!
+      end
+
       def process(request_signature, response)
         unless processor.nil?
           bound_values = {}

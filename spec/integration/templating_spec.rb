@@ -41,6 +41,7 @@ describe 'Templating' do
     it 'should process erb on each request' do
       Pacto.configure do |c|
         c.preprocessor = nil
+        c.strict_matchers = false
         c.postprocessor = Pacto::ERBProcessor.new
       end
 
