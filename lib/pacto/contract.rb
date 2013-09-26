@@ -1,9 +1,10 @@
 module Pacto
   class Contract
 
-    def initialize(request, response)
+    def initialize(request, response, file = nil)
       @request = request
       @response = response
+      @file = file
     end
 
     def stub!
