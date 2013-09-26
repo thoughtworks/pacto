@@ -71,13 +71,13 @@ describe Pacto do
       let(:response_body) { double('response_body') }
 
       it 'should stub a contract with default values' do
-        contract.should_receive(:stub!)
-        another_contract.should_receive(:stub!)
+        contract.should_receive(:stub_contract!)
+        another_contract.should_receive(:stub_contract!)
         described_class.use(tag).should == 2
       end
 
       it 'should stub default contract if unused tag' do
-        another_contract.should_receive(:stub!)
+        another_contract.should_receive(:stub_contract!)
         described_class.use(another_tag).should == 1
       end
     end
@@ -115,7 +115,7 @@ describe Pacto do
             c.register_contract contract
           end
         end
-        Pacto::Contract.any_instance.stub(:stub!).and_return(double('request_matcher'))
+        Pacto::Contract.any_instance.stub(:stub_contract!).and_return(double('request_matcher'))
         result_bitmap = [false, true, true, false, false]
         Pacto::Contract.any_instance.stub(:matches?).and_return do
           result_bitmap.shift

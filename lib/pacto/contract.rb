@@ -8,9 +8,9 @@ module Pacto
       @file = file
     end
 
-    def stub! values = {}
+    def stub_contract! values = {}
       @values = values
-      @stub = Pacto.configuration.provider.stub!(@request, stub_response) unless @request.nil?
+      @stub = Pacto.configuration.provider.stub_request!(@request, stub_response) unless @request.nil?
     end
 
     def validate(response_gotten = provider_response, opt = {})
