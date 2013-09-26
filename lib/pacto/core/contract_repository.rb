@@ -32,9 +32,15 @@ module Pacto
     end
 
     def contract_for(request_signature)
-      registered.values.inject(Set.new) do |result, contract_set|
-        result.merge(contract_set.keep_if { |c| c.matches? request_signature })
+      matches = Set.new
+      registered.values.each do |contract_set|
+        contract_set.each do |contract|
+          if contract.matches? request_signature
+            matches.add contract
+          end
+        end
       end
+      matches
     end
   end
 end
