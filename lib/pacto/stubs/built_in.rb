@@ -16,6 +16,10 @@ module Pacto
           })
       end
 
+      def reset!
+        WebMock.reset!
+      end
+
       private
 
       def register_callbacks
