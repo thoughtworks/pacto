@@ -10,15 +10,15 @@ module Pacto
       registered.count - start_count
     end
 
-    def use(tag, values = nil)
-      merged_contracts = registered[:default].merge registered[tag]
+    def use(tag, values = {})
+      merged_contracts = registered[:default] + registered[tag]
 
       raise ArgumentError, "contract \"#{tag}\" not found" if merged_contracts.empty?
 
       configuration.provider.values = values
 
       merged_contracts.each do |contract|
-        contract.stub!
+        contract.stub_contract! values
       end
       merged_contracts.count
     end

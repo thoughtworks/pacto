@@ -1,5 +1,6 @@
 module Pacto
   class Contract
+    attr_reader :values
 
     def initialize(request, response, file = nil)
       @request = request
@@ -7,8 +8,9 @@ module Pacto
       @file = file
     end
 
-    def stub!
-      @stub = Pacto.configuration.provider.stub!(@request, stub_response) unless @request.nil?
+    def stub_contract! values = {}
+      @values = values
+      @stub = Pacto.configuration.provider.stub_request!(@request, stub_response) unless @request.nil?
     end
 
     def validate(response_gotten = provider_response, opt = {})
