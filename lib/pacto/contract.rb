@@ -2,9 +2,10 @@ module Pacto
   class Contract
     attr_reader :values
 
-    def initialize(request, response)
+    def initialize(request, response, file = nil)
       @request = request
       @response = response
+      @file = file
     end
 
     def stub! values = {}
