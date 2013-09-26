@@ -9,7 +9,7 @@ describe Pacto::Hooks::ERBHook do
     let(:res) {
       OpenStruct.new({:body => 'before'})
     }
-    
+
     before do
     end
 
@@ -44,8 +44,8 @@ describe Pacto::Hooks::ERBHook do
       end
     end
   end
-  
+
   def mock_erb(hash)
     Pacto::ERBProcessor.any_instance.should_receive(:process).with('before', hash).and_return('after')
-  end    
+  end
 end
