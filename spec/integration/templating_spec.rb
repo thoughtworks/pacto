@@ -25,7 +25,7 @@ describe 'Templating' do
   end
 
   context 'No processing' do
-    it 'should not proccess erb tag' do
+    it 'does not proccess erb tag' do
       Pacto.configure do |c|
         c.preprocessor = nil
         c.postprocessor = nil
@@ -38,7 +38,7 @@ describe 'Templating' do
   end
 
   context 'Post processing' do
-    it 'should process erb on each request' do
+    it 'processes erb on each request' do
       Pacto.configure do |c|
         c.preprocessor = nil
         c.postprocessor = Pacto::ERBProcessor.new

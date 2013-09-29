@@ -10,15 +10,15 @@ module Pacto
 
     subject(:response_adapter) { described_class.new response }
 
-    it 'should have a status' do
+    it 'has a status' do
       expect(response_adapter.status).to eq response.code
     end
 
-    it 'should have a body' do
+    it 'has a body' do
       expect(response_adapter.body).to eq response.body
     end
 
-    it 'should normalize headers values according to RFC2616' do
+    it 'normalizes headers values according to RFC2616' do
       expect(response_adapter.headers).to eq({'foo' => 'bar,baz', 'hello' => 'world'})
     end
   end

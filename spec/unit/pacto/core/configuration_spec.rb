@@ -1,7 +1,7 @@
 describe Pacto do
   describe 'configure' do
     let(:contracts_path) { 'path_to_contracts' }
-    it 'should allow preprocessor manual configuration' do
+    it 'allows preprocessor manual configuration' do
       Pacto.configuration.preprocessor.should_not be_nil
       Pacto.configure do |c|
         c.preprocessor = nil
@@ -9,7 +9,7 @@ describe Pacto do
       Pacto.configuration.preprocessor.should be_nil
     end
 
-    it 'should allow contracts_path manual configuration' do
+    it 'allows contracts_path manual configuration' do
       Pacto.configuration.contracts_path.should be_nil
       Pacto.configure do |c|
         c.contracts_path = contracts_path
