@@ -7,12 +7,12 @@ module Pacto
       }
 
       it 'does not change contract if values is nil' do
-        subject.process(response_body_string, nil).should == response_body_string
+        expect(subject.process(response_body_string, nil)).to eq response_body_string
       end
 
       it 'merges response body with values' do
         merged_body = {'a' => 'simple hash', 'b' => :key}
-        subject.process(response_body_hash, {:b => :key}).should == merged_body.to_s
+        expect(subject.process(response_body_hash, {:b => :key})).to eq merged_body.to_s
       end
 
     end

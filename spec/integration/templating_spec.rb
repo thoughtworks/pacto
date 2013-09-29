@@ -32,8 +32,8 @@ describe 'Templating' do
         c.strict_matchers = false
       end
 
-      response.keys.should == ['message']
-      response['message'].should eql("<%= req['HEADERS']['X-Message'].reverse %>")
+      expect(response.keys).to eq ['message']
+      expect(response['message']).to eq("<%= req['HEADERS']['X-Message'].reverse %>")
     end
   end
 
@@ -44,8 +44,8 @@ describe 'Templating' do
         c.postprocessor = Pacto::ERBProcessor.new
       end
 
-      response.keys.should == ['message']
-      response['message'].should eql(key.reverse)
+      expect(response.keys).to eq ['message']
+      expect(response['message']).to eq(key.reverse)
     end
   end
 end

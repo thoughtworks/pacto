@@ -26,7 +26,7 @@ describe Pacto do
         described_class.register_contract(contract, tag)
         described_class.register_contract(contract, tag)
         expect(described_class.registered[tag]).to include(contract)
-        described_class.registered[tag].should have(1).items
+        expect(described_class.registered[tag]).to have(1).items
       end
     end
 
@@ -72,12 +72,12 @@ describe Pacto do
       it 'stubs a contract with default values' do
         contract.should_receive(:stub!)
         another_contract.should_receive(:stub!)
-        described_class.use(tag).should == 2
+        expect(described_class.use(tag)).to eq 2
       end
 
       it 'stubs default contract if unused tag' do
         another_contract.should_receive(:stub!)
-        described_class.use(another_tag).should == 1
+        expect(described_class.use(another_tag)).to eq 1
       end
     end
 
@@ -93,7 +93,7 @@ describe Pacto do
     it 'unregisters all previously registered contracts' do
       described_class.register_contract(contract, tag)
       described_class.unregister_all!
-      described_class.registered.should be_empty
+      expect(described_class.registered).to be_empty
     end
   end
 end

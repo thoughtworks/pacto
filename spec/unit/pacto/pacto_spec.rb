@@ -19,8 +19,8 @@ describe Pacto do
       it 'displays a success message and return true' do
         mock_validation []
         success = Pacto.validate_contract 'my_contract.json'
-        output.should eq 'All contracts successfully meta-validated'
-        success.should be_true
+        expect(output).to eq 'All contracts successfully meta-validated'
+        expect(success).to be_true
       end
     end
 
@@ -28,14 +28,14 @@ describe Pacto do
       it 'displays one error messages and return false' do
         mock_validation ['Error 1']
         success = Pacto.validate_contract 'my_contract.json'
-        output.should match /error/
-        success.should be_false
+        expect(output).to match /error/
+        expect(success).to be_false
       end
 
       it 'displays several error messages and return false' do
         mock_validation ['Error 1', 'Error 2']
         success = Pacto.validate_contract 'my_contract.json'
-        success.should be_false
+        expect(success).to be_false
       end
     end
   end
@@ -53,7 +53,7 @@ describe Pacto do
 
     it 'returns whatever the factory returns' do
       Pacto::ContractFactory.stub(:build_from_file => instantiated_contract)
-      described_class.build_from_file(path, host, file_pre_processor).should == instantiated_contract
+      expect(described_class.build_from_file(path, host, file_pre_processor)).to eq instantiated_contract
     end
   end
 
