@@ -45,6 +45,7 @@ describe 'Pacto' do
         c.preprocessor = nil
         c.register_callback Pacto::Hooks::ERBHook.new
       end
+
       # Preprocessor must be off before building!
       login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
       contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
