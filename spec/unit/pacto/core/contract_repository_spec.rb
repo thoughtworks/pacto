@@ -3,7 +3,6 @@ describe Pacto do
   let(:another_tag) { 'another_tag' }
   let(:contract) { double('contract') }
   let(:another_contract) { double('another_contract') }
-  let(:request_signature) { double('request_signature') }
 
   after do
     described_class.unregister_all!
@@ -99,17 +98,15 @@ describe Pacto do
   end
 
   describe '.contract_for' do
+    let(:request_signature) { double('request signature') }
+
     context 'when no contracts are found for a request' do
       it 'should return an empty list' do
         expect(described_class.contract_for request_signature).to be_empty
       end
     end
-    context 'when contracts are found for a request' do
-      it 'should return the matching contracts' do
-        my_contracts = 5.times.inject([]) do |res|
-          res << create_dummy_contract
-        end
 
+<<<<<<< HEAD
         described_class.configure do |c|
           my_contracts.each do |contract|
             c.register_contract contract
@@ -123,16 +120,30 @@ describe Pacto do
         Pacto.use :default
 
         expected_contracts = Set.new [my_contracts[1], my_contracts[2]]
+=======
+    context 'when contracts are found for a request' do
+      let(:contracts_that_match)      { create_contracts 2, true }
+      let(:contracts_that_dont_match) { create_contracts 3, false }
+      let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
+>>>>>>> c549be2241c8bd10e25d51d492d113b03a4c0755
 
-        expect(described_class.contract_for request_signature).to eq(expected_contracts)
+      it 'should return the matching contracts' do
+        register_and_use all_contracts
+        expect(described_class.contract_for request_signature).to eq(contracts_that_match)
       end
     end
   end
 
-  def create_dummy_contract
-    request = double('request')
-    response = double('response')
-    Pacto::Contract.new request, response
+  def create_contracts(total, matches)
+    total.times.map do
+      double('contract',
+             :stub! => double('request matcher'),
+             :matches? => matches)
+    end.to_set
   end
 
+  def register_and_use contracts
+    contracts.each { |contract| described_class.register_contract contract }
+    Pacto.use :default
+  end
 end

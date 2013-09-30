@@ -2,17 +2,11 @@ module Pacto
   describe Contract do
     let(:request)  { double 'request' }
     let(:request_signature)  { double 'request_signature' }
-    let(:request_matcher) do
-      d = double 'request_matcher'
-      d.stub(:matches?) do |r|
-        r == request_signature
-      end
-      d
-    end
     let(:response) { double 'response' }
-    let(:contract) { described_class.new request, response }
     let(:provider) { double 'provider' }
     let(:instantiated_response) { double 'instantiated response' }
+
+    subject(:contract) { described_class.new request, response }
 
     before do
       response.stub(:instantiate => instantiated_response)
@@ -59,23 +53,32 @@ module Pacto
     end
 
     describe '#matches?' do
+      let(:request_matcher) do
+        double('fake request matcher').tap do |matcher|
+          matcher.stub(:matches?) { |r| r == request_signature }
+        end
+      end
 
       context 'when the contract is not stubbed' do
-        it 'should return false' do
+        it 'returns false' do
           expect(contract.matches? request_signature).to be_false
         end
       end
 
       context 'when the contract is stubbed' do
+<<<<<<< HEAD
         it 'should return true if it matches the request' do
           provider.should_receive(:stub_request!).with(request, instantiated_response).and_return(request_matcher)
           contract.stub_contract!
+=======
+        it 'returns true if it matches the request' do
+          provider.should_receive(:stub!).with(request, instantiated_response).and_return(request_matcher)
+          contract.stub!
+>>>>>>> c549be2241c8bd10e25d51d492d113b03a4c0755
           expect(contract.matches? request_signature).to be_true
           expect(contract.matches? :anything).to be_false
         end
       end
-
     end
-
   end
 end

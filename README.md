@@ -118,6 +118,9 @@ contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider
 response = Net::HTTP.get_response(URI.parse('http://dummyprovider.com')).body
 contract.validate response, body_only: true
 ```
+
+Pacto also has the ability to match a request signature to a contract that is currently in used, via ```Pacto.contract_for request_signature```
+
 ## Auto-Generated Stubs
 
 Pacto provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
