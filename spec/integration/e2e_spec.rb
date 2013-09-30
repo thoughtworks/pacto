@@ -39,7 +39,6 @@ describe 'Pacto' do
 
   context 'Journey' do
     it 'stubs multiple services with a single use' do
-      Pacto.clear!
       Pacto.configure do |c|
         c.strict_matchers = false
         c.postprocessor = Pacto::ERBProcessor.new

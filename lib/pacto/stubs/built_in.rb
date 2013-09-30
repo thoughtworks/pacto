@@ -19,6 +19,7 @@ module Pacto
 
       def reset!
         WebMock.reset!
+        WebMock.reset_callbacks
       end
 
       def process(request_signature, response)
