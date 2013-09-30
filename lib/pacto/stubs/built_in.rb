@@ -7,7 +7,7 @@ module Pacto
         register_callbacks
       end
 
-      def stub! request, response
+      def stub_request! request, response
         stub = WebMock.stub_request(request.method, "#{request.host}#{request.path}")
         stub = stub.with(request_details(request)) if Pacto.configuration.strict_matchers
         stub.to_return({
@@ -15,6 +15,11 @@ module Pacto
             :headers => response.headers,
             :body => format_body(response.body)
           })
+      end
+
+      def reset!
+        WebMock.reset!
+        WebMock.reset_callbacks
       end
 
       def process(request_signature, response)

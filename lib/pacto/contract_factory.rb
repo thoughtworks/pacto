@@ -9,7 +9,7 @@ module Pacto
       schema.validate definition
       request = Request.new(host, definition['request'])
       response = Response.new(definition['response'])
-      Contract.new(request, response)
+      Contract.new(request, response, contract_path)
     end
 
     def self.schema

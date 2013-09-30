@@ -34,6 +34,7 @@ module Pacto
     end
 
     def clear!
+      Pacto.configuration.provider.reset!
       @configuration = nil
       unregister_all!
     end

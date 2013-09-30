@@ -70,13 +70,13 @@ describe Pacto do
       let(:response_body) { double('response_body') }
 
       it 'should stub a contract with default values' do
-        contract.should_receive(:stub!)
-        another_contract.should_receive(:stub!)
+        contract.should_receive(:stub_contract!)
+        another_contract.should_receive(:stub_contract!)
         described_class.use(tag).should == 2
       end
 
       it 'should stub default contract if unused tag' do
-        another_contract.should_receive(:stub!)
+        another_contract.should_receive(:stub_contract!)
         described_class.use(another_tag).should == 1
       end
     end
@@ -121,7 +121,7 @@ describe Pacto do
   def create_contracts(total, matches)
     total.times.map do
       double('contract',
-             :stub! => double('request matcher'),
+             :stub_contract! => double('request matcher'),
              :matches? => matches)
     end.to_set
   end
