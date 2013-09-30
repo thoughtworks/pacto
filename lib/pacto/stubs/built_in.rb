@@ -18,6 +18,7 @@ module Pacto
 
       def reset!
         WebMock.reset!
+        WebMock.reset_callbacks
       end
 
       private
