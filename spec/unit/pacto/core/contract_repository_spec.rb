@@ -106,26 +106,10 @@ describe Pacto do
       end
     end
 
-<<<<<<< HEAD
-        described_class.configure do |c|
-          my_contracts.each do |contract|
-            c.register_contract contract
-          end
-        end
-        Pacto::Contract.any_instance.stub(:stub_contract!).and_return(double('request_matcher'))
-        result_bitmap = [false, true, true, false, false]
-        Pacto::Contract.any_instance.stub(:matches?).and_return do
-          result_bitmap.shift
-        end
-        Pacto.use :default
-
-        expected_contracts = Set.new [my_contracts[1], my_contracts[2]]
-=======
     context 'when contracts are found for a request' do
       let(:contracts_that_match)      { create_contracts 2, true }
       let(:contracts_that_dont_match) { create_contracts 3, false }
       let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
->>>>>>> c549be2241c8bd10e25d51d492d113b03a4c0755
 
       it 'should return the matching contracts' do
         register_and_use all_contracts
@@ -137,7 +121,7 @@ describe Pacto do
   def create_contracts(total, matches)
     total.times.map do
       double('contract',
-             :stub! => double('request matcher'),
+             :stub_contract! => double('request matcher'),
              :matches? => matches)
     end.to_set
   end
