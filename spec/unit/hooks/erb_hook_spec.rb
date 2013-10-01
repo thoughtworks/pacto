@@ -1,5 +1,5 @@
 describe Pacto::Hooks::ERBHook do
-  describe '.process' do
+  describe '#process' do
     let(:req) {
       OpenStruct.new({:headers => {'User-Agent' => 'abcd'}})
     }

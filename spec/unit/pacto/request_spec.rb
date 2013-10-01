@@ -20,7 +20,7 @@ module Pacto
       expect(request.host).to eq host
     end
 
-    describe '.method' do
+    describe '#method' do
       it 'delegates to definition' do
         expect(request.method).to eq :get
       end
@@ -34,25 +34,25 @@ module Pacto
       end
     end
 
-    describe '.path' do
+    describe '#path' do
       it 'delegates to definition' do
         expect(request.path).to eq path
       end
     end
 
-    describe '.headers' do
+    describe '#headers' do
       it 'delegates to definition' do
         expect(request.headers).to eq headers
       end
     end
 
-    describe '.params' do
+    describe '#params' do
       it 'delegates to definition' do
         expect(request.params).to eq params
       end
     end
 
-    describe '.execute' do
+    describe '#execute' do
       let(:connection)       { double 'connection' }
       let(:response)         { double 'response' }
       let(:adapted_response) { double 'adapted response' }
@@ -97,13 +97,13 @@ module Pacto
       end
     end
 
-    describe '.absolute_uri' do
+    describe '#absolute_uri' do
       it 'returns the host followed by the path' do
         expect(request.absolute_uri).to eq absolute_uri
       end
     end
 
-    describe '.full_uri' do
+    describe '#full_uri' do
       context 'when the request has a query' do
         it 'returns the host followed by the path and the query' do
           expect(request.full_uri).to eq 'http://localhost/hello_world?foo=bar'
