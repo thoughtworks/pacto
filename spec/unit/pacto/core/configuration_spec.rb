@@ -1,5 +1,5 @@
 describe Pacto do
-  describe 'configure' do
+  describe '.configure' do
     let(:contracts_path) { 'path_to_contracts' }
     it 'allows preprocessor manual configuration' do
       expect(Pacto.configuration.preprocessor).to_not be_nil
