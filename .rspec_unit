@@ -1,4 +1,0 @@
---colour
---require spec_helper
---require unit/spec_helper
---pattern spec/unit/**/*_spec.rb

@@ -1,13 +1,12 @@
 module Pacto
   module Stubs
     class BuiltIn
-      attr_accessor :values
 
       def initialize
         register_callbacks
       end
 
-      def stub! request, response
+      def stub_request! request, response
         stub = WebMock.stub_request(request.method, "#{request.host}#{request.path}")
         stub = stub.with(request_details(request)) if Pacto.configuration.strict_matchers
         stub.to_return({
@@ -17,26 +16,18 @@ module Pacto
           })
       end
 
-      def process(request_signature, response)
-        unless processor.nil?
-          bound_values = {}
-          bound_values.merge!({:req => {'HEADERS' => request_signature.headers}}) if processor.class == ERBProcessor
-          bound_values.merge! @values unless @values.nil?
-          response.body = processor.process response.body, bound_values
-        end
-        response.body
+      def reset!
+        WebMock.reset!
+        WebMock.reset_callbacks
       end
 
       private
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
-          process request_signature, response
+          contracts = Pacto.contract_for request_signature
+          Pacto.configuration.callback.process contracts, request_signature, response
         end
-      end
-
-      def processor
-        Pacto.configuration.postprocessor
       end
 
       def format_body(body)

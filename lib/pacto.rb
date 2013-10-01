@@ -12,6 +12,7 @@ require 'logger'
 
 require 'pacto/core/contract_repository'
 require 'pacto/core/configuration'
+require 'pacto/core/callback'
 require 'pacto/logger'
 require 'pacto/exceptions/invalid_contract.rb'
 require 'pacto/extensions'
@@ -25,6 +26,7 @@ require 'pacto/erb_processor'
 require 'pacto/hash_merge_processor'
 require 'pacto/stubs/built_in'
 require 'pacto/meta_schema'
+require 'pacto/hooks/erb_hook'
 
 module Pacto
   class << self
@@ -34,6 +36,7 @@ module Pacto
     end
 
     def clear!
+      Pacto.configuration.provider.reset!
       @configuration = nil
       unregister_all!
     end
