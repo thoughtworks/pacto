@@ -10,34 +10,34 @@ describe Pacto do
 
   describe '.register' do
     context 'no tag' do
-      it 'should register the contract with the default tag' do
+      it 'registers the contract with the default tag' do
         described_class.register_contract contract
         expect(described_class.registered[:default]).to include(contract)
       end
     end
 
     context 'one tag' do
-      it 'should register a contract under a given tag' do
+      it 'registers a contract under a given tag' do
         described_class.register_contract(contract, tag)
         expect(described_class.registered[tag]).to include(contract)
       end
 
-      it 'should not duplicate a contract when it has already been registered with the same tag' do
+      it 'does not duplicate a contract when it has already been registered with the same tag' do
         described_class.register_contract(contract, tag)
         described_class.register_contract(contract, tag)
         expect(described_class.registered[tag]).to include(contract)
-        described_class.registered[tag].should have(1).items
+        expect(described_class.registered[tag]).to have(1).items
       end
     end
 
     context 'multiple tags' do
-      it 'should register a contract using different tags' do
+      it 'registers a contract using different tags' do
         described_class.register_contract(contract, tag, another_tag)
         expect(described_class.registered[tag]).to include(contract)
         expect(described_class.registered[another_tag]).to include(contract)
       end
 
-      it 'should register a tag with different contracts ' do
+      it 'registers a tag with different contracts ' do
         described_class.register_contract(contract, tag)
         described_class.register_contract(another_contract, tag)
         expect(described_class.registered[tag]).to include(contract, another_contract)
@@ -46,7 +46,7 @@ describe Pacto do
     end
 
     context 'with a block' do
-      it 'should have a compact syntax for registering multiple contracts' do
+      it 'has a compact syntax for registering multiple contracts' do
         described_class.configure do |c|
           c.register_contract 'new_api/create_item_v2', :item, :new
           c.register_contract 'authentication', :default
@@ -69,20 +69,20 @@ describe Pacto do
     context 'when a contract has been registered' do
       let(:response_body) { double('response_body') }
 
-      it 'should stub a contract with default values' do
+      it 'stubs a contract with default values' do
         contract.should_receive(:stub_contract!)
         another_contract.should_receive(:stub_contract!)
-        described_class.use(tag).should == 2
+        expect(described_class.use(tag)).to eq 2
       end
 
-      it 'should stub default contract if unused tag' do
+      it 'stubs default contract if unused tag' do
         another_contract.should_receive(:stub_contract!)
-        described_class.use(another_tag).should == 1
+        expect(described_class.use(another_tag)).to eq 1
       end
     end
 
     context 'when contract has not been registered' do
-      it 'should raise an argument error' do
+      it 'raises an argument error' do
         described_class.unregister_all!
         expect { described_class.use('unregistered') }.to raise_error ArgumentError
       end
@@ -90,10 +90,10 @@ describe Pacto do
   end
 
   describe '.unregister_all!' do
-    it 'should unregister all previously registered contracts' do
+    it 'unregisters all previously registered contracts' do
       described_class.register_contract(contract, tag)
       described_class.unregister_all!
-      described_class.registered.should be_empty
+      expect(described_class.registered).to be_empty
     end
   end
 
@@ -101,7 +101,7 @@ describe Pacto do
     let(:request_signature) { double('request signature') }
 
     context 'when no contracts are found for a request' do
-      it 'should return an empty list' do
+      it 'returns an empty list' do
         expect(described_class.contract_for request_signature).to be_empty
       end
     end
@@ -111,7 +111,7 @@ describe Pacto do
       let(:contracts_that_dont_match) { create_contracts 3, false }
       let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
 
-      it 'should return the matching contracts' do
+      it 'returns the matching contracts' do
         register_and_use all_contracts
         expect(described_class.contract_for request_signature).to eq(contracts_that_match)
       end

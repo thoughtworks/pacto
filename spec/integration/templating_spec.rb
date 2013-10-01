@@ -25,7 +25,7 @@ describe 'Templating' do
   end
 
   context 'No processing' do
-    it 'should not proccess erb tag' do
+    it 'does not proccess erb tag' do
       Pacto.configure do |c|
         c.preprocessor = nil
         c.postprocessor = nil
@@ -35,21 +35,21 @@ describe 'Templating' do
         end
       end
 
-      response.keys.should == ['message']
-      response['message'].should eql("<%= req['HEADERS']['X-Message'].reverse %>")
+      expect(response.keys).to eq ['message']
+      expect(response['message']).to eq("<%= req['HEADERS']['X-Message'].reverse %>")
     end
   end
 
   context 'Post processing' do
-    it 'should process erb on each request' do
+    it 'processes erb on each request' do
       Pacto.configure do |c|
         c.preprocessor = nil
         c.strict_matchers = false
         c.postprocessor = Pacto::ERBProcessor.new
       end
 
-      response.keys.should == ['message']
-      response['message'].should eql(key.reverse)
+      expect(response.keys).to eq ['message']
+      expect(response['message']).to eq(key.reverse)
     end
   end
 end
