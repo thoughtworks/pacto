@@ -2,9 +2,12 @@ require 'coveralls_helper'
 require 'pacto'
 require 'pacto/server'
 require 'stringio'
+require 'should_not/rspec'
 
 RSpec.configure do |config|
-  # I'd like this to be before :each, but there is an issue with one test
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
   config.before(:each) do
     provider = Pacto.configuration.provider
     unless provider.respond_to? :reset!

@@ -6,7 +6,7 @@ module Pacto
       let(:erb) { '2 + 2 = <%= 2 + 2 %>' }
       let(:result) { '2 + 2 = 4' }
 
-      it 'should return the result of ERB' do
+      it 'returns the result of ERB' do
         expect(processor.process(erb)).to eq result
       end
 
@@ -15,7 +15,7 @@ module Pacto
         processor.process erb
       end
 
-      it 'should not mess with pure JSONs' do
+      it 'does not mess with pure JSONs' do
         processor.process('{"property": ["one", "two, null"]}')
       end
     end

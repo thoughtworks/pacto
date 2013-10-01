@@ -14,15 +14,15 @@ module Pacto
     describe '#instantiate' do
       let(:generated_body) { double('generated body') }
 
-      it 'should instantiate a response with a body that matches the given definition' do
+      it 'instantiates a response with a body that matches the given definition' do
         JSON::Generator.should_receive(:generate).
           with(definition['body']).
           and_return(generated_body)
 
         response = described_class.new(definition).instantiate
-        response.status.should == definition['status']
-        response.headers.should == definition['headers']
-        response.body.should == generated_body
+        expect(response.status).to eq definition['status']
+        expect(response.headers).to eq definition['headers']
+        expect(response.body).to eq generated_body
       end
     end
 
@@ -39,13 +39,13 @@ module Pacto
       end
 
       context 'when status, headers and body match' do
-        it 'should not return any errors' do
+        it 'does not return any errors' do
           JSON::Validator.should_receive(:fully_validate).
             with(definition['body'], fake_response.body, :version => :draft3).
             and_return([])
 
           response = described_class.new(definition)
-          response.validate(fake_response).should == []
+          expect(response.validate(fake_response)).to be_empty
         end
       end
 
@@ -56,7 +56,7 @@ module Pacto
         end
         let(:response_body) { 'a simple string' }
 
-        it 'should not validate using JSON Schema' do
+        it 'does not validate using JSON Schema' do
           response = described_class.new(definition)
 
           JSON::Validator.should_not_receive(:fully_validate)
@@ -64,34 +64,34 @@ module Pacto
         end
 
         context 'if required' do
-          it 'should not return an error when body is a string' do
+          it 'does not return an error when body is a string' do
             response = described_class.new(definition)
 
-            response.validate(fake_response).should == []
+            expect(response.validate(fake_response)).to be_empty
           end
 
-          it 'should return an error when body is nil' do
+          it 'returns an error when body is nil' do
             response = described_class.new(definition)
 
             fake_response.stub(:body).and_return(nil)
-            response.validate(fake_response).size.should == 1
+            expect(response.validate(fake_response).size).to eq 1
           end
         end
 
         context 'if not required' do
           let(:string_required) { false }
 
-          it 'should not return an error when body is a string' do
+          it 'does not return an error when body is a string' do
             response = described_class.new(definition)
 
-            response.validate(fake_response).should == []
+            expect(response.validate(fake_response)).to be_empty
           end
 
-          it 'should not return an error when body is nil' do
+          it 'does not return an error when body is nil' do
             response = described_class.new(definition)
 
             fake_response.stub(:body).and_return(nil)
-            response.validate(fake_response).should == []
+            expect(response.validate(fake_response)).to be_empty
           end
         end
 
@@ -103,20 +103,20 @@ module Pacto
           context 'body matches pattern' do
             let(:response_body) { 'cabcd' }
 
-            it 'should not return an error' do
+            it 'does not return an error' do
               response = described_class.new(definition)
 
-              response.validate(fake_response).should == []
+              expect(response.validate(fake_response)).to be_empty
             end
           end
 
           context 'body does not match pattern' do
             let(:response_body) { 'cabscd' }
 
-            it 'should return an error' do
+            it 'returns an error' do
               response = described_class.new(definition)
 
-              response.validate(fake_response).size.should == 1
+              expect(response.validate(fake_response).size).to eq 1
             end
           end
 
@@ -126,55 +126,55 @@ module Pacto
       context 'when status does not match' do
         let(:status) { 500 }
 
-        it 'should return a status error' do
+        it 'returns a status error' do
           JSON::Validator.should_not_receive(:fully_validate)
 
           response = described_class.new(definition)
-          response.validate(fake_response).should == ["Invalid status: expected #{definition['status']} but got #{status}"]
+          expect(response.validate(fake_response)).to eq ["Invalid status: expected #{definition['status']} but got #{status}"]
         end
       end
 
       context 'when headers do not match' do
         let(:headers) { {'Content-Type' => 'text/html'} }
 
-        it 'should return a header error' do
+        it 'returns a header error' do
           JSON::Validator.should_not_receive(:fully_validate)
 
           response = described_class.new(definition)
-          response.validate(fake_response).should == ["Invalid headers: expected #{definition['headers'].inspect} to be a subset of #{headers.inspect}"]
+          expect(response.validate(fake_response)).to eq ["Invalid headers: expected #{definition['headers'].inspect} to be a subset of #{headers.inspect}"]
         end
       end
 
       context 'when headers are a subset of expected headers' do
         let(:headers) { {'Content-Type' => 'application/json'} }
 
-        it 'should not return any errors' do
+        it 'does not return any errors' do
           JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
-          response.validate(fake_response).should == []
+          expect(response.validate(fake_response)).to be_empty
         end
       end
 
       context 'when headers values match but keys have different case' do
         let(:headers) { {'content-type' => 'application/json'} }
 
-        it 'should not return any errors' do
+        it 'does not return any errors' do
           JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
-          response.validate(fake_response).should == []
+          expect(response.validate(fake_response)).to be_empty
         end
       end
 
       context 'when body does not match' do
         let(:errors) { [double('error1'), double('error2')] }
 
-        it 'should return a list of errors' do
+        it 'returns a list of errors' do
           JSON::Validator.stub(:fully_validate).and_return(errors)
 
           response = described_class.new(definition)
-          response.validate(fake_response).should == errors
+          expect(response.validate(fake_response)).to eq errors
         end
       end
 
@@ -186,14 +186,14 @@ module Pacto
           }
         end
 
-        it 'should not validate body' do
+        it 'does not validate body' do
           JSON::Validator.should_not_receive(:fully_validate)
           described_class.new(definition)
         end
 
-        it 'should give no errors' do
+        it 'gives no errors' do
           response = described_class.new(definition)
-          response.validate(fake_response).should == []
+          expect(response.validate(fake_response)).to be_empty
         end
       end
     end

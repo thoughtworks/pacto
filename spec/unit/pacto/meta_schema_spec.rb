@@ -51,7 +51,7 @@ module Pacto
 
     describe 'when validating a contract against the master schema' do
       context 'with a valid contract structure' do
-        it 'should not raise any exceptions' do
+        it 'does not raise any exceptions' do
           expect {
             schema.validate(valid_contract)
           }.to_not raise_error(Exception)
@@ -59,7 +59,7 @@ module Pacto
       end
 
       context 'with an invalid contract structure' do
-        it 'should raise InvalidContract exception' do
+        it 'raises InvalidContract exception' do
           expect {
             schema.validate(invalid_contract)
           }.to raise_error(InvalidContract)

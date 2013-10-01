@@ -1,20 +1,20 @@
 describe Pacto do
-  describe 'configure' do
+  describe '.configure' do
     let(:contracts_path) { 'path_to_contracts' }
-    it 'should allow preprocessor manual configuration' do
-      Pacto.configuration.preprocessor.should_not be_nil
+    it 'allows preprocessor manual configuration' do
+      expect(Pacto.configuration.preprocessor).to_not be_nil
       Pacto.configure do |c|
         c.preprocessor = nil
       end
-      Pacto.configuration.preprocessor.should be_nil
+      expect(Pacto.configuration.preprocessor).to be_nil
     end
 
-    it 'should allow contracts_path manual configuration' do
-      Pacto.configuration.contracts_path.should be_nil
+    it 'allows contracts_path manual configuration' do
+      expect(Pacto.configuration.contracts_path).to be_nil
       Pacto.configure do |c|
         c.contracts_path = contracts_path
       end
-      Pacto.configuration.contracts_path.should eql(contracts_path)
+      expect(Pacto.configuration.contracts_path).to eq(contracts_path)
     end
 
     it 'register a Pacto Callback' do
@@ -22,7 +22,7 @@ describe Pacto do
       Pacto.configure do |c|
         c.register_callback(callback_block)
       end
-      Pacto.configuration.callback.should eq(callback_block)
+      expect(Pacto.configuration.callback).to eq(callback_block)
     end
   end
 end

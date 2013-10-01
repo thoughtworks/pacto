@@ -29,9 +29,9 @@ module Pacto
       let(:processor) { double('processor') }
 
       describe '#initialize' do
-        it 'should setup a callback' do
+        it 'sets up a callback' do
           WebMock.should_receive(:after_request) do | arg, &block |
-            block.parameters.size.should == 2
+            expect(block.parameters).to have(2).items
           end
 
           described_class.new
@@ -56,7 +56,7 @@ module Pacto
             {'message' => 'foo'}
           end
 
-          it 'should stub the response body with a json representation' do
+          it 'stubs the response body with a json representation' do
             stubbed_request.should_receive(:to_return).with({
               :status => response.status,
               :headers => response.headers,
@@ -74,7 +74,7 @@ module Pacto
             [1, 2, 3]
           end
 
-          it 'should stub the response body with a json representation' do
+          it 'stubs the response body with a json representation' do
             stubbed_request.should_receive(:to_return).with({
               :status => response.status,
               :headers => response.headers,
@@ -90,7 +90,7 @@ module Pacto
         context 'when the response body is not an object or an array' do
           let(:body) { nil }
 
-          it 'should stub the response body with the original body' do
+          it 'stubs the response body with the original body' do
             stubbed_request.should_receive(:to_return).with({
               :status => response.status,
               :headers => response.headers,
@@ -106,7 +106,7 @@ module Pacto
         context 'a GET request' do
           let(:method) { :get }
 
-          it 'should use WebMock to stub the request' do
+          it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
               with({:headers => request.headers, :query => request.params}).
               and_return(stubbed_request)
@@ -117,7 +117,7 @@ module Pacto
         context 'a POST request' do
           let(:method) { :post }
 
-          it 'should use WebMock to stub the request' do
+          it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
               with({:headers => request.headers, :body => request.params}).
               and_return(stubbed_request)
@@ -136,7 +136,7 @@ module Pacto
             })
           end
 
-          it 'should use WebMock to stub the request' do
+          it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
               with({:query => request.params}).
               and_return(stubbed_request)
@@ -155,7 +155,7 @@ module Pacto
             })
           end
 
-          it 'should use WebMock to stub the request' do
+          it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
               with({}).
               and_return(stubbed_request)
