@@ -8,4 +8,11 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+  config.before(:each) do
+    provider = Pacto.configuration.provider
+    unless provider.respond_to? :reset!
+      provider.stub(:reset!)
+    end
+    Pacto.clear!
+  end
 end

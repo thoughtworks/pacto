@@ -18,16 +18,12 @@ Cucumber::Rake::Task.new(:journeys) do |t|
   t.cucumber_opts = 'features --format pretty'
 end
 
-if defined?(RSpec)
-  desc 'Run unit tests'
-  task :unit do
-    abort unless system('rspec --option .rspec_unit')
-  end
-
-  desc 'Run integration tests'
-  task :integration do
-    abort unless system('rspec --option .rspec_integration')
-  end
-
-  task :default => [:unit, :integration, :journeys, :rubocop, 'coveralls:push']
+RSpec::Core::RakeTask.new(:unit) do |t|
+  t.pattern = 'spec/unit/**/*_spec.rb'
 end
+
+RSpec::Core::RakeTask.new(:integration) do |t|
+  t.pattern = 'spec/integration/**/*_spec.rb'
+end
+
+task :default => [:unit, :integration, :journeys, :rubocop, 'coveralls:push']

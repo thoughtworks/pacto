@@ -30,6 +30,9 @@ describe 'Templating' do
         c.preprocessor = nil
         c.postprocessor = nil
         c.strict_matchers = false
+        c.register_callback do |contracts, req, res|
+          res
+        end
       end
 
       expect(response.keys).to eq ['message']
@@ -41,6 +44,7 @@ describe 'Templating' do
     it 'processes erb on each request' do
       Pacto.configure do |c|
         c.preprocessor = nil
+        c.strict_matchers = false
         c.postprocessor = Pacto::ERBProcessor.new
       end
 

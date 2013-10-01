@@ -1,16 +1,24 @@
 module Pacto
   class Contract
-    def initialize(request, response)
+    attr_reader :values
+
+    def initialize(request, response, file = nil)
       @request = request
       @response = response
+      @file = file
     end
 
-    def stub!
-      Pacto.configuration.provider.stub!(@request, stub_response) unless @request.nil?
+    def stub_contract! values = {}
+      @values = values
+      @stub = Pacto.configuration.provider.stub_request!(@request, stub_response) unless @request.nil?
     end
 
     def validate(response_gotten = provider_response, opt = {})
       @response.validate(response_gotten, opt)
+    end
+
+    def matches? request_signature
+      @stub.matches? request_signature unless @stub.nil?
     end
 
     private
@@ -22,5 +30,6 @@ module Pacto
     def stub_response
       @response.instantiate
     end
+
   end
 end

@@ -16,5 +16,13 @@ describe Pacto do
       end
       expect(Pacto.configuration.contracts_path).to eq(contracts_path)
     end
+
+    it 'register a Pacto Callback' do
+      callback_block = Pacto::Callback.new { }
+      Pacto.configure do |c|
+        c.register_callback(callback_block)
+      end
+      expect(Pacto.configuration.callback).to eq(callback_block)
+    end
   end
 end

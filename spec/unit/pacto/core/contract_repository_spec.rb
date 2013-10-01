@@ -70,13 +70,13 @@ describe Pacto do
       let(:response_body) { double('response_body') }
 
       it 'stubs a contract with default values' do
-        contract.should_receive(:stub!)
-        another_contract.should_receive(:stub!)
+        contract.should_receive(:stub_contract!)
+        another_contract.should_receive(:stub_contract!)
         expect(described_class.use(tag)).to eq 2
       end
 
       it 'stubs default contract if unused tag' do
-        another_contract.should_receive(:stub!)
+        another_contract.should_receive(:stub_contract!)
         expect(described_class.use(another_tag)).to eq 1
       end
     end
@@ -95,5 +95,39 @@ describe Pacto do
       described_class.unregister_all!
       expect(described_class.registered).to be_empty
     end
+  end
+
+  describe '.contract_for' do
+    let(:request_signature) { double('request signature') }
+
+    context 'when no contracts are found for a request' do
+      it 'returns an empty list' do
+        expect(described_class.contract_for request_signature).to be_empty
+      end
+    end
+
+    context 'when contracts are found for a request' do
+      let(:contracts_that_match)      { create_contracts 2, true }
+      let(:contracts_that_dont_match) { create_contracts 3, false }
+      let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
+
+      it 'returns the matching contracts' do
+        register_and_use all_contracts
+        expect(described_class.contract_for request_signature).to eq(contracts_that_match)
+      end
+    end
+  end
+
+  def create_contracts(total, matches)
+    total.times.map do
+      double('contract',
+             :stub_contract! => double('request matcher'),
+             :matches? => matches)
+    end.to_set
+  end
+
+  def register_and_use contracts
+    contracts.each { |contract| described_class.register_contract contract }
+    Pacto.use :default
   end
 end
