@@ -7,7 +7,9 @@ module Pacto
       end
 
       def stub_request! request, response
-        stub = WebMock.stub_request(request.method, "#{request.host}#{request.path}")
+        path_pattern = request.path.gsub(/\/:\w+/, '/\w+')
+        host_pattern = Regexp.quote(request.host)
+        stub = WebMock.stub_request(request.method, /#{host_pattern}#{path_pattern}/)
         stub = stub.with(request_details(request)) if Pacto.configuration.strict_matchers
         stub.to_return({
             :status => response.status,
