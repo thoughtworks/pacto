@@ -28,14 +28,23 @@ module Pacto
     end
 
     context 'about logging' do
-      around do |example|
-        ENV['PACTO_DEBUG'] = 'true'
-        example.run
-        ENV.delete 'PACTO_DEBUG'
+
+      context 'when PACTO_DEBUG is enabled' do
+        around do |example|
+          ENV['PACTO_DEBUG'] = 'true'
+          example.run
+          ENV.delete 'PACTO_DEBUG'
+        end
+
+        it 'sets the log level to debug' do
+          expect(configuration.logger.level).to eq :debug
+        end
       end
 
-      it 'sets the log level to debug if the environment variable PACTO_DEBUG is enabled' do
-        expect(configuration.logger.level).to eq :debug
+      context 'when PACTO_DEBUG is disabled' do
+        it 'sets the log level to default' do
+          expect(configuration.logger.level).to eq :error
+        end
       end
     end
   end

@@ -10,7 +10,11 @@ module Pacto
       @strict_matchers = true
       @contracts_path = nil
       @logger = Logger.instance
-      @logger.level = :debug if ENV['PACTO_DEBUG']
+      if ENV['PACTO_DEBUG']
+        @logger.level = :debug
+      else
+        @logger.level = :default
+      end
       @callback = Pacto::Hooks::ERBHook.new
     end
 
