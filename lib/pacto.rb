@@ -62,13 +62,4 @@ module Pacto
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
-  def self.load(contract_name)
-    build_from_file(path_for(contract_name), nil)
-  end
-
-  private
-
-  def self.path_for(contract)
-    File.join(configuration.contracts_path, "#{contract}.json")
-  end
 end

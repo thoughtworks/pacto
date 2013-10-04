@@ -17,5 +17,14 @@ module Pacto
         described_class.build_from_file(contract_path, host, file_pre_processor)
       end
     end
+
+    describe '.load' do
+      let(:contract) { double 'contract' }
+      it 'builds a contract from a relative path' do
+        Pacto.configuration.contracts_path = 'my_contracts'
+        described_class.should_receive(:build_from_file).with('my_contracts/the_contract.json', host).and_return(contract)
+        expect(described_class.load('the_contract', host)).to eq(contract)
+      end
+    end
   end
 end

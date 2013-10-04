@@ -15,5 +15,15 @@ module Pacto
     def self.schema
       @schema ||= MetaSchema.new
     end
+
+    def self.load(contract_name, host = nil)
+      build_from_file(path_for(contract_name), host)
+    end
+
+    private
+
+    def self.path_for(contract)
+      File.join(Pacto.configuration.contracts_path, "#{contract}.json")
+    end
   end
 end
