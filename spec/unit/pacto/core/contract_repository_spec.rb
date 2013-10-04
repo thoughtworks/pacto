@@ -89,6 +89,20 @@ describe Pacto do
     end
   end
 
+  describe 'load_all' do
+    it 'builds and registers each contract in the contract directory' do
+      host = 'http://www.example.com'
+      files = (1..5).to_a.map { |i| "my_contracts/#{i}.json" }
+      Dir.should_receive(:glob).and_return(files)
+      files.each do |file|
+        contract = double(file)
+        Pacto.should_receive(:build_from_file).with("#{file}", host, nil).and_return contract
+        described_class.should_receive(:register_contract).with(contract, :tag1, :tag2)
+      end
+      described_class.load_all 'my_contracts', host, :tag1, :tag2
+    end
+  end
+
   describe '.unregister_all!' do
     it 'unregisters all previously registered contracts' do
       described_class.register_contract(contract, tag)

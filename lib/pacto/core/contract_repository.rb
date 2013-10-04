@@ -21,6 +21,16 @@ module Pacto
       merged_contracts.count
     end
 
+    def load_all(contracts_directory, host, *tags)
+      dir = File.expand_path contracts_directory, configuration.contracts_path
+      contracts = Dir.glob(File.expand_path('**.json', dir))
+      contracts.each do |contract_file|
+        Logger.instance.debug "Registering #{contract_file} with #{tags}"
+        contract = build_from_file contract_file, host, nil
+        register_contract contract, *tags
+      end
+    end
+
     def registered
       @registered ||= Hash.new { |hash, key| hash[key] = Set.new }
     end
