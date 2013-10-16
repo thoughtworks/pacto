@@ -39,127 +39,160 @@ module Pacto
       end
 
       describe '#stub_request!' do
-        before do
-          WebMock.should_receive(:stub_request).
-            with(request.method, "#{request.host}#{request.path}").
-            and_return(stubbed_request)
+        context 'not using strict_matchers' do
+          before do
+            Pacto.configuration.strict_matchers = false
 
-          stubbed_request.stub(:to_return).with({
-            :status => response.status,
-            :headers => response.headers,
-            :body => response.body.to_json
-          })
-        end
+            WebMock.should_receive(:stub_request).
+              with(request.method, /#{request.host}#{request.path}/) # regex!
+              .and_return(stubbed_request)
 
-        context 'when the response body is an object' do
-          let(:body) do
-            {'message' => 'foo'}
-          end
-
-          it 'stubs the response body with a json representation' do
-            stubbed_request.should_receive(:to_return).with({
+            stubbed_request.stub(:to_return).with({
               :status => response.status,
               :headers => response.headers,
               :body => response.body.to_json
             })
+          end
 
-            stubbed_request.stub(:with).and_return(stubbed_request)
-
+          it 'stubs with a string path_pattern' do
             described_class.new.stub_request! request, response
           end
         end
+        context 'using strict_matchers' do
+          before do
+            Pacto.configuration.strict_matchers = true
 
-        context 'when the response body is an array' do
-          let(:body) do
-            [1, 2, 3]
-          end
+            WebMock.should_receive(:stub_request).
+              with(request.method, "#{request.host}#{request.path}") # string!
+              .and_return(stubbed_request)
 
-          it 'stubs the response body with a json representation' do
-            stubbed_request.should_receive(:to_return).with({
+            stubbed_request.stub(:to_return).with({
               :status => response.status,
               :headers => response.headers,
               :body => response.body.to_json
             })
+          end
 
-            stubbed_request.stub(:with).and_return(stubbed_request)
-
+          it 'stubs with headers and no regex' do
+            stubbed_request.should_receive(:with).with(
+              {
+                :query => { 'foo' => 'bar' },
+                :headers => { 'Accept' => 'application/json' }
+              }
+            ).and_return(stubbed_request)
             described_class.new.stub_request! request, response
           end
-        end
 
-        context 'when the response body is not an object or an array' do
-          let(:body) { nil }
+          context 'when the response body is an object' do
+            let(:body) do
+              {'message' => 'foo'}
+            end
 
-          it 'stubs the response body with the original body' do
-            stubbed_request.should_receive(:to_return).with({
-              :status => response.status,
-              :headers => response.headers,
-              :body => response.body
-            })
+            it 'stubs the response body with a json representation' do
+              stubbed_request.should_receive(:to_return).with({
+                :status => response.status,
+                :headers => response.headers,
+                :body => response.body.to_json
+              })
 
-            stubbed_request.stub(:with).and_return(stubbed_request)
+              stubbed_request.stub(:with).and_return(stubbed_request)
 
-            described_class.new.stub_request! request, response
-          end
-        end
-
-        context 'a GET request' do
-          let(:method) { :get }
-
-          it 'uses WebMock to stub the request' do
-            stubbed_request.should_receive(:with).
-              with({:headers => request.headers, :query => request.params}).
-              and_return(stubbed_request)
-            described_class.new.stub_request! request, response
-          end
-        end
-
-        context 'a POST request' do
-          let(:method) { :post }
-
-          it 'uses WebMock to stub the request' do
-            stubbed_request.should_receive(:with).
-              with({:headers => request.headers, :body => request.params}).
-              and_return(stubbed_request)
-            described_class.new.stub_request! request, response
-          end
-        end
-
-        context 'a request with no headers' do
-          let(:request) do
-            double({
-              :host => 'http://localhost',
-              :method => :get,
-              :path => '/hello_world',
-              :headers => {},
-              :params => {'foo' => 'bar'}
-            })
+              described_class.new.stub_request! request, response
+            end
           end
 
-          it 'uses WebMock to stub the request' do
-            stubbed_request.should_receive(:with).
-              with({:query => request.params}).
-              and_return(stubbed_request)
-            described_class.new.stub_request! request, response
-          end
-        end
+          context 'when the response body is an array' do
+            let(:body) do
+              [1, 2, 3]
+            end
 
-        context 'a request with no params' do
-          let(:request) do
-            double({
-              :host => 'http://localhost',
-              :method => :get,
-              :path => '/hello_world',
-              :headers => {},
-              :params => {}
-            })
+            it 'stubs the response body with a json representation' do
+              stubbed_request.should_receive(:to_return).with({
+                :status => response.status,
+                :headers => response.headers,
+                :body => response.body.to_json
+              })
+
+              stubbed_request.stub(:with).and_return(stubbed_request)
+
+              described_class.new.stub_request! request, response
+            end
           end
 
-          it 'uses WebMock to stub the request' do
-            stubbed_request.should_receive(:with).
-              with({}).
-              and_return(stubbed_request)
-            described_class.new.stub_request! request, response
+          context 'when the response body is not an object or an array' do
+            let(:body) { nil }
+
+            it 'stubs the response body with the original body' do
+              stubbed_request.should_receive(:to_return).with({
+                :status => response.status,
+                :headers => response.headers,
+                :body => response.body
+              })
+
+              stubbed_request.stub(:with).and_return(stubbed_request)
+
+              described_class.new.stub_request! request, response
+            end
+          end
+
+          context 'a GET request' do
+            let(:method) { :get }
+
+            it 'uses WebMock to stub the request' do
+              stubbed_request.should_receive(:with).
+                with({:headers => request.headers, :query => request.params}).
+                and_return(stubbed_request)
+              described_class.new.stub_request! request, response
+            end
+          end
+
+          context 'a POST request' do
+            let(:method) { :post }
+
+            it 'uses WebMock to stub the request' do
+              stubbed_request.should_receive(:with).
+                with({:headers => request.headers, :body => request.params}).
+                and_return(stubbed_request)
+              described_class.new.stub_request! request, response
+            end
+          end
+
+          context 'a request with no headers' do
+            let(:request) do
+              double({
+                :host => 'http://localhost',
+                :method => :get,
+                :path => '/hello_world',
+                :headers => {},
+                :params => {'foo' => 'bar'}
+              })
+            end
+
+            it 'uses WebMock to stub the request' do
+              stubbed_request.should_receive(:with).
+                with({:query => request.params}).
+                and_return(stubbed_request)
+              described_class.new.stub_request! request, response
+            end
+          end
+
+          context 'a request with no params' do
+            let(:request) do
+              double({
+                :host => 'http://localhost',
+                :method => :get,
+                :path => '/hello_world',
+                :headers => {},
+                :params => {}
+              })
+            end
+
+            it 'uses WebMock to stub the request' do
+              stubbed_request.should_receive(:with).
+                with({}).
+                and_return(stubbed_request)
+              described_class.new.stub_request! request, response
+            end
           end
         end
       end

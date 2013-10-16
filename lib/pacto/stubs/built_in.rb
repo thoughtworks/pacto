@@ -7,10 +7,18 @@ module Pacto
       end
 
       def stub_request! request, response
-        path_pattern = request.path.gsub(/\/:\w+/, '/\w+')
-        host_pattern = Regexp.quote(request.host)
-        stub = WebMock.stub_request(request.method, /#{host_pattern}#{path_pattern}/)
-        stub = stub.with(request_details(request)) if Pacto.configuration.strict_matchers
+        strict = Pacto.configuration.strict_matchers
+        host_pattern = request.host
+        path_pattern = request.path
+        if strict
+          uri_matcher = "#{host_pattern}#{path_pattern}"
+        else
+          path_pattern = path_pattern.gsub(/\/:\w+/, '/\w+')
+          host_pattern = Regexp.quote(request.host)
+          uri_matcher = /#{host_pattern}#{path_pattern}/
+        end
+        stub = WebMock.stub_request(request.method, uri_matcher)
+        stub = stub.with(request_details(request)) if strict
         stub.to_return({
             :status => response.status,
             :headers => response.headers,
