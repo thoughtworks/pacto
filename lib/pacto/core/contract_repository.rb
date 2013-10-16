@@ -39,7 +39,7 @@ module Pacto
       registered.clear
     end
 
-    def contract_for(request_signature)
+    def contracts_for(request_signature)
       matches = Set.new
       registered.values.each do |contract_set|
         contract_set.each do |contract|
@@ -49,6 +49,10 @@ module Pacto
         end
       end
       matches
+    end
+
+    def contract_for(request_signature)
+      contracts_for(request_signature).first
     end
   end
 end
