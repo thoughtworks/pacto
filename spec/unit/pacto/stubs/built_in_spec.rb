@@ -10,6 +10,15 @@ module Pacto
           :params => {'foo' => 'bar'}
         })
       end
+      let(:request_with_placeholder) do
+        double({
+          :host => 'http://localhost',
+          :method => method,
+          :path => '/a/:id/c',
+          :headers => {'Accept' => 'application/json'},
+          :params => {'foo' => 'bar'}
+        })
+      end
 
       let(:method) { :get }
 
@@ -25,8 +34,20 @@ module Pacto
         {'message' => 'foo'}
       end
 
-      let(:stubbed_request) { double('stubbed request') }
+      let(:stubbed_request) do
+        {
+          :path => nil
+        }
+      end
       let(:processor) { double('processor') }
+
+      before(:each) do
+        stubbed_request.stub(:to_return).with({
+          :status => response.status,
+          :headers => response.headers,
+          :body => response.body.to_json,
+        })
+      end
 
       describe '#initialize' do
         it 'sets up a callback' do
@@ -39,38 +60,41 @@ module Pacto
       end
 
       describe '#stub_request!' do
-        context 'not using strict_matchers' do
-          before do
-            Pacto.configuration.strict_matchers = false
-
-            WebMock.should_receive(:stub_request).
-              with(request.method, /#{request.host}#{request.path}/) # regex!
-              .and_return(stubbed_request)
-
-            stubbed_request.stub(:to_return).with({
-              :status => response.status,
-              :headers => response.headers,
-              :body => response.body.to_json
-            })
-          end
-
-          it 'stubs with a string path_pattern' do
-            described_class.new.stub_request! request, response
+        before(:each) do
+          WebMock.should_receive(:stub_request) do | method, url |
+            stubbed_request[:path] = url
+            stubbed_request
           end
         end
+
+        context 'not using strict_matchers' do
+          context 'without a placeholder' do
+            before do
+              Pacto.configuration.strict_matchers = false
+            end
+
+            it 'stubs with a regex path_pattern' do
+              described_class.new.stub_request! request, response
+              expect(stubbed_request[:path]).to eq(/#{request.host}#{request.path}/)
+            end
+          end
+
+          context 'with a placeholder do' do
+            before do
+              Pacto.configuration.strict_matchers = false
+            end
+
+            xit 'stubs with a regex path_pattern including the placeholder' do
+              described_class.new.stub_request! request_with_placeholder, response
+              expected_regex = %r{#{request_with_placeholder.host}\/a\/[:\w]+\/c}
+              expect(stubbed_request[:path]).to eq(expected_regex)
+            end
+          end
+        end
+
         context 'using strict_matchers' do
           before do
             Pacto.configuration.strict_matchers = true
-
-            WebMock.should_receive(:stub_request).
-              with(request.method, "#{request.host}#{request.path}") # string!
-              .and_return(stubbed_request)
-
-            stubbed_request.stub(:to_return).with({
-              :status => response.status,
-              :headers => response.headers,
-              :body => response.body.to_json
-            })
           end
 
           it 'stubs with headers and no regex' do
@@ -81,6 +105,7 @@ module Pacto
               }
             ).and_return(stubbed_request)
             described_class.new.stub_request! request, response
+            expect(stubbed_request[:path]).to eq("#{request.host}#{request.path}")
           end
 
           context 'when the response body is an object' do
