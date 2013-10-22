@@ -17,7 +17,7 @@ module Pacto
     end
 
     def self.load(contract_name, host = nil)
-      build_from_file(path_for(contract_name), host)
+      build_from_file(path_for(contract_name), host, nil)
     end
 
     private
