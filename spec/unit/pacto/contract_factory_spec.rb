@@ -17,6 +17,10 @@ module Pacto
         file_pre_processor.should_receive(:process).with(file_content).and_return(file_content)
         described_class.build_from_file(contract_path, host, file_pre_processor)
       end
+
+      pending 'parses the contract definition'
+      pending 'validates the definition against an schema'
+      pending 'build a contract based on the request, respons and path'
     end
 
     describe '.load' do
