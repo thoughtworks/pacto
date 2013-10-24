@@ -7,7 +7,11 @@ module Pacto
       Pacto::Request.new(record_host, {
         'method' => 'GET',
         'path' => '/abcd',
-        'headers' => {},
+        'headers' => {
+          'Content-Length' => [1234],
+          'Via' => ['Some Proxy'],
+          'User-Agent' => ['rspec']
+        },
         'params' => []
       })
     end
@@ -15,7 +19,11 @@ module Pacto
       Pacto::ResponseAdapter.new(
         OpenStruct.new({
           'status' => 200,
-          'headers' => [],
+          'headers' => {
+            'Date' => [Time.now],
+            'Server' => ['Fake Server'],
+            'Content-Type' => ['application/json']
+          },
           'body' => double('dummy body')
         })
       )
@@ -83,9 +91,21 @@ module Pacto
 
         it 'sets the request attributes' do
           generated_request = subject['request']
-          expect(generated_request['headers']).to eq(request.headers)
           expect(generated_request['params']).to eq(request.params)
           expect(generated_request['path']).to eq(request.path)
+        end
+
+        it 'keeps important request headers' do
+          saved_headers = subject['request']['headers']
+          expect(saved_headers.keys).to include 'User-Agent'
+        end
+
+        it 'filters informational request headers' do
+          saved_headers = subject['request']['headers']
+          expect(saved_headers).not_to include 'Date'
+          expect(saved_headers).not_to include 'Server'
+          expect(saved_headers).not_to include 'Content-Length'
+          expect(saved_headers).not_to include 'Connection'
         end
 
         it 'normalizes the request method' do
@@ -95,8 +115,18 @@ module Pacto
 
         it 'sets the response attributes' do
           generated_response = subject['response']
-          expect(generated_response['headers']).to eq(response_adapter.headers)
           expect(generated_response['status']).to eq(response_adapter.status)
+        end
+
+        it 'keeps important response headers' do
+          saved_headers = subject['response']['headers']
+          expect(saved_headers.keys).to include 'Content-Type'
+        end
+
+        it 'filters informational response headers' do
+          saved_headers = subject['response']['headers']
+          expect(saved_headers).not_to include 'Content-Length'
+          expect(saved_headers).not_to include 'Via'
         end
 
         it 'generates pretty JSON' do
