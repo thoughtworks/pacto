@@ -1,0 +1,3 @@
+We know - json-schema can get pretty verbose!  It's a powerful tool, but writing the entire Contract by hand for a complex service is a painstaking task.  We've created a simple generator to speed this process up.  You can invoke it programmatically, or with the provided rake task.
+
+The basic generate we've bundled with Pacto completes partially defined Contracts - Contracts that have a request defined but no response.  We haven't bundled any other generates, but you could use the API to generate from other sources, like existing [VCR](https://github.com/vcr/vcr) cassettes, [apiblueprint](http://apiblueprint.org/), or [WADL](https://wadl.java.net/).  If you want some help or ideas, try the [pacto mailing-list](https://groups.google.com/forum/#!forum/pacto-gem).

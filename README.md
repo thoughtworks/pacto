@@ -5,36 +5,44 @@
 
 # Pacto
 
-Pacto is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html)
-pattern for evolving services. Its main features are:
+Pacto is a Ruby framework to help with [Integration Contract Testing](http://martinfowler.com/articles/integrationContractTest.html).
 
-- A simple language for specifying a contract;
-- An automated way to validate that a producer meets its consumer's requirements;
-- An auto-generated stub to be used in the consumer's acceptance tests.
+With Pacto you can:
 
-It was developed in a micro-services environment, specifically a RESTful one, so expect it to be opinionated. Although
-there is enough functionality implemented to motivate us to open-source this, it is still a work in progress and under active
-development. Check the Constraints session for further information on what works and what doesn't.
+* [Evolve](https://www.relishapp.com/maxlinc/pacto/docs/evolve) your services with either a [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) approach or by tracking provider contracts.
+* [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) a contract from your documentation or sample response.
+* [Validate](https://www.relishapp.com/maxlinc/pacto/docs/validate) that a live service still matches the Contract you tested against.
+* [Stub](https://www.relishapp.com/maxlinc/pacto/docs/stub) services by letting Pacto creates responses that match a Contract.
 
-## Specifying Contracts
+Pacto's contract validation capabilities are primilary backed by [json-schema](http://json-schema.org/).  This lets you the power of many assertions that will give detailed and precise error messages.  See the specification for possible assertions.
 
-A contract specifies a single message exchange between a consumer and a provider. In a RESTful world, this means
-an HTTP interaction, which is composed of two main parts: a request and a response.
+Pacto's stubbing ability ranges from very simple stubbing to:
+* Running a server to test from non-Ruby clients
+* Generating random or dynamic data as part of the response
+* Following simple patterns to simulate resource collections
 
-A request has the following attributes:
+It's your choice - do you want simple behavior and strict contracts to focus on contract testing, or rich behavior and looser contracts to create dynamic test doubles for collaboration testing?
+
+Note: Currently, Pacto is only designed to work with JSON services.  See the [[Constraints section]] for further information on what Pacto does not do.
+
+## Contracts
+
+Pacto works by associating a service with a Contract.  The Contract is a JSON description of the service that uses json-schema to describe the response body.  You don't need to write your contracts by hand.  In fact, we recommend generating a Contract from your documentation or a service.  See the [[Generators section]] for options.
+
+A contract is composed of a request that has:
 
 - Method: the method of the HTTP request (e.g. GET, POST, PUT, DELETE);
 - Path: the relative path (without host) of the provider's endpoint;
 - Headers: headers sent in the HTTP request;
 - Params: any data or parameters of the HTTP request (e.g. query string for GET, body for POST).
 
-A response has the following attributes:
+And a response has that has:
 
 - Status: the HTTP response status code (e.g. 200, 404, 500);
 - Headers: the HTTP response headers;
 - Body: a JSON Schema defining the expected structure of the HTTP response body.
 
-Pacto relies on a simple, JSON based language for defining contracts. Below is an example contract for a GET request
+Below is an example contract for a GET request
 to the /hello_world endpoint of a provider:
 
 ```json
@@ -66,89 +74,20 @@ to the /hello_world endpoint of a provider:
 }
 ```
 
+## Consumer-Driven Contract Recommendations
+
+If you are using Pacto for Consumer-Driven Contracts, we recommend avoiding the advanced features so you'll test with the strictest Contract possible.  We recommend:
+
+- Do not use templating, let Pacto use the json-generator
+- Use strict request matching
+- Use multiple contracts for the same service to capture attributes that are required in some situations but not others
+
 The host address is intentionally left out of the request specification so that we can validate a contract against any provider.
 It also reinforces the fact that a contract defines the expectation of a consumer, and not the implementation of any specific provider.
 
-## Validating Contracts
+## Generators
 
-There are two ways to validate a contract against a provider: through a Rake task or programatically.
-
-### Rake Task
-
-Pacto includes two Rake tasks.  In order to use them, include this in your Rakefile:
-
-```ruby
-require 'pacto/rake_task'
-```
-
-Pacto can validate the contract files:
-
-```sh
-$ rake pacto:meta_validate[dir]  # Validates a directory of contract definitions
-```
-
-Or it can validate contracts against a provider:
-
-```sh
-$ rake pacto:validate[host,dir] # Validates all contracts in a given directory against a given host
-```
-
-It is recommended that you also include [colorize](https://github.com/fazibear/colorize) to get prettier, colorful output.
-
-### Programatically
-
-The easiest way to load a contract from a file and validate it against a host is by using the builder interface:
-
-```ruby
-require 'pacto'
-
-WebMock.allow_net_connect!
-contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-contract.validate
-```
-
-If you don't want to depend on Pacto to do the request you can also validate a response from a real request:
-
-```ruby
-require 'pacto'
-
-WebMock.allow_net_connect!
-contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-# Doing the request with ruby stdlib, you can use your favourite lib to do the request
-response = Net::HTTP.get_response(URI.parse('http://dummyprovider.com')).body
-contract.validate response, body_only: true
-```
-
-Pacto also has the ability to match a request signature to a contract that is currently in used, via ```Pacto.contract_for request_signature```
-
-## Auto-Generated Stubs
-
-Pacto provides an API to be used in the consumer's acceptance tests. It uses a custom JSON Schema parser and generator
-to generate a valid JSON document as the response body, and relies on [WebMock](https://github.com/bblimke/webmock)
-to stub any HTTP requests made by your application. Important: the JSON generator is in very early stages and does not work
-with the entire JSON Schema specification.
-
-First, register the contracts that are going to be used in the acceptance tests suite.  The register_contract method accepts zero or more tags:
-```ruby
-require 'pacto'
-
-contract1 = Pacto.build_from_file('/path/to/contract1.json', 'http://dummyprovider.com')
-contract2 = Pacto.build_from_file('/path/to/contract2.json', 'http://dummyprovider.com')
-contract3 = Pacto.build_from_file('/path/to/contract3.json', 'http://dummyprovider.com')
-Pacto.register_contract(contract1)
-Pacto.register_contract(contract2, :public_api)
-Pacto.register_contract(contract3, :public_api, :wip)
-```
-Then, in the setup phase of the test, specify which contracts will be used for that test:
-```ruby
-Pacto.use('my_tag')
-```
-If default values are not specified in the contract's response body, a default value will be automatically generated. It is possible
-to overwrite those values, however, by passing a second argument:
-```ruby
-Pacto.use('my_tag', :value => 'new value')
-```
-The values are merged using [hash-deep-merge](https://github.com/Offirmo/hash-deep-merge).
+## Constraints
 
 ## Contributing
 
