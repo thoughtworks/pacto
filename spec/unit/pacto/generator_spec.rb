@@ -11,14 +11,16 @@ module Pacto
         'params' => []
       })
     end
-    let(:response) do
-      Pacto::Response.new({
-        'status' => 200,
-        'headers' => [],
-        'body' => double('dummy body')
-      })
+    let(:response_adapter) do
+      Pacto::ResponseAdapter.new(
+        OpenStruct.new({
+          'status' => 200,
+          'headers' => [],
+          'body' => double('dummy body')
+        })
+      )
     end
-    let(:response_body_schema) { 'dummy generated schema' }
+    let(:response_body_schema) { '{"message": "dummy generated schema"}' }
     let(:version) { 'draft3' }
     let(:schema_generator) { double('schema_generator') }
     let(:validator) { double('validator') }
@@ -34,7 +36,7 @@ module Pacto
       let(:generated_contract) { double('generated contract') }
       before do
         Pacto.should_receive(:build_from_file).with(request_file, record_host).and_return request_contract
-        request.should_receive(:execute).and_return response
+        request.should_receive(:execute).and_return response_adapter
       end
 
       it 'parses the request' do
@@ -43,12 +45,12 @@ module Pacto
       end
 
       it 'fetches a response' do
-        generator.should_receive(:save).with(anything, response)
+        generator.should_receive(:save).with(anything, response_adapter)
         generator.generate request_file, record_host
       end
 
       it 'saves the result' do
-        generator.should_receive(:save).with(request, response).and_return generated_contract
+        generator.should_receive(:save).with(request, response_adapter).and_return generated_contract
         expect(generator.generate request_file, record_host).to eq(generated_contract)
       end
     end
@@ -57,26 +59,26 @@ module Pacto
       context 'invalid schema' do
         it 'raises an error if schema generation fails' do
           JSON::SchemaGenerator.should_receive(:generate).and_raise ArgumentError.new('Could not generate schema')
-          expect { generator.save request, response }.to raise_error
+          expect { generator.save request, response_adapter }.to raise_error
         end
 
         it 'raises an error if the generated contract is invalid' do
           JSON::SchemaGenerator.should_receive(:generate).and_return response_body_schema
           validator.should_receive(:validate).and_raise InvalidContract.new('dummy error')
-          expect { generator.save request, response }.to raise_error
+          expect { generator.save request, response_adapter }.to raise_error
         end
       end
 
       context 'valid schema' do
         let(:raw_contract) {
-          JSON::SchemaGenerator.should_receive(:generate).with(response, 'draft3').and_return response_body_schema
+          JSON::SchemaGenerator.should_receive(:generate).with('generator', response_adapter.body, 'draft3').and_return response_body_schema
           validator.should_receive(:validate).and_return true
-          generator.save request, response
+          generator.save request, response_adapter
         }
         subject(:generated_contract) { JSON.parse raw_contract }
 
         it 'sets the body to the generated json-schema' do
-          expect(subject['response']['body']).to eq(response_body_schema)
+          expect(subject['response']['body']).to eq(JSON.parse response_body_schema)
         end
 
         it 'sets the request attributes' do
@@ -93,8 +95,8 @@ module Pacto
 
         it 'sets the response attributes' do
           generated_response = subject['response']
-          expect(generated_response['headers']).to eq(response.headers)
-          expect(generated_response['status']).to eq(response.status)
+          expect(generated_response['headers']).to eq(response_adapter.headers)
+          expect(generated_response['status']).to eq(response_adapter.status)
         end
 
         it 'generates pretty JSON' do

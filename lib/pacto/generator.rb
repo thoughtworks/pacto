@@ -18,7 +18,7 @@ module Pacto
     end
 
     def save(request, response)
-      body_schema = JSON::SchemaGenerator.generate response, @schema_version
+      body_schema = JSON::SchemaGenerator.generate 'generator', response.body, @schema_version
       contract = {
         :request => {
           :headers => request.headers,
@@ -29,7 +29,7 @@ module Pacto
         :response => {
           :headers => response.headers,
           :status => response.status,
-          :body => body_schema
+          :body => JSON.parse(body_schema)
         }
       }
       pretty_contract = JSON.pretty_generate(contract)
