@@ -57,10 +57,6 @@ Feature: Contract Generation
       "response": {
         "headers": {
           "content-type": "application/json",
-          "server": "WEBrick/1.3.1 (Ruby/1.9.3/2013-06-27)",
-          "date": "Thu, 24 Oct 2013 20:50:20 GMT",
-          "content-length": "27",
-          "connection": "Keep-Alive"
         },
         "status": 200,
         "body": {
