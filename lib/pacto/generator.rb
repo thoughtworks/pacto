@@ -33,11 +33,11 @@ module Pacto
       contract = Pacto.build_from_file request_file, host
       request = contract.request
       response = request.execute
-      save(request, response)
+      save(request_file, request, response)
     end
 
-    def save(request, response)
-      body_schema = JSON::SchemaGenerator.generate 'generator', response.body, @schema_version
+    def save(source, request, response)
+      body_schema = JSON::SchemaGenerator.generate source, response.body, @schema_version
       contract = {
         :request => {
           :headers => filter_request_headers(request.headers),

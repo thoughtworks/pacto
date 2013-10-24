@@ -48,17 +48,17 @@ module Pacto
       end
 
       it 'parses the request' do
-        generator.should_receive(:save).with(request, anything)
+        generator.should_receive(:save).with(request_file, request, anything)
         generator.generate request_file, record_host
       end
 
       it 'fetches a response' do
-        generator.should_receive(:save).with(anything, response_adapter)
+        generator.should_receive(:save).with(request_file, anything, response_adapter)
         generator.generate request_file, record_host
       end
 
       it 'saves the result' do
-        generator.should_receive(:save).with(request, response_adapter).and_return generated_contract
+        generator.should_receive(:save).with(request_file, request, response_adapter).and_return generated_contract
         expect(generator.generate request_file, record_host).to eq(generated_contract)
       end
     end
@@ -67,21 +67,21 @@ module Pacto
       context 'invalid schema' do
         it 'raises an error if schema generation fails' do
           JSON::SchemaGenerator.should_receive(:generate).and_raise ArgumentError.new('Could not generate schema')
-          expect { generator.save request, response_adapter }.to raise_error
+          expect { generator.save request_file, request, response_adapter }.to raise_error
         end
 
         it 'raises an error if the generated contract is invalid' do
           JSON::SchemaGenerator.should_receive(:generate).and_return response_body_schema
           validator.should_receive(:validate).and_raise InvalidContract.new('dummy error')
-          expect { generator.save request, response_adapter }.to raise_error
+          expect { generator.save request_file, request, response_adapter }.to raise_error
         end
       end
 
       context 'valid schema' do
         let(:raw_contract) {
-          JSON::SchemaGenerator.should_receive(:generate).with('generator', response_adapter.body, 'draft3').and_return response_body_schema
+          JSON::SchemaGenerator.should_receive(:generate).with(request_file, response_adapter.body, 'draft3').and_return response_body_schema
           validator.should_receive(:validate).and_return true
-          generator.save request, response_adapter
+          generator.save request_file, request, response_adapter
         }
         subject(:generated_contract) { JSON.parse raw_contract }
 
