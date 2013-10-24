@@ -56,12 +56,12 @@ Feature: Contract Generation
       },
       "response": {
         "headers": {
-          "content-type": "application/json",
+          "content-type": "application/json"
         },
         "status": 200,
         "body": {
           "$schema": "http://json-schema.org/draft-03/schema#",
-          "description": "Generated from generator with shasum 210fa3b144ef2db8d1c160c4d9e8d8bf738ed851",
+          "description": "Generated from requests/my_contract.json with shasum 210fa3b144ef2db8d1c160c4d9e8d8bf738ed851",
           "type": "object",
           "required": true,
           "properties": {
@@ -73,4 +73,5 @@ Feature: Contract Generation
         }
       }
     }
+
     """
