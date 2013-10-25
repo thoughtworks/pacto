@@ -33,7 +33,7 @@ describe 'Pacto' do
 
     let :response do
       raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
-      JSON.parse(raw_response.body)
+      MultiJson.load(raw_response.body)
     end
   end
 
@@ -57,12 +57,12 @@ describe 'Pacto' do
       Pacto.use(:devices, {:device_id => 42})
 
       raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
-      login_response = JSON.parse(raw_response.body)
+      login_response = MultiJson.load(raw_response.body)
       expect(login_response.keys).to eq ['message']
       expect(login_response['message']).to be_kind_of(String)
 
       devices_response = HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
-      devices_response = JSON.parse(devices_response.body)
+      devices_response = MultiJson.load(devices_response.body)
       expect(devices_response['devices']).to have(2).items
       expect(devices_response['devices'][0]).to eq '/dev/42'
       # devices_response['devices'][1].should == '/dev/43'

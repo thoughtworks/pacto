@@ -17,7 +17,7 @@ describe 'Templating' do
       'X-Message' => "#{key}"
       }
     )
-    JSON.parse(raw_response.body)
+    MultiJson.load(raw_response.body)
   end
 
   before :each do
