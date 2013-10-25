@@ -48,10 +48,12 @@ module Pacto
         :response => {
           :headers => filter_response_headers(response.headers),
           :status => response.status,
-          :body => JSON.parse(body_schema)
+          :body => MultiJson.load(body_schema)
         }
       }
-      pretty_contract = JSON.pretty_generate(contract)
+      pretty_contract = MultiJson.encode(contract, :pretty => true)
+      # This is because of a discrepency w/ jruby vs MRI pretty json
+      pretty_contract.gsub! /^$\n/, ''
       @validator.validate pretty_contract
       pretty_contract
     end

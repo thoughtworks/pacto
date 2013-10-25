@@ -35,6 +35,10 @@ module Pacto
     let(:request_file) { 'request.json' }
     let(:generator) { described_class.new version, schema_generator, validator }
 
+    def pretty obj
+      MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
+    end
+
     describe '#generate' do
       let(:request_contract) {
         double({
@@ -130,7 +134,7 @@ module Pacto
         end
 
         it 'generates pretty JSON' do
-          expect(raw_contract).to eq(JSON.pretty_generate subject)
+          expect(raw_contract).to eq(pretty(subject))
         end
       end
     end
