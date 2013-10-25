@@ -20,6 +20,7 @@ module Pacto
       desc 'Tasks for Pacto gem'
       namespace :pacto do
         validate_task
+        generate_task
         meta_validate
       end
     end
@@ -32,6 +33,17 @@ module Pacto
         end
 
         validate_contracts(args[:host], args[:dir])
+      end
+    end
+
+    def generate_task
+      desc 'Generates contracts from partial contracts'
+      task :generate, :input_dir, :output_dir, :host do |t, args|
+        if args.to_a.size < 3
+          fail 'USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]'.colorize(:yellow)
+        end
+
+        generate_contracts(args[:input_dir], args[:output_dir], args[:host])
       end
     end
 
@@ -76,6 +88,33 @@ module Pacto
         fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".colorize(:red)
       else
         puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".colorize(:green)
+      end
+    end
+
+    def generate_contracts(input_dir, output_dir, host)
+      WebMock.allow_net_connect!
+      generator = Pacto::Generator.new
+      puts "Generating contracts from partial contracts in #{input_dir} and recording to #{output_dir}\n\n"
+
+      failed_contracts = []
+      each_contract(input_dir) do |contract_file|
+        begin
+          contract = generator.generate(contract_file, host)
+          output_file = File.expand_path(File.basename(contract_file), output_dir)
+          output_file = File.open(output_file, 'wb')
+          output_file.write contract
+          output_file.flush
+          output_file.close
+        rescue InvalidContract => e
+          failed_contracts << contract_file
+          puts e.message.colorize(:red)
+        end
+      end
+
+      if failed_contracts.empty?
+        puts 'Successfully generated all contracts'.colorize(:green)
+      else
+        fail "The following contracts could not be generated: #{failed_contracts.join ','}".colorize(:red)
       end
     end
 
