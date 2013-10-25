@@ -5,10 +5,11 @@ Feature: Validation
   Background:
     Given a file named "Gemfile" with:
     """ruby
+    source 'https://rubygems.org'
+
     gem 'pacto', :path => '../..'
     gem 'excon'
     """
-    Given I successfully run `bundle install`
     Given a file named "validate.rb" with:
       """ruby
       require 'pacto'
@@ -51,6 +52,8 @@ Feature: Validation
       """
 
   Scenario: Validate the response body only
+    # This should be in the Before block, but https://github.com/cucumber/cucumber/issues/52
+    Given I successfully run `bundle install`
     Given a file named "my_service.rb" with:
     """ruby
     require 'excon'
