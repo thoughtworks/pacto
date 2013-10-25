@@ -31,8 +31,9 @@ module Pacto
 
     def generate(request_file, host)
       contract = Pacto.build_from_file request_file, host
-      request = contract.request
-      response = request.execute
+      raw_contract = Pacto.build_from_file request_file, host, nil
+      request = raw_contract.request
+      response = contract.request.execute
       save(request_file, request, response)
     end
 

@@ -12,7 +12,9 @@ module Pacto
           'Via' => ['Some Proxy'],
           'User-Agent' => ['rspec']
         },
-        'params' => []
+        'params' => {
+          'apikey' => "<%= ENV['MY_API_KEY'] %>"
+        }
       })
     end
     let(:response_adapter) do
@@ -48,6 +50,7 @@ module Pacto
       let(:generated_contract) { double('generated contract') }
       before do
         Pacto.should_receive(:build_from_file).with(request_file, record_host).and_return request_contract
+        Pacto.should_receive(:build_from_file).with(request_file, record_host, nil).and_return request_contract
         request.should_receive(:execute).and_return response_adapter
       end
 
@@ -97,6 +100,11 @@ module Pacto
           generated_request = subject['request']
           expect(generated_request['params']).to eq(request.params)
           expect(generated_request['path']).to eq(request.path)
+        end
+
+        it 'preserves ERB in the request params' do
+          generated_request = subject['request']
+          expect(generated_request['params']['apikey']).to eq("<%= ENV['MY_API_KEY'] %>")
         end
 
         it 'keeps important request headers' do
