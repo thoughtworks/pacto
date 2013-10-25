@@ -1,4 +1,4 @@
-Feature: Validation journey
+Feature: Meta-validation
 
   Meta-validation ensures that a Contract file matches the Contract format.  It does not validation actual responses, just the Contract itself.
 

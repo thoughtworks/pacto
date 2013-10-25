@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/pacto.png)](http://badge.fury.io/rb/pacto)
 [![Build Status](https://travis-ci.org/thoughtworks/pacto.png)](https://travis-ci.org/thoughtworks/pacto)
 [![Code Climate](https://codeclimate.com/github/thoughtworks/pacto.png)](https://codeclimate.com/github/thoughtworks/pacto)
 [![Dependency Status](https://gemnasium.com/thoughtworks/pacto.png)](https://gemnasium.com/thoughtworks/pacto)
@@ -14,6 +15,8 @@ With Pacto you can:
 * [Validate](https://www.relishapp.com/maxlinc/pacto/docs/validate) that a live service still matches the Contract you tested against.
 * [Stub](https://www.relishapp.com/maxlinc/pacto/docs/stub) services by letting Pacto creates responses that match a Contract.
 
+See the [Usage](#usage) section for some basic examples on how you can use Pacto, and browse the [Relish documentation](https://www.relishapp.com/maxlinc/pacto) for more advanced options.
+
 Pacto's contract validation capabilities are primilary backed by [json-schema](http://json-schema.org/).  This lets you the power of many assertions that will give detailed and precise error messages.  See the specification for possible assertions.
 
 Pacto's stubbing ability ranges from very simple stubbing to:
@@ -23,11 +26,11 @@ Pacto's stubbing ability ranges from very simple stubbing to:
 
 It's your choice - do you want simple behavior and strict contracts to focus on contract testing, or rich behavior and looser contracts to create dynamic test doubles for collaboration testing?
 
-Note: Currently, Pacto is only designed to work with JSON services.  See the [[Constraints section]] for further information on what Pacto does not do.
+Note: Currently, Pacto is only designed to work with JSON services.  See the [Constraints](#constraints) section for further information on what Pacto does not do.
 
 ## Contracts
 
-Pacto works by associating a service with a Contract.  The Contract is a JSON description of the service that uses json-schema to describe the response body.  You don't need to write your contracts by hand.  In fact, we recommend generating a Contract from your documentation or a service.  See the [[Generators section]] for options.
+Pacto works by associating a service with a Contract.  The Contract is a JSON description of the service that uses json-schema to describe the response body.  You don't need to write your contracts by hand.  In fact, we recommend generating a Contract from your documentation or a service.  See the [Generators](#generators) for options.
 
 A contract is composed of a request that has:
 
@@ -74,20 +77,17 @@ to the /hello_world endpoint of a provider:
 }
 ```
 
-## Consumer-Driven Contract Recommendations
-
-If you are using Pacto for Consumer-Driven Contracts, we recommend avoiding the advanced features so you'll test with the strictest Contract possible.  We recommend:
-
-- Do not use templating, let Pacto use the json-generator
-- Use strict request matching
-- Use multiple contracts for the same service to capture attributes that are required in some situations but not others
-
-The host address is intentionally left out of the request specification so that we can validate a contract against any provider.
-It also reinforces the fact that a contract defines the expectation of a consumer, and not the implementation of any specific provider.
-
 ## Generators
 
+Pacto comes with a simple generator to help you get started.  See the [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) docs for more details.
+
+It should be possible to write additional generators or hook the existing Generator into other tools, like [VCR](https://github.com/vcr/vcr) cassettes, [apiblueprint](http://apiblueprint.org/), or [WADL](https://wadl.java.net/).  If you want some help or ideas, try the [pacto mailing-list](https://groups.google.com/forum/#!forum/pacto-gem).
+
 ## Constraints
+
+- Pacto only works with JSON services
+- Pacto requires Ruby 1.9.3 or newer (though you can older Rubies or non-Ruby projects with a Pacto Server)
+- Pacto cannot currently specify multiple acceptable status codes (e.g. 200 or 201)
 
 ## Contributing
 
