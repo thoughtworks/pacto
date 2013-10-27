@@ -47,13 +47,7 @@ describe 'Pacto' do
       end
 
       # Preprocessor must be off before building!
-      login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-      contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
-      Pacto.configure do |c|
-        c.register_contract login_contract, :default
-        c.register_contract contract, :devices
-      end
-
+      Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
       Pacto.use(:devices, {:device_id => 42})
 
       raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
