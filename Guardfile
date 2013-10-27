@@ -4,6 +4,7 @@ guard :rubocop, all_on_start: false do
   watch(/.+\.rb$/)
   watch(/\.gemspec$/)
   watch('Guardfile')
+  watch('Rakefile')
   watch('.rubocop.yml')      { '.' }
   watch('.rubocop-todo.yml') { '.' }
 end

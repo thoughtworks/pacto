@@ -9,7 +9,6 @@ require 'rubocop/rake_task'
 Coveralls::RakeTask.new
 
 Rubocop::RakeTask.new(:rubocop) do |task|
-  task.patterns = ['**/*.rb', 'Rakefile', '*.gemspec']
   # abort rake on failure
   task.fail_on_error = true
 end
