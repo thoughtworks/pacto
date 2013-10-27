@@ -22,13 +22,13 @@ module Pacto
     end
 
     def load_all(contracts_directory, host, *tags)
-      dir = File.expand_path contracts_directory, configuration.contracts_path
-      contracts = Dir.glob(File.expand_path('**.json', dir))
-      contracts.each do |contract_file|
-        Logger.instance.debug "Registering #{contract_file} with #{tags}"
-        contract = build_from_file contract_file, host, nil
-        register_contract contract, *tags
-      end
+      Pacto::Utils.all_contract_files_on(contracts_directory).each { |file| load file, host, *tags }
+    end
+
+    def load(contract_file, host, *tags)
+      Logger.instance.debug "Registering #{contract_file} with #{tags}"
+      contract = build_from_file contract_file, host, nil
+      register_contract contract, *tags
     end
 
     def registered
