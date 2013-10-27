@@ -17,6 +17,7 @@ module Pacto
       )
     end
 
+    # rubocop:disable MethodLength
     def validate(response, opt = {})
 
       unless opt[:body_only]
@@ -39,6 +40,7 @@ module Pacto
         []
       end
     end
+    # rubocop:enable MethodLength
 
     private
 

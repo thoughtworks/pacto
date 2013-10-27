@@ -24,7 +24,7 @@ module Pacto
         params = {
           :Port => port,
           :AccessLog => [],
-          :Logger => WEBrick::Log::new('/dev/null', 7)
+          :Logger => WEBrick::Log.new('/dev/null', 7)
         }
         @server = WEBrick::HTTPServer.new params
         @server.mount path, Servlet, response
@@ -32,7 +32,9 @@ module Pacto
 
       def start
         @pid = Thread.new do
-          trap 'INT' do @server.shutdown end
+          trap 'INT' do
+            @server.shutdown
+          end
           @server.start
         end
       end

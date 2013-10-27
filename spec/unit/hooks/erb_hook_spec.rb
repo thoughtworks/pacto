@@ -1,14 +1,14 @@
 describe Pacto::Hooks::ERBHook do
   describe '#process' do
-    let(:req) {
+    let(:req) do
       OpenStruct.new(:headers => {'User-Agent' => 'abcd'})
-    }
-    let(:converted_req) {
+    end
+    let(:converted_req) do
       {'HEADERS' => {'User-Agent' => 'abcd'}}
-    }
-    let(:res) {
+    end
+    let(:res) do
       OpenStruct.new(:body => 'before')
-    }
+    end
 
     before do
     end

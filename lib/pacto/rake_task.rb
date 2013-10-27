@@ -40,6 +40,7 @@ module Pacto
       end
     end
 
+    # rubocop:disable MethodLength
     def meta_validate
       desc 'Validates a directory of contract definitions'
       task :meta_validate, :dir do |t, args|
@@ -83,7 +84,9 @@ module Pacto
         puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".colorize(:green)
       end
     end
+    # rubocop:enable MethodLength
 
+    # rubocop:disable MethodLength
     def generate_contracts(input_dir, output_dir, host)
       WebMock.allow_net_connect!
       generator = Pacto::Generator.new
@@ -110,6 +113,7 @@ module Pacto
         fail "The following contracts could not be generated: #{failed_contracts.join ','}".colorize(:red)
       end
     end
+    # rubocop:enable MethodLength
 
     private
 

@@ -1,8 +1,8 @@
 module Pacto
   describe Generator do
-    let(:record_host) {
+    let(:record_host) do
       'http://example.com'
-    }
+    end
     let(:request) do
       Pacto::Request.new(record_host, {
         'method' => 'GET',
@@ -40,11 +40,11 @@ module Pacto
     end
 
     describe '#generate' do
-      let(:request_contract) {
+      let(:request_contract) do
         double(
           :request => request,
         )
-      }
+      end
       let(:generated_contract) { double('generated contract') }
       before do
         Pacto.should_receive(:build_from_file).with(request_file, record_host).and_return request_contract
@@ -82,11 +82,11 @@ module Pacto
       end
 
       context 'valid schema' do
-        let(:raw_contract) {
+        let(:raw_contract) do
           JSON::SchemaGenerator.should_receive(:generate).with(request_file, response_adapter.body, 'draft3').and_return response_body_schema
           validator.should_receive(:validate).and_return true
           generator.save request_file, request, response_adapter
-        }
+        end
         subject(:generated_contract) { JSON.parse raw_contract }
 
         it 'sets the body to the generated json-schema' do
