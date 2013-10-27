@@ -11,7 +11,7 @@ Coveralls::RakeTask.new
 Rubocop::RakeTask.new(:rubocop) do |task|
   task.patterns = ['**/*.rb', 'Rakefile', '*.gemspec']
   # abort rake on failure
-  task.fail_on_error = false
+  task.fail_on_error = true
 end
 
 Cucumber::Rake::Task.new(:journeys) do |t|
