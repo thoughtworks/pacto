@@ -1,5 +1,6 @@
 require 'pacto'
 
+# FIXME: RakeTask is a huge class, refactor this please
 # rubocop:disable ClassLength
 module Pacto
   class RakeTask
@@ -40,6 +41,7 @@ module Pacto
       end
     end
 
+    # FIXME: meta_validate is a big method =(. Needs refactoring
     # rubocop:disable MethodLength
     def meta_validate
       desc 'Validates a directory of contract definitions'
@@ -86,6 +88,7 @@ module Pacto
     end
     # rubocop:enable MethodLength
 
+    # FIXME: generate_contracts is a big method =(. Needs refactoring
     # rubocop:disable MethodLength
     def generate_contracts(input_dir, output_dir, host)
       WebMock.allow_net_connect!

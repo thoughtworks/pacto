@@ -17,6 +17,7 @@ module Pacto
       )
     end
 
+    # FIXME: validate is a huge method =(. Needs refactoring
     # rubocop:disable MethodLength
     def validate(response, opt = {})
 

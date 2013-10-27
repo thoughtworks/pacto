@@ -5,6 +5,7 @@ require 'cucumber'
 require 'cucumber/rake/task'
 require 'coveralls/rake/task'
 require 'rubocop/rake_task'
+require 'rake/notes/rake_task'
 
 Coveralls::RakeTask.new
 
