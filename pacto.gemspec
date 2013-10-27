@@ -2,7 +2,6 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pacto/version'
-require 'english'
 
 Gem::Specification.new do |gem|
   gem.name          = 'pacto'
@@ -14,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://github.com/thoughtworks/pacto'
   gem.license       = 'MIT'
 
-  gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
+  gem.files         = `git ls-files`.split($/) # rubocop:disable SpecialGlobalVars
   gem.executables   = gem.files.grep(/^bin\//).map { |f| File.basename(f) }
   gem.test_files    = gem.files.grep(/^(test|spec|features)\//)
   gem.require_paths = ['lib']
