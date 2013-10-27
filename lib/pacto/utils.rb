@@ -1,11 +1,9 @@
 module Pacto
   class Utils
     class << self
-      def all_contract_files_on *directories
-        directories.unshift '**.json'
-        directories.push Pacto.configuration.contracts_path
-        directories.compact!
-        Dir.glob(File.expand_path(*directories))
+      def all_contract_files_on subdirectory
+        dirs = [Pacto.configuration.contracts_path, subdirectory].compact
+        Dir.glob File.expand_path('**.json', File.join(dirs))
       end
     end
   end
