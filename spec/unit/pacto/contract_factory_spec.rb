@@ -2,7 +2,7 @@ module Pacto
   describe ContractFactory do
     let(:host)               { 'http://localhost' }
     let(:contract_name)      { 'contract' }
-    let(:contracts_path)     { ['spec', 'unit', 'data'] }
+    let(:contracts_path)     { %w(spec unit data) }
     let(:contract_path)      { File.join(contracts_path, "#{contract_name}.json") }
     let(:file_pre_processor) { double('file_pre_processor') }
     let(:file_content)       { File.read(contract_path) }

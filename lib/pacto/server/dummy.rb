@@ -16,7 +16,7 @@ module Pacto
         )
       end
 
-      def_delegator :@doer, :do_GET
+      def_delegator :@doer, :do_GET # rubocop:disable SymbolName
     end
 
     class Dummy

@@ -37,12 +37,3 @@ MethodLength:
 
 SpaceInsideHashLiteralBraces:
   Enabled: false
-
-SymbolName:
-  Enabled: false
-
-Void:
-  Enabled: false
-
-WordArray:
-  Enabled: false
