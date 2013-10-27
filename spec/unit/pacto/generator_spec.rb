@@ -17,7 +17,7 @@ module Pacto
     end
     let(:response_adapter) do
       Pacto::ResponseAdapter.new(
-        OpenStruct.new({
+        OpenStruct.new(
           'status' => 200,
           'headers' => {
             'Date' => [Time.now],
@@ -25,7 +25,7 @@ module Pacto
             'Content-Type' => ['application/json']
           },
           'body' => double('dummy body')
-        })
+        )
       )
     end
     let(:response_body_schema) { '{"message": "dummy generated schema"}' }
@@ -41,9 +41,9 @@ module Pacto
 
     describe '#generate' do
       let(:request_contract) {
-        double({
+        double(
           :request => request,
-        })
+        )
       }
       let(:generated_contract) { double('generated contract') }
       before do

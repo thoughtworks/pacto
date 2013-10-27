@@ -2,23 +2,23 @@ module Pacto
   module Stubs
     describe BuiltIn do
       let(:request) do
-        double({
+        double(
           :host => 'http://localhost',
           :method => method,
           :path => '/hello_world',
           :headers => {'Accept' => 'application/json'},
           :params => {'foo' => 'bar'}
-        })
+        )
       end
 
       let(:method) { :get }
 
       let(:response) do
-        double({
+        double(
           :status => 200,
           :headers => {},
           :body => body
-        })
+        )
       end
 
       let(:body) do
@@ -44,11 +44,11 @@ module Pacto
             with(request.method, "#{request.host}#{request.path}").
             and_return(stubbed_request)
 
-          stubbed_request.stub(:to_return).with({
+          stubbed_request.stub(:to_return).with(
             :status => response.status,
             :headers => response.headers,
             :body => response.body.to_json
-          })
+          )
         end
 
         context 'when the response body is an object' do
@@ -57,11 +57,11 @@ module Pacto
           end
 
           it 'stubs the response body with a json representation' do
-            stubbed_request.should_receive(:to_return).with({
+            stubbed_request.should_receive(:to_return).with(
               :status => response.status,
               :headers => response.headers,
               :body => response.body.to_json
-            })
+            )
 
             stubbed_request.stub(:with).and_return(stubbed_request)
 
@@ -75,11 +75,11 @@ module Pacto
           end
 
           it 'stubs the response body with a json representation' do
-            stubbed_request.should_receive(:to_return).with({
+            stubbed_request.should_receive(:to_return).with(
               :status => response.status,
               :headers => response.headers,
               :body => response.body.to_json
-            })
+            )
 
             stubbed_request.stub(:with).and_return(stubbed_request)
 
@@ -91,11 +91,11 @@ module Pacto
           let(:body) { nil }
 
           it 'stubs the response body with the original body' do
-            stubbed_request.should_receive(:to_return).with({
+            stubbed_request.should_receive(:to_return).with(
               :status => response.status,
               :headers => response.headers,
               :body => response.body
-            })
+            )
 
             stubbed_request.stub(:with).and_return(stubbed_request)
 
@@ -108,7 +108,7 @@ module Pacto
 
           it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
-              with({:headers => request.headers, :query => request.params}).
+              with(:headers => request.headers, :query => request.params).
               and_return(stubbed_request)
             described_class.new.stub_request! request, response
           end
@@ -119,7 +119,7 @@ module Pacto
 
           it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
-              with({:headers => request.headers, :body => request.params}).
+              with(:headers => request.headers, :body => request.params).
               and_return(stubbed_request)
             described_class.new.stub_request! request, response
           end
@@ -127,18 +127,18 @@ module Pacto
 
         context 'a request with no headers' do
           let(:request) do
-            double({
+            double(
               :host => 'http://localhost',
               :method => :get,
               :path => '/hello_world',
               :headers => {},
               :params => {'foo' => 'bar'}
-            })
+            )
           end
 
           it 'uses WebMock to stub the request' do
             stubbed_request.should_receive(:with).
-              with({:query => request.params}).
+              with(:query => request.params).
               and_return(stubbed_request)
             described_class.new.stub_request! request, response
           end
@@ -146,13 +146,13 @@ module Pacto
 
         context 'a request with no params' do
           let(:request) do
-            double({
+            double(
               :host => 'http://localhost',
               :method => :get,
               :path => '/hello_world',
               :headers => {},
               :params => {}
-            })
+            )
           end
 
           it 'uses WebMock to stub the request' do

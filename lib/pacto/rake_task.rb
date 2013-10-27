@@ -1,13 +1,6 @@
 require 'pacto'
 
-unless String.respond_to?(:colors)
-  class String
-    def colorize(*args)
-      self
-    end
-  end
-end
-
+# rubocop:disable ClassLength
 module Pacto
   class RakeTask
     include Rake::DSL
@@ -134,5 +127,6 @@ module Pacto
     end
   end
 end
+# rubocop:enable ClassLength
 
 Pacto::RakeTask.new.install

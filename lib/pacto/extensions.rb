@@ -12,7 +12,14 @@ module Pacto
         end
       end
     end
+
+    module ColoredString
+      def colorize(*args)
+        self
+      end
+    end
   end
 end
 
+String.send(:include, Pacto::Extensions::ColoredString) unless String.respond_to?(:colors)
 Hash.send(:include, Pacto::Extensions::HashSubsetOf)
