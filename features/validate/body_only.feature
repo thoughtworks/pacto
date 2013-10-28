@@ -53,7 +53,7 @@ Feature: Validation
 
   Scenario: Validate the response body only
     # This should be in the Before block, but https://github.com/cucumber/cucumber/issues/52
-    Given I successfully run `bundle install`
+    Given I successfully run `bundle install --local`
     Given a file named "my_service.rb" with:
     """ruby
     require 'excon'
