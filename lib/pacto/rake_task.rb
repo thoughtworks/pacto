@@ -1,5 +1,4 @@
 require 'pacto'
-require 'colored'
 
 # FIXME: RakeTask is a huge class, refactor this please
 # rubocop:disable ClassLength
