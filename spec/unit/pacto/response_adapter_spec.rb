@@ -19,7 +19,7 @@ module Pacto
     end
 
     it 'normalizes headers values according to RFC2616' do
-      expect(response_adapter.headers).to eq({'foo' => 'bar,baz', 'hello' => 'world'})
+      expect(response_adapter.headers).to eq('foo' => 'bar,baz', 'hello' => 'world')
     end
   end
 end

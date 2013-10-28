@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Pacto
   class Logger
     include Singleton

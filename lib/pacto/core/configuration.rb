@@ -26,7 +26,7 @@ module Pacto
       if block_given?
         @callback = Pacto::Callback.new(&block)
       else
-        raise 'Expected a Pacto::Callback' unless callback.is_a? Pacto::Callback
+        fail 'Expected a Pacto::Callback' unless callback.is_a? Pacto::Callback
         @callback = callback
       end
     end

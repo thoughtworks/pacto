@@ -32,9 +32,6 @@ IfUnlessModifier:
 LineLength:
   Enabled: false
 
-MethodAndVariableSnakeCase:
-  Enabled: false
-
 MethodLength:
   Enabled: false
 

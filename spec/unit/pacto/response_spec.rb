@@ -31,11 +31,11 @@ module Pacto
       let(:headers) { {'Content-Type' => 'application/json', 'Age' => '60'} }
       let(:response_body) { {'message' => 'response'} }
       let(:fake_response) do
-        double({
+        double(
           :status => status,
           :headers => headers,
           :body => response_body
-        })
+        )
       end
 
       context 'when status, headers and body match' do

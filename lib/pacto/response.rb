@@ -5,11 +5,11 @@ module Pacto
     end
 
     def instantiate
-      OpenStruct.new({
+      OpenStruct.new(
         'status' => @definition['status'],
         'headers' => @definition['headers'],
         'body' => JSON::Generator.generate(@definition['body'])
-      })
+      )
     end
 
     def validate(response, opt = {})

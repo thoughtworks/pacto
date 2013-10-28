@@ -13,7 +13,7 @@ module Pacto
     def use(tag, values = {})
       merged_contracts = registered[:default] + registered[tag]
 
-      raise ArgumentError, "contract \"#{tag}\" not found" if merged_contracts.empty?
+      fail ArgumentError, "contract \"#{tag}\" not found" if merged_contracts.empty?
 
       merged_contracts.each do |contract|
         contract.stub_contract! values

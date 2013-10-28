@@ -19,11 +19,11 @@ module Pacto
         end
         stub = WebMock.stub_request(request.method, uri_matcher)
         stub = stub.with(request_details(request)) if strict
-        stub.to_return({
+        stub.to_return(
             :status => response.status,
             :headers => response.headers,
             :body => format_body(response.body)
-          })
+          )
       end
 
       def reset!
