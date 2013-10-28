@@ -11,9 +11,9 @@ module Pacto
 
     def instantiate
       OpenStruct.new(
-        'status' => @status,
-        'headers' => @headers,
-        'body' => JSON::Generator.generate(@schema)
+        'status' => @definition['status'],
+        'headers' => @definition['headers'],
+        'body' => JSON::Generator.generate(@definition['body'])
       )
     end
 
