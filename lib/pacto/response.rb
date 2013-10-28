@@ -22,7 +22,7 @@ module Pacto
     def validate(response, opt = {})
 
       unless opt[:body_only]
-        status, description = response.status
+        status, _description = response.status
         if @definition['status'] != status
           return ["Invalid status: expected #{@definition['status']} but got #{status}"]
         end
