@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'pacto'
   gem.version       = Pacto::VERSION
   gem.authors       = ['ThoughtWorks & Abril']
-  gem.email         = ['abril_vejasp_dev@thoughtworks.com']
+  gem.email         = ['pacto-gem@googlegroups.com']
   gem.description   = %q{Pacto is a Ruby implementation of the [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) pattern for evolving services}
   gem.summary       = %q{Consumer-Driven Contracts implementation}
   gem.homepage      = 'https://github.com/thoughtworks/pacto'
@@ -34,6 +34,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'should_not'
   gem.add_development_dependency 'aruba'
+  gem.add_development_dependency 'relish'
   gem.add_development_dependency 'guard-rspec'
   gem.add_development_dependency 'rubocop'
   gem.add_development_dependency 'guard-rubocop'
