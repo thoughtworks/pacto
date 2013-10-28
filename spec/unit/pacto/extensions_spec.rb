@@ -16,7 +16,7 @@ module Pacto
 
         context 'when the other hash is not a subset' do
           it 'returns false' do
-            expect({:a => 'a'}.subset_of?(:a => 'b')).to be_false
+            expect(:a => 'a').to_not be_subset_of(:a => 'b')
           end
         end
       end

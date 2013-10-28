@@ -1,13 +1,7 @@
 require 'pacto'
 
-unless String.respond_to?(:colors)
-  class String
-    def colorize(*args)
-      self
-    end
-  end
-end
-
+# FIXME: RakeTask is a huge class, refactor this please
+# rubocop:disable ClassLength
 module Pacto
   class RakeTask
     include Rake::DSL
@@ -20,6 +14,7 @@ module Pacto
       desc 'Tasks for Pacto gem'
       namespace :pacto do
         validate_task
+        generate_task
         meta_validate
       end
     end
@@ -28,18 +23,31 @@ module Pacto
       desc 'Validates all contracts in a given directory against a given host'
       task :validate, :host, :dir do |t, args|
         if args.to_a.size < 2
-          fail 'USAGE: rake pacto:validate[<host>, <contract_dir>]'.colorize(:yellow)
+          fail 'USAGE: rake pacto:validate[<host>, <contract_dir>]'.yellow
         end
 
         validate_contracts(args[:host], args[:dir])
       end
     end
 
+    def generate_task
+      desc 'Generates contracts from partial contracts'
+      task :generate, :input_dir, :output_dir, :host do |t, args|
+        if args.to_a.size < 3
+          fail 'USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]'.yellow
+        end
+
+        generate_contracts(args[:input_dir], args[:output_dir], args[:host])
+      end
+    end
+
+    # FIXME: meta_validate is a big method =(. Needs refactoring
+    # rubocop:disable MethodLength
     def meta_validate
       desc 'Validates a directory of contract definitions'
       task :meta_validate, :dir do |t, args|
         if args.to_a.size < 1
-          fail 'USAGE: rake pacto:meta_validate[<contract_dir>]'.colorize(:yellow)
+          fail 'USAGE: rake pacto:meta_validate[<contract_dir>]'.yellow
         end
 
         each_contract(args[:dir]) do |contract_file|
@@ -60,24 +68,55 @@ module Pacto
         errors = contract.validate
 
         if errors.empty?
-          puts ' OK!'.colorize(:green)
+          puts ' OK!'.green
         else
           @exit_with_error = true
           total_failed += 1
-          puts ' FAILED!'.colorize(:red)
+          puts ' FAILED!'.red
           errors.each do |error|
-            puts "\t* #{error}".colorize(:light_red)
+            puts "\t* #{error}".red
           end
           puts ''
         end
       end
 
       if @exit_with_error
-        fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".colorize(:red)
+        fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".red
       else
-        puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".colorize(:green)
+        puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".green
       end
     end
+    # rubocop:enable MethodLength
+
+    # FIXME: generate_contracts is a big method =(. Needs refactoring
+    # rubocop:disable MethodLength
+    def generate_contracts(input_dir, output_dir, host)
+      WebMock.allow_net_connect!
+      generator = Pacto::Generator.new
+      puts "Generating contracts from partial contracts in #{input_dir} and recording to #{output_dir}\n\n"
+
+      failed_contracts = []
+      each_contract(input_dir) do |contract_file|
+        begin
+          contract = generator.generate(contract_file, host)
+          output_file = File.expand_path(File.basename(contract_file), output_dir)
+          output_file = File.open(output_file, 'wb')
+          output_file.write contract
+          output_file.flush
+          output_file.close
+        rescue InvalidContract => e
+          failed_contracts << contract_file
+          puts e.message.red
+        end
+      end
+
+      if failed_contracts.empty?
+        puts 'Successfully generated all contracts'.green
+      else
+        fail "The following contracts could not be generated: #{failed_contracts.join ','}".red
+      end
+    end
+    # rubocop:enable MethodLength
 
     private
 
@@ -86,7 +125,7 @@ module Pacto
         yield dir
       else
         contracts = Dir[File.join(dir, '*{.json.erb,.json}')]
-        fail "No contracts found in directory #{dir}".colorize(:yellow) if contracts.empty?
+        fail "No contracts found in directory #{dir}".yellow if contracts.empty?
 
         contracts.sort.each do |contract_file|
           yield contract_file
@@ -95,5 +134,6 @@ module Pacto
     end
   end
 end
+# rubocop:enable ClassLength
 
 Pacto::RakeTask.new.install

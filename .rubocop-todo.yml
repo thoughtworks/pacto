@@ -2,15 +2,6 @@
 # The point is for the user to remove these configuration records
 # one by one as the offences are removed from the code base.
 
-Blocks:
-  Enabled: false
-
-CollectionMethods:
-  Enabled: false
-
-ColonMethodCall:
-  Enabled: false
-
 DefWithoutParentheses:
   Enabled: false
 
@@ -36,13 +27,4 @@ MethodLength:
   Enabled: false
 
 SpaceInsideHashLiteralBraces:
-  Enabled: false
-
-SymbolName:
-  Enabled: false
-
-Void:
-  Enabled: false
-
-WordArray:
   Enabled: false

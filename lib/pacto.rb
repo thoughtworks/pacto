@@ -2,7 +2,7 @@ require 'pacto/version'
 
 require 'httparty'
 require 'hash_deep_merge'
-require 'json'
+require 'multi_json'
 require 'json-schema'
 require 'json-generator'
 require 'webmock'
@@ -10,6 +10,7 @@ require 'ostruct'
 require 'erb'
 require 'logger'
 
+require 'pacto/utils'
 require 'pacto/core/contract_repository'
 require 'pacto/core/configuration'
 require 'pacto/core/callback'
@@ -27,6 +28,7 @@ require 'pacto/hash_merge_processor'
 require 'pacto/stubs/built_in'
 require 'pacto/meta_schema'
 require 'pacto/hooks/erb_hook'
+require 'pacto/generator'
 
 module Pacto
   class << self
@@ -62,13 +64,4 @@ module Pacto
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
 
-  def self.load(contract_name)
-    build_from_file(path_for(contract_name), nil)
-  end
-
-  private
-
-  def self.path_for(contract)
-    File.join(configuration.contracts_path, "#{contract}.json")
-  end
 end

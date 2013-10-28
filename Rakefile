@@ -5,17 +5,17 @@ require 'cucumber'
 require 'cucumber/rake/task'
 require 'coveralls/rake/task'
 require 'rubocop/rake_task'
+require 'rake/notes/rake_task'
 
 Coveralls::RakeTask.new
 
 Rubocop::RakeTask.new(:rubocop) do |task|
-  task.patterns = ['**/*.rb', 'Rakefile']
   # abort rake on failure
-  task.fail_on_error = false
+  task.fail_on_error = true
 end
 
 Cucumber::Rake::Task.new(:journeys) do |t|
-  t.cucumber_opts = 'features --format pretty'
+  t.cucumber_opts = 'features --format progress'
 end
 
 RSpec::Core::RakeTask.new(:unit) do |t|

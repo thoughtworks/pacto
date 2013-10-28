@@ -6,7 +6,7 @@ module Pacto
       end
 
       def normalize_keys
-        inject({}) do |normalized, (key, value)|
+        reduce({}) do |normalized, (key, value)|
           normalized[key.to_s.downcase] = value
           normalized
         end

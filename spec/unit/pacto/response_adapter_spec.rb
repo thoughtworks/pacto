@@ -3,7 +3,7 @@ module Pacto
     let(:response) do
       double(
         :code => 200,
-        :headers => {'foo' => ['bar', 'baz'], 'hello' => ['world']},
+        :headers => {'foo' => %w(bar baz), 'hello' => ['world']},
         :body => double('body')
       )
     end

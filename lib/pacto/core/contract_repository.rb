@@ -21,6 +21,16 @@ module Pacto
       merged_contracts.count
     end
 
+    def load_all(contracts_directory, host, *tags)
+      Pacto::Utils.all_contract_files_on(contracts_directory).each { |file| load file, host, *tags }
+    end
+
+    def load(contract_file, host, *tags)
+      Logger.instance.debug "Registering #{contract_file} with #{tags}"
+      contract = build_from_file contract_file, host, nil
+      register_contract contract, *tags
+    end
+
     def registered
       @registered ||= Hash.new { |hash, key| hash[key] = Set.new }
     end

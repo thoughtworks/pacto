@@ -33,7 +33,7 @@ describe 'Pacto' do
 
     let :response do
       raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
-      JSON.parse(raw_response.body)
+      MultiJson.load(raw_response.body)
     end
   end
 
@@ -47,22 +47,16 @@ describe 'Pacto' do
       end
 
       # Preprocessor must be off before building!
-      login_contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-      contract = Pacto.build_from_file(strict_contract_path, 'http://dummyprovider.com')
-      Pacto.configure do |c|
-        c.register_contract login_contract, :default
-        c.register_contract contract, :devices
-      end
-
+      Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
       Pacto.use(:devices, {:device_id => 42})
 
       raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
-      login_response = JSON.parse(raw_response.body)
+      login_response = MultiJson.load(raw_response.body)
       expect(login_response.keys).to eq ['message']
       expect(login_response['message']).to be_kind_of(String)
 
       devices_response = HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
-      devices_response = JSON.parse(devices_response.body)
+      devices_response = MultiJson.load(devices_response.body)
       expect(devices_response['devices']).to have(2).items
       expect(devices_response['devices'][0]).to eq '/dev/42'
       # devices_response['devices'][1].should == '/dev/43'

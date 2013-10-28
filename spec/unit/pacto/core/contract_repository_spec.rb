@@ -89,6 +89,48 @@ describe Pacto do
     end
   end
 
+  describe '.load_all' do
+    let(:host) { 'http://www.example.com' }
+    let(:files) { %w(file1 file2) }
+    let(:tags) { %w(tag1 tag2) }
+
+    before do
+      Pacto::Utils.stub(all_contract_files_on: files)
+      described_class.stub(:load)
+    end
+
+    it 'loads each contract file in the contract directory' do
+      files.each { |file| described_class.should_receive(:load).with(file, host, *tags) }
+      described_class.load_all 'my_contracts', host, *tags
+    end
+
+    it 'searches all the contract files in the contract directory' do
+      Pacto::Utils.should_receive(:all_contract_files_on).with('my_contracts').and_return files
+      described_class.load_all 'my_contracts', host, *tags
+    end
+  end
+
+  describe '.load' do
+    let(:host) { 'http://www.example.com' }
+    let(:tags) { %w(tag1 tag2) }
+    let(:contract_file) { double :contract_file }
+    let(:contract) { double :contract }
+
+    before do
+      described_class.stub(build_from_file: contract)
+    end
+
+    it 'builds a contract' do
+      described_class.should_receive(:build_from_file).with(contract_file, host, nil).and_return(contract)
+      described_class.load contract_file, host, *tags
+    end
+
+    it 'registers the contract' do
+      described_class.should_receive(:register_contract).with(contract, *tags)
+      described_class.load contract_file, host, *tags
+    end
+  end
+
   describe '.unregister_all!' do
     it 'unregisters all previously registered contracts' do
       described_class.register_contract(contract, tag)

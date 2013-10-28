@@ -2,9 +2,9 @@ module Pacto
   describe HashMergeProcessor do
     describe '#process' do
       let(:response_body_string) { 'a simple string' }
-      let(:response_body_hash) {
+      let(:response_body_hash) do
         {'a' => 'simple hash'}
-      }
+      end
 
       it 'does not change contract if values is nil' do
         expect(subject.process(response_body_string, nil)).to eq response_body_string

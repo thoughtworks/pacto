@@ -1,7 +1,12 @@
 module Pacto
   class Response
+    attr_reader :status, :headers, :schema
+
     def initialize(definition)
       @definition = definition
+      @status = @definition['status']
+      @headers = @definition['headers']
+      @schema = @definition['body']
     end
 
     def instantiate
@@ -12,6 +17,8 @@ module Pacto
       )
     end
 
+    # FIXME: validate is a huge method =(. Needs refactoring
+    # rubocop:disable MethodLength
     def validate(response, opt = {})
 
       unless opt[:body_only]
@@ -34,6 +41,7 @@ module Pacto
         []
       end
     end
+    # rubocop:enable MethodLength
 
     private
 
