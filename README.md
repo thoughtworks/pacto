@@ -8,6 +8,11 @@
 
 Pacto is a Ruby framework to help with [Integration Contract Testing](http://martinfowler.com/bliki/IntegrationContractTest.html).
 
+**If you're viewing this at https://github.com/thoughtworks/pacto,
+you're reading the documentation for the master branch.
+[View documentation for the latest release
+(0.2.5).](https://github.com/thoughtworks/pacto/tree/v0.2.5)**
+
 With Pacto you can:
 
 * [Evolve](https://www.relishapp.com/maxlinc/pacto/docs/evolve) your services with either a [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) approach or by tracking provider contracts.
