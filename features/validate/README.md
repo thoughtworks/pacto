@@ -1,0 +1,1 @@
+You can use Pacto to do Integration Contract Testing - making sure your service and any test double that simulates the service are similar.  If you generate your Contracts from documentation, you can be fairly confident that all three - live services, test doubles, and documentation - are in sync.
