@@ -27,7 +27,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'addressable'
   gem.add_dependency 'coveralls'
   gem.add_dependency 'json-schema-generator'
-  gem.add_dependency 'colored'
+  gem.add_dependency 'rainbow'
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rake-notes'
