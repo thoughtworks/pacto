@@ -124,7 +124,7 @@ module Pacto
       if File.file? dir
         yield dir
       else
-        contracts = Dir[File.join(dir, '*{.json.erb,.json}')]
+        contracts = Dir[File.join(dir, '**/*{.json.erb,.json}')]
         fail "No contracts found in directory #{dir}".yellow if contracts.empty?
 
         contracts.sort.each do |contract_file|

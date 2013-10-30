@@ -10,7 +10,7 @@ module Pacto
 
       context 'when contracts path is configured' do
         let(:contracts_path) { '/contracts/path' }
-        let(:expanded_path) { '/contracts/path/relative/path/**.json' }
+        let(:expanded_path) { '/contracts/path/relative/path/**/*.json' }
 
         it 'returns all the json files inside contracts directory' do
           Dir.should_receive(:glob).with(expanded_path).and_return files
@@ -20,7 +20,7 @@ module Pacto
 
       context 'when contracts path is not configured' do
         let(:contracts_path) { nil }
-        let(:expanded_path) { "#{Dir.pwd}/relative/path/**.json" }
+        let(:expanded_path) { "#{Dir.pwd}/relative/path/**/*.json" }
 
         it 'returns all the json files inside directory' do
           Dir.should_receive(:glob).with(expanded_path).and_return files
