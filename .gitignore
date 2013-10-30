@@ -20,4 +20,6 @@ tmp
 .idea/
 .floo*
 .sublime*
+bin/*
+tags
 
