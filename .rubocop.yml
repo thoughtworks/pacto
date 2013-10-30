@@ -5,3 +5,5 @@ AllCops:
     - Guardfile
     - Rakefile
     - pacto.gemspec
+  Excludes:
+    - bin/**
