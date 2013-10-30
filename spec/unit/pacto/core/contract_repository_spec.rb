@@ -3,6 +3,10 @@ describe Pacto do
   let(:another_tag) { 'another_tag' }
   let(:contract) { double('contract') }
   let(:another_contract) { double('another_contract') }
+  let(:request_signature) { double('request signature') }
+  let(:contracts_that_match)      { create_contracts 2, true }
+  let(:contracts_that_dont_match) { create_contracts 3, false }
+  let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
 
   after do
     described_class.unregister_all!
@@ -139,24 +143,32 @@ describe Pacto do
     end
   end
 
-  describe '.contract_for' do
-    let(:request_signature) { double('request signature') }
-
+  describe '.contracts_for' do
     context 'when no contracts are found for a request' do
       it 'returns an empty list' do
-        expect(described_class.contract_for request_signature).to be_empty
+        expect(described_class.contracts_for request_signature).to be_empty
       end
     end
 
     context 'when contracts are found for a request' do
-      let(:contracts_that_match)      { create_contracts 2, true }
-      let(:contracts_that_dont_match) { create_contracts 3, false }
-      let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
-
       it 'returns the matching contracts' do
         register_and_use all_contracts
-        expect(described_class.contract_for request_signature).to eq(contracts_that_match)
+        expect(described_class.contracts_for request_signature).to eq(contracts_that_match)
       end
+    end
+  end
+
+  describe '.contract_for' do
+    it 'returns nil if no contracts match' do
+      described_class.should_receive(:contracts_for).with(request_signature).and_return Set.new
+      expect(described_class.contract_for request_signature).to be_nil
+    end
+
+    it 'returns the first match if one exists' do
+      first = contracts_that_match.first
+      matches = Set.new(contracts_that_match)
+      described_class.should_receive(:contracts_for).with(request_signature).and_return matches
+      expect(described_class.contract_for request_signature).to eq(first)
     end
   end
 
