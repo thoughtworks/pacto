@@ -2,14 +2,7 @@ require 'json/schema_generator'
 
 module Pacto
   class Generator
-    attr_accessor :request_headers_to_filter
     attr_accessor :response_headers_to_filter
-
-    INFORMATIONAL_REQUEST_HEADERS =
-    %w{
-      content-length
-      via
-    }
 
     INFORMATIONAL_RESPONSE_HEADERS =
     %w{
@@ -26,7 +19,6 @@ module Pacto
       @validator = validator
       @schema_generator = schema_generator
       @response_headers_to_filter = INFORMATIONAL_RESPONSE_HEADERS
-      @request_headers_to_filter = INFORMATIONAL_REQUEST_HEADERS
     end
 
     def generate(request_file, host)
