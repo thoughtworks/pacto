@@ -56,7 +56,8 @@ Feature: Contract Generation
       },
       "response": {
         "headers": {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          "vary": "Accept"
         },
         "status": 200,
         "body": {
