@@ -46,7 +46,7 @@ Feature: Meta-validation
     Pacto.validate_contract 'contracts/my_contract.json'
     """
     When I successfully run `bundle exec ruby meta_validate.rb`
-    Then the output should contain "All contracts successfully meta-validated"
+    Then the output should contain "Validating contracts/my_contract.json"
 
 # The tests from here down should probably be specs instead of relish
 

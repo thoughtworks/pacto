@@ -50,7 +50,7 @@ module Pacto
 
   def self.validate_contract contract
     Pacto::MetaSchema.new.validate contract
-    puts 'All contracts successfully meta-validated'
+    puts "Validating #{contract}"
     true
   rescue InvalidContract => exception
     puts 'Validation errors detected'

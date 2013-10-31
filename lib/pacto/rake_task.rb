@@ -51,9 +51,9 @@ module Pacto
         end
 
         each_contract(args[:dir]) do |contract_file|
-          puts "Validating #{contract_file}"
           fail unless Pacto.validate_contract contract_file
         end
+        puts 'All contracts successfully meta-validated'
       end
     end
 

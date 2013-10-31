@@ -19,7 +19,7 @@ describe Pacto do
       it 'displays a success message and return true' do
         mock_validation []
         success = Pacto.validate_contract 'my_contract.json'
-        expect(output).to eq 'All contracts successfully meta-validated'
+        expect(output).to eq 'Validating my_contract.json'
         expect(success).to be_true
       end
     end
