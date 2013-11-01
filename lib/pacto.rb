@@ -11,6 +11,7 @@ require 'erb'
 require 'logger'
 
 require 'pacto/utils'
+require 'pacto/ui'
 require 'pacto/core/contract_repository'
 require 'pacto/core/configuration'
 require 'pacto/core/callback'
