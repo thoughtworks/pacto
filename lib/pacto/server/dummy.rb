@@ -11,7 +11,7 @@ module Pacto
 
         @doer = PlaybackServlet.new(
           status: 200,
-          headers: {'Content-Type' => 'application/json'},
+          headers: {'Content-Type' => 'application/json', 'Vary' => 'Accept'},
           body: json
         )
       end

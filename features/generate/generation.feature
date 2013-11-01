@@ -5,6 +5,8 @@ Feature: Contract Generation
 
   You just need to create a partial Contract that only describes the request.  The generator will then execute the request, and use the response to generate a full Contract.
 
+  Remember, we only record request headers if they are in the response's [Vary header](http://www.subbu.org/blog/2007/12/vary-header-for-restful-applications), so make sure your services return a proper Vary for best results!
+
   Background:
     Given a file named "requests/my_contract.json" with:
     """
@@ -56,7 +58,8 @@ Feature: Contract Generation
       },
       "response": {
         "headers": {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          "vary": "Accept"
         },
         "status": 200,
         "body": {

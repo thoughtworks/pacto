@@ -24,7 +24,8 @@ module Pacto
           'headers' => {
             'Date' => [Time.now],
             'Server' => ['Fake Server'],
-            'Content-Type' => ['application/json']
+            'Content-Type' => ['application/json'],
+            'Vary' => ['User-Agent']
           },
           'body' => double('dummy body')
         )
@@ -132,13 +133,15 @@ module Pacto
 
         it 'keeps important response headers' do
           saved_headers = subject['response']['headers']
-          expect(saved_headers.keys).to include 'Content-Type'
+          expect(saved_headers.keys).to include 'Content-Type'.downcase
         end
 
         it 'filters informational response headers' do
           saved_headers = subject['response']['headers']
           expect(saved_headers).not_to include 'Content-Length'
+          expect(saved_headers).not_to include 'Content-Length'.downcase
           expect(saved_headers).not_to include 'Via'
+          expect(saved_headers).not_to include 'Via'.downcase
         end
 
         it 'generates pretty JSON' do

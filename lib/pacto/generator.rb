@@ -2,14 +2,7 @@ require 'json/schema_generator'
 
 module Pacto
   class Generator
-    attr_accessor :request_headers_to_filter
     attr_accessor :response_headers_to_filter
-
-    INFORMATIONAL_REQUEST_HEADERS =
-    %w{
-      content-length
-      via
-    }
 
     INFORMATIONAL_RESPONSE_HEADERS =
     %w{
@@ -26,7 +19,6 @@ module Pacto
       @validator = validator
       @schema_generator = schema_generator
       @response_headers_to_filter = INFORMATIONAL_RESPONSE_HEADERS
-      @request_headers_to_filter = INFORMATIONAL_REQUEST_HEADERS
     end
 
     def generate(request_file, host)
@@ -38,6 +30,7 @@ module Pacto
     end
 
     def save(source, request, response)
+      @vary_string = response.headers['vary'] || ''
       contract = generate_contract source, request, response
       pretty_contract = MultiJson.encode(contract, :pretty => true)
       # This is because of a discrepency w/ jruby vs MRI pretty json
@@ -78,8 +71,9 @@ module Pacto
     end
 
     def filter_request_headers headers
-      headers.reject do |header|
-        @request_headers_to_filter.include? header.downcase
+      vary_headers = @vary_string.split ','
+      headers.select do |header|
+        vary_headers.map(&:downcase).include? header.downcase
       end
     end
 
