@@ -23,7 +23,7 @@ module Pacto
       desc 'Validates all contracts in a given directory against a given host'
       task :validate, :host, :dir do |t, args|
         if args.to_a.size < 2
-          fail 'USAGE: rake pacto:validate[<host>, <contract_dir>]'.yellow
+          fail Pacto::UI.yellow('USAGE: rake pacto:validate[<host>, <contract_dir>]')
         end
 
         validate_contracts(args[:host], args[:dir])
@@ -34,7 +34,7 @@ module Pacto
       desc 'Generates contracts from partial contracts'
       task :generate, :input_dir, :output_dir, :host do |t, args|
         if args.to_a.size < 3
-          fail 'USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]'.yellow
+          fail Pacto::UI.yellow('USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]')
         end
 
         generate_contracts(args[:input_dir], args[:output_dir], args[:host])
@@ -47,7 +47,7 @@ module Pacto
       desc 'Validates a directory of contract definitions'
       task :meta_validate, :dir do |t, args|
         if args.to_a.size < 1
-          fail 'USAGE: rake pacto:meta_validate[<contract_dir>]'.yellow
+          fail Pacto::UI.yellow('USAGE: rake pacto:meta_validate[<contract_dir>]')
         end
 
         each_contract(args[:dir]) do |contract_file|
@@ -68,22 +68,22 @@ module Pacto
         errors = contract.validate
 
         if errors.empty?
-          puts ' OK!'.green
+          puts Pacto::UI.green(' OK!')
         else
           @exit_with_error = true
           total_failed += 1
-          puts ' FAILED!'.red
+          puts Pacto::UI.red(' FAILED!')
           errors.each do |error|
-            puts "\t* #{error}".red
+            puts Pacto::UI.red("\t* #{error}")
           end
           puts ''
         end
       end
 
       if @exit_with_error
-        fail "#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.".red
+        fail Pacto::UI.red("#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.")
       else
-        puts "#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}".green
+        puts Pacto::UI.green("#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}")
       end
     end
     # rubocop:enable MethodLength
@@ -106,14 +106,14 @@ module Pacto
           output_file.close
         rescue InvalidContract => e
           failed_contracts << contract_file
-          puts e.message.red
+          puts Pacto::UI.red(e.message)
         end
       end
 
       if failed_contracts.empty?
-        puts 'Successfully generated all contracts'.green
+        puts Pacto::UI.green('Successfully generated all contracts')
       else
-        fail "The following contracts could not be generated: #{failed_contracts.join ','}".red
+        fail Pacto::UI.red("The following contracts could not be generated: #{failed_contracts.join ','}")
       end
     end
     # rubocop:enable MethodLength
@@ -125,7 +125,7 @@ module Pacto
         yield dir
       else
         contracts = Dir[File.join(dir, '**/*{.json.erb,.json}')]
-        fail "No contracts found in directory #{dir}".yellow if contracts.empty?
+        fail Pacto::UI.yellow("No contracts found in directory #{dir}") if contracts.empty?
 
         contracts.sort.each do |contract_file|
           yield contract_file
