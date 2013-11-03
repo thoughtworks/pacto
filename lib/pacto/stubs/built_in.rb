@@ -1,9 +1,12 @@
+require 'pacto/stubs/webmock_helper'
+
 module Pacto
   module Stubs
     class BuiltIn
 
       def initialize
         register_callbacks
+        @logger = Logger.instance
       end
 
       def stub_request! request, response
@@ -31,12 +34,20 @@ module Pacto
         WebMock.reset_callbacks
       end
 
+      def process_callbacks(request_signature, response)
+        WebMockHelper.generate(request_signature, response) if Pacto.generating?
+
+        contracts = Pacto.contracts_for request_signature
+        Pacto.configuration.callback.process contracts, request_signature, response
+
+        WebMockHelper.validate(request_signature, response) if Pacto.validating?
+      end
+
       private
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
-          contracts = Pacto.contracts_for request_signature
-          Pacto.configuration.callback.process contracts, request_signature, response
+          process_callbacks request_signature, response
         end
       end
 
