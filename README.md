@@ -145,11 +145,11 @@ The pacto:generate task will take partially defined Contracts and generate the m
 
 The pacto:meta_validate task makes sure that your Contracts are valid.  It only checks the Contracts, not the services that implement them.
 
-The pacto:validate task sends a request to an actual provider and ensures their response complies with the Contract.  See [Validating Providers](#validating-providers) for more details.
+The pacto:validate task sends a request to an actual provider and ensures their response complies with the Contract.
 
 ## Contracts
 
-Pacto works by associating a service with a Contract.  The Contract is a JSON description of the service that uses json-schema to describe the response body.  You don't need to write your contracts by hand.  In fact, we recommend generating a Contract from your documentation or a service.  See the [Generators](#generators) for options.
+Pacto works by associating a service with a Contract.  The Contract is a JSON description of the service that uses json-schema to describe the response body.  You don't need to write your contracts by hand.  In fact, we recommend generating a Contract from your documentation or a service.
 
 A contract is composed of a request that has:
 
@@ -196,16 +196,10 @@ to the /hello_world endpoint of a provider:
 }
 ```
 
-## Generators
-
-Pacto comes with a simple generator to help you get started.  See the [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) docs for more details.
-
-It should be possible to write additional generators or hook the existing Generator into other tools, like [VCR](https://github.com/vcr/vcr) cassettes, [apiblueprint](http://apiblueprint.org/), or [WADL](https://wadl.java.net/).  If you want some help or ideas, try the [pacto mailing-list](https://groups.google.com/forum/#!forum/pacto-gem).
-
 ## Constraints
 
 - Pacto only works with JSON services
-- Pacto requires Ruby 1.9.3 or newer (though you can older Rubies or non-Ruby projects with a [Pacto Server](#server]))
+- Pacto requires Ruby 1.9.3 or newer (though you can older Rubies or non-Ruby projects with a [Pacto Server](#pacto-server-non-ruby-usage))
 - Pacto cannot currently specify multiple acceptable status codes (e.g. 200 or 201)
 
 ## Contributing
