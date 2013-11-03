@@ -17,7 +17,7 @@ With Pacto you can:
 
 * [Evolve](https://www.relishapp.com/maxlinc/pacto/docs/evolve) your services with either a [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) approach or by tracking provider contracts.
 * [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) a contract from your documentation or sample response.
-* [Validate](https://www.relishapp.com/maxlinc/pacto/docs/validate) that a live service still matches the Contract you tested against.
+* [Validate](https://www.relishapp.com/maxlinc/pacto/docs/validate) your live or stubbed services against expectations to ensure they still comply with your Contracts.
 * [Stub](https://www.relishapp.com/maxlinc/pacto/docs/stub) services by letting Pacto creates responses that match a Contract.
 
 See the [Usage](#usage) section for some basic examples on how you can use Pacto, and browse the [Relish documentation](https://www.relishapp.com/maxlinc/pacto) for more advanced options.
@@ -32,6 +32,120 @@ Pacto's stubbing ability ranges from very simple stubbing to:
 It's your choice - do you want simple behavior and strict contracts to focus on contract testing, or rich behavior and looser contracts to create dynamic test doubles for collaboration testing?
 
 Note: Currently, Pacto is only designed to work with JSON services.  See the [Constraints](#constraints) section for further information on what Pacto does not do.
+
+## Usage
+
+Pacto can perform three activities: generating, validating, or stubbing services.  You can do each of these activities against either live or stubbed services.
+
+### Configuration
+
+In order to start with Pacto, you just need to require it and optionally customize the default [Configuration](https://www.relishapp.com/maxlinc/pacto/docs/configuration).  For example:
+
+```ruby
+require 'pacto'
+
+Pacto.configure do |config|
+  config.contracts_path = 'contracts'
+end
+```
+
+### Generating
+
+The easiest way to get started with Pacto is to run a suite of live tests and tell Pacto to generate the contracts:
+
+```ruby
+Pacto.generate!
+# run your tests
+```
+
+If you're using the same configuration as above, this will produce Contracts in the contracts/ folder.
+
+We know we cannot generate perfect Contracts, especially if we only have one sample request.  So we do our best to give you a good starting point, but you will likely want to customize the contract so the validation is more strict in some places and less strict in others.
+
+### Registering Contracts
+
+The remaining examples below require Pacto to know what Contracts exist.  You can also associate them with tags so it's easy to active specific groups later.
+
+The easiest way to load a group of contracts is with `Pacto.load_all`, which will load all the Contracts in a directory, bind them to a host, and associate them with a tag.
+
+```ruby
+require 'pacto'
+
+Pacto.load_all 'contracts/services', 'http://example.com', :default
+Pacto.load_all 'contracts/auth', 'http://example.com', :authentication
+Pacto.load_all 'contracts/legacy', 'http://example.com', :legacy
+```
+
+### Validating
+
+Once you are happy with your contracts, you can rerun the same tests and validate them against your Contact.  This is as simple as:
+
+```ruby
+Pacto.load_all 'contracts', 'http://example.com'
+Pacto.validate!
+# run your tests again
+```
+
+This ensures your live services match the Contracts.
+
+You can also validate your test doubles.  If your test doubles are integration with WebMock, then Pacto.validate! will automatically validate them for you.  This includes VCR while hooked into WebMock.
+
+If you are using a test library that isn't hooked into WebMock, you'll have to incept the HTTP transaction yourself and call Pacto for validation.  That code usually looks something like this:
+
+```ruby
+def validate_hook(request, response)
+  contract = Pacto.contract_for request
+  contract.validate! response
+end
+```
+
+### Stubbing
+
+In order to use a the registered Contracts as stubs, you just need to call `Pacto.use` with the tag (or tags) you wish to use.
+
+```ruby
+Pacto.use :legacy
+Pacto.use :authentication, {:username => user, :auth_token => auth_token}
+```
+
+Note: the :default group is always included, so you can usually put most of your contracts in :default, and use other tags for Contracts you don't want loaded for most tests.
+
+The values passed in the optional second parameter are used by processors that create the response stubs.  See the documentation for [Configuration](https://www.relishapp.com/maxlinc/pacto/docs/configuration) for available processors.
+
+## Pacto Server (non-Ruby usage)
+
+It is really easy to embed Pacto inside a small server.  We haven't bundled a server inside of Pacto, but check out [pacto-demo](https://github.com/thoughtworks/pacto-demo) to see how easily you can expose Pacto via server.
+
+That demo lets you easily run a server in several modes:
+```sh
+$ bundle exec ruby pacto_server.rb -sv --generate
+# Runs a server that will generate Contracts for each request received
+$ bundle exec ruby pacto_server.rb -sv --validate
+# Runs the server that provides stubs and checks them against Contracts
+$ bundle exec ruby pacto_server.rb -sv --validate --host http://example.com
+# Runs the server that acts as a proxy to http://example.com, validating each request/response against a Contract
+```
+
+## Rake Tasks
+
+Pacto includes a few Rake tasks to help with common tasks.  If you want to use these tasks, just add this top your Rakefile:
+
+```ruby
+require 'pacto/rake_task'
+```
+
+This should add several new tasks to you project:
+```sh
+rake pacto:generate[input_dir,output_dir,host]  # Generates contracts from partial contracts
+rake pacto:meta_validate[dir]                   # Validates a directory of contract definitions
+rake pacto:validate[host,dir]                   # Validates all contracts in a given directory against a given host
+```
+
+The pacto:generate task will take partially defined Contracts and generate the missing pieces.  See [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) for more details.
+
+The pacto:meta_validate task makes sure that your Contracts are valid.  It only checks the Contracts, not the services that implement them.
+
+The pacto:validate task sends a request to an actual provider and ensures their response complies with the Contract.  See [Validating Providers](#validating-providers) for more details.
 
 ## Contracts
 
@@ -87,96 +201,6 @@ to the /hello_world endpoint of a provider:
 Pacto comes with a simple generator to help you get started.  See the [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) docs for more details.
 
 It should be possible to write additional generators or hook the existing Generator into other tools, like [VCR](https://github.com/vcr/vcr) cassettes, [apiblueprint](http://apiblueprint.org/), or [WADL](https://wadl.java.net/).  If you want some help or ideas, try the [pacto mailing-list](https://groups.google.com/forum/#!forum/pacto-gem).
-
-## Usage
-
-Pacto can be used in a variety of ways.  Here are a few basic options to get you started.
-
-### General Setup
-
-#### Registering Contracts
-
-All of the examples below require Pacto to know what Contracts exist.  You can also associate them with tags so it's easy to active specific groups later.
-
-The easiest way to load a group of contracts is with `Pacto.load_all`, which will load all the Contracts in a directory, bind them to a host, and associate them with a tag.
-
-```ruby
-require 'pacto'
-
-Pacto.load_all 'contracts/services', 'http://example.com', :default
-Pacto.load_all 'contracts/auth', 'http://example.com', :authentication
-Pacto.load_all 'contracts/legacy', 'http://example.com', :legacy
-```
-
-#### Rake Tasks
-
-Pacto includes a few Rake tasks to help with common tasks.  If you want to use these tasks, just add this top your Rakefile:
-
-```ruby
-require 'pacto/rake_task'
-```
-
-This should add several new tasks to you project:
-```sh
-rake pacto:generate[input_dir,output_dir,host]  # Generates contracts from partial contracts
-rake pacto:meta_validate[dir]                   # Validates a directory of contract definitions
-rake pacto:validate[host,dir]                   # Validates all contracts in a given directory against a given host
-```
-
-The pacto:generate task will take partially defined Contracts and generate the missing pieces.  See [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) for more details.
-
-The pacto:meta_validate task makes sure that your Contracts are valid.  It only checks the Contracts, not the services that implement them.
-
-The pacto:validate task sends a request to an actual provider and ensures their response complies with the Contract.  See [Validating Providers](#validating-providers) for more details.
-
-### Automatically Stubbing
-
-#### Ruby
-
-In order to use a the registered Contracts as stubs, you just need to call `Pacto.use` with the tag (or tags) you wish to use.
-
-```ruby
-Pacto.use :legacy
-Pacto.use :authentication, {:username => user, :auth_token => auth_token}
-```
-
-Note: the :default group is always included, so you can usually put most of your contracts in :default, and use other tags for Contracts you don't want loaded for most tests.
-
-The values passed in the optional second parameter are used by processors that create the response stubs.  See the documentation for [Configuration](https://www.relishapp.com/maxlinc/pacto/docs/configuration) for available processors.
-
-#### Server
-
-The approach above uses WebMock to stub in-process HTTP requests.  If you want to use the stubs across processes or for non-Ruby clients (even curl) you can easily run Pacto inside a server.
-
-We don't havea  pre-packaged server because its easy to embed Pacto into a simple server so you can customize the configuration and features.  In our our [pacto-demo](https://github.com/thoughtworks/pacto-demo) project we created a [Goliath](https://github.com/postrank-labs/goliath)-based server with 50 lines of Ruby, that could:
-- Validate stubs
-- Act as a validating reverse proxy
-
-### Validating Providers
-
-You can use Pacto to validate that the providers implementing services match the Contracts used by their consumers.  In addition to the Rake task mentioned above, you can do this programmatically:
-
-```ruby
-# You need to allow real HTTP requests!
-WebMock.allow_net_connect!
-contract = Pacto.build_from_file('/path/to/contract.json', 'http://dummyprovider.com')
-contract.validate
-```
-
-This will load the contract at `/path/to/contract.json` and make sure a request sent to http://dummyprovider.com complies with the response described in the Contract.
-
-
-### Validating Custom Stubs
-
-You can use Pacto to validate your existing stubbing system if you aren't ready to let Pacto provide stubs for you.
-
-#### Pure Ruby Stubs
-
-TODO
-
-#### Validating VCR
-
-TODO
 
 ## Constraints
 
