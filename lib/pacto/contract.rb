@@ -11,7 +11,7 @@ module Pacto
 
     def stub_contract! values = {}
       @values = values
-      @stub = Pacto.configuration.provider.stub_request!(@request, stub_response) unless @request.nil?
+      @request_pattern = Pacto.configuration.provider.stub_request!(@request, stub_response)
     end
 
     def validate(response_gotten = provider_response, opt = {})
@@ -19,7 +19,7 @@ module Pacto
     end
 
     def matches? request_signature
-      @stub.matches? request_signature unless @stub.nil?
+      @request_pattern.matches? request_signature unless @request_pattern.nil?
     end
 
     private

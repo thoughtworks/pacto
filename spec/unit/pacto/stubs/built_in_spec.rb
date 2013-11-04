@@ -40,6 +40,7 @@ module Pacto
         }
       end
       let(:processor) { double('processor') }
+      let(:request_pattern) { double('request_pattern') }
 
       before(:each) do
         stubbed_request.stub(:to_return).with(
@@ -47,6 +48,7 @@ module Pacto
           :headers => response.headers,
           :body => response.body.to_json,
         )
+        stubbed_request.stub(:request_pattern).and_return request_pattern
       end
 
       describe '#initialize' do
@@ -124,7 +126,7 @@ module Pacto
           end
 
           it 'stubs with headers and no regex' do
-            stubbed_request.should_receive(:with).with(
+            request_pattern.should_receive(:with).with(
               :query => { 'foo' => 'bar' },
               :headers => { 'Accept' => 'application/json' }
             ).and_return(stubbed_request)
@@ -144,7 +146,7 @@ module Pacto
                 :body => response.body.to_json
               )
 
-              stubbed_request.stub(:with).and_return(stubbed_request)
+              request_pattern.stub(:with)
 
               described_class.new.stub_request! request, response
             end
@@ -162,7 +164,7 @@ module Pacto
                 :body => response.body.to_json
               )
 
-              stubbed_request.stub(:with).and_return(stubbed_request)
+              request_pattern.stub(:with)
 
               described_class.new.stub_request! request, response
             end
@@ -178,7 +180,7 @@ module Pacto
                 :body => response.body
               )
 
-              stubbed_request.stub(:with).and_return(stubbed_request)
+              request_pattern.stub(:with)
 
               described_class.new.stub_request! request, response
             end
@@ -188,7 +190,7 @@ module Pacto
             let(:method) { :get }
 
             it 'uses WebMock to stub the request' do
-              stubbed_request.should_receive(:with).
+              request_pattern.should_receive(:with).
                 with(:headers => request.headers, :query => request.params).
                 and_return(stubbed_request)
               described_class.new.stub_request! request, response
@@ -199,7 +201,7 @@ module Pacto
             let(:method) { :post }
 
             it 'uses WebMock to stub the request' do
-              stubbed_request.should_receive(:with).
+              request_pattern.should_receive(:with).
                 with(:headers => request.headers, :body => request.params).
                 and_return(stubbed_request)
               described_class.new.stub_request! request, response
@@ -218,7 +220,7 @@ module Pacto
             end
 
             it 'uses WebMock to stub the request' do
-              stubbed_request.should_receive(:with).
+              request_pattern.should_receive(:with).
                 with(:query => request.params).
                 and_return(stubbed_request)
               described_class.new.stub_request! request, response
@@ -237,11 +239,23 @@ module Pacto
             end
 
             it 'uses WebMock to stub the request' do
-              stubbed_request.should_receive(:with).
+              request_pattern.should_receive(:with).
                 with({}).
                 and_return(stubbed_request)
               described_class.new.stub_request! request, response
             end
+          end
+        end
+      end
+      context 'when not stubbing' do
+        describe '#stub_request!' do
+          it 'returns a RequestPattern' do
+            expect(described_class.new.stub_request! request, response).to be_a(WebMock::RequestPattern)
+          end
+
+          it 'does not register a stub' do
+            WebMock.should_not_receive(:stub_request)
+            described_class.new.stub_request! request, response, false
           end
         end
       end
