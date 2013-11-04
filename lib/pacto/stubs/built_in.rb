@@ -6,7 +6,7 @@ module Pacto
         register_callbacks
       end
 
-      def stub_request! request, response
+      def stub_request! request, response, stub = true
         strict = Pacto.configuration.strict_matchers
         host_pattern = request.host
         path_pattern = request.path
@@ -17,14 +17,18 @@ module Pacto
           host_pattern = Regexp.quote(request.host)
           uri_matcher = /#{host_pattern}#{path_pattern}/
         end
-        stub = WebMock.stub_request(request.method, uri_matcher)
-        stub = stub.with(request_details(request)) if strict
-        stub.to_return(
+        request_pattern = WebMock::RequestPattern.new(request.method, uri_matcher)
+        request_pattern.with(request_details(request)) if strict
+        if stub
+          stub = WebMock.stub_request(request.method, uri_matcher)
+          stub.request_pattern = request_pattern
+          stub.to_return(
             :status => response.status,
             :headers => response.headers,
             :body => format_body(response.body)
           )
-        stub.request_pattern
+        end
+        request_pattern
       end
 
       def reset!
