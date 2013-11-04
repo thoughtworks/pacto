@@ -24,6 +24,7 @@ module Pacto
             :headers => response.headers,
             :body => format_body(response.body)
           )
+        stub.request_pattern
       end
 
       def reset!

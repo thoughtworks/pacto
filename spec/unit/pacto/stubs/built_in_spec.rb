@@ -40,6 +40,7 @@ module Pacto
         }
       end
       let(:processor) { double('processor') }
+      let(:request_pattern) { double('request_pattern') }
 
       before(:each) do
         stubbed_request.stub(:to_return).with(
@@ -47,6 +48,7 @@ module Pacto
           :headers => response.headers,
           :body => response.body.to_json,
         )
+        stubbed_request.stub(:request_pattern)
       end
 
       describe '#initialize' do
