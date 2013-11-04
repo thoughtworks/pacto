@@ -6,28 +6,21 @@ module Pacto
         register_callbacks
       end
 
-      def stub_request! request, response, stub = true
+      def stub_request! request, response, stubbing = true
         strict = Pacto.configuration.strict_matchers
-        host_pattern = request.host
-        path_pattern = request.path
-        if strict
-          uri_matcher = "#{host_pattern}#{path_pattern}"
-        else
-          path_pattern = path_pattern.gsub(/\/:\w+/, '/[:\w]+')
-          host_pattern = Regexp.quote(request.host)
-          uri_matcher = /#{host_pattern}#{path_pattern}/
-        end
-        request_pattern = WebMock::RequestPattern.new(request.method, uri_matcher)
-        request_pattern.with(request_details(request)) if strict
-        if stub
-          stub = WebMock.stub_request(request.method, uri_matcher)
-          stub.request_pattern = request_pattern
+        uri_pattern = build_uri_pattern request, strict
+        if stubbing
+          stub = WebMock.stub_request(request.method, uri_pattern)
           stub.to_return(
             :status => response.status,
             :headers => response.headers,
             :body => format_body(response.body)
           )
+          request_pattern = stub.request_pattern
+        else
+          request_pattern = WebMock::RequestPattern.new(request.method, uri_pattern)
         end
+        request_pattern.with(request_details(request)) if strict
         request_pattern
       end
 
@@ -37,6 +30,19 @@ module Pacto
       end
 
       private
+
+      def build_uri_pattern(request, strict)
+        host_pattern = request.host
+        path_pattern = request.path
+        if strict
+          uri_pattern = "#{host_pattern}#{path_pattern}"
+        else
+          path_pattern = path_pattern.gsub(/\/:\w+/, '/[:\w]+')
+          host_pattern = Regexp.quote(request.host)
+          uri_pattern = /#{host_pattern}#{path_pattern}/
+        end
+        uri_pattern
+      end
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
