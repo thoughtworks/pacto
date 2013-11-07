@@ -1,29 +1,30 @@
+require 'pacto/stubs/webmock_helper'
+
 module Pacto
   module Stubs
     class BuiltIn
 
       def initialize
         register_callbacks
+        @logger = Logger.instance
       end
 
-      def stub_request! request, response
+      def stub_request! request, response, stubbing = true
         strict = Pacto.configuration.strict_matchers
-        host_pattern = request.host
-        path_pattern = request.path
-        if strict
-          uri_matcher = "#{host_pattern}#{path_pattern}"
-        else
-          path_pattern = path_pattern.gsub(/\/:\w+/, '/[:\w]+')
-          host_pattern = Regexp.quote(request.host)
-          uri_matcher = /#{host_pattern}#{path_pattern}/
-        end
-        stub = WebMock.stub_request(request.method, uri_matcher)
-        stub = stub.with(request_details(request)) if strict
-        stub.to_return(
+        uri_pattern = build_uri_pattern request, strict
+        if stubbing
+          stub = WebMock.stub_request(request.method, uri_pattern)
+          stub.to_return(
             :status => response.status,
             :headers => response.headers,
             :body => format_body(response.body)
           )
+          request_pattern = stub.request_pattern
+        else
+          request_pattern = WebMock::RequestPattern.new(request.method, uri_pattern)
+        end
+        request_pattern.with(request_details(request)) if strict
+        request_pattern
       end
 
       def reset!
@@ -31,12 +32,33 @@ module Pacto
         WebMock.reset_callbacks
       end
 
+      def process_callbacks(request_signature, response)
+        WebMockHelper.generate(request_signature, response) if Pacto.generating?
+
+        contracts = Pacto.contracts_for request_signature
+        Pacto.configuration.callback.process contracts, request_signature, response
+
+        WebMockHelper.validate(request_signature, response) if Pacto.validating?
+      end
+
       private
+
+      def build_uri_pattern(request, strict)
+        host_pattern = request.host
+        path_pattern = request.path
+        if strict
+          uri_pattern = "#{host_pattern}#{path_pattern}"
+        else
+          path_pattern = path_pattern.gsub(/\/:\w+/, '/[:\w]+')
+          host_pattern = Regexp.quote(request.host)
+          uri_pattern = /#{host_pattern}#{path_pattern}/
+        end
+        uri_pattern
+      end
 
       def register_callbacks
         WebMock.after_request do |request_signature, response|
-          contracts = Pacto.contracts_for request_signature
-          Pacto.configuration.callback.process contracts, request_signature, response
+          process_callbacks request_signature, response
         end
       end
 

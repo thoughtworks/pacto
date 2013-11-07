@@ -1,5 +1,6 @@
 require_relative '../../spec/coveralls_helper'
 require 'rake'
+require 'webmock'
 require 'aruba'
 require 'aruba/cucumber'
 require 'aruba/jruby' if RUBY_PLATFORM == 'java'
