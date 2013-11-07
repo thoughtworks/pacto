@@ -31,6 +31,8 @@ module Pacto
         )
       )
     end
+    let(:filtered_request_headers) { double('filtered_response_headers') }
+    let(:filtered_response_headers) { double('filtered_response_headers') }
     let(:response_body_schema) { '{"message": "dummy generated schema"}' }
     let(:version) { 'draft3' }
     let(:schema_generator) { double('schema_generator') }
@@ -72,6 +74,10 @@ module Pacto
     end
 
     describe '#save' do
+      before do
+        Pacto::Generator::Filters.should_receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
+        Pacto::Generator::Filters.should_receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
+      end
       context 'invalid schema' do
         it 'raises an error if schema generation fails' do
           JSON::SchemaGenerator.should_receive(:generate).and_raise ArgumentError.new('Could not generate schema')
@@ -108,19 +114,6 @@ module Pacto
           expect(generated_request['params']['apikey']).to eq("<%= ENV['MY_API_KEY'] %>")
         end
 
-        it 'keeps important request headers' do
-          saved_headers = subject['request']['headers']
-          expect(saved_headers.keys).to include 'User-Agent'
-        end
-
-        it 'filters informational request headers' do
-          saved_headers = subject['request']['headers']
-          expect(saved_headers).not_to include 'Date'
-          expect(saved_headers).not_to include 'Server'
-          expect(saved_headers).not_to include 'Content-Length'
-          expect(saved_headers).not_to include 'Connection'
-        end
-
         it 'normalizes the request method' do
           generated_request = subject['request']
           expect(generated_request['method']).to eq(request.method.downcase.to_s)
@@ -129,19 +122,6 @@ module Pacto
         it 'sets the response attributes' do
           generated_response = subject['response']
           expect(generated_response['status']).to eq(response_adapter.status)
-        end
-
-        it 'keeps important response headers' do
-          saved_headers = subject['response']['headers']
-          expect(saved_headers.keys).to include 'Content-Type'.downcase
-        end
-
-        it 'filters informational response headers' do
-          saved_headers = subject['response']['headers']
-          expect(saved_headers).not_to include 'Content-Length'
-          expect(saved_headers).not_to include 'Content-Length'.downcase
-          expect(saved_headers).not_to include 'Via'
-          expect(saved_headers).not_to include 'Via'.downcase
         end
 
         it 'generates pretty JSON' do
