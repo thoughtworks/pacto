@@ -34,30 +34,35 @@ module Pacto
       end
 
       describe '#filter_request_headers' do
-        subject(:filtered_request_headers) { described_class.filter_request_headers request, response_adapter }
+        subject(:filtered_request_headers) { described_class.filter_request_headers(request, response_adapter).keys.map(&:downcase) }
         it 'keeps important request headers' do
-          expect(filtered_request_headers.keys).to include 'User-Agent'
+          expect(filtered_request_headers).to include 'user-agent'
         end
 
         it 'filters informational request headers' do
-          expect(filtered_request_headers).not_to include 'Date'
-          expect(filtered_request_headers).not_to include 'Server'
-          expect(filtered_request_headers).not_to include 'Content-Length'
-          expect(filtered_request_headers).not_to include 'Connection'
+          expect(filtered_request_headers).not_to include 'date'
+          expect(filtered_request_headers).not_to include 'server'
+          expect(filtered_request_headers).not_to include 'content-length'
+          expect(filtered_request_headers).not_to include 'connection'
         end
       end
 
-      describe '#filter_request_headers' do
-        subject(:filtered_response_headers) { described_class.filter_response_headers request, response_adapter }
+      describe '#filter_response_headers' do
+        subject(:filtered_response_headers) { described_class.filter_response_headers(request, response_adapter).keys.map(&:downcase) }
         it 'keeps important response headers' do
-          expect(filtered_response_headers.keys).to include 'Content-Type'.downcase
+          expect(filtered_response_headers).to include 'content-type'
         end
 
-        it 'filters informational response headers' do
-          expect(filtered_response_headers).not_to include 'Content-Length'
-          expect(filtered_response_headers).not_to include 'Content-Length'.downcase
-          expect(filtered_response_headers).not_to include 'Via'
-          expect(filtered_response_headers).not_to include 'Via'.downcase
+        it 'filters connection control headers' do
+          expect(filtered_response_headers).not_to include 'content-length'
+          expect(filtered_response_headers).not_to include 'via'
+        end
+
+        it 'filters freshness headers' do
+        end
+
+        it 'filters x-* headers' do
+          expect(filtered_response_headers).not_to include 'x-men'
         end
       end
     end

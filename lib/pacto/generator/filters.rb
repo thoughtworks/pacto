@@ -1,13 +1,22 @@
 module Pacto
   class Generator
     class Filters
-      INFORMATIONAL_RESPONSE_HEADERS =
-      %w{
+      CONNECTION_CONTROL_HEADERS = %w{
+        via
         server
-        date
-        content-length
         connection
+        transfer-encoding
+        content-length
       }
+
+      FRESHNESS_HEADERS =
+      %w{
+        date
+        last-modified
+        etag
+      }
+
+      HEADERS_TO_FILTER = CONNECTION_CONTROL_HEADERS + FRESHNESS_HEADERS
 
       def self.filter_request_headers request, response
         vary_string = response.headers['vary'] || ''
@@ -19,7 +28,8 @@ module Pacto
 
       def self.filter_response_headers request, response
         response.headers.reject do |header|
-          INFORMATIONAL_RESPONSE_HEADERS.include? header.downcase
+          header = header.downcase
+          HEADERS_TO_FILTER.include? header || header.start_with?('x-')
         end
       end
     end
