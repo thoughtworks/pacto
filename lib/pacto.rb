@@ -14,6 +14,7 @@ require 'pacto/utils'
 require 'pacto/ui'
 require 'pacto/core/contract_repository'
 require 'pacto/core/configuration'
+require 'pacto/core/modes'
 require 'pacto/core/callback'
 require 'pacto/logger'
 require 'pacto/exceptions/invalid_contract.rb'
@@ -40,6 +41,7 @@ module Pacto
 
     def clear!
       Pacto.configuration.provider.reset!
+      @modes = nil
       @configuration = nil
       unregister_all!
     end

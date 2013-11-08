@@ -59,6 +59,31 @@ module Pacto
         end
       end
 
+      describe '#process_callbacks' do
+        subject(:built_in) { described_class.new }
+        let(:request_signature) { double('request_signature') }
+        # let(:response) { double('response') }
+
+        before(:each) do
+          Pacto.configuration.callback.should_receive(:process)
+          .with(anything, request_signature, response)
+        end
+
+        pending 'calls the registered callback'
+
+        it 'calls generate when generate is enabled' do
+          Pacto.generate!
+          WebMockHelper.should_receive(:generate).with(request_signature, response)
+          subject.process_callbacks request_signature, response
+        end
+
+        it 'calls validate when validate mode is enabled' do
+          Pacto.validate!
+          WebMockHelper.should_receive(:validate).with(request_signature, response)
+          subject.process_callbacks request_signature, response
+        end
+      end
+
       describe '#stub_request!' do
         before(:each) do
           WebMock.should_receive(:stub_request) do | method, url |
