@@ -1,6 +1,7 @@
 module Pacto
   class Configuration
-    attr_accessor :preprocessor, :postprocessor, :provider, :strict_matchers, :contracts_path, :logger
+    attr_accessor :preprocessor, :postprocessor, :provider, :strict_matchers,
+                  :contracts_path, :logger, :generator_options
     attr_reader :callback
 
     def initialize
@@ -12,6 +13,7 @@ module Pacto
       @logger = Logger.instance
       define_logger_level
       @callback = Pacto::Hooks::ERBHook.new
+      @generator_options = { :schema_version => 'draft3' }
     end
 
     def register_contract(contract = nil, *tags)
