@@ -66,7 +66,7 @@ module Pacto
     end
 
     def generate_body source, body
-      body_schema = JSON::SchemaGenerator.generate source, body, @schema_version
+      body_schema = JSON::SchemaGenerator.generate source, body, {:schema_version => @schema_version}
       MultiJson.load(body_schema)
     end
 

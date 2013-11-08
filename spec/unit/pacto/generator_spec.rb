@@ -87,7 +87,7 @@ module Pacto
 
       context 'valid schema' do
         let(:raw_contract) do
-          JSON::SchemaGenerator.should_receive(:generate).with(request_file, response_adapter.body, 'draft3').and_return response_body_schema
+          JSON::SchemaGenerator.should_receive(:generate).with(request_file, response_adapter.body, {:schema_version => 'draft3'}).and_return response_body_schema
           validator.should_receive(:validate).and_return true
           generator.save request_file, request, response_adapter
         end
