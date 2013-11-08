@@ -14,11 +14,13 @@ module Pacto
 
     def initialize(schema_version = 'draft3',
       schema_generator = JSON::SchemaGenerator,
-      validator = Pacto::MetaSchema.new)
+      validator = Pacto::MetaSchema.new,
+      generator_options = Pacto.configuration.generator_options)
       @schema_version = schema_version
       @validator = validator
       @schema_generator = schema_generator
       @response_headers_to_filter = INFORMATIONAL_RESPONSE_HEADERS
+      @generator_options = generator_options
     end
 
     def generate(request_file, host)
@@ -66,7 +68,7 @@ module Pacto
     end
 
     def generate_body source, body
-      body_schema = JSON::SchemaGenerator.generate source, body, @schema_version
+      body_schema = JSON::SchemaGenerator.generate source, body, @generator_options
       MultiJson.load(body_schema)
     end
 

@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'webmock'
   gem.add_dependency 'multi_json'
   gem.add_dependency 'json-schema', '~> 2.0'
-  gem.add_dependency 'json-generator'
+  gem.add_dependency 'json-generator', '>= 0.0.5'
   gem.add_dependency 'hash-deep-merge'
   gem.add_dependency 'httparty'
   gem.add_dependency 'addressable'
@@ -36,7 +36,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'aruba'
   gem.add_development_dependency 'relish'
   gem.add_development_dependency 'guard-rspec'
-  gem.add_development_dependency 'rubocop'
+  gem.add_development_dependency 'rubocop', '0.14.1'
   gem.add_development_dependency 'guard-rubocop'
   gem.add_development_dependency 'guard-cucumber'
   gem.add_development_dependency 'rb-fsevent' if RUBY_PLATFORM =~ /darwin/i
