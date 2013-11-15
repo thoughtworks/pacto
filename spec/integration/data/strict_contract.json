@@ -21,8 +21,8 @@
             "items": {
               "type": "string",
               "required": true,
-              "default": "/dev/<%= device_id %>",
-              "pattern": "^/dev/[^/]+(/[^/]+)*$"
+              "default": "/dev/<%= values[:device_id].tap do values[:device_id] = values[:device_id] + 1 end %>",
+              "pattern": "^/dev/[\\d]+$"
             },
             "required": true,
             "uniqueItems": true
