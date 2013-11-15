@@ -32,7 +32,7 @@ RSpec::Matchers.define :have_validated do |method, uri|
   end
 
   def successfully?
-    validation_results.empty?
+    @matching_validations.map(&:successful?).uniq.eql? [true]
   end
 
   def contract_matches?
@@ -58,7 +58,7 @@ RSpec::Matchers.define :have_validated do |method, uri|
       buffer.puts '  but validation errors were found:'
       buffer.puts "  #{validation_results}"
     elsif @contract
-      validated_against = @matching_validations.map { |v| v.contract.file if v.contract }.join ','
+      validated_against = @matching_validations.map { |v| v.against_contract?  @contract }.compact.join ','
       buffer.puts "  against Contract #{@contract}"
       buffer.puts "    but it was validated against #{validated_against}"
     end

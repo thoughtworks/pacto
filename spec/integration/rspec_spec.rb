@@ -24,7 +24,7 @@ describe 'pacto/rspec' do
   end
 
   context 'successful validations' do
-    before(:each) {
+    before(:each) do
       Pacto.configure do |c|
         c.strict_matchers = false
         c.postprocessor = Pacto::ERBProcessor.new
@@ -38,7 +38,7 @@ describe 'pacto/rspec' do
       Pacto.validate!
 
       HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
-    }
+    end
 
     it 'performs successful assertions' do
       # Increasingly strict assertions
