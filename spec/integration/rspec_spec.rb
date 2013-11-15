@@ -17,6 +17,9 @@ describe 'pacto/rspec' do
     @server.terminate
   end
 
+  def expect_to_raise(message_pattern = nil, &blk)
+    expect { blk.call }.to raise_error(RSpec::Expectations::ExpectationNotMetError, message_pattern)
+  end
 
   def json_response url
     response = HTTParty.get(url, headers: {'Accept' => 'application/json' })
@@ -37,20 +40,28 @@ describe 'pacto/rspec' do
       Pacto.use(:devices, {:device_id => 42})
       Pacto.validate!
 
-      raw_response = json_response 'http://dummyprovider.com/hello'
+      json_response 'http://dummyprovider.com/hello'
+
+      # Increasingly strict assertions
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello')
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'application/json'})
-      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'text/plain'})
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/simple_contract.json/)
+
+      # Expected failures
+      expect_to_raise(/no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'text/plain'}) }
       # No support for with accepting a block
       # expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with { |req| req.body == "abc" }
-      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/strict_contract.json/)
-      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/hello').against_contract('simple_contract.json')
-      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/strict')
+      expect_to_raise(/but it was validated against/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/strict_contract.json/) }
+      expect_to_raise(/but it was validated against/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract('simple_contract.json') }
+      expect_to_raise(/but no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
 
-      devices_response = json_response 'http://dummyprovider.com/strict'
+      json_response 'http://dummyprovider.com/strict'
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict')
-      # devices_response['devices'][1].should == '/dev/43'
+
+      Pacto::ValidationRegistry.instance.reset!
+      Pacto.use(:devices, {:device_id => 1.5})
+      json_response 'http://dummyprovider.com/strict'
+      expect_to_raise(/validation errors were found:/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
     end
   end
 end

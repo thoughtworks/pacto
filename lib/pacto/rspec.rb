@@ -8,8 +8,6 @@ rescue LoadError
 end
 
 RSpec::Matchers.define :have_validated do |method, uri|
-  diffable
-
   @request_pattern = WebMock::RequestPattern.new(method, uri)
   match do
     validated? @request_pattern
@@ -25,14 +23,23 @@ RSpec::Matchers.define :have_validated do |method, uri|
 
   def validated?(request_pattern)
     @matching_validations = Pacto::ValidationRegistry.instance.validated? @request_pattern
-    validated = @matching_validations
-    validated && contract_matches?
+    validated = !@matching_validations.nil?
+    validated && successfully? && contract_matches?
+  end
+
+  def validation_results
+    @validation_results ||= @matching_validations.map(&:results).flatten.compact
+  end
+
+  def successfully?
+    validation_results.empty?
   end
 
   def contract_matches?
     if @contract
       validated_contracts = @matching_validations.map(&:contract)
-      validated_contracts.map(&:file).index {|file| @contract === file }
+      # Is there a better option than case equality for string & regex support?
+      validated_contracts.map(&:file).index { |file| @contract === file } # rubocop:disable CaseEquality
     else
       true
     end
@@ -42,13 +49,16 @@ RSpec::Matchers.define :have_validated do |method, uri|
     buffer = StringIO.new
     buffer.puts "expected Pacto to have validated #{@request_pattern}"
     if @matching_validations.nil? || @matching_validations.empty?
-      buffer.puts "  but no matching request was received"
-      buffer.puts "    received:"
+      buffer.puts '  but no matching request was received'
+      buffer.puts '    received:'
       buffer.puts "#{WebMock::RequestRegistry.instance}"
     elsif @matching_validations.map(&:contract).compact.empty?
-      buffer.puts "  but a matching Contract was not found"
+      buffer.puts '  but a matching Contract was not found'
+    elsif !successfully?
+      buffer.puts '  but validation errors were found:'
+      buffer.puts "  #{validation_results}"
     elsif @contract
-      validated_against = @matching_validations.map{ |v| v.contract.file if v.contract }.join ','
+      validated_against = @matching_validations.map { |v| v.contract.file if v.contract }.join ','
       buffer.puts "  against Contract #{@contract}"
       buffer.puts "    but it was validated against #{validated_against}"
     end
