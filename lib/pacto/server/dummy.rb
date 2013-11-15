@@ -40,6 +40,7 @@ module Pacto
       end
 
       def terminate
+        @server.shutdown
         @pid.kill
       end
     end

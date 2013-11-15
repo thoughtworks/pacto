@@ -1,7 +1,7 @@
 module Pacto
   class Contract
     attr_reader :values
-    attr_reader :request, :response
+    attr_reader :request, :response, :file
 
     def initialize(request, response, file = nil)
       @request = request
