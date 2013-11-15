@@ -8,6 +8,8 @@ rescue LoadError
 end
 
 RSpec::Matchers.define :have_validated do |method, uri|
+  diffable
+
   @request_pattern = WebMock::RequestPattern.new(method, uri)
   match do
     validated? @request_pattern
@@ -15,6 +17,10 @@ RSpec::Matchers.define :have_validated do |method, uri|
 
   chain :against_contract do |contract|
     @contract = contract
+  end
+
+  chain :with do |options|
+    @request_pattern.with options
   end
 
   def validated?(request_pattern)
@@ -26,7 +32,7 @@ RSpec::Matchers.define :have_validated do |method, uri|
   def contract_matches?
     if @contract
       validated_contracts = @matching_validations.map(&:contract)
-      validated_contracts.map(&:file).include? @contract
+      validated_contracts.map(&:file).index {|file| @contract === file }
     else
       true
     end

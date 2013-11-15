@@ -38,7 +38,14 @@ describe 'pacto/rspec' do
       Pacto.validate!
 
       raw_response = json_response 'http://dummyprovider.com/hello'
-      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract('abc')
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello')
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'application/json'})
+      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'text/plain'})
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/simple_contract.json/)
+      # No support for with accepting a block
+      # expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with { |req| req.body == "abc" }
+      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/strict_contract.json/)
+      expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/hello').against_contract('simple_contract.json')
       expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/strict')
 
       devices_response = json_response 'http://dummyprovider.com/strict'
