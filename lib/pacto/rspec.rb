@@ -7,6 +7,37 @@ rescue LoadError
   raise 'pacto/rspec requires rspec 2 or later'
 end
 
+RSpec::Matchers.define :have_unmatched_requests do |method, uri|
+  @unmatched_validations = Pacto::ValidationRegistry.instance.unmatched_validations
+  match do
+    !@unmatched_validations.empty?
+  end
+
+  failure_message_for_should do
+    'Expected Pacto to have not matched all requests to a Contract, but all requests were matched.'
+  end
+
+  failure_message_for_should_not do
+    unmatched_requests = @unmatched_validations.map(&:request).join("\n  ")
+    "Expected Pacto to have matched all requests to a Contract, but the following requests were not matched: \n  #{unmatched_requests}"
+  end
+end
+
+RSpec::Matchers.define :have_failed_validations do |method, uri|
+  @failed_validations = Pacto::ValidationRegistry.instance.failed_validations
+  match do
+    !@failed_validations.empty?
+  end
+
+  failure_message_for_should do
+    'Expected Pacto to have found validation problems, but none were found.'
+  end
+
+  failure_message_for_should_not do
+    "Expected Pacto to have successfully validated all requests, but the following issues were found: #{@failed_validations}"
+  end
+end
+
 RSpec::Matchers.define :have_validated do |method, uri|
   @request_pattern = WebMock::RequestPattern.new(method, uri)
   match do

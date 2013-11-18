@@ -20,4 +20,16 @@ class Pacto::ValidationRegistry
     @validations << validation
     validation
   end
+
+  def unmatched_validations
+    @validations.select do |validation|
+      validation.contract.nil?
+    end
+  end
+
+  def failed_validations
+    @validations.select do |validation|
+      !validation.successful?
+    end
+  end
 end

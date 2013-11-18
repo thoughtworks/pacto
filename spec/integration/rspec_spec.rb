@@ -41,6 +41,10 @@ describe 'pacto/rspec' do
     end
 
     it 'performs successful assertions' do
+      # High level assertions
+      expect(Pacto).to_not have_unmatched_requests
+      expect(Pacto).to_not have_failed_validations
+
       # Increasingly strict assertions
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello')
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'application/json'})
@@ -54,6 +58,14 @@ describe 'pacto/rspec' do
     end
 
     it 'raises useful error messages' do
+      # High level error messages
+      expect_to_raise(/Expected Pacto to have not matched all requests to a Contract, but all requests were matched/) { expect(Pacto).to have_unmatched_requests }
+      expect_to_raise(/Expected Pacto to have found validation problems, but none were found/) { expect(Pacto).to have_failed_validations }
+
+      unmatched_url = 'http://localhost:8000/404'
+      HTTParty.get unmatched_url
+      expect_to_raise(/the following requests were not matched.*#{Regexp.quote unmatched_url}/m) { expect(Pacto).to_not have_unmatched_requests }
+
       # Expected failures
       expect_to_raise(/no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(:headers => {'Accept' => 'text/plain'}) }
       # No support for with accepting a block
@@ -67,6 +79,8 @@ describe 'pacto/rspec' do
       Pacto.use(:devices, {:device_id => 1.5})
       HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
       expect_to_raise(/validation errors were found:/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
+
+      expect_to_raise(/but the following issues were found:/) { expect(Pacto).to_not have_failed_validations }
     end
   end
 end

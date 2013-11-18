@@ -37,4 +37,39 @@ describe Pacto::ValidationRegistry do
       expect(registry.validated? request_pattern).to eq([validation, validation_for_a_similar_request])
     end
   end
+
+  describe '.unmatched_validations' do
+    let(:contract) { double('contract') }
+
+    it 'returns validations with no contract' do
+      allow(contract).to receive(:validate).and_return(double('results'))
+      validation_with_results = Pacto::Validation.new(different_request_signature, double, contract)
+      registry.register_validation(validation)
+      registry.register_validation(validation_for_a_similar_request)
+      registry.register_validation(validation_for_a_different_request)
+      registry.register_validation(validation_with_results)
+
+      expect(registry.unmatched_validations).to match_array([validation, validation_for_a_similar_request, validation_for_a_different_request])
+    end
+  end
+
+  describe '.failed_validations' do
+    let(:contract) { double('contract') }
+    let(:results) { double('results') }
+
+    it 'returns validations with unsuccessful results' do
+      allow(contract).to receive(:validate).and_return(results)
+      validation_with_successful_results = Pacto::Validation.new(request_signature, double, contract)
+      validation_with_unsuccessful_results = Pacto::Validation.new(request_signature, double, contract)
+
+      expect(validation_with_successful_results).to receive(:successful?).and_return true
+      expect(validation_with_unsuccessful_results).to receive(:successful?).and_return false
+
+      registry.register_validation(validation)
+      registry.register_validation(validation_with_successful_results)
+      registry.register_validation(validation_with_unsuccessful_results)
+
+      expect(registry.failed_validations).to match_array([validation_with_unsuccessful_results])
+    end
+  end
 end
