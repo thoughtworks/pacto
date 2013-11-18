@@ -29,7 +29,7 @@ module Pacto
       def self.filter_response_headers request, response
         response.headers.reject do |header|
           header = header.downcase
-          HEADERS_TO_FILTER.include? header || header.start_with?('x-')
+          (HEADERS_TO_FILTER.include? header) || (header.start_with?('x-'))
         end
       end
     end
