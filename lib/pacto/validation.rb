@@ -24,6 +24,20 @@ module Pacto
       end
     end
 
+    def to_s
+      if @contract.nil?
+        contract_name = 'nil'
+      else
+        contract_name = @contract.file
+      end
+      """
+      Validation:
+        Request: #{@request}
+        Contract: #{contract_name}
+        Result: #{@result.inspect}
+      """
+    end
+
     private
 
     def logger
