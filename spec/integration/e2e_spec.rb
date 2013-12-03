@@ -58,8 +58,8 @@ describe 'Pacto' do
       devices_response = HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
       devices_response = MultiJson.load(devices_response.body)
       expect(devices_response['devices']).to have(2).items
-      expect(devices_response['devices'][0]).to eq '/dev/42'
-      # devices_response['devices'][1].should == '/dev/43'
+      expect(devices_response['devices'][0]).to eq('/dev/42')
+      expect(devices_response['devices'][1]).to eq('/dev/43')
     end
   end
 end

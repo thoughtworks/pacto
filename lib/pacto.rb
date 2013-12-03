@@ -13,6 +13,7 @@ require 'logger'
 require 'pacto/utils'
 require 'pacto/ui'
 require 'pacto/core/contract_repository'
+require 'pacto/core/validation_registry'
 require 'pacto/core/configuration'
 require 'pacto/core/modes'
 require 'pacto/core/callback'
@@ -25,6 +26,7 @@ require 'pacto/response'
 require 'pacto/stubs/built_in'
 require 'pacto/contract'
 require 'pacto/contract_factory'
+require 'pacto/validation'
 require 'pacto/erb_processor'
 require 'pacto/hash_merge_processor'
 require 'pacto/stubs/built_in'
@@ -45,6 +47,7 @@ module Pacto
       @modes = nil
       @configuration = nil
       unregister_all!
+      Pacto::ValidationRegistry.instance.reset!
     end
 
     def configure
