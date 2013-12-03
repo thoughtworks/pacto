@@ -1,5 +1,6 @@
 require 'pacto/version'
 
+require 'addressable/template'
 require 'httparty'
 require 'hash_deep_merge'
 require 'multi_json'
