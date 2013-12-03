@@ -32,9 +32,9 @@ module Pacto
       end
       """
       Validation:
-        Request: #{@request}
-        Contract: #{contract_name}
-        Result: #{@result.inspect}
+      \tRequest: #{@request}
+      \tContract: #{contract_name}
+      \tResults: \n\t\t#{@results.join "\n\t\t"}
       """
     end
 

@@ -62,7 +62,9 @@ module Pacto
       puts "Validating contracts in directory #{dir} against host #{host}\n\n"
 
       total_failed = 0
-      each_contract(dir) do |contact_file|
+      contracts = []
+      each_contract(dir) do |contract_file|
+        contracts << contract_file
         print "#{contract_file.split('/').last}:"
         contract = Pacto.build_from_file(contract_file, host)
         errors = contract.validate

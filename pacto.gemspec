@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'httparty'
   gem.add_dependency 'addressable'
   gem.add_dependency 'coveralls'
-  gem.add_dependency 'json-schema-generator'
+  gem.add_dependency 'json-schema-generator', '>= 0.0.7'
   gem.add_dependency 'term-ansicolor'
 
   gem.add_development_dependency 'rake'
