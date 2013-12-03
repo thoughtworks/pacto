@@ -6,7 +6,9 @@ module Pacto
     let(:definition) do
       {
         'status' => 200,
-        'headers' => {'Content-Type' => 'application/json'},
+        'headers' => {
+          'Content-Type' => 'application/json'
+        },
         'body' => body_definition
       }
     end
@@ -142,6 +144,53 @@ module Pacto
 
           response = described_class.new(definition)
           expect(response.validate(fake_response)).to eq ["Invalid headers: expected #{definition['headers'].inspect} to be a subset of #{headers.inspect}"]
+        end
+      end
+
+      context 'when Location Header is expected' do
+        before(:each) do
+          definition['headers'].merge!('Location' => 'http://www.example.com/{foo}/bar')
+        end
+
+        context 'and no Location header is sent' do
+          it 'returns a header error when no Location header is sent' do
+            JSON::Validator.should_not_receive(:fully_validate)
+
+            response = described_class.new(definition)
+            expect(response.validate(fake_response)).to eq ['Expected a Location Header in the response']
+          end
+        end
+
+        context 'but the Location header does not matches the pattern' do
+          let(:headers) do
+            {
+              'Content-Type' => 'application/json',
+              'Location' => 'http://www.example.com/foo/bar/baz'
+            }
+          end
+
+          it 'returns a validation error' do
+            JSON::Validator.should_not_receive(:fully_validate)
+
+            response = described_class.new(definition)
+            expect(response.validate(fake_response)).to eq ["Location mismatch: expected URI #{headers['Location']} to match URI Template #{definition['headers']['Location']}"]
+          end
+        end
+
+        context 'and the Location header matches pattern' do
+          let(:headers) do
+            {
+              'Content-Type' => 'application/json',
+              'Location' => 'http://www.example.com/foo/bar'
+            }
+          end
+
+          it 'validates successfully' do
+            JSON::Validator.stub(:fully_validate).and_return([])
+
+            response = described_class.new(definition)
+            expect(response.validate(fake_response)).to be_empty
+          end
         end
       end
 

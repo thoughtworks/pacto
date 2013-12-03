@@ -27,8 +27,20 @@ module Pacto
           return ["Invalid status: expected #{@definition['status']} but got #{status}"]
         end
 
-        unless @definition['headers'].normalize_keys.subset_of?(response.headers.normalize_keys)
+        headers_to_validate = @definition['headers'].dup
+        expected_location = headers_to_validate.delete 'Location'
+        unless headers_to_validate.normalize_keys.subset_of?(response.headers.normalize_keys)
           return ["Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}"]
+        end
+
+        if expected_location
+          location_template = Addressable::Template.new(expected_location)
+          location = response.headers['Location']
+          if location.nil?
+            return ['Expected a Location Header in the response']
+          elsif !location_template.match(Addressable::URI.parse(location))
+            return ["Location mismatch: expected URI #{location} to match URI Template #{location_template.pattern}"]
+          end
         end
       end
 
