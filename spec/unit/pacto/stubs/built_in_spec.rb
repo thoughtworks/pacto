@@ -113,7 +113,7 @@ module Pacto
 
             it 'stubs with a regex path_pattern including the placeholder' do
               described_class.new.stub_request! request_with_placeholder, response
-              expected_regex = %r{#{request_with_placeholder.host}\/a\/[:\w]+\/c}
+              expected_regex = %r{#{request_with_placeholder.host}\/a\/[^\/\?#]+\/c}
               # No luck comparing regexes for equality, but the string representation matches...
               expect(stubbed_request[:path].inspect).to eq(expected_regex.inspect)
             end

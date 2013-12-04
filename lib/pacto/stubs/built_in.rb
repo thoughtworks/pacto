@@ -49,7 +49,7 @@ module Pacto
         if strict
           uri_pattern = "#{host_pattern}#{path_pattern}"
         else
-          path_pattern = path_pattern.gsub(/\/:\w+/, '/[:\w]+')
+          path_pattern = path_pattern.gsub(/\/:\w+/, '/[^\/\?#]+')
           host_pattern = Regexp.quote(request.host)
           uri_pattern = /#{host_pattern}#{path_pattern}/
         end
