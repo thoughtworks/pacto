@@ -1,5 +1,6 @@
 class Pacto::ValidationRegistry
   include Singleton
+  attr_reader :validations
 
   def initialize
     @validations = []
