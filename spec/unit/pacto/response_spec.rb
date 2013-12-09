@@ -48,6 +48,13 @@ module Pacto
           expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(status, fake_response.status).and_return(validation_error)
           expect(response.validate fake_response).to eq(validation_error)
         end
+
+        it 'calls the ResponseBodyValidator' do
+          validation_error = double('some error')
+
+          expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(body_definition, fake_response).and_return(validation_error)
+          expect(response.validate fake_response).to eq(validation_error)
+        end
       end
 
       context 'when headers and body match and the ResponseStatusValidator reports no errors' do
@@ -58,71 +65,6 @@ module Pacto
           expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(status, fake_response.status).and_return(nil)
 
           expect(response.validate(fake_response)).to be_empty
-        end
-      end
-
-      context 'when body is a pure string and matches the description' do
-        let(:string_required) { true }
-        let(:body_definition) do
-          { 'type' => 'string', 'required' => string_required }
-        end
-        let(:response_body) { 'a simple string' }
-
-        it 'does not validate using JSON Schema' do
-
-          JSON::Validator.should_not_receive(:fully_validate)
-          response.validate(fake_response)
-        end
-
-        context 'if required' do
-          it 'does not return an error when body is a string' do
-
-            expect(response.validate(fake_response)).to be_empty
-          end
-
-          it 'returns an error when body is nil' do
-
-            fake_response.stub(:body).and_return(nil)
-            expect(response.validate(fake_response).size).to eq 1
-          end
-        end
-
-        context 'if not required' do
-          let(:string_required) { false }
-
-          it 'does not return an error when body is a string' do
-
-            expect(response.validate(fake_response)).to be_empty
-          end
-
-          it 'does not return an error when body is nil' do
-
-            fake_response.stub(:body).and_return(nil)
-            expect(response.validate(fake_response)).to be_empty
-          end
-        end
-
-        context 'if contains pattern' do
-          let(:body_definition) do
-            { 'type' => 'string', 'required' => string_required, 'pattern' => 'a.c' }
-          end
-
-          context 'body matches pattern' do
-            let(:response_body) { 'cabcd' }
-
-            it 'does not return an error' do
-              expect(response.validate(fake_response)).to be_empty
-            end
-          end
-
-          context 'body does not match pattern' do
-            let(:response_body) { 'cabscd' }
-
-            it 'returns an error' do
-              expect(response.validate(fake_response).size).to eq 1
-            end
-          end
-
         end
       end
 

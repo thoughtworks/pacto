@@ -38,6 +38,7 @@ require 'pacto/generator/filters'
 
 # Validators
 require 'pacto/validators/response_status_validator'
+require 'pacto/validators/response_body_validator'
 
 module Pacto
   class << self
