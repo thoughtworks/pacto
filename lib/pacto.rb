@@ -36,6 +36,9 @@ require 'pacto/hooks/erb_hook'
 require 'pacto/generator'
 require 'pacto/generator/filters'
 
+# Validators
+require 'pacto/validators/response_status_validator'
+
 module Pacto
   class << self
 

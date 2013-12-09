@@ -20,12 +20,10 @@ module Pacto
     # FIXME: validate is a huge method =(. Needs refactoring
     # rubocop:disable MethodLength
     def validate(response, opt = {})
-
       unless opt[:body_only]
         status, _description = response.status
-        if @definition['status'] != status
-          return ["Invalid status: expected #{@definition['status']} but got #{status}"]
-        end
+        error = Pacto::Validators::ResponseStatusValidator.validate @definition['status'], status
+        return error unless error.nil?
 
         headers_to_validate = @definition['headers'].dup
         expected_location = headers_to_validate.delete 'Location'
