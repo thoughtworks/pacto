@@ -45,22 +45,25 @@ module Pacto
         it 'calls the ResponseStatusValidator' do
           validation_error = double('some error')
 
-          expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(status, fake_response.status).and_return(validation_error)
-          expect(response.validate fake_response).to eq(validation_error)
+          Pacto::Validators::ResponseStatusValidator.any_instance.stub(:validate).with(status, fake_response.status).and_return(validation_error)
+          expect(response.validate fake_response).to eq([validation_error])
+          Pacto::Validators::ResponseStatusValidator.any_instance.unstub(:validate)
         end
 
         it 'calls the ResponseHeaderValidator' do
           validation_error = double('some error')
 
-          expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(definition['headers'], fake_response.headers).and_return(validation_error)
-          expect(response.validate fake_response).to eq(validation_error)
+          Pacto::Validators::ResponseHeaderValidator.any_instance.stub(:validate).with(definition['headers'], fake_response.headers).and_return(validation_error)
+          expect(response.validate fake_response).to eq([validation_error])
+          Pacto::Validators::ResponseHeaderValidator.any_instance.unstub(:validate)
         end
 
         it 'calls the ResponseBodyValidator' do
-          validation_error = double('some error')
+          validation_error = ['some error']
 
-          expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(body_definition, fake_response).and_return(validation_error)
+          Pacto::Validators::ResponseBodyValidator.any_instance.stub(:validate).with(body_definition, fake_response).and_return(validation_error)
           expect(response.validate fake_response).to eq(validation_error)
+          Pacto::Validators::ResponseBodyValidator.any_instance.unstub(:validate)
         end
       end
 
@@ -69,10 +72,9 @@ module Pacto
           # JSON::Validator.should_receive(:fully_validate).
           #   with(definition['body'], fake_response.body, :version => :draft3).
           #   and_return([])
-          expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(status, fake_response.status).and_return(nil)
-          expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(definition['headers'], fake_response.headers).and_return(nil)
-          expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(body_definition, fake_response).and_return([])
-
+          Pacto::Validators::ResponseStatusValidator.any_instance.stub(:validate).with(status, fake_response.status).and_return(nil)
+          Pacto::Validators::ResponseHeaderValidator.any_instance.stub(:validate).with(definition['headers'], fake_response.headers).and_return(nil)
+          Pacto::Validators::ResponseBodyValidator.any_instance.stub(:validate).with(body_definition, fake_response).and_return([])
           expect(response.validate(fake_response)).to be_empty
         end
       end

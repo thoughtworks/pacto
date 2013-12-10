@@ -1,7 +1,18 @@
 module Pacto
   module Validators
     class ResponseHeaderValidator
-      def self.validate expected_headers, actual_headers
+      def initialize(app)
+        @app = app
+      end
+
+      def call env
+        definition = env[:response_definition]
+        response = env[:actual_response]
+        env[:validation_results] << validate(definition['headers'], response.headers)
+        @app.call env
+      end
+
+      def validate expected_headers, actual_headers
         headers_to_validate = expected_headers.dup
         expected_location = headers_to_validate.delete 'Location'
         unless headers_to_validate.normalize_keys.subset_of?(actual_headers.normalize_keys)

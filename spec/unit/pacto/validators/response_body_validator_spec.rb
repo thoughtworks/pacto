@@ -1,7 +1,7 @@
 module Pacto
   module Validators
     describe ResponseBodyValidator do
-      subject(:validator) { described_class }
+      subject(:validator) { described_class.new double }
       let(:string_required) { true }
       let(:body_definition) do
         { 'type' => 'string', 'required' => string_required }

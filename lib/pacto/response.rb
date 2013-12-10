@@ -7,6 +7,11 @@ module Pacto
       @status = @definition['status']
       @headers = @definition['headers']
       @schema = @definition['body']
+      @validation_stack = Middleware::Builder.new do
+        use Pacto::Validators::ResponseStatusValidator
+        use Pacto::Validators::ResponseHeaderValidator
+        use Pacto::Validators::ResponseBodyValidator
+      end
     end
 
     def instantiate
@@ -18,16 +23,19 @@ module Pacto
     end
 
     def validate(response, opt = {})
-      unless opt[:body_only]
-        status, _description = response.status
-        errors = Pacto::Validators::ResponseStatusValidator.validate @definition['status'], status
-        return errors unless errors.nil?
-
-        errors = Pacto::Validators::ResponseHeaderValidator.validate @definition['headers'], response.headers
-        return errors unless errors.nil?
+      if opt[:body_only]
+        @validation_stack = Middleware::Builder.new do
+          use Pacto::Validators::ResponseBodyValidator
+        end
       end
 
-      Pacto::Validators::ResponseBodyValidator.validate @definition['body'], response
+      env = {
+        :response_definition => @definition,
+        :actual_response => response,
+        :validation_results => []
+      }
+      @validation_stack.call env
+      env[:validation_results].compact
     end
   end
 end
