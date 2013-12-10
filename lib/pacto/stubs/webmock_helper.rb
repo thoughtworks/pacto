@@ -31,7 +31,7 @@ module Pacto
               Pacto.load contract_file, uri.host, :generated
             end
           rescue => e
-            logger.error("Error while generating Contract #{contract_file}: #{e}")
+            logger.error("Error while generating Contract #{contract_file}: #{e.message}")
             logger.error("Backtrace: #{e.backtrace}")
           end
         end
@@ -59,7 +59,9 @@ module Pacto
             'params' => {},
             'headers' => webmock_request.headers || {}
           }
-          Pacto::Request.new uri.host, definition
+          request = Pacto::Request.new uri.host, definition
+          request.body = webmock_request.body
+          request
         end
 
         def webmock_to_pacto_response webmock_response

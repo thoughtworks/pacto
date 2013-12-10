@@ -21,6 +21,9 @@
         "params": {   
           "type": "object",
           "required": false
+        },
+        "body": {
+          "$ref": "http://json-schema.org/draft-03/schema"
         }
       }
     },

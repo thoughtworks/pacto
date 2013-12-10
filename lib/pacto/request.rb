@@ -1,14 +1,24 @@
 module Pacto
   class Request
-    attr_reader :host
+    attr_reader :host, :method
+    attr_accessor :body
 
     def initialize(host, definition)
       @host = host
       @definition = definition
+      @method = definition['method'].to_s.downcase.to_sym
     end
 
-    def method
-      @definition['method'].to_s.downcase.to_sym
+    def uri
+      uri = Addressable::URI.parse full_uri
+      if uri.scheme.nil?
+        uri = Addressable::URI.parse "http://#{full_uri}"
+      end
+      uri
+    end
+
+    def body
+      JSON::Generator.generate(@definition['body']) if @definition['body']
     end
 
     def path
@@ -20,7 +30,7 @@ module Pacto
     end
 
     def params
-      @definition['params']
+      @definition['params'] || {}
     end
 
     def absolute_uri

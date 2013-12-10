@@ -27,7 +27,7 @@ module Pacto
             'Content-Type' => ['application/json'],
             'Vary' => ['User-Agent']
           },
-          'body' => double('dummy body')
+          'body' => 'dummy body' # body is just a string
         )
       )
     end
