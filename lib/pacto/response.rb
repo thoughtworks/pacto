@@ -17,8 +17,6 @@ module Pacto
       )
     end
 
-    # FIXME: validate is a huge method =(. Needs refactoring
-    # rubocop:disable MethodLength
     def validate(response, opt = {})
       unless opt[:body_only]
         status, _description = response.status
@@ -31,6 +29,5 @@ module Pacto
 
       Pacto::Validators::ResponseBodyValidator.validate @definition['body'], response
     end
-    # rubocop:enable MethodLength
   end
 end
