@@ -14,8 +14,9 @@ module Pacto
       @request_pattern = Pacto.configuration.provider.stub_request!(@request, stub_response)
     end
 
-    def validate(response_gotten = provider_response, opt = {})
-      @response.validate(response_gotten, opt)
+    def validate(actual_response = provider_response, opts = {})
+      # Missing actual request
+      Pacto::ContractValidator.validate self, nil, actual_response, opts
     end
 
     def matches? request_signature
