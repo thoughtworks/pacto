@@ -22,24 +22,11 @@ module Pacto
     def validate(response, opt = {})
       unless opt[:body_only]
         status, _description = response.status
-        error = Pacto::Validators::ResponseStatusValidator.validate @definition['status'], status
-        return error unless error.nil?
+        errors = Pacto::Validators::ResponseStatusValidator.validate @definition['status'], status
+        return errors unless errors.nil?
 
-        headers_to_validate = @definition['headers'].dup
-        expected_location = headers_to_validate.delete 'Location'
-        unless headers_to_validate.normalize_keys.subset_of?(response.headers.normalize_keys)
-          return ["Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}"]
-        end
-
-        if expected_location
-          location_template = Addressable::Template.new(expected_location)
-          location = response.headers['Location']
-          if location.nil?
-            return ['Expected a Location Header in the response']
-          elsif !location_template.match(Addressable::URI.parse(location))
-            return ["Location mismatch: expected URI #{location} to match URI Template #{location_template.pattern}"]
-          end
-        end
+        errors = Pacto::Validators::ResponseHeaderValidator.validate @definition['headers'], response.headers
+        return errors unless errors.nil?
       end
 
       Pacto::Validators::ResponseBodyValidator.validate @definition['body'], response

@@ -49,6 +49,13 @@ module Pacto
           expect(response.validate fake_response).to eq(validation_error)
         end
 
+        it 'calls the ResponseHeaderValidator' do
+          validation_error = double('some error')
+
+          expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(definition['headers'], fake_response.headers).and_return(validation_error)
+          expect(response.validate fake_response).to eq(validation_error)
+        end
+
         it 'calls the ResponseBodyValidator' do
           validation_error = double('some error')
 
@@ -59,84 +66,12 @@ module Pacto
 
       context 'when headers and body match and the ResponseStatusValidator reports no errors' do
         it 'does not return any errors' do
-          JSON::Validator.should_receive(:fully_validate).
-            with(definition['body'], fake_response.body, :version => :draft3).
-            and_return([])
+          # JSON::Validator.should_receive(:fully_validate).
+          #   with(definition['body'], fake_response.body, :version => :draft3).
+          #   and_return([])
           expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(status, fake_response.status).and_return(nil)
-
-          expect(response.validate(fake_response)).to be_empty
-        end
-      end
-
-      context 'when headers do not match' do
-        let(:headers) { {'Content-Type' => 'text/html'} }
-
-        it 'returns a header error' do
-          JSON::Validator.should_not_receive(:fully_validate)
-
-          expect(response.validate(fake_response)).to eq ["Invalid headers: expected #{definition['headers'].inspect} to be a subset of #{headers.inspect}"]
-        end
-      end
-
-      context 'when Location Header is expected' do
-        before(:each) do
-          definition['headers'].merge!('Location' => 'http://www.example.com/{foo}/bar')
-        end
-
-        context 'and no Location header is sent' do
-          it 'returns a header error when no Location header is sent' do
-            JSON::Validator.should_not_receive(:fully_validate)
-
-            expect(response.validate(fake_response)).to eq ['Expected a Location Header in the response']
-          end
-        end
-
-        context 'but the Location header does not matches the pattern' do
-          let(:headers) do
-            {
-              'Content-Type' => 'application/json',
-              'Location' => 'http://www.example.com/foo/bar/baz'
-            }
-          end
-
-          it 'returns a validation error' do
-            JSON::Validator.should_not_receive(:fully_validate)
-
-            expect(response.validate(fake_response)).to eq ["Location mismatch: expected URI #{headers['Location']} to match URI Template #{definition['headers']['Location']}"]
-          end
-        end
-
-        context 'and the Location header matches pattern' do
-          let(:headers) do
-            {
-              'Content-Type' => 'application/json',
-              'Location' => 'http://www.example.com/foo/bar'
-            }
-          end
-
-          it 'validates successfully' do
-            JSON::Validator.stub(:fully_validate).and_return([])
-
-            expect(response.validate(fake_response)).to be_empty
-          end
-        end
-      end
-
-      context 'when headers are a subset of expected headers' do
-        let(:headers) { {'Content-Type' => 'application/json'} }
-
-        it 'does not return any errors' do
-          JSON::Validator.stub(:fully_validate).and_return([])
-
-          expect(response.validate(fake_response)).to be_empty
-        end
-      end
-
-      context 'when headers values match but keys have different case' do
-        let(:headers) { {'content-type' => 'application/json'} }
-
-        it 'does not return any errors' do
-          JSON::Validator.stub(:fully_validate).and_return([])
+          expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(definition['headers'], fake_response.headers).and_return(nil)
+          expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(body_definition, fake_response).and_return([])
 
           expect(response.validate(fake_response)).to be_empty
         end
