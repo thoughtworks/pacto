@@ -1,7 +1,7 @@
 module Pacto
   module Validators
     describe ResponseHeaderValidator do
-      subject(:validator) { described_class.new double }
+      subject(:validator) { described_class }
       let(:expected_headers) do
         {
           'Content-Type' => 'application/json'

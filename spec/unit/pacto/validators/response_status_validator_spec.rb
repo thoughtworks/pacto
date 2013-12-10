@@ -1,7 +1,7 @@
 module Pacto
   module Validators
     describe ResponseStatusValidator do
-      subject(:validator) { described_class.new double }
+      subject(:validator) { described_class }
       describe '#validate' do
         context 'when status does not match' do
           it 'returns a status error' do

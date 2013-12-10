@@ -1,7 +1,7 @@
 module Pacto
   module Validators
     describe ResponseBodyValidator do
-      subject(:validator) { described_class.new double }
+      subject(:validator) { described_class }
       let(:string_required) { true }
       let(:body_definition) do
         { 'type' => 'string', 'required' => string_required }
@@ -13,6 +13,13 @@ module Pacto
         )
       end
       describe '#validate' do
+        context 'when body not specified' do
+          it 'gives no errors without validating body' do
+            JSON::Validator.should_not_receive(:fully_validate)
+            expect(validator.validate(nil, fake_response)).to be_empty
+          end
+        end
+
         context 'when the body is a string' do
           it 'does not validate using JSON Schema' do
             # FIXME: This seems like a design flaw. We're partially reproducing json-schema behavior
@@ -68,12 +75,20 @@ module Pacto
           end
         end
         context 'when the body is json' do
+          let(:body_definition) do
+            { 'type' => 'object' }
+          end
           context 'when body matches' do
-            it 'returns nil' do
+            it 'does not return any errors' do
+              expect(JSON::Validator).to receive(:fully_validate).and_return([])
+              expect(validator.validate(body_definition, fake_response)).to be_empty
             end
           end
           context 'when body does not match' do
-            it 'returns an error' do
+            it 'returns a list of errors' do
+              errors = double('some errors')
+              expect(JSON::Validator).to receive(:fully_validate).and_return(errors)
+              expect(validator.validate(body_definition, fake_response)).to eq(errors)
             end
           end
         end
