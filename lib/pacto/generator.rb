@@ -33,18 +33,19 @@ module Pacto
 
     def generate_contract source, request, response
       {
-        :request => generate_request(request, response),
+        :request => generate_request(request, response, source),
         :response => generate_response(request, response, source)
       }
     end
 
-    def generate_request request, response
+    def generate_request request, response, source
       {
         :headers => Pacto::Generator::Filters.filter_request_headers(request, response),
         :method => request.method,
-        :params => request.params,
-        :path => request.path
-      }
+        :params => request.uri.query_values,
+        :path => request.uri.path,
+        :body => generate_body(source, request.body)
+      }.delete_if { |k, v| v.nil? }
     end
 
     def generate_response request, response, source
@@ -52,12 +53,14 @@ module Pacto
         :headers => Pacto::Generator::Filters.filter_response_headers(request, response),
         :status => response.status,
         :body => generate_body(source, response.body)
-      }
+      }.delete_if { |k, v| v.nil? }
     end
 
     def generate_body source, body
-      body_schema = JSON::SchemaGenerator.generate source, body, @generator_options
-      MultiJson.load(body_schema)
+      if body && !body.empty?
+        body_schema = JSON::SchemaGenerator.generate source, body, @generator_options
+        MultiJson.load(body_schema)
+      end
     end
   end
 end

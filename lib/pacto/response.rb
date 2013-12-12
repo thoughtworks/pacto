@@ -10,11 +10,18 @@ module Pacto
     end
 
     def instantiate
-      OpenStruct.new(
-        'status' => @definition['status'],
-        'headers' => @definition['headers'],
-        'body' => JSON::Generator.generate(@definition['body'])
-      )
+      if @schema && !@schema.empty?
+        OpenStruct.new(
+          'status' => @definition['status'],
+          'headers' => @definition['headers'],
+          'body' => JSON::Generator.generate(@schema)
+        )
+      else
+        OpenStruct.new(
+          'status' => @definition['status'],
+          'headers' => @definition['headers']
+        )
+      end
     end
 
     # FIXME: validate is a huge method =(. Needs refactoring
