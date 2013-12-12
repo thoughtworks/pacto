@@ -3,7 +3,6 @@ module Pacto
     class WebMockHelper
       class << self
         def validate(request_signature, response)
-          return if skip? request_signature
           pacto_response = webmock_to_pacto_response(response)
           contract = Pacto.contract_for(request_signature)
           validation = Validation.new request_signature, pacto_response, contract
@@ -11,8 +10,6 @@ module Pacto
         end
 
         def generate(request_signature, response)
-          return if skip? request_signature
-
           logger.debug("Generating Contract for #{request_signature}, #{response}")
           begin
             uri = URI(request_signature.uri)
@@ -33,14 +30,6 @@ module Pacto
           rescue => e
             logger.error("Error while generating Contract #{contract_file}: #{e.message}")
             logger.error("Backtrace: #{e.backtrace}")
-          end
-        end
-
-        def skip? request_signature
-          if request_signature.uri.host =~ /json-schema\.org/
-            # FIXME: This is hacky.  Ideally we shouldn't be base schemas anyways.
-            logger.debug('Skipping hooks (json-schema.org detected)')
-            true
           end
         end
 
