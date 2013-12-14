@@ -37,21 +37,13 @@ module Pacto
     end
 
     def execute
-      response = HTTParty.send(method, @host + path, {
-        httparty_params_key => normalized_params,
-        :headers => headers
-      })
-      ResponseAdapter.new(response)
-    end
-
-    private
-
-    def httparty_params_key
-      method == :get ? :query : :body
-    end
-
-    def normalized_params
-      method == :get ? params : params.to_json
+      conn = Faraday.new(:url => @host + path) do |faraday|
+        faraday.response :logger if Pacto.configuration.logger.level == :debug
+        faraday.adapter  Faraday.default_adapter
+      end
+      conn.send(method) do |req|
+        req.headers = headers
+      end
     end
   end
 end

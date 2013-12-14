@@ -1,7 +1,7 @@
 require 'pacto/version'
 
 require 'addressable/template'
-require 'httparty'
+require 'faraday'
 require 'hash_deep_merge'
 require 'multi_json'
 require 'json-schema'
