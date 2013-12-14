@@ -64,10 +64,10 @@ module Pacto
 
         def webmock_to_pacto_response webmock_response
           status, _description = webmock_response.status
-          OpenStruct.new(
-            'status' => status,
-            'headers' => webmock_response.headers || {},
-            'body' => webmock_response.body
+          Faraday::Response.new(
+            :status => status,
+            :response_headers => webmock_response.headers || {},
+            :body => webmock_response.body
           )
         end
       end

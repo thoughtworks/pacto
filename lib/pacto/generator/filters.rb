@@ -2,34 +2,38 @@ module Pacto
   class Generator
     class Filters
       CONNECTION_CONTROL_HEADERS = %w{
-        via
-        server
-        connection
-        transfer-encoding
-        content-length
+        Via
+        Server
+        Connection
+        Transfer-Encoding
+        Content-Length
       }
 
       FRESHNESS_HEADERS =
       %w{
-        date
-        last-modified
-        etag
+        Date
+        Last-Modified
+        ETag
       }
 
       HEADERS_TO_FILTER = CONNECTION_CONTROL_HEADERS + FRESHNESS_HEADERS
 
       def self.filter_request_headers request, response
-        vary_string = response.headers['vary'] || ''
-        vary_headers = vary_string.split ','
+        # FIXME: Do we need to handle all these cases in real situations, or just because of stubbing?
+        vary_headers = response.headers['Vary'] || []
+        vary_headers = [vary_headers] if vary_headers.is_a? String
+        vary_headers = vary_headers.map do |h|
+          h.split(',').map(&:strip)
+        end.flatten
+
         request.headers.select do |header|
           vary_headers.map(&:downcase).include? header.downcase
         end
       end
 
       def self.filter_response_headers request, response
-        response.headers.reject do |header|
-          header = header.downcase
-          (HEADERS_TO_FILTER.include? header) || (header.start_with?('x-'))
+        response.headers.normalize_header_keys.reject do |header|
+          (HEADERS_TO_FILTER.include? header) || (header.start_with?('X-'))
         end
       end
     end

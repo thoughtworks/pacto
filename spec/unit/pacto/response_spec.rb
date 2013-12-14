@@ -212,7 +212,7 @@ module Pacto
           JSON::Validator.stub(:fully_validate).and_return([])
 
           response = described_class.new(definition)
-          expect(response.validate(fake_response)).to be_empty
+          expect(response.validate(fake_response)).to eq []
         end
       end
 
