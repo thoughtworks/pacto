@@ -11,8 +11,9 @@ module Pacto
         context 'when headers do not match' do
           let(:actual_headers) { {'Content-Type' => 'text/html'} }
 
-          it 'returns a header error' do
-            expect(validator.validate(expected_headers, actual_headers)).to eq ["Invalid headers: expected #{expected_headers.inspect} to be a subset of #{actual_headers.inspect}"]
+          it 'indicates the exact mismatches' do
+            expect(validator.validate(expected_headers, actual_headers)).
+              to eq ['Invalid response header Content-Type: expected "application/json" but received "text/html"']
           end
         end
 
@@ -24,7 +25,7 @@ module Pacto
           context 'and no Location header is sent' do
             let(:actual_headers) { {'Content-Type' => 'application/json'} }
             it 'returns a header error when no Location header is sent' do
-              expect(validator.validate(expected_headers, actual_headers)).to eq ['Expected a Location Header in the response']
+              expect(validator.validate(expected_headers, actual_headers)).to eq ['Missing expected response header: Location']
             end
           end
 
@@ -37,7 +38,7 @@ module Pacto
             end
 
             it 'returns a validation error' do
-              expect(validator.validate(expected_headers, actual_headers)).to eq ["Location mismatch: expected URI #{actual_headers['Location']} to match URI Template #{expected_headers['Location']}"]
+              expect(validator.validate(expected_headers, actual_headers)).to eq ["Invalid response header Location: expected URI #{actual_headers['Location']} to match URI Template #{expected_headers['Location']}"]
             end
           end
 
@@ -50,7 +51,7 @@ module Pacto
             end
 
             it 'validates successfully' do
-              expect(validator.validate(expected_headers, actual_headers)).to be_nil
+              expect(validator.validate(expected_headers, actual_headers)).to be_empty
             end
           end
         end
@@ -59,7 +60,7 @@ module Pacto
           let(:actual_headers) { {'Content-Type' => 'application/json'} }
 
           it 'does not return any errors' do
-            expect(validator.validate(expected_headers, actual_headers)).to be_nil
+            expect(validator.validate(expected_headers, actual_headers)).to be_empty
           end
         end
 
@@ -67,7 +68,7 @@ module Pacto
           let(:actual_headers) { {'content-type' => 'application/json'} }
 
           it 'does not return any errors' do
-            expect(validator.validate(expected_headers, actual_headers)).to be_nil
+            expect(validator.validate(expected_headers, actual_headers)).to be_empty
           end
         end
       end

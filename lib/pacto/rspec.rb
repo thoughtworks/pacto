@@ -87,7 +87,11 @@ RSpec::Matchers.define :have_validated do |method, uri|
       buffer.puts '  but a matching Contract was not found'
     elsif !successfully?
       buffer.puts '  but validation errors were found:'
-      buffer.puts "  #{validation_results}"
+      buffer.print '    '
+      buffer.puts validation_results.join "\n    "
+      # validation_results.each do |validation_result|
+      #   buffer.puts "    #{validation_result}"
+      # end
     elsif @contract
       validated_against = @matching_validations.map { |v| v.against_contract?  @contract }.compact.join ','
       buffer.puts "  against Contract #{@contract}"
