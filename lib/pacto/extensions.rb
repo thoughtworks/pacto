@@ -9,6 +9,13 @@ module Pacto
     end
     KeyMap[:etag] = 'ETag'
 
+    def self.normalize_header_keys headers
+      headers.reduce({}) do |normalized, (key, value)|
+        normalized[KeyMap[key]] = value
+        normalized
+      end
+    end
+
     module HashSubsetOf
       def subset_of?(other)
         (to_a - other.to_a).empty?
@@ -18,13 +25,6 @@ module Pacto
       def normalize_keys
         reduce({}) do |normalized, (key, value)|
           normalized[key.to_s.downcase] = value
-          normalized
-        end
-      end
-
-      def normalize_header_keys
-        reduce({}) do |normalized, (key, value)|
-          normalized[KeyMap[key]] = value
           normalized
         end
       end
