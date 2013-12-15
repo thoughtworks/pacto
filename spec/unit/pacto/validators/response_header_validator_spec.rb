@@ -17,6 +17,23 @@ module Pacto
           end
         end
 
+        context 'when headers are missing' do
+          let(:actual_headers) { {} }
+          let(:expected_headers) do
+            {
+              'Content-Type' => 'application/json',
+              'My-Cool-Header' => 'Whiskey Pie'
+            }
+          end
+          it 'lists the missing headers' do
+            expect(validator.validate(expected_headers, actual_headers)).
+              to eq [
+                'Missing expected response header: Content-Type',
+                'Missing expected response header: My-Cool-Header'
+              ]
+          end
+        end
+
         context 'when Location Header is expected' do
           before(:each) do
             expected_headers.merge!('Location' => 'http://www.example.com/{foo}/bar')
