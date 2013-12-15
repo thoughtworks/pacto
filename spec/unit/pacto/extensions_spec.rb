@@ -29,6 +29,17 @@ module Pacto
           expect({'a' => 'a'}.normalize_keys).to eq('a' => 'a')
         end
       end
+
+      describe '#normalize_header_keys' do
+        it 'matches headers to the style in the RFC documentation' do
+          expect({:'user-agent' => 'a'}.normalize_header_keys).to eq('User-Agent' => 'a') # rubocop:disable SymbolName
+          expect({:user_agent => 'a'}.normalize_header_keys).to eq('User-Agent' => 'a')
+          expect({'User-Agent' => 'a'}.normalize_header_keys).to eq('User-Agent' => 'a')
+          expect({'user-agent' => 'a'}.normalize_header_keys).to eq('User-Agent' => 'a')
+          expect({'user_agent' => 'a'}.normalize_header_keys).to eq('User-Agent' => 'a')
+          expect({'USER_AGENT' => 'a'}.normalize_header_keys).to eq('User-Agent' => 'a')
+        end
+      end
     end
   end
 end

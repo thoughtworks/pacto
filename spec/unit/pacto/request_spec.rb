@@ -58,30 +58,24 @@ module Pacto
       let(:adapted_response) { double 'adapted response' }
 
       before do
-        HTTParty.stub(:get => response)
-        HTTParty.stub(:post => response)
-        ResponseAdapter.stub(:new => adapted_response)
+        WebMock.stub_request(:get, 'http://localhost/hello_world').
+          to_return(:status => 200, :body => '', :headers => {})
+        WebMock.stub_request(:post, 'http://localhost/hello_world').
+          to_return(:status => 200, :body => '', :headers => {})
+        # TODO: Should we just use WebMock?
       end
 
       context 'for any request' do
-        it 'processes the response with an ResponseAdapter' do
-          ResponseAdapter.should_receive(:new).
-            with(response).
-            and_return(adapted_response)
-          request.execute
-        end
-
-        it 'returns the adapted response' do
-          expect(request.execute).to be adapted_response
+        it 'returns the a Faraday response' do
+          expect(request.execute).to be_a Faraday::Response
         end
       end
 
       context 'for a GET request' do
         it 'makes the request thru the http client' do
-          HTTParty.should_receive(:get).
-            with(absolute_uri, {:query => params, :headers => headers}).
-            and_return(response)
           request.execute
+          expect(WebMock).to have_requested(:get, 'http://localhost/hello_world').
+            with(:headers => headers)
         end
       end
 
@@ -89,10 +83,9 @@ module Pacto
         let(:method)  { 'POST' }
 
         it 'makes the request thru the http client' do
-          HTTParty.should_receive(:post).
-            with(absolute_uri, {:body => params_as_json, :headers => headers}).
-            and_return(response)
           request.execute
+          expect(WebMock).to have_requested(:post, 'http://localhost/hello_world').
+            with(:headers => headers)
         end
       end
     end

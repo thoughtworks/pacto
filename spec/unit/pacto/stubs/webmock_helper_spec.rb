@@ -7,7 +7,7 @@ module Pacto
           @request_signature = request_signature
           @response = response
         end
-        HTTParty.get 'http://www.example.com'
+        Faraday.get 'http://www.example.com'
       end
 
       describe '#validate' do

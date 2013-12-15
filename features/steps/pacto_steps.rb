@@ -22,11 +22,11 @@ When(/^I request "(.*?)"$/) do |url|
     """ruby
     require 'pacto'
     require_relative 'pacto_config'
-    require 'httparty'
+    require 'faraday'
 
-    resp = HTTParty.get('#{url}', headers: {
-      'Accept' => 'application/json'
-    })
+    resp = Faraday.get('#{url}') do |req|
+      req.headers = { 'Accept' => 'application/json' }
+    end
     puts resp.body
     """
     When I run `bundle exec ruby request.rb`

@@ -32,7 +32,9 @@ describe 'Pacto' do
     end
 
     let :response do
-      raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
+      raw_response = Faraday.get('http://dummyprovider.com/hello') do |req|
+        req.headers = {'Accept' => 'application/json' }
+      end
       MultiJson.load(raw_response.body)
     end
   end
@@ -50,12 +52,16 @@ describe 'Pacto' do
       Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
       Pacto.use(:devices, {:device_id => 42})
 
-      raw_response = HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
+      raw_response = Faraday.get('http://dummyprovider.com/hello') do |req|
+        req.headers = {'Accept' => 'application/json' }
+      end
       login_response = MultiJson.load(raw_response.body)
       expect(login_response.keys).to eq ['message']
       expect(login_response['message']).to be_kind_of(String)
 
-      devices_response = HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
+      devices_response = Faraday.get('http://dummyprovider.com/strict') do |req|
+        req.headers = {'Accept' => 'application/json' }
+      end
       devices_response = MultiJson.load(devices_response.body)
       expect(devices_response['devices']).to have(2).items
       expect(devices_response['devices'][0]).to eq('/dev/42')

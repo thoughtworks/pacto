@@ -13,8 +13,8 @@ Feature: Existing services journey
 
     Pacto.generate!
 
-    HTTParty.get 'http://www.example.com/service1'
-    HTTParty.get 'http://www.example.com/service2'
+    Faraday.get 'http://www.example.com/service1'
+    Faraday.get 'http://www.example.com/service2'
     """
     Then the following files should exist:
     | contracts/www.example.com/service1.json |
@@ -44,8 +44,8 @@ Feature: Existing services journey
     Pacto.load_all '.', 'http://www.example.com'
     Pacto.use :default
 
-    puts HTTParty.get 'http://www.example.com/service1'
-    puts HTTParty.get 'http://www.example.com/service2'
+    puts Faraday.get('http://www.example.com/service1').body
+    puts Faraday.get('http://www.example.com/service2').body
     """
     When I successfully run `bundle exec ruby test.rb`
     Then the output should contain exactly:
@@ -74,8 +74,8 @@ Feature: Existing services journey
     Pacto.use :default
     Pacto.validate!
 
-    HTTParty.get 'http://www.example.com/service1'
-    HTTParty.get 'http://www.example.com/service2'
+    Faraday.get 'http://www.example.com/service1'
+    Faraday.get 'http://www.example.com/service2'
     """
     Then the output should contain exactly:
     """

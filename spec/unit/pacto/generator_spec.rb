@@ -18,17 +18,15 @@ module Pacto
       })
     end
     let(:response_adapter) do
-      Pacto::ResponseAdapter.new(
-        OpenStruct.new(
-          'status' => 200,
-          'headers' => {
-            'Date' => [Time.now],
-            'Server' => ['Fake Server'],
-            'Content-Type' => ['application/json'],
-            'Vary' => ['User-Agent']
-          },
-          'body' => 'dummy body' # body is just a string
-        )
+      Faraday::Response.new(
+        :status => 200,
+        :response_headers => {
+          'Date' => [Time.now],
+          'Server' => ['Fake Server'],
+          'Content-Type' => ['application/json'],
+          'Vary' => ['User-Agent']
+        },
+        :body => 'dummy body' # body is just a string
       )
     end
     let(:filtered_request_headers) { double('filtered_response_headers') }

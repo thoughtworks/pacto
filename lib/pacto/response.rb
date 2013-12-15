@@ -36,8 +36,11 @@ module Pacto
 
         headers_to_validate = @definition['headers'].dup
         expected_location = headers_to_validate.delete 'Location'
-        unless headers_to_validate.normalize_keys.subset_of?(response.headers.normalize_keys)
-          return ["Invalid headers: expected #{@definition['headers'].inspect} to be a subset of #{response.headers.inspect}"]
+        headers_to_validate = headers_to_validate.normalize_header_keys
+        actual_headers = response.headers || {}
+        actual_headers = actual_headers.normalize_header_keys
+        unless headers_to_validate.subset_of?(actual_headers)
+          return ["Invalid headers: expected #{headers_to_validate} to be a subset of #{actual_headers}"]
         end
 
         if expected_location

@@ -19,7 +19,9 @@ describe 'pacto/rspec' do
   end
 
   def json_response url
-    response = HTTParty.get(url, headers: {'Accept' => 'application/json' })
+    response = Faraday.get(url) do |req|
+      req.headers = {'Accept' => 'application/json' }
+    end
     MultiJson.load(response.body)
   end
 
@@ -37,7 +39,9 @@ describe 'pacto/rspec' do
       Pacto.use(:devices, {:device_id => 42})
       Pacto.validate!
 
-      HTTParty.get('http://dummyprovider.com/hello', headers: {'Accept' => 'application/json' })
+      Faraday.get('http://dummyprovider.com/hello') do |req|
+        req.headers = {'Accept' => 'application/json' }
+      end
     end
 
     it 'performs successful assertions' do
@@ -53,7 +57,9 @@ describe 'pacto/rspec' do
 
     it 'supports negative assertions' do
       expect(Pacto).to_not have_validated(:get, 'http://dummyprovider.com/strict')
-      HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
+      Faraday.get('http://dummyprovider.com/strict') do |req|
+        req.headers = {'Accept' => 'application/json' }
+      end
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict')
     end
 
@@ -63,7 +69,7 @@ describe 'pacto/rspec' do
       expect_to_raise(/Expected Pacto to have found validation problems, but none were found/) { expect(Pacto).to have_failed_validations }
 
       unmatched_url = 'http://localhost:8000/404'
-      HTTParty.get unmatched_url
+      Faraday.get unmatched_url
       expect_to_raise(/the following requests were not matched.*#{Regexp.quote unmatched_url}/m) { expect(Pacto).to_not have_unmatched_requests }
 
       # Expected failures
@@ -77,7 +83,9 @@ describe 'pacto/rspec' do
 
     it 'displays Contract validation problems' do
       Pacto.use(:devices, {:device_id => 1.5})
-      HTTParty.get('http://dummyprovider.com/strict', headers: {'Accept' => 'application/json' })
+      Faraday.get('http://dummyprovider.com/strict') do |req|
+        req.headers = {'Accept' => 'application/json' }
+      end
       expect_to_raise(/validation errors were found:/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
 
       expect_to_raise(/but the following issues were found:/) { expect(Pacto).to_not have_failed_validations }
