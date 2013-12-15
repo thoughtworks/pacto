@@ -1,7 +1,9 @@
 require 'coveralls_helper'
+require 'webmock/rspec'
 require 'pacto'
 require 'pacto/server'
 require 'stringio'
+require 'rspec'
 require 'should_not/rspec'
 
 RSpec.configure do |config|

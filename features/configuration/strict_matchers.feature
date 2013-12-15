@@ -55,7 +55,10 @@ Feature: Strict Matching
 
       def response url, headers
         begin
-          HTTParty.get(url, headers)
+          response = Faraday.get(url) do |req|
+            req.headers = headers[:headers]
+          end
+          response.body
         rescue WebMock::NetConnectNotAllowedError => e
           e.class
         end
@@ -77,9 +80,10 @@ Feature: Strict Matching
       """
       Pacto.configuration.strict_matchers = true
 
-      Exact: {"message"=>"Hello, world!"}
+      Exact: {"message":"Hello, world!"}
       Wrong headers: WebMock::NetConnectNotAllowedError
       ID placeholder: WebMock::NetConnectNotAllowedError
+
       """
 
   Scenario: Non-strict matching
@@ -88,7 +92,7 @@ Feature: Strict Matching
       """
       Pacto.configuration.strict_matchers = false
 
-      Exact: {"message"=>"Hello, world!"}
-      Wrong headers: {"message"=>"Hello, world!"}
-      ID placeholder: {"message"=>"Hello, world!"}
+      Exact: {"message":"Hello, world!"}
+      Wrong headers: {"message":"Hello, world!"}
+      ID placeholder: {"message":"Hello, world!"}
       """    

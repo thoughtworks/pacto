@@ -3,7 +3,6 @@ module Pacto
     class WebMockHelper
       class << self
         def validate(request_signature, response)
-          return if skip? request_signature
           pacto_response = webmock_to_pacto_response(response)
           contract = Pacto.contract_for(request_signature)
           validation = Validation.new request_signature, pacto_response, contract
@@ -11,8 +10,6 @@ module Pacto
         end
 
         def generate(request_signature, response)
-          return if skip? request_signature
-
           logger.debug("Generating Contract for #{request_signature}, #{response}")
           begin
             uri = URI(request_signature.uri)
@@ -31,16 +28,8 @@ module Pacto
               Pacto.load contract_file, uri.host, :generated
             end
           rescue => e
-            logger.error("Error while generating Contract #{contract_file}: #{e}")
+            logger.error("Error while generating Contract #{contract_file}: #{e.message}")
             logger.error("Backtrace: #{e.backtrace}")
-          end
-        end
-
-        def skip? request_signature
-          if request_signature.uri.host =~ /json-schema\.org/
-            # FIXME: This is hacky.  Ideally we shouldn't be base schemas anyways.
-            logger.debug('Skipping hooks (json-schema.org detected)')
-            true
           end
         end
 
@@ -59,15 +48,17 @@ module Pacto
             'params' => {},
             'headers' => webmock_request.headers || {}
           }
-          Pacto::Request.new uri.host, definition
+          request = Pacto::Request.new uri.host, definition
+          request.body = webmock_request.body
+          request
         end
 
         def webmock_to_pacto_response webmock_response
           status, _description = webmock_response.status
-          OpenStruct.new(
-            'status' => status,
-            'headers' => webmock_response.headers || {},
-            'body' => webmock_response.body
+          Faraday::Response.new(
+            :status => status,
+            :response_headers => webmock_response.headers || {},
+            :body => webmock_response.body
           )
         end
       end

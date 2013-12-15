@@ -16,8 +16,7 @@ Feature: Contract Generation
           "path": "/hello",
           "headers": {
             "Accept": "application/json"
-          },
-          "params": {}
+          }
         },
         "response": {
           "status": 200,
@@ -52,14 +51,12 @@ Feature: Contract Generation
           "Accept": "application/json"
         },
         "method": "get",
-        "params": {
-        },
         "path": "/hello"
       },
       "response": {
         "headers": {
-          "content-type": "application/json",
-          "vary": "Accept"
+          "Content-Type": "application/json",
+          "Vary": "Accept"
         },
         "status": 200,
         "body": {

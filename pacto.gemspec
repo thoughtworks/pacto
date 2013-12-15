@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'json-schema', '~> 2.0'
   gem.add_dependency 'json-generator', '>= 0.0.5'
   gem.add_dependency 'hash-deep-merge'
-  gem.add_dependency 'httparty'
+  gem.add_dependency 'faraday'
   gem.add_dependency 'addressable'
   gem.add_dependency 'coveralls'
   gem.add_dependency 'json-schema-generator', '>= 0.0.7'

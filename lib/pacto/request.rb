@@ -1,14 +1,24 @@
 module Pacto
   class Request
-    attr_reader :host
+    attr_reader :host, :method
+    attr_accessor :body
 
     def initialize(host, definition)
       @host = host
       @definition = definition
+      @method = definition['method'].to_s.downcase.to_sym
     end
 
-    def method
-      @definition['method'].to_s.downcase.to_sym
+    def uri
+      uri = Addressable::URI.parse full_uri
+      if uri.scheme.nil?
+        uri = Addressable::URI.parse "http://#{full_uri}"
+      end
+      uri
+    end
+
+    def body
+      JSON::Generator.generate(@definition['body']) if @definition['body']
     end
 
     def path
@@ -20,7 +30,7 @@ module Pacto
     end
 
     def params
-      @definition['params']
+      @definition['params'] || {}
     end
 
     def absolute_uri
@@ -37,21 +47,13 @@ module Pacto
     end
 
     def execute
-      response = HTTParty.send(method, @host + path, {
-        httparty_params_key => normalized_params,
-        :headers => headers
-      })
-      ResponseAdapter.new(response)
-    end
-
-    private
-
-    def httparty_params_key
-      method == :get ? :query : :body
-    end
-
-    def normalized_params
-      method == :get ? params : params.to_json
+      conn = Faraday.new(:url => @host + path) do |faraday|
+        faraday.response :logger if Pacto.configuration.logger.level == :debug
+        faraday.adapter  Faraday.default_adapter
+      end
+      conn.send(method) do |req|
+        req.headers = headers
+      end
     end
   end
 end
