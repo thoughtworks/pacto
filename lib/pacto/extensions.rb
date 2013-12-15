@@ -17,10 +17,6 @@ module Pacto
     end
 
     module HashSubsetOf
-      def subset_of?(other)
-        (to_a - other.to_a).empty?
-      end
-
       # FIXME: Only used by HashMergeProcessor, which I'd like to deprecate
       def normalize_keys
         reduce({}) do |normalized, (key, value)|
