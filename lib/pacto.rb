@@ -1,6 +1,7 @@
 require 'pacto/version'
 
 require 'addressable/template'
+require 'middleware'
 require 'faraday'
 require 'hash_deep_merge'
 require 'multi_json'
@@ -25,6 +26,7 @@ require 'pacto/request'
 require 'pacto/response'
 require 'pacto/stubs/built_in'
 require 'pacto/contract'
+require 'pacto/contract_validator'
 require 'pacto/contract_factory'
 require 'pacto/validation'
 require 'pacto/erb_processor'
@@ -34,6 +36,11 @@ require 'pacto/meta_schema'
 require 'pacto/hooks/erb_hook'
 require 'pacto/generator'
 require 'pacto/generator/filters'
+
+# Validators
+require 'pacto/validators/response_status_validator'
+require 'pacto/validators/response_header_validator'
+require 'pacto/validators/response_body_validator'
 
 module Pacto
   class << self

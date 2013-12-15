@@ -2,7 +2,7 @@ module Pacto
   describe Contract do
     let(:request)  { double 'request' }
     let(:request_signature)  { double 'request_signature' }
-    let(:response) { double 'response' }
+    let(:response) { double 'response definition' }
     let(:provider) { double 'provider' }
     let(:instantiated_response) { double 'instantiated response' }
 
@@ -22,20 +22,16 @@ module Pacto
     end
 
     describe '#validate' do
-      before do
-        response.stub(:validate => validation_result)
-        request.stub(:execute => fake_response)
-      end
-
+      let(:fake_response) { double('fake response') }
       let(:validation_result) { double 'validation result' }
-      let(:fake_response)     { double 'fake response' }
 
-      it 'validates the generated response' do
-        response.should_receive(:validate).with(fake_response, {})
-        expect(contract.validate).to eq validation_result
+      before do
+        allow(Pacto::ContractValidator).to receive(:validate).with(contract, nil, fake_response, {}).and_return validation_result
+        allow(request).to receive(:execute).and_return fake_response
       end
 
       it 'returns the result of the validation' do
+        expect(Pacto::ContractValidator).to receive(:validate).with(contract, nil, fake_response, {})
         expect(contract.validate).to eq validation_result
       end
 
