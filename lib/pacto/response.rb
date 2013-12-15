@@ -11,15 +11,15 @@ module Pacto
 
     def instantiate
       if @schema && !@schema.empty?
-        OpenStruct.new(
-          'status' => @definition['status'],
-          'headers' => @definition['headers'],
-          'body' => JSON::Generator.generate(@schema)
+        Faraday::Response.new(
+          :status => @definition['status'],
+          :response_headers => @definition['headers'],
+          :body => JSON::Generator.generate(@schema)
         )
       else
-        OpenStruct.new(
-          'status' => @definition['status'],
-          'headers' => @definition['headers']
+        Faraday::Response.new(
+          :status => @definition['status'],
+          :response_headers => @definition['headers']
         )
       end
     end
