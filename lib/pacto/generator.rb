@@ -5,11 +5,13 @@ module Pacto
     def initialize(schema_version = 'draft3',
       schema_generator = JSON::SchemaGenerator,
       validator = Pacto::MetaSchema.new,
-      generator_options = Pacto.configuration.generator_options)
+      generator_options = Pacto.configuration.generator_options,
+      filters = Pacto::Generator::Filters.new)
       @schema_version = schema_version
       @validator = validator
       @schema_generator = schema_generator
       @generator_options = generator_options
+      @filters = filters
     end
 
     def generate(request_file, host)
@@ -40,7 +42,7 @@ module Pacto
 
     def generate_request request, response, source
       {
-        :headers => Pacto::Generator::Filters.filter_request_headers(request, response),
+        :headers => @filters.filter_request_headers(request, response),
         :method => request.method,
         :params => request.uri.query_values,
         :path => request.uri.path,
@@ -50,7 +52,7 @@ module Pacto
 
     def generate_response request, response, source
       {
-        :headers => Pacto::Generator::Filters.filter_response_headers(request, response),
+        :headers => @filters.filter_response_headers(request, response),
         :status => response.status,
         :body => generate_body(source, response.body)
       }.delete_if { |k, v| v.nil? }

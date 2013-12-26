@@ -36,7 +36,7 @@ module Pacto
       end
 
       describe '#filter_request_headers' do
-        subject(:filtered_request_headers) { described_class.filter_request_headers(request, response).keys.map(&:downcase) }
+        subject(:filtered_request_headers) { described_class.new.filter_request_headers(request, response).keys.map(&:downcase) }
         it 'keeps important request headers' do
           expect(filtered_request_headers).to include 'user-agent'
         end
@@ -72,7 +72,7 @@ module Pacto
       end
 
       describe '#filter_response_headers' do
-        subject(:filtered_response_headers) { described_class.filter_response_headers(request, response).keys.map(&:downcase) }
+        subject(:filtered_response_headers) { described_class.new.filter_response_headers(request, response).keys.map(&:downcase) }
         it 'keeps important response headers' do
           expect(filtered_response_headers).to include 'content-type'
         end
