@@ -9,7 +9,6 @@ module Pacto
           'method' => 'GET',
           'path' => '/abcd',
           'headers' => {
-            'Date' => [Time.now],
             'Server' => ['example.com'],
             'Connection' => ['Close'],
             'Content-Length' => [1234],
@@ -26,7 +25,9 @@ module Pacto
         Faraday::Response.new(
           :status => 200,
           :response_headers => {
-            'Date' => [Time.now],
+            'Date' => Time.now.rfc2822,
+            'Last-Modified' => Time.now.rfc2822,
+            'ETag' => 'abc123',
             'Server' => ['Fake Server'],
             'Content-Type' => ['application/json'],
             'Vary' => varies
@@ -83,6 +84,9 @@ module Pacto
         end
 
         it 'filters freshness headers' do
+          expect(filtered_response_headers).not_to include 'date'
+          expect(filtered_response_headers).not_to include 'last-modified'
+          expect(filtered_response_headers).not_to include 'eTag'
         end
 
         it 'filters x-* headers' do
