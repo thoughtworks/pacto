@@ -1,6 +1,7 @@
 module Pacto
   class Generator
     class Filters
+
       CONNECTION_CONTROL_HEADERS = %w{
         Via
         Server
@@ -32,7 +33,7 @@ module Pacto
       end
 
       def self.filter_response_headers request, response
-        response.headers.normalize_header_keys.reject do |header|
+        Pacto::Extensions.normalize_header_keys(response.headers).reject do |header|
           (HEADERS_TO_FILTER.include? header) || (header.start_with?('X-'))
         end
       end

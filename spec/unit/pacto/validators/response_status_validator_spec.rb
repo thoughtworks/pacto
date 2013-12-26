@@ -11,7 +11,7 @@ module Pacto
 
         context 'when the status matches' do
           it 'returns nil' do
-            expect(validator.validate(200, 200)).to be_nil
+            expect(validator.validate(200, 200)).to be_empty
           end
         end
       end
