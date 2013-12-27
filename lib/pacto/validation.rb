@@ -2,7 +2,7 @@ module Pacto
   class Validation
     attr_reader :request, :response, :contract, :results
 
-    def initialize request, response, contract
+    def initialize(request, response, contract)
       @request = request
       @response = response
       @contract = contract
@@ -13,7 +13,7 @@ module Pacto
       @results.nil? || @results.empty?
     end
 
-    def against_contract? contract_pattern
+    def against_contract?(contract_pattern)
       unless @contract.nil?
         case contract_pattern
         when String
@@ -25,11 +25,7 @@ module Pacto
     end
 
     def to_s
-      if @contract.nil?
-        contract_name = 'nil'
-      else
-        contract_name = @contract.file
-      end
+      contract_name = @contract.nil? ? 'nil' : @contract.file
       """
       Validation:
       \tRequest: #{@request}

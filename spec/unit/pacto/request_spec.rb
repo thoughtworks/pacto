@@ -8,12 +8,12 @@ module Pacto
     let(:params_as_json) { "{\"foo\":\"bar\"}" }
     let(:absolute_uri)   { "#{host}#{path}" }
     subject(:request) do
-      described_class.new(host, {
-        'method'  => method,
-        'path'    => path,
-        'headers' => headers,
-        'params'  => params
-      })
+      described_class.new(host,
+                          'method'  => method,
+                          'path'    => path,
+                          'headers' => headers,
+                          'params'  => params
+      )
     end
 
     it 'has a host' do

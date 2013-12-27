@@ -9,7 +9,7 @@ module Pacto
       @file = file
     end
 
-    def stub_contract! values = {}
+    def stub_contract!(values = {})
       @values = values
       @request_pattern = Pacto.configuration.provider.stub_request!(@request, stub_response)
     end
@@ -19,7 +19,7 @@ module Pacto
       Pacto::ContractValidator.validate self, nil, actual_response, opts
     end
 
-    def matches? request_signature
+    def matches?(request_signature)
       @request_pattern.matches? request_signature unless @request_pattern.nil?
     end
 
@@ -32,6 +32,5 @@ module Pacto
     def stub_response
       @response.instantiate
     end
-
   end
 end

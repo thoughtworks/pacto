@@ -9,7 +9,7 @@ module Pacto
     end
     HeaderKeyMap[:etag] = 'ETag'
 
-    def self.normalize_header_keys headers
+    def self.normalize_header_keys(headers)
       headers.reduce({}) do |normalized, (key, value)|
         normalized[HeaderKeyMap[key]] = value
         normalized

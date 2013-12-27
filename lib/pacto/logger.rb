@@ -11,13 +11,13 @@ module Pacto
       log ::Logger.new STDOUT
     end
 
-    def log log
+    def log(log)
       @log = log
       @log.level = default_level
       @log.progname = 'Pacto'
     end
 
-    def level= level
+    def level=(level)
       @log.level = log_levels.fetch(level, default_level)
     end
 

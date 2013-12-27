@@ -1,7 +1,7 @@
 module Pacto
   class ContractValidator
     class << self
-      def validate contract, request, response, opts
+      def validate(contract, request, response, opts)
         env = {
           :contract => contract,
           :actual_request => request,
@@ -14,7 +14,7 @@ module Pacto
 
       private
 
-      def validation_stack opts
+      def validation_stack(opts)
         Middleware::Builder.new do
           unless opts[:body_only]
             use Pacto::Validators::ResponseStatusValidator

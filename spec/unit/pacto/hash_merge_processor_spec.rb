@@ -12,7 +12,7 @@ module Pacto
 
       it 'merges response body with values' do
         merged_body = {'a' => 'simple hash', 'b' => :key}
-        expect(subject.process(response_body_hash, {:b => :key})).to eq merged_body.to_s
+        expect(subject.process(response_body_hash, :b => :key)).to eq merged_body.to_s
       end
 
     end

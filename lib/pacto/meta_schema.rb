@@ -10,7 +10,7 @@ module Pacto
       @engine = engine
     end
 
-    def validate definition
+    def validate(definition)
       errors = engine.fully_validate(schema, definition, :version => :draft3)
       unless errors.empty?
         fail InvalidContract, errors

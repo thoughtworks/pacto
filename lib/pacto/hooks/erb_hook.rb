@@ -11,7 +11,6 @@ module Pacto
         response.body = @processor.process response.body, bound_values
         response.body
       end
-
     end
   end
 end
