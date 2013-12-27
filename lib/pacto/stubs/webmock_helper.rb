@@ -12,20 +12,10 @@ module Pacto
         def generate(request_signature, response)
           logger.debug("Generating Contract for #{request_signature}, #{response}")
           begin
-            uri = URI(request_signature.uri)
-            basename = File.basename(uri.path, '.json') + '.json'
-            pacto_request = webmock_to_pacto_request(request_signature)
-            pacto_response = webmock_to_pacto_response(response)
-            # contract_file = File.expand_path(Pacto.configuration.contracts_path, File.dirname(uri.path), basename)
-            contract_file = File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(uri.path), basename)
+            contract_file = build_contract_file(request_signature)
 
             unless File.exists? contract_file
-              generator = Pacto::Generator.new
-              FileUtils.mkdir_p(File.dirname contract_file)
-              File.write(contract_file, generator.save('vcr', pacto_request, pacto_response))
-              logger.debug("Generating #{contract_file}")
-
-              Pacto.load contract_file, uri.host, :generated
+              generate_contract(request_signature, response, contract_file)
             end
           rescue => e
             logger.error("Error while generating Contract #{contract_file}: #{e.message}")
@@ -34,6 +24,24 @@ module Pacto
         end
 
         private
+
+        def generate_contract(request_signature, response, contract_file)
+          uri = URI(request_signature.uri)
+          pacto_request = webmock_to_pacto_request(request_signature)
+          pacto_response = webmock_to_pacto_response(response)
+          generator = Pacto::Generator.new
+          FileUtils.mkdir_p(File.dirname contract_file)
+          File.write(contract_file, generator.save('vcr', pacto_request, pacto_response))
+          logger.debug("Generating #{contract_file}")
+
+          Pacto.load contract_file, uri.host, :generated
+        end
+
+        def build_contract_file(request_signature)
+          uri = URI(request_signature.uri)
+          basename = File.basename(uri.path, '.json') + '.json'
+          File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(uri.path), basename)
+        end
 
         def logger
           @logger ||= Logger.instance

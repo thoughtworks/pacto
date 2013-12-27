@@ -20,8 +20,5 @@ IfUnlessModifier:
 LineLength:
   Enabled: false
 
-MethodLength:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false

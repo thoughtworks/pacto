@@ -9,20 +9,8 @@ module Pacto
       end
 
       def stub_request!(request, response, stubbing = true)
-        strict = Pacto.configuration.strict_matchers
-        uri_pattern = build_uri_pattern request, strict
-        if stubbing
-          stub = WebMock.stub_request(request.method, uri_pattern)
-          stub.to_return(
-            :status => response.status,
-            :headers => response.headers,
-            :body => format_body(response.body)
-          )
-          request_pattern = stub.request_pattern
-        else
-          request_pattern = WebMock::RequestPattern.new(request.method, uri_pattern)
-        end
-        request_pattern.with(request_details(request)) if strict
+        request_pattern = build_request_pattern(request, response, stubbing)
+        request_pattern.with(request_details(request)) if Pacto.configuration.strict_matchers
         request_pattern
       end
 
@@ -42,17 +30,44 @@ module Pacto
 
       private
 
-      def build_uri_pattern(request, strict)
+      def build_uri_pattern(request)
+        if Pacto.configuration.strict_matchers
+          build_strict_uri_pattern(request)
+        else
+          build_relaxed_uri_pattern(request)
+        end
+      end
+
+      def build_strict_uri_pattern(request)
         host_pattern = request.host
         path_pattern = request.path
-        if strict
-          uri_pattern = "#{host_pattern}#{path_pattern}"
+        "#{host_pattern}#{path_pattern}"
+      end
+
+      def build_relaxed_uri_pattern(request)
+        path_pattern = request.path
+        path_pattern = path_pattern.gsub(/\/:\w+/, '/[^\/\?#]+')
+        host_pattern = Regexp.quote(request.host)
+        /#{host_pattern}#{path_pattern}/
+      end
+
+      def build_stubbed_request_pattern(request, response, uri_pattern)
+        stub = WebMock.stub_request(request.method, uri_pattern)
+        stub.to_return(
+          :status => response.status,
+          :headers => response.headers,
+          :body => format_body(response.body)
+        )
+        stub.request_pattern
+      end
+
+      def build_request_pattern(request, response, stubbing)
+        uri_pattern = build_uri_pattern(request)
+        if stubbing
+          return build_stubbed_request_pattern(request, response, uri_pattern)
         else
-          path_pattern = path_pattern.gsub(/\/:\w+/, '/[^\/\?#]+')
-          host_pattern = Regexp.quote(request.host)
-          uri_pattern = /#{host_pattern}#{path_pattern}/
+          return WebMock::RequestPattern.new(request.method, uri_pattern)
         end
-        uri_pattern
       end
 
       def register_callbacks

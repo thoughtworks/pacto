@@ -10,18 +10,19 @@ module Pacto
     end
 
     def instantiate
-      if @schema && !@schema.empty?
-        Faraday::Response.new(
-          :status => @definition['status'],
-          :response_headers => @definition['headers'],
-          :body => JSON::Generator.generate(@schema)
-        )
-      else
-        Faraday::Response.new(
-          :status => @definition['status'],
-          :response_headers => @definition['headers']
-        )
-      end
+      params = default_params
+      params.delete(:body) unless @schema && !@schema.empty?
+      Faraday::Response.new(params)
+    end
+
+    private
+
+    def default_params
+      {
+        :status => @definition['status'],
+        :response_headers => @definition['headers'],
+        :body => JSON::Generator.generate(@schema)
+      }
     end
   end
 end

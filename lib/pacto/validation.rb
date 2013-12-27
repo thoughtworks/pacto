@@ -25,11 +25,7 @@ module Pacto
     end
 
     def to_s
-      if @contract.nil?
-        contract_name = 'nil'
-      else
-        contract_name = @contract.file
-      end
+      contract_name = @contract.nil? ? 'nil' : @contract.file
       """
       Validation:
       \tRequest: #{@request}
