@@ -35,8 +35,10 @@ module Pacto
     let(:version) { 'draft3' }
     let(:schema_generator) { double('schema_generator') }
     let(:validator) { double('validator') }
+    let(:filters) { double :filters }
     let(:request_file) { 'request.json' }
-    let(:generator) { described_class.new version, schema_generator, validator }
+    let(:options) { Pacto.configuration.generator_options }
+    let(:generator) { described_class.new version, schema_generator, validator, options, filters }
 
     def pretty obj
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
@@ -73,8 +75,8 @@ module Pacto
 
     describe '#save' do
       before do
-        Pacto::Generator::Filters.should_receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
-        Pacto::Generator::Filters.should_receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
+        filters.should_receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
+        filters.should_receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
       end
       context 'invalid schema' do
         it 'raises an error if schema generation fails' do

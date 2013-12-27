@@ -47,7 +47,7 @@ When(/^I execute:$/) do |script|
       script = <<-eof
       require 'stringio'
       begin $stdout = StringIO.new
-        #{script}
+        #{ script }
         $stdout.string
       ensure
         $stdout = STDOUT
