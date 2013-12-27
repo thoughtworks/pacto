@@ -18,7 +18,7 @@ describe Pacto do
     end
 
     it 'register a Pacto Callback' do
-      callback_block = Pacto::Callback.new { }
+      callback_block = Pacto::Callback.new {}
       Pacto.configure do |c|
         c.register_callback(callback_block)
       end

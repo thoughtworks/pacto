@@ -6,7 +6,7 @@ module Pacto
     class Servlet < WEBrick::HTTPServlet::AbstractServlet
       extend Forwardable
 
-      def initialize server, json
+      def initialize(server, json)
         super(server)
 
         @doer = PlaybackServlet.new(
@@ -20,7 +20,7 @@ module Pacto
     end
 
     class Dummy
-      def initialize port, path, response
+      def initialize(port, path, response)
         params = {
           :Port => port,
           :AccessLog => [],

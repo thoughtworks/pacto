@@ -10,14 +10,14 @@ class Pacto::ValidationRegistry
     @validations.clear
   end
 
-  def validated? request_pattern
+  def validated?(request_pattern)
     matched_validations = @validations.select do |validation|
       request_pattern.matches? validation.request
     end
     matched_validations unless matched_validations.empty?
   end
 
-  def register_validation validation
+  def register_validation(validation)
     @validations << validation
     validation
   end

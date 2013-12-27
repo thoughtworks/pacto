@@ -39,7 +39,7 @@ module Pacto
           @logger ||= Logger.instance
         end
 
-        def webmock_to_pacto_request webmock_request
+        def webmock_to_pacto_request(webmock_request)
           uri = URI(webmock_request.uri)
           definition = {
             'method' => webmock_request.method,
@@ -53,7 +53,7 @@ module Pacto
           request
         end
 
-        def webmock_to_pacto_response webmock_response
+        def webmock_to_pacto_response(webmock_response)
           status, _description = webmock_response.status
           Faraday::Response.new(
             :status => status,

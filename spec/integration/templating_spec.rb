@@ -9,7 +9,7 @@ describe 'Templating' do
   let :response do
     contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
     Pacto.register_contract(contract, 'my_contract')
-    Pacto.use('my_contract', {:key => key, :auth_token => auth_token})
+    Pacto.use('my_contract', :key => key, :auth_token => auth_token)
 
     raw_response = Faraday.get('http://dummyprovider.com/echo') do |req|
       req.headers = {

@@ -1,7 +1,6 @@
 module Pacto
   class Generator
     class Filters
-
       CONNECTION_CONTROL_HEADERS = %w{
         Via
         Server
@@ -19,7 +18,7 @@ module Pacto
 
       HEADERS_TO_FILTER = CONNECTION_CONTROL_HEADERS + FRESHNESS_HEADERS
 
-      def filter_request_headers request, response
+      def filter_request_headers(request, response)
         # FIXME: Do we need to handle all these cases in real situations, or just because of stubbing?
         vary_headers = response.headers['Vary'] || []
         vary_headers = [vary_headers] if vary_headers.is_a? String
@@ -32,7 +31,7 @@ module Pacto
         end
       end
 
-      def filter_response_headers request, response
+      def filter_response_headers(request, response)
         Pacto::Extensions.normalize_header_keys(response.headers).reject do |header|
           (HEADERS_TO_FILTER.include? header) || (header.start_with?('X-'))
         end

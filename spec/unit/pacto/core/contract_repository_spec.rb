@@ -180,7 +180,7 @@ describe Pacto do
     end.to_set
   end
 
-  def register_and_use contracts
+  def register_and_use(contracts)
     contracts.each { |contract| described_class.register_contract contract }
     Pacto.use :default
   end

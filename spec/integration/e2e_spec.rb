@@ -50,7 +50,7 @@ describe 'Pacto' do
 
       # Preprocessor must be off before building!
       Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
-      Pacto.use(:devices, {:device_id => 42})
+      Pacto.use(:devices, :device_id => 42)
 
       raw_response = Faraday.get('http://dummyprovider.com/hello') do |req|
         req.headers = {'Accept' => 'application/json' }

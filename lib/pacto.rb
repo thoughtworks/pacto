@@ -44,7 +44,6 @@ require 'pacto/validators/response_body_validator'
 
 module Pacto
   class << self
-
     def configuration
       @configuration ||= Configuration.new
     end
@@ -62,7 +61,7 @@ module Pacto
     end
   end
 
-  def self.validate_contract contract
+  def self.validate_contract(contract)
     Pacto::MetaSchema.new.validate contract
     puts "Validating #{contract}"
     true
@@ -77,5 +76,4 @@ module Pacto
   def self.build_from_file(contract_path, host, file_pre_processor = Pacto.configuration.preprocessor)
     ContractFactory.build_from_file(contract_path, host, file_pre_processor)
   end
-
 end

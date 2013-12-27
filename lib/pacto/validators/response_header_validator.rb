@@ -5,14 +5,14 @@ module Pacto
         @app = app
       end
 
-      def call env
+      def call(env)
         expected_headers = env[:contract].response.headers
         actual_headers = env[:actual_response].headers
         env[:validation_results].concat self.class.validate(expected_headers, actual_headers)
         @app.call env
       end
 
-      def self.validate expected_headers, actual_headers
+      def self.validate(expected_headers, actual_headers)
         actual_headers = Pacto::Extensions.normalize_header_keys actual_headers
         headers_to_validate = Pacto::Extensions.normalize_header_keys expected_headers
 

@@ -4,18 +4,18 @@ module Pacto
       'http://example.com'
     end
     let(:request) do
-      Pacto::Request.new(record_host, {
-        'method' => 'GET',
-        'path' => '/abcd',
-        'headers' => {
-          'Content-Length' => [1234],
-          'Via' => ['Some Proxy'],
-          'User-Agent' => ['rspec']
-        },
-        'params' => {
-          'apikey' => "<%= ENV['MY_API_KEY'] %>"
-        }
-      })
+      Pacto::Request.new(record_host,
+                         'method' => 'GET',
+                         'path' => '/abcd',
+                         'headers' => {
+                           'Content-Length' => [1234],
+                           'Via' => ['Some Proxy'],
+                           'User-Agent' => ['rspec']
+                         },
+                         'params' => {
+                           'apikey' => "<%= ENV['MY_API_KEY'] %>"
+                         }
+      )
     end
     let(:response_adapter) do
       Faraday::Response.new(
@@ -40,7 +40,7 @@ module Pacto
     let(:options) { Pacto.configuration.generator_options }
     let(:generator) { described_class.new version, schema_generator, validator, options, filters }
 
-    def pretty obj
+    def pretty(obj)
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
     end
 

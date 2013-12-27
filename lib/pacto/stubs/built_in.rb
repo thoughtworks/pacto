@@ -3,13 +3,12 @@ require 'pacto/stubs/webmock_helper'
 module Pacto
   module Stubs
     class BuiltIn
-
       def initialize
         register_callbacks
         @logger = Logger.instance
       end
 
-      def stub_request! request, response, stubbing = true
+      def stub_request!(request, response, stubbing = true)
         strict = Pacto.configuration.strict_matchers
         uri_pattern = build_uri_pattern request, strict
         if stubbing
@@ -70,7 +69,7 @@ module Pacto
         end
       end
 
-      def request_details request
+      def request_details(request)
         details = {}
         unless request.params.empty?
           details[webmock_params_key(request)] = request.params
@@ -81,7 +80,7 @@ module Pacto
         details
       end
 
-      def webmock_params_key request
+      def webmock_params_key(request)
         request.method == :get ? :query : :body
       end
     end

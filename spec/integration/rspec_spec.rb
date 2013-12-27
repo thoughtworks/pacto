@@ -18,7 +18,7 @@ describe 'pacto/rspec' do
     expect { blk.call }.to raise_error(RSpec::Expectations::ExpectationNotMetError, message_pattern)
   end
 
-  def json_response url
+  def json_response(url)
     response = Faraday.get(url) do |req|
       req.headers = {'Accept' => 'application/json' }
     end
@@ -36,7 +36,7 @@ describe 'pacto/rspec' do
 
       # Preprocessor must be off before building!
       Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
-      Pacto.use(:devices, {:device_id => 42})
+      Pacto.use(:devices, :device_id => 42)
       Pacto.validate!
 
       Faraday.get('http://dummyprovider.com/hello') do |req|
@@ -82,7 +82,7 @@ describe 'pacto/rspec' do
     end
 
     it 'displays Contract validation problems' do
-      Pacto.use(:devices, {:device_id => 1.5})
+      Pacto.use(:devices, :device_id => 1.5)
       Faraday.get('http://dummyprovider.com/strict') do |req|
         req.headers = {'Accept' => 'application/json' }
       end
