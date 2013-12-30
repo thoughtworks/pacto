@@ -31,8 +31,10 @@ module Pacto
         end
 
         it 'does not duplicate a contract when it has already been registered with the same tag' do
-          contract_list.register_contract(contract, tag)
-          contract_list.register_contract(contract, tag)
+          contract_list
+            .register_contract(contract, tag)
+            .register_contract(contract, tag)
+
           expect(contract_list.registered[tag]).to include(contract)
           expect(contract_list.registered[tag]).to have(1).items
         end
@@ -46,8 +48,10 @@ module Pacto
         end
 
         it 'registers a tag with different contracts ' do
-          contract_list.register_contract(contract, tag)
-          contract_list.register_contract(another_contract, tag)
+          contract_list
+            .register_contract(contract, tag)
+            .register_contract(another_contract, tag)
+
           expect(contract_list.registered[tag]).to include(contract, another_contract)
         end
 
@@ -56,8 +60,9 @@ module Pacto
 
     describe '.use' do
       before do
-        contract_list.register_contract(contract, tag)
-        contract_list.register_contract(another_contract, :default)
+        contract_list
+          .register_contract(contract, tag)
+          .register_contract(another_contract, :default)
       end
 
       context 'when a contract has been registered' do
@@ -66,12 +71,12 @@ module Pacto
         it 'stubs a contract with default values' do
           contract.should_receive(:stub_contract!)
           another_contract.should_receive(:stub_contract!)
-          expect(contract_list.use(tag)).to eq 2
+          contract_list.use(tag)
         end
 
         it 'stubs default contract if unused tag' do
           another_contract.should_receive(:stub_contract!)
-          expect(contract_list.use(another_tag)).to eq 1
+          contract_list.use(another_tag)
         end
       end
 
