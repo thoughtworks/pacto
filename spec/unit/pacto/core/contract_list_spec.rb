@@ -5,6 +5,7 @@ module Pacto
     let(:tag) { 'contract_tag' }
     let(:another_tag) { 'another_tag' }
     let(:contract) { double('contract') }
+    let(:contract_factory)  { double }
     let(:another_contract) { double('another_contract') }
     let(:request_signature) { double('request signature') }
     let(:contracts_that_match)      { create_contracts 2, true }
@@ -12,7 +13,7 @@ module Pacto
     let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
 
     subject(:contract_list) do
-      ContractList.new
+      ContractList.new(contract_factory)
     end
 
     describe '.register' do
@@ -109,16 +110,13 @@ module Pacto
       let(:contract_file) { double :contract_file }
       let(:contract) { double :contract }
 
-      before do
-        contract_list.stub(build_from_file: contract)
-      end
-
       it 'builds a contract' do
-        contract_list.should_receive(:build_from_file).with(contract_file, host, nil).and_return(contract)
+        contract_factory.should_receive(:build_from_file).with(contract_file, host, nil).and_return(contract)
         contract_list.load contract_file, host, *tags
       end
 
       it 'registers the contract' do
+        contract_factory.stub(build_from_file: contract)
         contract_list.should_receive(:register_contract).with(contract, *tags)
         contract_list.load contract_file, host, *tags
       end
