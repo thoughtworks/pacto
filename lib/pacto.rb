@@ -14,7 +14,7 @@ require 'logger'
 
 require 'pacto/utils'
 require 'pacto/ui'
-require 'pacto/core/contract_repository'
+require 'pacto/core/contract_list'
 require 'pacto/core/validation_registry'
 require 'pacto/core/configuration'
 require 'pacto/core/modes'
@@ -48,16 +48,40 @@ module Pacto
       @configuration ||= Configuration.new
     end
 
+    def contract_list
+      @list ||= ContractList.new
+    end
+
     def clear!
       Pacto.configuration.provider.reset!
       @modes = nil
       @configuration = nil
-      unregister_all!
+      contract_list.unregister_all!
       Pacto::ValidationRegistry.instance.reset!
     end
 
     def configure
       yield(configuration)
+    end
+
+    def register_contract(contract, tags)
+      contract_list.register_contract(contract, tags)
+    end
+
+    def contracts_for(request_signature)
+      contract_list.contracts_for(request_signature)
+    end
+
+    def contract_for(request_signature)
+      contract_list.contract_for(request_signature)
+    end
+
+    def load_all(contracts_directory, host, *tags)
+      contract_list.load_all(contracts_directory, host, *tags)
+    end
+
+    def use(tag, values = {})
+      contract_list.use(tag, values)
     end
   end
 

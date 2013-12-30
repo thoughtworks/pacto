@@ -22,7 +22,7 @@ describe 'Templating' do
   end
 
   before :each do
-    Pacto.unregister_all!
+    Pacto.clear!
   end
 
   context 'No processing' do
