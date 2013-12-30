@@ -20,7 +20,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'webmock'
   gem.add_dependency 'middleware'
-  gem.add_dependency 'addressable'
   gem.add_dependency 'multi_json'
   gem.add_dependency 'json-schema', '~> 2.0'
   gem.add_dependency 'json-generator', '>= 0.0.5'
