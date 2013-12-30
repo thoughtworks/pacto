@@ -5,7 +5,7 @@ module Pacto
     def initialize(contract_factory = ContractFactory)
       @contract_factory = contract_factory
     end
-      
+
     def register_contract(contract = nil, *tags)
       tags << :default if tags.empty?
 

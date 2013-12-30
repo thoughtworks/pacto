@@ -167,8 +167,8 @@ module Pacto
     def create_contracts(total, matches)
       total.times.map do
         double('contract',
-              :stub_contract! => double('request matcher'),
-              :matches? => matches)
+               :stub_contract! => double('request matcher'),
+               :matches? => matches)
       end.to_set
     end
 
