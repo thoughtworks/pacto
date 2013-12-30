@@ -80,6 +80,10 @@ module Pacto
       contract_list.load_all(contracts_directory, host, *tags)
     end
 
+    def load(contract_file, host, *tags)
+      contract_list.load(contract_file, host, *tags)
+    end
+
     def use(tag, values = {})
       contract_list.use(tag, values)
     end
