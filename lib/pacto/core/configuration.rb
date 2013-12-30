@@ -16,10 +16,6 @@ module Pacto
       @generator_options = { :schema_version => 'draft3' }
     end
 
-    def register_contract(contract = nil, *tags)
-      Pacto.register_contract(contract, *tags)
-    end
-
     def register_callback(callback = nil, &block)
       if block_given?
         @callback = Pacto::Callback.new(&block)
