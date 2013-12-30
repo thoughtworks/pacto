@@ -51,12 +51,10 @@ describe Pacto do
 
     context 'with a block' do
       it 'has a compact syntax for registering multiple contracts' do
-        described_class.configure do |c|
-          c.register_contract 'new_api/create_item_v2', :item, :new
-          c.register_contract 'authentication', :default
-          c.register_contract 'list_items_legacy', :legacy
-          c.register_contract 'get_item_legacy', :legacy
-        end
+        described_class.register_contract 'new_api/create_item_v2', :item, :new
+        described_class.register_contract 'authentication', :default
+        described_class.register_contract 'list_items_legacy', :legacy
+        described_class.register_contract 'get_item_legacy', :legacy
         expect(described_class.registered[:new]).to include('new_api/create_item_v2')
         expect(described_class.registered[:default]).to include('authentication')
         expect(described_class.registered[:legacy]).to include('list_items_legacy', 'get_item_legacy')
