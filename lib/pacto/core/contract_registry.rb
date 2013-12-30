@@ -1,12 +1,19 @@
 module Pacto
-  class << self
+  class ContractRegistry
+    attr_reader :contract_factory
+
+    def initialize(contract_factory = ContractFactory)
+      @contract_factory = contract_factory
+    end
+
     def register_contract(contract = nil, *tags)
       tags << :default if tags.empty?
-      start_count = registered.count
+
       tags.uniq.each do |tag|
         registered[tag] << contract
       end
-      registered.count - start_count
+
+      self
     end
 
     def use(tag, values = {})
@@ -17,7 +24,8 @@ module Pacto
       merged_contracts.each do |contract|
         contract.stub_contract! values
       end
-      merged_contracts.count
+
+      self
     end
 
     def load_all(contracts_directory, host, *tags)
@@ -26,7 +34,7 @@ module Pacto
 
     def load(contract_file, host, *tags)
       Logger.instance.debug "Registering #{contract_file} with #{tags}"
-      contract = build_from_file contract_file, host, nil
+      contract = contract_factory.build_from_file contract_file, host, nil
       register_contract contract, *tags
     end
 
