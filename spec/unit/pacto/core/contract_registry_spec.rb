@@ -1,7 +1,7 @@
-require_relative '../../../../lib/pacto/core/contract_list'
+require_relative '../../../../lib/pacto/core/contract_registry'
 
 module Pacto
-  describe ContractList do
+  describe ContractRegistry do
     let(:tag) { 'contract_tag' }
     let(:another_tag) { 'another_tag' }
     let(:contract) { double('contract') }
@@ -13,7 +13,7 @@ module Pacto
     let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
 
     subject(:contract_list) do
-      ContractList.new(contract_factory)
+      ContractRegistry.new(contract_factory)
     end
 
     describe '.register' do

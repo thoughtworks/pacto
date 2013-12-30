@@ -1,5 +1,5 @@
 module Pacto
-  class ContractList
+  class ContractRegistry
     attr_reader :contract_factory
 
     def initialize(contract_factory = ContractFactory)
