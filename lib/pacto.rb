@@ -85,21 +85,21 @@ module Pacto
     def use(tag, values = {})
       contract_registry.use(tag, values)
     end
-  end
 
-  def self.validate_contract(contract)
-    Pacto::MetaSchema.new.validate contract
-    puts "Validating #{contract}"
-    true
-  rescue InvalidContract => exception
-    puts 'Validation errors detected'
-    exception.errors.each do |error|
-      puts "  Error: #{error}"
+    def validate_contract(contract)
+      Pacto::MetaSchema.new.validate contract
+      puts "Validating #{contract}"
+      true
+    rescue InvalidContract => exception
+      puts 'Validation errors detected'
+      exception.errors.each do |error|
+        puts "  Error: #{error}"
+      end
+      false
     end
-    false
-  end
 
-  def self.build_from_file(contract_path, host, file_pre_processor = Pacto.configuration.preprocessor)
-    ContractFactory.build_from_file(contract_path, host, file_pre_processor)
+    def build_from_file(contract_path, host, file_pre_processor = Pacto.configuration.preprocessor)
+      ContractFactory.build_from_file(contract_path, host, file_pre_processor)
+    end
   end
 end
