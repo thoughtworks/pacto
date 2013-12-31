@@ -26,10 +26,6 @@ module Pacto
       @registered ||= Hash.new { |hash, key| hash[key] = Set.new }
     end
 
-    def unregister_all!
-      registered.clear
-    end
-
     def contracts_for(request_signature)
       matches = Set.new
       registered.values.each do |contract_set|

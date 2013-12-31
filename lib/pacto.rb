@@ -49,14 +49,14 @@ module Pacto
     end
 
     def contract_registry
-      @list ||= ContractRegistry.new
+      @registry ||= ContractRegistry.new
     end
 
     def clear!
       Pacto.configuration.provider.reset!
       @modes = nil
       @configuration = nil
-      contract_registry.unregister_all!
+      @registry = nil
       Pacto::ValidationRegistry.instance.reset!
     end
 

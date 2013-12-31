@@ -82,17 +82,9 @@ module Pacto
 
       context 'when contract has not been registered' do
         it 'raises an argument error' do
-          contract_list.unregister_all!
+          contract_list = ContractRegistry.new
           expect { contract_list.use('unregistered') }.to raise_error ArgumentError
         end
-      end
-    end
-
-    describe '.unregister_all!' do
-      it 'unregisters all previously registered contracts' do
-        contract_list.register_contract(contract, tag)
-        contract_list.unregister_all!
-        expect(contract_list.registered).to be_empty
       end
     end
 
