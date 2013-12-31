@@ -20,31 +20,31 @@ module Pacto
       context 'no tag' do
         it 'registers the contract with the default tag' do
           contract_list.register contract
-          expect(contract_list.registry[:default]).to include(contract)
+          expect(contract_list[:default]).to include(contract)
         end
       end
 
       context 'one tag' do
         it 'registers a contract under a given tag' do
           contract_list.register(contract, tag)
-          expect(contract_list.registry[tag]).to include(contract)
+          expect(contract_list[tag]).to include(contract)
         end
 
-        it 'does not duplicate a contract when it has already been registry with the same tag' do
+        it 'does not duplicate a contract when it has already been registered with the same tag' do
           contract_list
             .register(contract, tag)
             .register(contract, tag)
 
-          expect(contract_list.registry[tag]).to include(contract)
-          expect(contract_list.registry[tag]).to have(1).items
+          expect(contract_list[tag]).to include(contract)
+          expect(contract_list[tag]).to have(1).items
         end
       end
 
       context 'multiple tags' do
         it 'registers a contract using different tags' do
           contract_list.register(contract, tag, another_tag)
-          expect(contract_list.registry[tag]).to include(contract)
-          expect(contract_list.registry[another_tag]).to include(contract)
+          expect(contract_list[tag]).to include(contract)
+          expect(contract_list[another_tag]).to include(contract)
         end
 
         it 'registers a tag with different contracts ' do
@@ -52,7 +52,7 @@ module Pacto
             .register(contract, tag)
             .register(another_contract, tag)
 
-          expect(contract_list.registry[tag]).to include(contract, another_contract)
+          expect(contract_list[tag]).to include(contract, another_contract)
         end
 
       end
