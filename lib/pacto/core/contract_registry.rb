@@ -27,13 +27,13 @@ module Pacto
     end
 
     def contracts_for(request_signature)
-      registered.values.inject(Set.new, :+).select do |contract|
-        contract.matches? request_signature
-      end
+      all_contracts.select { |c| c.matches? request_signature }
     end
 
-    def contract_for(request_signature)
-      contracts_for(request_signature).first
+    private
+
+    def all_contracts
+      registered.values.inject(Set.new, :+)
     end
   end
 end

@@ -103,20 +103,6 @@ module Pacto
       end
     end
 
-    describe '.contract_for' do
-      it 'returns nil if no contracts match' do
-        contract_list.should_receive(:contracts_for).with(request_signature).and_return Set.new
-        expect(contract_list.contract_for request_signature).to be_nil
-      end
-
-      it 'returns the first match if one exists' do
-        first = contracts_that_match.first
-        matches = Set.new(contracts_that_match)
-        contract_list.should_receive(:contracts_for).with(request_signature).and_return matches
-        expect(contract_list.contract_for request_signature).to eq(first)
-      end
-    end
-
     def create_contracts(total, matches)
       total.times.map do
         double('contract',

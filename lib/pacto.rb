@@ -72,10 +72,6 @@ module Pacto
       contract_registry.contracts_for(request_signature)
     end
 
-    def contract_for(request_signature)
-      contract_registry.contract_for(request_signature)
-    end
-
     def load_all(contracts_directory, host, *tags)
       Pacto::Utils.all_contract_files_on(contracts_directory).each { |file| load file, host, *tags }
     end
