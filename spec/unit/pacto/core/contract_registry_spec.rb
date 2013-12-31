@@ -122,7 +122,7 @@ module Pacto
         double('contract',
                :stub_contract! => double('request matcher'),
                :matches? => matches)
-      end.to_set
+      end
     end
 
     def register_and_use(contracts)
