@@ -1,17 +1,23 @@
 module Pacto
   class ContractRegistry
+    attr_reader :registry
+
+    def initialize
+      @registry = Hash.new { |hash, key| hash[key] = Set.new }
+    end
+
     def register(contract, *tags)
       tags << :default if tags.empty?
 
       tags.each do |tag|
-        registered[tag] << contract
+        registry[tag] << contract
       end
 
       self
     end
 
     def use(tag, values = {})
-      merged_contracts = registered[:default] + registered[tag]
+      merged_contracts = registry[:default] + registry[tag]
 
       fail ArgumentError, "contract \"#{tag}\" not found" if merged_contracts.empty?
 
@@ -22,10 +28,6 @@ module Pacto
       self
     end
 
-    def registered
-      @registered ||= Hash.new { |hash, key| hash[key] = Set.new }
-    end
-
     def contracts_for(request_signature)
       all_contracts.select { |c| c.matches? request_signature }
     end
@@ -33,7 +35,7 @@ module Pacto
     private
 
     def all_contracts
-      registered.values.inject(Set.new, :+)
+      registry.values.inject(Set.new, :+)
     end
   end
 end
