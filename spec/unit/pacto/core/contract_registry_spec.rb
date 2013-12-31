@@ -13,7 +13,7 @@ module Pacto
     let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
 
     subject(:contract_list) do
-      ContractRegistry.new(contract_factory)
+      ContractRegistry.new
     end
 
     describe '.register' do
@@ -85,45 +85,6 @@ module Pacto
           contract_list.unregister_all!
           expect { contract_list.use('unregistered') }.to raise_error ArgumentError
         end
-      end
-    end
-
-    describe '.load_all' do
-      let(:host) { 'http://www.example.com' }
-      let(:files) { %w(file1 file2) }
-      let(:tags) { %w(tag1 tag2) }
-
-      before do
-        Pacto::Utils.stub(all_contract_files_on: files)
-        contract_list.stub(:load)
-      end
-
-      it 'loads each contract file in the contract directory' do
-        files.each { |file| contract_list.should_receive(:load).with(file, host, *tags) }
-        contract_list.load_all 'my_contracts', host, *tags
-      end
-
-      it 'searches all the contract files in the contract directory' do
-        Pacto::Utils.should_receive(:all_contract_files_on).with('my_contracts').and_return files
-        contract_list.load_all 'my_contracts', host, *tags
-      end
-    end
-
-    describe '.load' do
-      let(:host) { 'http://www.example.com' }
-      let(:tags) { %w(tag1 tag2) }
-      let(:contract_file) { double :contract_file }
-      let(:contract) { double :contract }
-
-      it 'builds a contract' do
-        contract_factory.should_receive(:build_from_file).with(contract_file, host, nil).and_return(contract)
-        contract_list.load contract_file, host, *tags
-      end
-
-      it 'registers the contract' do
-        contract_factory.stub(build_from_file: contract)
-        contract_list.should_receive(:register_contract).with(contract, *tags)
-        contract_list.load contract_file, host, *tags
       end
     end
 

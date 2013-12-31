@@ -1,11 +1,5 @@
 module Pacto
   class ContractRegistry
-    attr_reader :contract_factory
-
-    def initialize(contract_factory = ContractFactory)
-      @contract_factory = contract_factory
-    end
-
     def register_contract(contract = nil, *tags)
       tags << :default if tags.empty?
 
@@ -26,16 +20,6 @@ module Pacto
       end
 
       self
-    end
-
-    def load_all(contracts_directory, host, *tags)
-      Pacto::Utils.all_contract_files_on(contracts_directory).each { |file| load file, host, *tags }
-    end
-
-    def load(contract_file, host, *tags)
-      Logger.instance.debug "Registering #{contract_file} with #{tags}"
-      contract = contract_factory.build_from_file contract_file, host, nil
-      register_contract contract, *tags
     end
 
     def registered
