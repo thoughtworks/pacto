@@ -64,14 +64,6 @@ module Pacto
       yield(configuration)
     end
 
-    def register_contract(contract, tags)
-      contract_registry.register_contract(contract, tags)
-    end
-
-    def contracts_for(request_signature)
-      contract_registry.contracts_for(request_signature)
-    end
-
     def load_all(contracts_directory, host, *tags)
       Pacto::Utils.all_contract_files_on(contracts_directory).each { |file| load file, host, *tags }
     end
@@ -79,7 +71,15 @@ module Pacto
     def load(contract_file, host, *tags)
       Logger.instance.debug "Registering #{contract_file} with #{tags}"
       contract = ContractFactory.build_from_file contract_file, host, nil
-      contract_registry.register_contract contract, *tags
+      contract_registry.register contract, *tags
+    end
+
+    def register_contract(contract, tags)
+      contract_registry.register(contract, tags)
+    end
+
+    def contracts_for(request_signature)
+      contract_registry.contracts_for(request_signature)
     end
 
     def use(tag, values = {})

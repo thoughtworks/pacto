@@ -19,21 +19,21 @@ module Pacto
     describe '.register' do
       context 'no tag' do
         it 'registers the contract with the default tag' do
-          contract_list.register_contract contract
+          contract_list.register contract
           expect(contract_list.registered[:default]).to include(contract)
         end
       end
 
       context 'one tag' do
         it 'registers a contract under a given tag' do
-          contract_list.register_contract(contract, tag)
+          contract_list.register(contract, tag)
           expect(contract_list.registered[tag]).to include(contract)
         end
 
         it 'does not duplicate a contract when it has already been registered with the same tag' do
           contract_list
-            .register_contract(contract, tag)
-            .register_contract(contract, tag)
+            .register(contract, tag)
+            .register(contract, tag)
 
           expect(contract_list.registered[tag]).to include(contract)
           expect(contract_list.registered[tag]).to have(1).items
@@ -42,15 +42,15 @@ module Pacto
 
       context 'multiple tags' do
         it 'registers a contract using different tags' do
-          contract_list.register_contract(contract, tag, another_tag)
+          contract_list.register(contract, tag, another_tag)
           expect(contract_list.registered[tag]).to include(contract)
           expect(contract_list.registered[another_tag]).to include(contract)
         end
 
         it 'registers a tag with different contracts ' do
           contract_list
-            .register_contract(contract, tag)
-            .register_contract(another_contract, tag)
+            .register(contract, tag)
+            .register(another_contract, tag)
 
           expect(contract_list.registered[tag]).to include(contract, another_contract)
         end
@@ -61,8 +61,8 @@ module Pacto
     describe '.use' do
       before do
         contract_list
-          .register_contract(contract, tag)
-          .register_contract(another_contract, :default)
+          .register(contract, tag)
+          .register(another_contract, :default)
       end
 
       context 'when a contract has been registered' do
@@ -112,7 +112,7 @@ module Pacto
     end
 
     def register_and_use(contracts)
-      contracts.each { |contract| contract_list.register_contract contract }
+      contracts.each { |contract| contract_list.register contract }
       contract_list.use :default
     end
   end
