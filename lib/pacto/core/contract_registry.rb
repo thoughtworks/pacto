@@ -3,7 +3,7 @@ module Pacto
     def register_contract(contract, *tags)
       tags << :default if tags.empty?
 
-      tags.uniq.each do |tag|
+      tags.each do |tag|
         registered[tag] << contract
       end
 
