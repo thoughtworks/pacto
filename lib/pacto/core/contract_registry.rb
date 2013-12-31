@@ -1,6 +1,6 @@
 module Pacto
   class ContractRegistry
-    def register_contract(contract = nil, *tags)
+    def register_contract(contract, *tags)
       tags << :default if tags.empty?
 
       tags.uniq.each do |tag|
