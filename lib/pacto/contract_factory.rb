@@ -1,6 +1,12 @@
 module Pacto
   class ContractFactory
-    def build_from_file(contract_path, host, preprocessor=NoOpProcessor.new)
+    attr_reader :preprocessor
+
+    def initialize(options = {})
+      @preprocessor = options[:preprocessor] || NoOpProcessor.new
+    end
+
+    def build_from_file(contract_path, host)
       contract_definition = preprocessor.process(File.read(contract_path))
       definition = JSON.parse(contract_definition)
       schema.validate definition
@@ -14,7 +20,7 @@ module Pacto
     end
 
     def load(contract_name, host = nil)
-      build_from_file(path_for(contract_name), host, nil)
+      build_from_file(path_for(contract_name), host)
     end
 
     private
