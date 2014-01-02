@@ -6,6 +6,10 @@ module Pacto
       @schema = options[:schema] || MetaSchema.new
     end
 
+    def build(contract_files, host)
+      contract_files.map { |file| build_from_file(file, host) }
+    end
+
     def build_from_file(contract_path, host)
       contract_definition = File.read(contract_path)
       definition = JSON.parse(contract_definition)
