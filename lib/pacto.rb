@@ -44,6 +44,10 @@ require 'pacto/validators/response_body_validator'
 
 module Pacto
   class << self
+    def contract_factory
+      @factory = ContractFactory.new
+    end
+
     def configuration
       @configuration ||= Configuration.new
     end
@@ -70,7 +74,7 @@ module Pacto
 
     def load(contract_file, host, *tags)
       Logger.instance.debug "Registering #{contract_file} with #{tags}"
-      contract = ContractFactory.build_from_file contract_file, host, nil
+      contract = contract_factory.build_from_file contract_file, host, nil
       contract_registry.register contract, *tags
     end
 
@@ -99,7 +103,7 @@ module Pacto
     end
 
     def build_from_file(contract_path, host, file_pre_processor = Pacto.configuration.preprocessor)
-      ContractFactory.build_from_file(contract_path, host, file_pre_processor)
+      contract_factory.build_from_file(contract_path, host, file_pre_processor)
     end
   end
 end

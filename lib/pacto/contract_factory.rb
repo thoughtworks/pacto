@@ -1,6 +1,6 @@
 module Pacto
   class ContractFactory
-    def self.build_from_file(contract_path, host, preprocessor)
+    def build_from_file(contract_path, host, preprocessor)
       contract_definition = File.read(contract_path)
       if preprocessor
         contract_definition = preprocessor.process(contract_definition)
@@ -12,17 +12,17 @@ module Pacto
       Contract.new(request, response, contract_path)
     end
 
-    def self.schema
+    def schema
       @schema ||= MetaSchema.new
     end
 
-    def self.load(contract_name, host = nil)
+    def load(contract_name, host = nil)
       build_from_file(path_for(contract_name), host, nil)
     end
 
     private
 
-    def self.path_for(contract)
+    def path_for(contract)
       File.join(Pacto.configuration.contracts_path, "#{contract}.json")
     end
   end

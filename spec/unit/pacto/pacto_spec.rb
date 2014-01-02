@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Pacto do
 
   around(:each) do |example|
@@ -43,18 +45,21 @@ describe Pacto do
   describe '.build_from_file' do
     let(:path)                  { 'contract/path' }
     let(:host)                  { 'http://localhost' }
-    let(:file_pre_processor)    { double('file_pre_processor') }
+    let(:file_pre_processor)    { double(:file_pre_processor) }
     let(:instantiated_contract) { double(:instantiated_contract) }
+    let(:factory)               { double(:factory) }
+
+    before do
+      allow(Pacto::ContractFactory).to receive(:new).and_return(factory)
+    end
 
     it 'delegates to ContractFactory' do
-      Pacto::ContractFactory.should_receive(:build_from_file).with(path, host, file_pre_processor)
-      described_class.build_from_file(path, host, file_pre_processor)
-    end
+      expect(factory).to receive(:build_from_file).
+        with(path, host, file_pre_processor).
+        and_return(instantiated_contract)
 
-    it 'returns whatever the factory returns' do
-      Pacto::ContractFactory.stub(:build_from_file => instantiated_contract)
-      expect(described_class.build_from_file(path, host, file_pre_processor)).to eq instantiated_contract
+      contract = Pacto.build_from_file(path, host, file_pre_processor)
+      expect(contract).to eq instantiated_contract
     end
   end
-
 end
