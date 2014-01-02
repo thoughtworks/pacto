@@ -1,9 +1,10 @@
 module Pacto
   class ContractFactory
-    attr_reader :preprocessor
+    attr_reader :preprocessor, :schema
 
     def initialize(options = {})
       @preprocessor = options[:preprocessor] || NoOpProcessor.new
+      @schema = options[:schema] || MetaSchema.new
     end
 
     def build_from_file(contract_path, host)
@@ -13,10 +14,6 @@ module Pacto
       request = Request.new(host, definition['request'])
       response = Response.new(definition['response'])
       Contract.new(request, response, contract_path)
-    end
-
-    def schema
-      @schema ||= MetaSchema.new
     end
 
     def load(contract_name, host = nil)
