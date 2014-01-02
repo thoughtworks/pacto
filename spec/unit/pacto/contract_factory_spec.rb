@@ -20,10 +20,6 @@ module Pacto
         contract = contract_factory.build_from_file(contract_path, host)
         expect(contract).to be_a(Contract)
       end
-
-      pending 'parses the contract definition'
-      pending 'validates the definition against an schema'
-      pending 'build a contract based on the request, respons and path'
     end
   end
 end
