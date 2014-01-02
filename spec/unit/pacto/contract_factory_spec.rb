@@ -11,13 +11,14 @@ module Pacto
 
     describe '.build_from_file' do
       it 'builds a contract given a JSON file path and a host' do
-        file_pre_processor.stub(:process).and_return(file_content)
-        expect(contract_factory.build_from_file(contract_path, host, file_pre_processor)).to be_a_kind_of(Pacto::Contract)
+        file_pre_processor.stub(:process).with(file_content).and_return(file_content)
+        contract = contract_factory.build_from_file(contract_path, host, file_pre_processor)
+        expect(contract).to be_a(Contract)
       end
 
-      it 'processes files using File Pre Processor module' do
-        file_pre_processor.should_receive(:process).with(file_content).and_return(file_content)
-        contract_factory.build_from_file(contract_path, host, file_pre_processor)
+      it 'utilizes a noop preprocessor in case none is given' do
+        contract = contract_factory.build_from_file(contract_path, host)
+        expect(contract).to be_a(Contract)
       end
 
       pending 'parses the contract definition'
