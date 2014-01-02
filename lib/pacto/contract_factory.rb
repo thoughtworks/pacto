@@ -15,16 +15,6 @@ module Pacto
       response = Response.new(definition['response'])
       Contract.new(request, response, contract_path)
     end
-
-    def load(contract_name, host = nil)
-      build_from_file(path_for(contract_name), host)
-    end
-
-    private
-
-    def path_for(contract)
-      File.join(Pacto.configuration.contracts_path, "#{contract}.json")
-    end
   end
 
   class NoOpProcessor
