@@ -42,6 +42,8 @@ module Pacto
 
       let(:request_pattern) { double('request_pattern') }
 
+      subject(:built_in) { BuiltIn.new }
+
       before(:each) do
         stubbed_request.stub(:to_return).with(
           :status => response.status,
@@ -57,32 +59,33 @@ module Pacto
             expect(block.parameters).to have(2).items
           end
 
-          described_class.new
+          BuiltIn.new
         end
       end
 
       describe '#process_hooks' do
-        subject(:built_in) { described_class.new }
         let(:request_signature) { double('request_signature') }
-        # let(:response) { double('response') }
 
-        before(:each) do
-          Pacto.configuration.hook.should_receive(:process)
-          .with(anything, request_signature, response)
+        before do
+          Pacto.configuration.hook.stub(:process)
         end
 
-        pending 'calls the registered hook'
+        it 'calls the registered hook' do
+          Pacto.configuration.hook.should_receive(:process)
+            .with(anything, request_signature, response)
+          built_in.process_hooks request_signature, response
+        end
 
         it 'calls generate when generate is enabled' do
           Pacto.generate!
           WebMockHelper.should_receive(:generate).with(request_signature, response)
-          subject.process_hooks request_signature, response
+          built_in.process_hooks request_signature, response
         end
 
         it 'calls validate when validate mode is enabled' do
           Pacto.validate!
           WebMockHelper.should_receive(:validate).with(request_signature, response)
-          subject.process_hooks request_signature, response
+          built_in.process_hooks request_signature, response
         end
       end
 
@@ -101,7 +104,7 @@ module Pacto
             end
 
             it 'stubs with a regex path_pattern' do
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
               expect(stubbed_request[:path]).to eq(/#{request.host}#{request.path}/)
             end
           end
@@ -112,7 +115,7 @@ module Pacto
             end
 
             it 'stubs with a regex path_pattern including the placeholder' do
-              described_class.new.stub_request! request_with_placeholder, response
+              built_in.stub_request! request_with_placeholder, response
               expected_regex = %r{#{request_with_placeholder.host}\/a\/[^\/\?#]+\/c}
               # No luck comparing regexes for equality, but the string representation matches...
               expect(stubbed_request[:path].inspect).to eq(expected_regex.inspect)
@@ -130,7 +133,7 @@ module Pacto
               :query => { 'foo' => 'bar' },
               :headers => { 'Accept' => 'application/json' }
             ).and_return(stubbed_request)
-            described_class.new.stub_request! request, response
+            built_in.stub_request! request, response
             expect(stubbed_request[:path]).to eq("#{request.host}#{request.path}")
           end
 
@@ -148,7 +151,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
 
@@ -166,7 +169,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
 
@@ -182,7 +185,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
 
@@ -193,7 +196,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :query => request.params).
                 and_return(stubbed_request)
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
 
@@ -204,7 +207,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :body => request.params).
                 and_return(stubbed_request)
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
 
@@ -223,7 +226,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:query => request.params).
                 and_return(stubbed_request)
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
 
@@ -242,7 +245,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with({}).
                 and_return(stubbed_request)
-              described_class.new.stub_request! request, response
+              built_in.stub_request! request, response
             end
           end
         end
@@ -250,12 +253,12 @@ module Pacto
       context 'when not stubbing' do
         describe '#stub_request!' do
           it 'returns a RequestPattern' do
-            expect(described_class.new.stub_request! request, response).to be_a(WebMock::RequestPattern)
+            expect(built_in.stub_request! request, response).to be_a(WebMock::RequestPattern)
           end
 
           it 'does not register a stub' do
             WebMock.should_not_receive(:stub_request)
-            described_class.new.stub_request! request, response, false
+            built_in.stub_request! request, response, false
           end
         end
       end
