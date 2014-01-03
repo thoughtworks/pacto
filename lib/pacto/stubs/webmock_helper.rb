@@ -34,7 +34,7 @@ module Pacto
           File.write(contract_file, generator.save('vcr', pacto_request, pacto_response))
           logger.debug("Generating #{contract_file}")
 
-          Pacto.load contract_file, uri.host, :generated
+          Pacto.build_contract contract_file, uri.host
         end
 
         def build_contract_file(request_signature)

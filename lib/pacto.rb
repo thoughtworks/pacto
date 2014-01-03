@@ -67,12 +67,6 @@ module Pacto
       yield(configuration)
     end
 
-    def load(contract_file, host, *tags)
-      Logger.instance.debug "Registering #{contract_file} with #{tags}"
-      contract = contract_factory.build_from_file contract_file, host
-      contract_registry.register contract, *tags
-    end
-
     def contracts_for(request_signature)
       contract_registry.contracts_for(request_signature)
     end
