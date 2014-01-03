@@ -41,26 +41,6 @@ describe Pacto do
     end
   end
 
-  describe '.build_from_file' do
-    let(:path)                  { 'contract/path' }
-    let(:host)                  { 'http://localhost' }
-    let(:instantiated_contract) { double(:instantiated_contract) }
-    let(:factory)               { double(:factory) }
-
-    before do
-      allow(Pacto::ContractFactory).to receive(:new).and_return(factory)
-    end
-
-    it 'delegates to ContractFactory' do
-      expect(factory).to receive(:build_from_file).
-        with(path, host).
-        and_return(instantiated_contract)
-
-      contract = Pacto.build_from_file(path, host)
-      expect(contract).to eq instantiated_contract
-    end
-  end
-
   describe 'building contracts' do
     let(:contracts_path) { 'path/to/dir' }
     let(:host) { 'localhost' }

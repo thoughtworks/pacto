@@ -17,8 +17,8 @@ describe 'Pacto' do
     end
 
     it 'verifies the contract against a producer' do
-      contract = Pacto.build_from_file(contract_path, 'http://localhost:8000')
-      expect(contract.validate).to be_empty
+      contract = Pacto.build_contracts(contract_path, 'http://localhost:8000')
+      expect(contract.validate_all.flatten).to be_empty
     end
   end
 

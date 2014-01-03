@@ -89,8 +89,8 @@ module Pacto
       false
     end
 
-    def build_from_file(contract_path, host)
-      contract_factory.build_from_file(contract_path, host)
+    def build_contract(contract_path, host)
+      build_contracts(contract_path, host).contracts.first
     end
 
     def build_contracts(contracts_path, host)
