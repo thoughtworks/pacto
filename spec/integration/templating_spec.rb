@@ -1,5 +1,4 @@
 require 'securerandom'
-require 'pacto/erb_processor'
 
 describe 'Templating' do
   let(:contract_path) { 'spec/integration/data/templating_contract.json' }
@@ -28,8 +27,6 @@ describe 'Templating' do
   context 'No processing' do
     it 'does not proccess erb tag' do
       Pacto.configure do |c|
-        c.preprocessor = nil
-        c.postprocessor = nil
         c.strict_matchers = false
         c.register_callback do |contracts, req, res|
           res
@@ -44,9 +41,7 @@ describe 'Templating' do
   context 'Post processing' do
     it 'processes erb on each request' do
       Pacto.configure do |c|
-        c.preprocessor = nil
         c.strict_matchers = false
-        c.postprocessor = Pacto::ERBProcessor.new
       end
 
       expect(response.keys).to eq ['message']

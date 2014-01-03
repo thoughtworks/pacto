@@ -1,3 +1,5 @@
+require_relative '../erb_processor'
+
 module Pacto
   module Hooks
     class ERBHook < Pacto::Callback

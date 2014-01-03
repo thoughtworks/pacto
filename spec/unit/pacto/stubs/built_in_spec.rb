@@ -39,7 +39,7 @@ module Pacto
           :path => nil
         }
       end
-      let(:processor) { double('processor') }
+
       let(:request_pattern) { double('request_pattern') }
 
       before(:each) do

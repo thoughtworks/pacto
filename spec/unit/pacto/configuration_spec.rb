@@ -3,14 +3,6 @@ module Pacto
     subject(:configuration) { Configuration.new }
     let(:contracts_path) { 'path_to_contracts' }
 
-    it 'sets the preprocessor by default to ERBProcessor' do
-      expect(configuration.preprocessor).to be_kind_of ERBProcessor
-    end
-
-    it 'sets the postprocessor by default to HashMergeProcessor' do
-      expect(configuration.postprocessor).to be_kind_of HashMergeProcessor
-    end
-
     it 'sets the stub provider by default to BuiltIn' do
       expect(configuration.provider).to be_kind_of Stubs::BuiltIn
     end
