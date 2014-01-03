@@ -3,7 +3,7 @@ require 'fileutils'
 
 module Pacto
   describe ContractFiles do
-    let(:test_dir) { File.join(__dir__, 'temp') }
+    let(:test_dir) { File.join(File.dirname(__FILE__), 'temp') }
     let(:contract_1) { Pathname.new(File.join(test_dir, 'contract_1.json')) }
     let(:contract_2) { Pathname.new(File.join(test_dir, 'contract_2.json')) }
 
