@@ -78,15 +78,11 @@ module Pacto
       contract_registry.register contract, *tags
     end
 
-    def register_contract(contract, tags)
-      contract_registry.register(contract, tags)
-    end
-
     def contracts_for(request_signature)
       contract_registry.contracts_for(request_signature)
     end
 
-   def validate_contract(contract)
+    def validate_contract(contract)
       Pacto::MetaSchema.new.validate contract
       puts "Validating #{contract}"
       true
