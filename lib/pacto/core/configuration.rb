@@ -1,27 +1,25 @@
 module Pacto
   class Configuration
-    attr_accessor :preprocessor, :postprocessor, :provider, :strict_matchers,
+    attr_accessor :provider, :strict_matchers,
                   :contracts_path, :logger, :generator_options
-    attr_reader :callback
+    attr_reader :hook
 
     def initialize
-      @preprocessor = ERBProcessor.new
-      @postprocessor = HashMergeProcessor.new
       @provider = Pacto::Stubs::BuiltIn.new
       @strict_matchers = true
       @contracts_path = nil
       @logger = Logger.instance
       define_logger_level
-      @callback = Pacto::Hooks::ERBHook.new
+      @hook = Pacto::Hooks::ERBHook.new
       @generator_options = { :schema_version => 'draft3' }
     end
 
-    def register_callback(callback = nil, &block)
+    def register_hook(hook = nil, &block)
       if block_given?
-        @callback = Pacto::Callback.new(&block)
+        @hook = Pacto::Hook.new(&block)
       else
-        fail 'Expected a Pacto::Callback' unless callback.is_a? Pacto::Callback
-        @callback = callback
+        fail 'Expected a Pacto::Hook' unless hook.is_a? Pacto::Hook
+        @hook = hook
       end
     end
 

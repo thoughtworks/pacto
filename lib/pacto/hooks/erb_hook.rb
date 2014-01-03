@@ -1,6 +1,8 @@
+require_relative '../erb_processor'
+
 module Pacto
   module Hooks
-    class ERBHook < Pacto::Callback
+    class ERBHook < Pacto::Hook
       def initialize
         @processor = ERBProcessor.new
       end

@@ -43,12 +43,9 @@ describe 'Pacto' do
     it 'stubs multiple services with a single use' do
       Pacto.configure do |c|
         c.strict_matchers = false
-        c.postprocessor = Pacto::ERBProcessor.new
-        c.preprocessor = nil
-        c.register_callback Pacto::Hooks::ERBHook.new
+        c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      # Preprocessor must be off before building!
       Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
       Pacto.use(:devices, :device_id => 42)
 
