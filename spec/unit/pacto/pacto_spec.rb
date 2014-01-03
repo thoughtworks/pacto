@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Pacto do
-
   around(:each) do |example|
     $stdout = StringIO.new
     example.run
@@ -59,6 +58,25 @@ describe Pacto do
 
       contract = Pacto.build_from_file(path, host)
       expect(contract).to eq instantiated_contract
+    end
+  end
+
+  describe 'building contracts' do
+    let(:contracts_path) { 'path/to/dir' }
+    let(:host) { 'localhost' }
+    let(:contract1)  { double }
+    let(:contract2)  { double }
+    let(:factory)  { double(:factory) }
+
+    before do
+      allow(Pacto::ContractFactory).to receive(:new).and_return(factory)
+    end
+
+    it 'instantiates a contract list' do
+      allow(Pacto::ContractFiles).to receive(:for).with(contracts_path).and_return { %w{file1 file2} }
+      allow(factory).to receive(:build).with(%w{file1 file2}, host).and_return { [contract1, contract2] }
+      expect(Pacto::ContractList).to receive(:new).with([contract1, contract2])
+      Pacto.build_contracts(contracts_path, host)
     end
   end
 end

@@ -35,6 +35,7 @@ require 'pacto/hooks/erb_hook'
 require 'pacto/generator'
 require 'pacto/generator/filters'
 require 'pacto/contract_files'
+require 'pacto/contract_list'
 
 # Validators
 require 'pacto/validators/response_status_validator'
@@ -103,6 +104,12 @@ module Pacto
 
     def build_from_file(contract_path, host)
       contract_factory.build_from_file(contract_path, host)
+    end
+
+    def build_contracts(contracts_path, host)
+      files = ContractFiles.for(contracts_path)
+      contracts = contract_factory.build(files, host)
+      ContractList.new(contracts)
     end
   end
 end

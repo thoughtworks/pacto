@@ -22,20 +22,15 @@ describe 'Pacto' do
     end
   end
 
-  context 'Stub generation' do
-    it 'generates a stub to be used by a consumer' do
-      contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-      Pacto.register_contract(contract, 'my_tag')
-      Pacto.use('my_tag')
-      expect(response.keys).to eq ['message']
-      expect(response['message']).to be_kind_of(String)
-    end
-
-    let :response do
+  context 'Stubbing a collection of contracts' do
+    it 'generates a server that stubs the contract for consumers' do
+      contracts = Pacto.build_contracts(contract_path, 'http://dummyprovider.com')
+      contracts.stub_all
       raw_response = Faraday.get('http://dummyprovider.com/hello') do |req|
         req.headers = {'Accept' => 'application/json' }
       end
-      MultiJson.load(raw_response.body)
+      response = MultiJson.load(raw_response.body)
+      expect(response['message']).to eq 'bar'
     end
   end
 
