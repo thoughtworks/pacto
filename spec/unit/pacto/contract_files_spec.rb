@@ -23,7 +23,9 @@ module Pacto
     describe 'for a dir' do
       it 'returns a list with the full path of all json files in that dir' do
         files = ContractFiles.for(test_dir)
-        expect(files).to eq [contract_1, contract_2]
+        expect(files.size).to eq(2)
+        expect(files).to include(contract_1)
+        expect(files).to include(contract_2)
       end
     end
 
