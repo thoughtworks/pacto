@@ -6,7 +6,7 @@ module Pacto
     def initialize(request, response, file = nil)
       @request = request
       @response = response
-      @file = file
+      @file = file.to_s
     end
 
     def stub_contract!(values = {})

@@ -26,14 +26,17 @@ describe 'pacto/rspec' do
   end
 
   context 'successful validations' do
+    let(:contracts) do
+      Pacto.build_contracts 'spec/integration/data/', 'http://dummyprovider.com'
+    end
+
     before(:each) do
       Pacto.configure do |c|
         c.strict_matchers = false
         c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      Pacto.load_all 'spec/integration/data/', 'http://dummyprovider.com', :devices
-      Pacto.use(:devices, :device_id => 42)
+      contracts.stub_all(:device_id => 42)
       Pacto.validate!
 
       Faraday.get('http://dummyprovider.com/hello') do |req|
@@ -79,7 +82,7 @@ describe 'pacto/rspec' do
     end
 
     it 'displays Contract validation problems' do
-      Pacto.use(:devices, :device_id => 1.5)
+      contracts.stub_all(:device_id => 1.5)
       Faraday.get('http://dummyprovider.com/strict') do |req|
         req.headers = {'Accept' => 'application/json' }
       end

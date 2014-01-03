@@ -15,8 +15,7 @@ Feature: Validation
       require 'pacto'
       require_relative 'my_service'
 
-      Pacto.load_all 'contracts', 'http://example.com', :default
-      Pacto.use :default
+      Pacto.build_contracts('contracts', 'http://example.com').stub_all
 
       contract = Pacto.build_from_file 'contracts/template.json', nil
       service = MyService.new
