@@ -10,10 +10,20 @@ module Pacto
       expect(list.contracts).to eq([contract1, contract2])
     end
 
+    context 'when validating' do
+      it 'validates every contract on the list' do
+        expect(contract1).to receive(:validate)
+        expect(contract2).to receive(:validate)
+
+        list = ContractList.new([contract1, contract2])
+        list.validate_all
+      end
+    end
+
     context 'when stubbing' do
       let(:values) { Hash.new }
 
-      it 'calls stub for every registered contract' do
+      it 'stubs every contract on the list' do
         expect(contract1).to receive(:stub_contract!).with(values)
         expect(contract2).to receive(:stub_contract!).with(values)
 
