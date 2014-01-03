@@ -109,6 +109,9 @@ module Pacto
     def build_contracts(contracts_path, host)
       files = ContractFiles.for(contracts_path)
       contracts = contract_factory.build(files, host)
+      contracts.each do |contract|
+        contract_registry.register(contract)
+      end
       ContractList.new(contracts)
     end
   end
