@@ -1,11 +1,11 @@
 module Pacto
-  class Callback
+  class Hook
     def initialize(&block)
-      @callback = block
+      @hook = block
     end
 
     def process(contracts, request_signature, response)
-      @callback.call contracts, request_signature, response
+      @hook.call contracts, request_signature, response
     end
   end
 end

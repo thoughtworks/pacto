@@ -28,7 +28,7 @@ describe 'Templating' do
     it 'does not proccess erb tag' do
       Pacto.configure do |c|
         c.strict_matchers = false
-        c.register_callback do |contracts, req, res|
+        c.register_hook do |contracts, req, res|
           res
         end
       end
