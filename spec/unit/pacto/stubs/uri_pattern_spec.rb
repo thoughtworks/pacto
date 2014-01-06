@@ -8,6 +8,13 @@ module Pacto
         request = double(host: 'myhost.com', path: '/stuff')
         expect(UriPattern.for(request)).to eq(/myhost\.com\/stuff/)
       end
+
+      it 'turns segments preceded by : into wildcards' do
+        Pacto.configuration.strict_matchers = false
+        request = double(host: 'myhost.com', path: '/:id')
+        wildcard = '[^\/\?#]+'
+        expect(UriPattern.for(request)).to eq(/myhost\.com\/#{wildcard}/)
+      end
     end
 
     context 'with strict matchers' do
