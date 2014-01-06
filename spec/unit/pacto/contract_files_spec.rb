@@ -12,7 +12,7 @@ module Pacto
       Dir.mkdir(test_dir)
       Dir.chdir(test_dir) do
         Dir.mkdir('nested')
-        ['contract_1.json', 'contract_2.json', 'not_a_contract','nested/contract_3.json'].each do |file|
+        ['contract_1.json', 'contract_2.json', 'not_a_contract', 'nested/contract_3.json'].each do |file|
           FileUtils.touch file
         end
       end
