@@ -2,13 +2,13 @@ require 'securerandom'
 
 describe 'Templating' do
   let(:contract_path) { 'spec/integration/data/templating_contract.json' }
+  let(:contracts) {  Pacto.build_contracts(contract_path, 'http://dummyprovider.com') }
 
   let(:key) { SecureRandom.hex }
   let(:auth_token) { SecureRandom.hex }
+
   let :response do
-    contract = Pacto.build_from_file(contract_path, 'http://dummyprovider.com')
-    Pacto.register_contract(contract, 'my_contract')
-    Pacto.use('my_contract', :key => key, :auth_token => auth_token)
+    contracts.stub_all(:key => key, :auth_token => auth_token)
 
     raw_response = Faraday.get('http://dummyprovider.com/echo') do |req|
       req.headers = {

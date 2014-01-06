@@ -12,7 +12,6 @@ require 'ostruct'
 require 'erb'
 require 'logger'
 
-require 'pacto/utils'
 require 'pacto/ui'
 require 'pacto/core/contract_registry'
 require 'pacto/core/validation_registry'
@@ -34,6 +33,8 @@ require 'pacto/meta_schema'
 require 'pacto/hooks/erb_hook'
 require 'pacto/generator'
 require 'pacto/generator/filters'
+require 'pacto/contract_files'
+require 'pacto/contract_list'
 
 # Validators
 require 'pacto/validators/response_status_validator'
@@ -66,26 +67,8 @@ module Pacto
       yield(configuration)
     end
 
-    def load_all(contracts_directory, host, *tags)
-      Pacto::Utils.all_contract_files_on(contracts_directory).each { |file| load file, host, *tags }
-    end
-
-    def load(contract_file, host, *tags)
-      Logger.instance.debug "Registering #{contract_file} with #{tags}"
-      contract = contract_factory.build_from_file contract_file, host
-      contract_registry.register contract, *tags
-    end
-
-    def register_contract(contract, tags)
-      contract_registry.register(contract, tags)
-    end
-
     def contracts_for(request_signature)
       contract_registry.contracts_for(request_signature)
-    end
-
-    def use(tag, values = {})
-      contract_registry.use(tag, values)
     end
 
     def validate_contract(contract)
@@ -100,8 +83,17 @@ module Pacto
       false
     end
 
-    def build_from_file(contract_path, host)
-      contract_factory.build_from_file(contract_path, host)
+    def build_contract(contract_path, host)
+      build_contracts(contract_path, host).contracts.first
+    end
+
+    def build_contracts(contracts_path, host)
+      files = ContractFiles.for(contracts_path)
+      contracts = contract_factory.build(files, host)
+      contracts.each do |contract|
+        contract_registry.register(contract)
+      end
+      ContractList.new(contracts)
     end
   end
 end

@@ -41,8 +41,8 @@ Feature: Existing services journey
       c.contracts_path = 'contracts'
     end
 
-    Pacto.load_all '.', 'http://www.example.com'
-    Pacto.use :default
+    contracts = Pacto.build_contracts('contracts/www.example.com/', 'http://www.example.com')
+    contracts.stub_all
 
     puts Faraday.get('http://www.example.com/service1').body
     puts Faraday.get('http://www.example.com/service2').body
@@ -70,8 +70,7 @@ Feature: Existing services journey
       c.contracts_path = 'contracts'
     end
 
-    Pacto.load_all '.', 'http://www.example.com'
-    Pacto.use :default
+    Pacto.build_contracts('contracts', 'http://www.example.com').stub_all
     Pacto.validate!
 
     Faraday.get 'http://www.example.com/service1'
