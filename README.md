@@ -62,55 +62,54 @@ If you're using the same configuration as above, this will produce Contracts in 
 
 We know we cannot generate perfect Contracts, especially if we only have one sample request.  So we do our best to give you a good starting point, but you will likely want to customize the contract so the validation is more strict in some places and less strict in others.
 
-### Registering Contracts
+### Contract Lists
 
-The remaining examples below require Pacto to know what Contracts exist.  You can also associate them with tags so it's easy to active specific groups later.
-
-The easiest way to load a group of contracts is with `Pacto.load_all`, which will load all the Contracts in a directory, bind them to a host, and associate them with a tag.
+In order to stub or validate or stub a group of contracts you need to create a ContractList.
+A ContractList represent a collection of endpoints attached to the same host.
 
 ```ruby
 require 'pacto'
 
-Pacto.load_all 'contracts/services', 'http://example.com', :default
-Pacto.load_all 'contracts/auth', 'http://example.com', :authentication
-Pacto.load_all 'contracts/legacy', 'http://example.com', :legacy
+default_contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+authentication_contracts = Pacto.build_contracts('contracts/auth', 'http://example.com')
+legacy_contracts = Pacto.build_contracts('contracts/legacy', 'http://example.com')
 ```
 
 ### Validating
 
-Once you are happy with your contracts, you can rerun the same tests and validate them against your Contact.  This is as simple as:
+Once you have a ContractList, you can validate all the contracts against the live host.
 
 ```ruby
-Pacto.load_all 'contracts', 'http://example.com'
-Pacto.validate!
-# run your tests again
+contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+contracts.validate_all
 ```
 
-This ensures your live services match the Contracts.
+This method will hit the real endpoint, with a request created based on the request part of the contract.  
+The response will be compared against the response part of the contract and any structural difference will
+generate a validation error.
 
-You can also validate your test doubles.  If your test doubles are integration with WebMock, then Pacto.validate! will automatically validate them for you.  This includes VCR while hooked into WebMock.
-
-If you are using a test library that isn't hooked into WebMock, you'll have to incept the HTTP transaction yourself and call Pacto for validation.  That code usually looks something like this:
-
-```ruby
-def validate_hook(request, response)
-  contract = Pacto.contract_for request
-  contract.validate! response
-end
-```
+Running this in your build pipeline will ensure that your contracts actually match the real world, and that 
+you can run your acceptance tests against the contract stubs without worries.
 
 ### Stubbing
 
-In order to use a the registered Contracts as stubs, you just need to call `Pacto.use` with the tag (or tags) you wish to use.
+To generate stubs based on a ContractList you can run:
 
 ```ruby
-Pacto.use :legacy
-Pacto.use :authentication, {:username => user, :auth_token => auth_token}
+contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+contracts.stub_all
 ```
 
-Note: the :default group is always included, so you can usually put most of your contracts in :default, and use other tags for Contracts you don't want loaded for most tests.
+This method uses webmock to ensure that whenever you make a request against one of contracts you actually get a stubbed response,
+based on the default values specified on the contract, instead of hitting the real provider. 
 
-The values passed in the optional second parameter are used by processors that create the response stubs.  See the documentation for [Configuration](https://www.relishapp.com/maxlinc/pacto/docs/configuration) for available processors.
+You can override any default value on the contracts by providing a hash of optional values to the stub_all method. This
+will override the keys for every contract in the list
+
+```ruby
+contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+contracts.stub_all(request_id: 14, name: "Marcos")
+```
 
 ## Pacto Server (non-Ruby usage)
 
