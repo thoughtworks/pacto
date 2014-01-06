@@ -10,15 +10,6 @@ module Pacto
           :params => {'foo' => 'bar'}
         )
       end
-      let(:request_with_placeholder) do
-        double(
-          :host => 'http://localhost',
-          :method => method,
-          :path => '/a/:id/c',
-          :headers => {'Accept' => 'application/json'},
-          :params => {'foo' => 'bar'}
-        )
-      end
 
       let(:method) { :get }
 
@@ -97,62 +88,21 @@ module Pacto
           end
         end
 
-        context 'not using strict_matchers' do
-          context 'without a placeholder' do
-            before do
-              Pacto.configuration.strict_matchers = false
-            end
-
-            it 'stubs with a regex path_pattern' do
-              built_in.stub_request! request, response
-              expect(stubbed_request[:path]).to eq(/#{request.host}#{request.path}/)
-            end
+        context 'when the response body is an object' do
+          let(:body) do
+            {'message' => 'foo'}
           end
 
-          context 'with a placeholder do' do
-            before do
-              Pacto.configuration.strict_matchers = false
-            end
+          it 'stubs the response body with a json representation' do
+            stubbed_request.should_receive(:to_return).with(
+              :status => response.status,
+              :headers => response.headers,
+              :body => response.body.to_json
+            )
 
-            it 'stubs with a regex path_pattern including the placeholder' do
-              built_in.stub_request! request_with_placeholder, response
-              expected_regex = %r{#{request_with_placeholder.host}\/a\/[^\/\?#]+\/c}
-              # No luck comparing regexes for equality, but the string representation matches...
-              expect(stubbed_request[:path].inspect).to eq(expected_regex.inspect)
-            end
-          end
-        end
+            request_pattern.stub(:with)
 
-        context 'using strict_matchers' do
-          before do
-            Pacto.configuration.strict_matchers = true
-          end
-
-          it 'stubs with headers and no regex' do
-            request_pattern.should_receive(:with).with(
-              :query => { 'foo' => 'bar' },
-              :headers => { 'Accept' => 'application/json' }
-            ).and_return(stubbed_request)
             built_in.stub_request! request, response
-            expect(stubbed_request[:path]).to eq("#{request.host}#{request.path}")
-          end
-
-          context 'when the response body is an object' do
-            let(:body) do
-              {'message' => 'foo'}
-            end
-
-            it 'stubs the response body with a json representation' do
-              stubbed_request.should_receive(:to_return).with(
-                :status => response.status,
-                :headers => response.headers,
-                :body => response.body.to_json
-              )
-
-              request_pattern.stub(:with)
-
-              built_in.stub_request! request, response
-            end
           end
 
           context 'when the response body is an array' do
