@@ -5,8 +5,8 @@ module Pacto
       full_path = Pathname.new(path).realpath
 
       if  full_path.directory?
-        Dir.entries(full_path).grep(/\.json/).map do |f|
-          Pathname.new(File.join(full_path, f))
+        Dir.glob("#{full_path}/**/*.json").map do |f|
+          Pathname.new(f)
         end
       else
         [full_path]
