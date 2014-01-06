@@ -30,27 +30,6 @@ module Pacto
 
       private
 
-      def build_uri_pattern(request)
-        if Pacto.configuration.strict_matchers
-          build_strict_uri_pattern(request)
-        else
-          build_relaxed_uri_pattern(request)
-        end
-      end
-
-      def build_strict_uri_pattern(request)
-        host_pattern = request.host
-        path_pattern = request.path
-        "#{host_pattern}#{path_pattern}"
-      end
-
-      def build_relaxed_uri_pattern(request)
-        path_pattern = request.path
-        path_pattern = path_pattern.gsub(/\/:\w+/, '/[^\/\?#]+')
-        host_pattern = Regexp.quote(request.host)
-        /#{host_pattern}#{path_pattern}/
-      end
-
       def build_stubbed_request_pattern(request, response, uri_pattern)
         stub = WebMock.stub_request(request.method, uri_pattern)
         stub.to_return(
@@ -62,7 +41,7 @@ module Pacto
       end
 
       def build_request_pattern(request, response, stubbing)
-        uri_pattern = build_uri_pattern(request)
+        uri_pattern = UriPattern.for(request)
         if stubbing
           return build_stubbed_request_pattern(request, response, uri_pattern)
         else
