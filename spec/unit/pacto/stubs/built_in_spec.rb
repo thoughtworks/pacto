@@ -200,18 +200,6 @@ module Pacto
           end
         end
       end
-      context 'when not stubbing' do
-        describe '#stub_request!' do
-          it 'returns a RequestPattern' do
-            expect(built_in.stub_request! request, response).to be_a(WebMock::RequestPattern)
-          end
-
-          it 'does not register a stub' do
-            WebMock.should_not_receive(:stub_request)
-            built_in.stub_request! request, response, false
-          end
-        end
-      end
     end
   end
 end

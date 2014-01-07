@@ -8,8 +8,8 @@ module Pacto
         @logger = Logger.instance
       end
 
-      def stub_request!(request, response, stubbing = true)
-        request_pattern = build_request_pattern(request, response, stubbing)
+      def stub_request!(request, response)
+        request_pattern = build_request_pattern(request, response)
         request_pattern.with(request_details(request)) if Pacto.configuration.strict_matchers
         request_pattern
       end
@@ -30,7 +30,8 @@ module Pacto
 
       private
 
-      def build_stubbed_request_pattern(request, response, uri_pattern)
+      def build_request_pattern(request, response)
+        uri_pattern = UriPattern.for(request)
         stub = WebMock.stub_request(request.method, uri_pattern)
         stub.to_return(
           :status => response.status,
@@ -38,15 +39,6 @@ module Pacto
           :body => format_body(response.body)
         )
         stub.request_pattern
-      end
-
-      def build_request_pattern(request, response, stubbing)
-        uri_pattern = UriPattern.for(request)
-        if stubbing
-          return build_stubbed_request_pattern(request, response, uri_pattern)
-        else
-          return WebMock::RequestPattern.new(request.method, uri_pattern)
-        end
       end
 
       def register_hooks
