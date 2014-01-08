@@ -5,7 +5,6 @@ module Pacto
     class BuiltIn
       def initialize
         register_hooks
-        @logger = Logger.instance
       end
 
       def stub_request!(request, response)
