@@ -21,7 +21,7 @@ module Pacto
     end
 
     let(:contract) do
-      Pacto::Contract.new(nil, expected_response)
+      Contract.new(nil, expected_response, 'some_file.json')
     end
 
     let(:opts) do

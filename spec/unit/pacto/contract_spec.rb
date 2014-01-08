@@ -5,8 +5,9 @@ module Pacto
     let(:response) { double 'response definition' }
     let(:provider) { double 'provider' }
     let(:instantiated_response) { double 'instantiated response' }
+    let(:file) { 'contranct.json' }
 
-    subject(:contract) { described_class.new request, response }
+    subject(:contract) { Contract.new(request, response, file) }
 
     before do
       response.stub(:instantiate => instantiated_response)

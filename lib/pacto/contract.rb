@@ -3,7 +3,7 @@ module Pacto
     attr_reader :values
     attr_reader :request, :response, :file
 
-    def initialize(request, response, file = nil)
+    def initialize(request, response, file)
       @request = request
       @response = response
       @file = file.to_s
