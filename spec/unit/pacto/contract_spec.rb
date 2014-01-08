@@ -6,12 +6,19 @@ module Pacto
     let(:provider) { double 'provider' }
     let(:instantiated_response) { double 'instantiated response' }
     let(:file) { 'contranct.json' }
+    let(:request_pattern_provider) { double(for: nil) }
 
-    subject(:contract) { Contract.new(request, response, file) }
+    subject(:contract) { Contract.new(request, response, file, request_pattern_provider) }
 
     before do
       response.stub(:instantiate => instantiated_response)
       Pacto.configuration.provider = provider
+    end
+
+    it 'has a request pattern' do
+      pattern = double
+      expect(request_pattern_provider).to receive(:for).and_return(pattern)
+      expect(contract.request_pattern).to eq pattern
     end
 
     describe '#stub_contract!' do

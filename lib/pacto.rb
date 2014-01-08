@@ -35,6 +35,7 @@ require 'pacto/generator'
 require 'pacto/generator/filters'
 require 'pacto/contract_files'
 require 'pacto/contract_list'
+require 'pacto/request_pattern'
 
 # Validators
 require 'pacto/validators/response_status_validator'
