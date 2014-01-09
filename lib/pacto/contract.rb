@@ -12,7 +12,7 @@ module Pacto
 
     def stub_contract!(values = {})
       @values = values
-      Pacto.configuration.provider.stub_request!(@request, stub_response)
+      Pacto.configuration.provider.stub_request!(request, stub_response)
     end
 
     def validate(actual_response = provider_response, opts = {})
