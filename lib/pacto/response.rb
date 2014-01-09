@@ -9,7 +9,7 @@ module Pacto
     end
 
     def body
-      JSON::Generator.generate(schema)
+      @body ||= JSON::Generator.generate(schema)
     end
   end
 end
