@@ -16,15 +16,5 @@ module Pacto
     def body
       JSON::Generator.generate(@schema) if @schema && !@schema.empty?
     end
-
-    private
-
-    def default_env
-      {}.tap do |env|
-        env[:status] = @definition['status']
-        env[:response_headers] = @definition['headers']
-        env[:body] = body
-      end
-    end
   end
 end
