@@ -10,7 +10,7 @@ module Pacto
     end
 
     def instantiate
-      Faraday::Response.new(default_env)
+      self
     end
 
     def body
