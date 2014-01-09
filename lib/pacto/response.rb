@@ -13,13 +13,17 @@ module Pacto
       Faraday::Response.new(default_env)
     end
 
+    def body
+      JSON::Generator.generate(@schema) if @schema && !@schema.empty?
+    end
+
     private
 
     def default_env
-      {}.tap do | env |
+      {}.tap do |env|
         env[:status] = @definition['status']
         env[:response_headers] = @definition['headers']
-        env[:body] = JSON::Generator.generate(@schema) if @schema && !@schema.empty?
+        env[:body] = body
       end
     end
   end
