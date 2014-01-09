@@ -3,14 +3,12 @@ module Pacto
     let(:request)  { double 'request' }
     let(:response) { double 'response definition' }
     let(:provider) { double 'provider' }
-    let(:instantiated_response) { double 'instantiated response' }
     let(:file) { 'contranct.json' }
     let(:request_pattern_provider) { double(for: nil) }
 
     subject(:contract) { Contract.new(request, response, file, request_pattern_provider) }
 
     before do
-      response.stub(:instantiate => instantiated_response)
       Pacto.configuration.provider = provider
     end
 
@@ -21,9 +19,8 @@ module Pacto
     end
 
     describe '#stub_contract!' do
-      it 'instantiates the response and registers a stub' do
-        response.should_receive :instantiate
-        provider.should_receive(:stub_request!).with request, instantiated_response
+      it 'register a stub for the contract' do
+        provider.should_receive(:stub_request!).with(request, response)
         contract.stub_contract!
       end
     end

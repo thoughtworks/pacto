@@ -8,10 +8,6 @@ module Pacto
       @schema = definition['body'] || {}
     end
 
-    def instantiate
-      self
-    end
-
     def body
       JSON::Generator.generate(schema)
     end

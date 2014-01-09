@@ -20,29 +20,34 @@ module Pacto
 
     subject(:response) { Response.new(definition) }
 
-    describe 'the response body' do
-      context 'when the definition has an nil body' do
-        let(:response) { Response.new(definition.merge('body' => nil)) }
-
-        it 'is nil' do
-          expect(response.schema).to eq(Hash.new)
-        end
-      end
+    it 'has a status' do
+      expect(response.status).to eq(200)
     end
 
-    describe '#instantiate' do
-      let(:generated_body) { double('generated body') }
+    it 'has a headers hash' do
+      expect(response.headers).to eq(
+        'Content-Type' => 'application/json'
+      )
+    end
 
-      it 'instantiates a response with a body that matches the given definition' do
+    it 'has a schema' do
+      expect(response.schema).to eq(body_definition)
+    end
+
+    it 'has a default value for the schema' do
+      response = Response.new(definition.merge('body' => nil))
+      expect(response.schema).to eq(Hash.new)
+    end
+
+    describe 'the response body' do
+      let(:generated_body) { double }
+
+      it 'is the json generated from the schema' do
         JSON::Generator.should_receive(:generate).
           with(definition['body']).
           and_return(generated_body)
 
-        instantiated_response = response.instantiate
-
-        expect(instantiated_response.status).to eq definition['status']
-        expect(instantiated_response.headers).to eq definition['headers']
-        expect(instantiated_response.body).to eq generated_body
+        expect(response.body).to eq(generated_body)
       end
     end
   end
