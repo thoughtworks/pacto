@@ -5,7 +5,7 @@ module Pacto
     def initialize(definition)
       @status = definition['status']
       @headers = definition['headers']
-      @schema = definition['body']
+      @schema = definition['body'] || {}
     end
 
     def instantiate
@@ -13,7 +13,7 @@ module Pacto
     end
 
     def body
-      JSON::Generator.generate(@schema) if @schema && !@schema.empty?
+      JSON::Generator.generate(schema)
     end
   end
 end

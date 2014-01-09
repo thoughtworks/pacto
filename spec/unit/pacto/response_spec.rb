@@ -20,6 +20,16 @@ module Pacto
 
     subject(:response) { Response.new(definition) }
 
+    describe 'the response body' do
+      context 'when the definition has an nil body' do
+        let(:response) { Response.new(definition.merge('body' => nil)) }
+
+        it 'is nil' do
+          expect(response.schema).to eq(Hash.new)
+        end
+      end
+    end
+
     describe '#instantiate' do
       let(:generated_body) { double('generated body') }
 
