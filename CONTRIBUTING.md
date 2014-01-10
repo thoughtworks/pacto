@@ -11,8 +11,19 @@ You will need to have installed:
 - Bundler gem installed (`gem install bundler`).
 - Install all the dependencies (`bundle install`).
 
+## Trobleshooting
+
+### Debugging pacto
+
+If you run into some strange behaviour that Pacto might have, you can take 
+advantage of the debugging capabilities of Pacto. Running the tests with the 
+environment variable PACTO_DEBUG=true will show (on the standard output) more 
+details what Pacto is doing behind the scenes.
+
+### Gemfile.lock
+
 Because Pacto is a gem we don't include the Gemfile.lock into the repository 
-([here is the reason](http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/)).
+([here is the reason])(http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/).
 This could lead to some problems in your daily job as contributor specially 
 when there is an upgrade in any of the gems that Pacto depends upon. That is 
 why we recomend you to remove the Gemfile.lock and generate it 
@@ -53,13 +64,13 @@ mind that those will be published on
 [Relish](https://www.relishapp.com/maxlinc/pacto/docs), so try to make them 
 Relish friendly ;).
 
-## Development (suggested) work flow
+## Development (suggested) workflow
 
 Pacto comes with [`guard`](https://github.com/guard/guard) enabled, this means 
 that guard will trigger the tests after any change is made on the source code. 
 We try to keep the feedback loop as fast as we can, so you can be able to run 
 all the tests everytime you make a change on the project. If you want to follow 
-this work flow just run:
+this workflow just run:
 
 `bundle exec guard`
 
