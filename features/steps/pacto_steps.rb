@@ -63,7 +63,7 @@ eof
   end
 end
 
-When /^I make replacements in "([^"]*)":$/ do |file_name, replacements|
+When(/^I make replacements in "([^"]*)":$/) do |file_name, replacements|
   Dir.chdir 'tmp/aruba' do
     content = File.read file_name
     replacements.rows.each do | pattern, replacement |

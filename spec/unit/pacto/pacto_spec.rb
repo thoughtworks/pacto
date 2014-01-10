@@ -29,7 +29,7 @@ describe Pacto do
       it 'displays one error messages and return false' do
         mock_validation ['Error 1']
         success = Pacto.validate_contract 'my_contract.json'
-        expect(output).to match /error/
+        expect(output).to match(/error/)
         expect(success).to be_false
       end
 

@@ -50,9 +50,9 @@ describe Pacto::Validation do
     it 'returns the contract if there is a regex match' do
       allow(contract).to receive(:file).and_return 'foobar'
       validation = Pacto::Validation.new request, response, contract
-      expect(validation.against_contract? /foo/).to eq(contract)
-      expect(validation.against_contract? /bar/).to eq(contract)
-      expect(validation.against_contract? /baz/).to be_nil
+      expect(validation.against_contract?(/foo/)).to eq(contract)
+      expect(validation.against_contract?(/bar/)).to eq(contract)
+      expect(validation.against_contract?(/baz/)).to be_nil
     end
   end
 end
