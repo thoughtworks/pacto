@@ -5,18 +5,18 @@ some conventions agreed among the project contributors.
 
 ## Setting up
 
-You will need:
+You will need to have installed:
 
 - Ruby 1.9.3 or greater installed.
 - Bundler gem installed (`gem install bundler`).
 - Install all the dependencies (`bundle install`).
 
-Because Pacto is a gem we don't include the Gemfile.lock [here is
-why] (http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/) 
-into the repository. This could lead to some problems in your daily job as 
-contributor specially when there is an upgrade in any of the gems that Pacto 
-depends upon. That is why we recomend you to remove the Gemfile.lock and 
-generate it (`bundle install`) everytime there are changes on the dependencies. 
+Because Pacto is a gem we don't include the Gemfile.lock into the repository 
+([here is the reason](http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/)).
+This could lead to some problems in your daily job as contributor specially 
+when there is an upgrade in any of the gems that Pacto depends upon. That is 
+why we recomend you to remove the Gemfile.lock and generate it 
+(`bundle install`) everytime there are changes on the dependencies. 
 
 ## Style guide
 
@@ -30,14 +30,14 @@ the analyzer just run:
 
 ## Running test
 
-Pacto comes with a set of automated tests. All the tests are runnable via some a
-rake tasks:
+Pacto comes with a set of automated tests. All the tests are runnable via rake 
+tasks:
 
-Unit tests (`bundle exec rake unit`).
-Integration tests (`bundle exec rake integration`).
-User journey tests (`bundle exec rake journey`).
+- Unit tests (`bundle exec rake unit`).
+- Integration tests (`bundle exec rake integration`).
+- User journey tests (`bundle exec rake journey`).
 
-# Checking that all is green
+## Checking that all is green
 
 To know that both tests and static analysis is working fine you just have to
 run:
@@ -55,10 +55,11 @@ Relish friendly ;).
 
 ## Development (suggested) work flow
 
-Pacto comes with guard enabled, this means that will trigger the tests after any
-change is made on the source code. We try to keep the feedback loop as fast as
-we can, so you can be able to run all the tests everytime you make a change on
-the project. If you want to follow this work flow just run:
+Pacto comes with [`guard`](https://github.com/guard/guard) enabled, this means 
+that guard will trigger the tests after any change is made on the source code. 
+We try to keep the feedback loop as fast as we can, so you can be able to run 
+all the tests everytime you make a change on the project. If you want to follow 
+this work flow just run:
 
 `bundle exec guard`
 
