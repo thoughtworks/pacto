@@ -2,13 +2,13 @@
 
 You are welcome to contribute to Pacto and this guide will help you to:
 
-- [Setting up](#setup) all the needed dependencies in order to start hacking.
-- Follow some [conventions](#code-conventions) agreed among the project
+- [Setup](#setup) all the needed dependencies in order to start hacking.
+- Follow [conventions](#code-conventions) agreed among the project 
 contributors.
 - Follow Pacto's suggested [workflow](#workflow).
 - [Submit](#submit-code) new code to the project.
 - Run the automated suite of [tests](#run-tests) that is bundled with Pacto.
-- Find easily code annotations for [technical debt](#techical-debt) (TODOs,
+- Find easily code annotations for [technical debt](#technical-debt) (TODOs,
 FIXMEs, etc)
 - Be aware of some [troubleshooting tips](#troubleshooting) when running issues
 with Pacto.
@@ -68,7 +68,7 @@ mind that those will be published on
 [Relish](https://www.relishapp.com/maxlinc/pacto/docs), so try to make them
 Relish friendly ;).
 
-## <a name="run-tests"></a>Running test
+## <a name="run-tests"></a>Running tests
 
 Pacto comes with a set of automated tests. All the tests are runnable via rake
 tasks:
