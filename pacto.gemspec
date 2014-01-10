@@ -35,7 +35,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec', '~> 2.14'
   gem.add_development_dependency 'should_not'
   gem.add_development_dependency 'aruba'
-  gem.add_development_dependency 'relish'
+  # Only required to push documentation, and not easily installed on Windows
+  # gem.add_development_dependency 'relish'
   gem.add_development_dependency 'guard-rspec'
   gem.add_development_dependency 'rubocop', '~> 0.16.0'
   gem.add_development_dependency 'guard-rubocop'

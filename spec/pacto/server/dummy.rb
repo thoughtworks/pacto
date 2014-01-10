@@ -1,5 +1,6 @@
 require 'webrick'
 require 'forwardable'
+require 'tempfile'
 
 module Pacto
   module Server
@@ -21,10 +22,11 @@ module Pacto
 
     class Dummy
       def initialize(port, path, response)
+        log_file = File.exists?('/dev/null') ? '/dev/null' : Tempfile.new('log') # So tests run on Windows
         params = {
           :Port => port,
           :AccessLog => [],
-          :Logger => WEBrick::Log.new('/dev/null', 7)
+          :Logger => WEBrick::Log.new(log_file, 7)
         }
         @server = WEBrick::HTTPServer.new params
         @server.mount path, Servlet, response
