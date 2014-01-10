@@ -25,7 +25,7 @@ module Pacto
       contract = generate_contract source, request, response
       pretty_contract = MultiJson.encode(contract, :pretty => true)
       # This is because of a discrepency w/ jruby vs MRI pretty json
-      pretty_contract.gsub! /^$\n/, ''
+      pretty_contract.gsub!(/^$\n/, '')
       @validator.validate pretty_contract
       pretty_contract
     end
