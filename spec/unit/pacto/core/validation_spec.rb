@@ -15,7 +15,7 @@ describe Pacto::Validation do
   end
 
   it 'generates and stores the results' do
-    expect(contract).to receive(:validate).with(response).and_return(validation_results)
+    expect(contract).to receive(:validate).with(request, response).and_return(validation_results)
     validation = Pacto::Validation.new request, response, contract
     expect(validation.results).to eq validation_results
   end

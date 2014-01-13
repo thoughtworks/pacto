@@ -15,9 +15,9 @@ module Pacto
       Pacto.configuration.provider.stub_request!(request, response)
     end
 
-    def validate(actual_response = provider_response, opts = {})
+    def validate(request = @request, actual_response = provider_response, opts = {})
       # Missing actual request
-      Pacto::ContractValidator.validate self, nil, actual_response, opts
+      Pacto::ContractValidator.validate self, request, actual_response, opts
     end
 
     def matches?(request_signature)

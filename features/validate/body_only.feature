@@ -21,7 +21,7 @@ Feature: Validation
       contract = contract_list.contracts.first
       service = MyService.new
       response = service.hello
-      successful = contract.validate response, :body_only => true
+      successful = contract.validate nil, response, :body_only => true
       puts "Validated successfully!" if successful
       """
     Given a file named "contracts/template.json" with:

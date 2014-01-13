@@ -30,12 +30,12 @@ module Pacto
       let(:validation_result) { double 'validation result' }
 
       before do
-        allow(Pacto::ContractValidator).to receive(:validate).with(contract, nil, fake_response, {}).and_return validation_result
+        allow(Pacto::ContractValidator).to receive(:validate).with(contract, request, fake_response, {}).and_return validation_result
         allow(request).to receive(:execute).and_return fake_response
       end
 
       it 'returns the result of the validation' do
-        expect(Pacto::ContractValidator).to receive(:validate).with(contract, nil, fake_response, {})
+        expect(Pacto::ContractValidator).to receive(:validate).with(contract, request, fake_response, {})
         expect(contract.validate).to eq validation_result
       end
 
@@ -44,10 +44,10 @@ module Pacto
         contract.validate
       end
 
-      context 'when response gotten is provided' do
-        it 'does not generate the response' do
+      context 'when request and response are provided' do
+        it 'does not generate a response' do
           request.should_not_receive :execute
-          contract.validate fake_response
+          contract.validate request, fake_response
         end
       end
     end
