@@ -38,9 +38,11 @@ require 'pacto/contract_list'
 require 'pacto/request_pattern'
 
 # Validators
+require 'pacto/validators/body_validator'
+require 'pacto/validators/request_body_validator'
+require 'pacto/validators/response_body_validator'
 require 'pacto/validators/response_status_validator'
 require 'pacto/validators/response_header_validator'
-require 'pacto/validators/response_body_validator'
 
 module Pacto
   class << self

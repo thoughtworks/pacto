@@ -1,12 +1,13 @@
 module Pacto
   class Request
-    attr_reader :host, :method
+    attr_reader :host, :method, :schema
     attr_accessor :body
 
     def initialize(host, definition)
       @host = host
       @definition = definition
       @method = definition['method'].to_s.downcase.to_sym
+      @schema = definition['body'] || {}
     end
 
     def uri
