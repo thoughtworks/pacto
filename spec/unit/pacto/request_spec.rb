@@ -5,15 +5,17 @@ module Pacto
     let(:path)           { '/hello_world' }
     let(:headers)        { {'accept' => 'application/json'} }
     let(:params)         { {'foo' => 'bar'} }
+    let(:body)           { double :body }
     let(:params_as_json) { "{\"foo\":\"bar\"}" }
     let(:absolute_uri)   { "#{host}#{path}" }
     subject(:request) do
-      described_class.new(host,
-                          'method'  => method,
-                          'path'    => path,
-                          'headers' => headers,
-                          'params'  => params
-      )
+      Request.new(host,
+                  'method'  => method,
+                  'path'    => path,
+                  'headers' => headers,
+                  'params'  => params,
+                  'body'    => body
+                 )
     end
 
     it 'has a host' do
@@ -31,6 +33,20 @@ module Pacto
 
       it 'returns a symbol' do
         expect(request.method).to be_kind_of Symbol
+      end
+    end
+
+    describe '#schema' do
+      it 'delegates to definition\'s body' do
+        expect(request.schema).to eq body
+      end
+
+      describe 'when definition does not have body' do
+        let(:body) { nil }
+
+        it 'returns an empty empty hash' do
+          expect(request.schema).to eq({})
+        end
       end
     end
 

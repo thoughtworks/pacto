@@ -20,9 +20,7 @@ module Pacto
       )
     end
 
-    let(:actual_request) do
-      double
-    end
+    let(:actual_request) { double :actual_request }
 
     let(:expected_request) do
       Pacto::Request.new(
@@ -40,9 +38,7 @@ module Pacto
       Contract.new(expected_request, expected_response, 'some_file.json', request_pattern_provider)
     end
 
-    let(:opts) do
-      {}
-    end
+    let(:opts) { {} }
 
     describe '.validate' do
       before do

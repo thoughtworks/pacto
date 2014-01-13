@@ -1,6 +1,6 @@
 Feature: Validation
 
-  You can validate just the body of the contract.  This may be useful if you want to validate a stubbing system that does not stub the fully connection, or if Pacto is currently unable to validate your headers.
+  You can validate just the body of the contract. This may be useful if you want to validate a stubbing system that does not stub the fully connection, or if Pacto is currently unable to validate your headers.
 
   Background:
     Given a file named "Gemfile" with:
