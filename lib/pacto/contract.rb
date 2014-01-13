@@ -16,7 +16,6 @@ module Pacto
     end
 
     def validate(request = @request, actual_response = provider_response, opts = {})
-      # Missing actual request
       Pacto::ContractValidator.validate self, request, actual_response, opts
     end
 
