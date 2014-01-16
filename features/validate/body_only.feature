@@ -21,8 +21,8 @@ Feature: Validation
       contract = contract_list.contracts.first
       service = MyService.new
       response = service.hello
-      successful = contract.validate_consumer nil, response, :body_only => true
-      puts "Validated successfully!" if successful
+      errors = contract.validate_consumer nil response, :body_only => true
+      puts "Validated successfully!" if errors.empty?
       """
     Given a file named "contracts/template.json" with:
       """json
@@ -30,9 +30,7 @@ Feature: Validation
         "request": {
           "method": "GET",
           "path": "/hello",
-          "headers": {
-            "Accept": "application/json"
-          },
+          "headers": { "Accept": "application/json" },
           "params": {}
         },
 
@@ -43,8 +41,7 @@ Feature: Validation
             "type": "object",
             "required": true,
             "properties": {
-              "message": { "type": "string", "required": true
-              }
+              "message": { "type": "string", "required": true }
             }
           }
         }
