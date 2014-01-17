@@ -6,7 +6,7 @@ module Pacto
     let(:validation_results) { double('validation_results') }
 
     before(:each) do
-      allow(contract).to receive(:validate)
+      allow(contract).to receive(:validate_consumer)
     end
 
     it 'stores the request, response and contract' do
@@ -16,7 +16,7 @@ module Pacto
     end
 
     it 'generates and stores the results' do
-      expect(contract).to receive(:validate).with(request, response).and_return(validation_results)
+      expect(contract).to receive(:validate_consumer).with(request, response).and_return(validation_results)
       validation = Pacto::Validation.new request, response, contract
       expect(validation.results).to eq validation_results
     end

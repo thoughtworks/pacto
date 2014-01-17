@@ -15,8 +15,14 @@ module Pacto
       Pacto.configuration.provider.stub_request!(request, response)
     end
 
-    def validate(request = @request, actual_response = provider_response, opts = {})
-      Pacto::ContractValidator.validate self, request, actual_response, opts
+    def validate_provider(opts = {})
+      request = @request
+      response = provider_response
+      validate_consumer request, response, opts
+    end
+
+    def validate_consumer(request, response, opts = {})
+      Pacto::ContractValidator.validate self, request, response, opts
     end
 
     def matches?(request_signature)
