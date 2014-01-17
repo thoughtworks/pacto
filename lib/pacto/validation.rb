@@ -42,7 +42,7 @@ module Pacto
 
     def validate
       logger.debug("Validating #{@request}, #{@response} against #{@contract}")
-      @results = contract.validate(response)
+      @results = contract.validate_consumer(@request, @response)
     end
   end
 end

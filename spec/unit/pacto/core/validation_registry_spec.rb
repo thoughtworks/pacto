@@ -42,7 +42,7 @@ describe Pacto::ValidationRegistry do
     let(:contract) { double('contract') }
 
     it 'returns validations with no contract' do
-      allow(contract).to receive(:validate).and_return(double('results'))
+      allow(contract).to receive(:validate_consumer).with(different_request_signature, anything).and_return(double('results'))
       validation_with_results = Pacto::Validation.new(different_request_signature, double, contract)
       registry.register_validation(validation)
       registry.register_validation(validation_for_a_similar_request)
@@ -58,7 +58,7 @@ describe Pacto::ValidationRegistry do
     let(:results) { double('results') }
 
     it 'returns validations with unsuccessful results' do
-      allow(contract).to receive(:validate).and_return(results)
+      allow(contract).to receive(:validate_consumer).with(request_signature, anything).and_return(results)
       validation_with_successful_results = Pacto::Validation.new(request_signature, double, contract)
       validation_with_unsuccessful_results = Pacto::Validation.new(request_signature, double, contract)
 

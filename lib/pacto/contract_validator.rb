@@ -16,6 +16,7 @@ module Pacto
 
       def validation_stack(opts)
         Middleware::Builder.new do
+          use Pacto::Validators::RequestBodyValidator
           unless opts[:body_only]
             use Pacto::Validators::ResponseStatusValidator
             use Pacto::Validators::ResponseHeaderValidator

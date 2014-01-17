@@ -1,6 +1,6 @@
 Feature: Validation
 
-  You can validate just the body of the contract.  This may be useful if you want to validate a stubbing system that does not stub the fully connection, or if Pacto is currently unable to validate your headers.
+  You can validate just the body of the contract. This may be useful if you want to validate a stubbing system that does not stub the fully connection, or if Pacto is currently unable to validate your headers.
 
   Background:
     Given a file named "Gemfile" with:
@@ -21,7 +21,7 @@ Feature: Validation
       contract = contract_list.contracts.first
       service = MyService.new
       response = service.hello
-      successful = contract.validate response, :body_only => true
+      successful = contract.validate_consumer nil, response, :body_only => true
       puts "Validated successfully!" if successful
       """
     Given a file named "contracts/template.json" with:

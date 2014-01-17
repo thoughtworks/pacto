@@ -12,8 +12,8 @@ module Pacto
 
     context 'when validating' do
       it 'validates every contract on the list' do
-        expect(contract1).to receive(:validate)
-        expect(contract2).to receive(:validate)
+        expect(contract1).to receive(:validate_provider)
+        expect(contract2).to receive(:validate_provider)
 
         list = ContractList.new([contract1, contract2])
         list.validate_all

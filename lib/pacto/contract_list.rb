@@ -11,7 +11,7 @@ module Pacto
     end
 
     def validate_all
-      contracts.map { |contract| contract.validate }
+      contracts.map { |contract| contract.validate_provider }
     end
   end
 end
