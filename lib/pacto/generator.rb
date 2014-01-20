@@ -43,8 +43,8 @@ module Pacto
       {
         :headers => @filters.filter_request_headers(request, response),
         :method => request.method,
-        :params => request.uri.query_values,
-        :path => request.uri.path,
+        :params => request.params,
+        :path => request.path,
         :body => generate_body(source, request.body)
       }.delete_if { |k, v| v.nil? }
     end

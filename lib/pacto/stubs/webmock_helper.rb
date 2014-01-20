@@ -31,7 +31,7 @@ module Pacto
           pacto_response = webmock_to_pacto_response(response)
           generator = Pacto::Generator.new
           FileUtils.mkdir_p(File.dirname contract_file)
-          File.write(contract_file, generator.save('vcr', pacto_request, pacto_response))
+          File.write(contract_file, generator.save(uri, pacto_request, pacto_response))
           logger.debug("Generating #{contract_file}")
 
           Pacto.build_contract contract_file, uri.host
@@ -48,17 +48,13 @@ module Pacto
         end
 
         def webmock_to_pacto_request(webmock_request)
-          uri = URI(webmock_request.uri)
-          definition = {
-            'method' => webmock_request.method,
-            'path' => uri.path,
-            # How do we get params?
-            'params' => {},
-            'headers' => webmock_request.headers || {}
-          }
-          request = Pacto::Request.new uri.host, definition
-          request.body = webmock_request.body
-          request
+          uri = webmock_request.uri
+          Faraday::Request.create webmock_request.method do |req|
+            req.path = uri.path
+            req.params = uri.query_values
+            req.headers = webmock_request.headers
+            req.body = webmock_request.body
+          end
         end
 
         def webmock_to_pacto_response(webmock_response)
