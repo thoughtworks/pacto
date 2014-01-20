@@ -67,7 +67,7 @@ module Pacto
         contracts << contract_file
         print "#{contract_file.split('/').last}:"
         contract = Pacto.build_contract(contract_file, host)
-        errors = contract.validate
+        errors = contract.validate_provider
 
         if errors.empty?
           puts Pacto::UI.green(' OK!')
