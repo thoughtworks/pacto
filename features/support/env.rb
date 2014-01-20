@@ -4,7 +4,7 @@ require 'webmock'
 require 'aruba'
 require 'aruba/cucumber'
 require 'aruba/jruby' if RUBY_PLATFORM == 'java'
-require 'pacto/server'
+require_relative '../../spec/pacto/server'
 
 Before do
   # Given I successfully run `bundle install` can take a while.
