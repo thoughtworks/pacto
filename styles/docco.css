@@ -1,0 +1,327 @@
+/*--------------------- Typography ----------------------------*/
+#docco {
+  @font-face {
+    font-family: 'aller-light';
+    src: url('public/fonts/aller-light.eot');
+    src: url('public/fonts/aller-light.eot?#iefix') format('embedded-opentype'), url('public/fonts/aller-light.woff') format('woff'), url('public/fonts/aller-light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal; }
+
+  @font-face {
+    font-family: 'aller-bold';
+    src: url('public/fonts/aller-bold.eot');
+    src: url('public/fonts/aller-bold.eot?#iefix') format('embedded-opentype'), url('public/fonts/aller-bold.woff') format('woff'), url('public/fonts/aller-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal; }
+
+  @font-face {
+    font-family: 'novecento-bold';
+    src: url('public/fonts/novecento-bold.eot');
+    src: url('public/fonts/novecento-bold.eot?#iefix') format('embedded-opentype'), url('public/fonts/novecento-bold.woff') format('woff'), url('public/fonts/novecento-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal; }
+
+  /*--------------------- Layout ----------------------------*/
+  /*
+    Force border-box so that % widths fit the parent
+    container without overlap because of margin/padding.
+
+    More Info : http://www.quirksmode.org/css/box.html
+  */
+  /*---------------------- Jump Page -----------------------------*/
+  /*---------------------- Low resolutions (> 320px) ---------------------*/
+  /*----------------------  (> 481px) ---------------------*/
+  /*---------------------- (> 1025px) ---------------------*/
+  /*---------------------- Syntax Highlighting -----------------------------*/
+  /*
+
+  github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+  */ }
+  #docco #container {
+    min-height: 100%;
+    font-family: "aller-light";
+    font-size: 14px;
+    line-height: 18px;
+    color: #30404f;
+    margin: 0;
+    padding: 0;
+    height: 100%; }
+  #docco a {
+    color: #000; }
+  #docco b, #docco strong {
+    font-weight: normal;
+    font-family: "aller-bold"; }
+  #docco p {
+    margin: 15px 0 0px; }
+  #docco .annotation ul, #docco .annotation ol {
+    margin: 25px 0; }
+  #docco .annotation ul li, #docco .annotation ol li {
+    font-size: 14px;
+    line-height: 18px;
+    margin: 10px 0; }
+  #docco h1, #docco h2, #docco h3, #docco h4, #docco h5, #docco h6 {
+    color: #112233;
+    line-height: 1em;
+    font-weight: normal;
+    font-family: "novecento-bold";
+    text-transform: uppercase;
+    margin: 30px 0 15px 0; }
+  #docco h1 {
+    margin-top: 40px; }
+  #docco hr {
+    border: 0;
+    background: 1px #ddd;
+    height: 1px;
+    margin: 20px 0; }
+  #docco pre, #docco tt, #docco code {
+    font-size: 12px;
+    line-height: 16px;
+    font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+    margin: 0;
+    padding: 0; }
+  #docco .annotation pre {
+    display: block;
+    margin: 0;
+    padding: 7px 10px;
+    background: #fcfcfc;
+    -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; }
+  #docco .annotation pre code {
+    border: 0;
+    padding: 0;
+    background: transparent; }
+  #docco blockquote {
+    border-left: 5px solid #ccc;
+    margin: 0;
+    padding: 1px 0 1px 1em; }
+  #docco .sections blockquote p {
+    font-family: Menlo, Consolas, Monaco, monospace;
+    font-size: 12px;
+    line-height: 16px;
+    color: #999;
+    margin: 10px 0 0;
+    white-space: pre-wrap; }
+  #docco ul.sections {
+    list-style: none;
+    padding: 0 0 5px 0;
+    margin: 0; }
+  #docco ul.sections > li > div {
+    -moz-box-sizing: border-box;
+    /* firefox */
+    -ms-box-sizing: border-box;
+    /* ie */
+    -webkit-box-sizing: border-box;
+    /* webkit */
+    -khtml-box-sizing: border-box;
+    /* konqueror */
+    box-sizing: border-box;
+    /* css3 */ }
+  #docco #jump_to, #docco #jump_page {
+    margin: 0;
+    background: white;
+    -webkit-box-shadow: 0 0 25px #777;
+    -moz-box-shadow: 0 0 25px #777;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    font: 16px Arial;
+    cursor: pointer;
+    text-align: right;
+    list-style: none; }
+  #docco #jump_to a {
+    text-decoration: none; }
+  #docco #jump_to a.large {
+    display: none; }
+  #docco #jump_to a.small {
+    font-size: 22px;
+    font-weight: bold;
+    color: #676767; }
+  #docco #jump_to, #docco #jump_wrapper {
+    position: fixed;
+    right: 0;
+    top: 0;
+    padding: 10px 15px;
+    margin: 0; }
+  #docco #jump_wrapper {
+    display: none;
+    padding: 0; }
+  #docco #jump_to:hover #jump_wrapper {
+    display: block; }
+  #docco #jump_page {
+    padding: 5px 0 3px;
+    margin: 0 0 25px 25px; }
+  #docco #jump_page .source {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    border-top: 1px solid #eee; }
+  #docco #jump_page .source:hover {
+    background: #f5f5ff; }
+  @media only screen and (min-width: 320px) {
+    #docco .pilwrap {
+      display: none; }
+    #docco ul.sections > li > div {
+      display: block;
+      padding: 5px 10px 0 10px; }
+    #docco ul.sections > li > div.annotation ul, #docco ul.sections > li > div.annotation ol {
+      padding-left: 30px; }
+    #docco ul.sections > li > div.content {
+      overflow-x: auto;
+      -webkit-box-shadow: inset 0 0 5px #e5e5ee;
+      box-shadow: inset 0 0 5px #e5e5ee;
+      border: 1px solid #dedede;
+      margin: 5px 10px 5px 10px;
+      padding-bottom: 5px; }
+    #docco ul.sections > li > div.annotation pre {
+      margin: 7px 0 7px;
+      padding-left: 15px; }
+    #docco ul.sections > li > div.annotation p tt, #docco .annotation code {
+      background: #f8f8ff;
+      border: 1px solid #dedede;
+      font-size: 12px;
+      padding: 0 0.2em; } }
+  @media only screen and (min-width: 481px) {
+    #docco #container {
+      position: relative;
+      background-color: #F5F5FF;
+      font-size: 15px;
+      line-height: 21px; }
+    #docco pre, #docco tt, #docco code {
+      line-height: 18px; }
+    #docco p, #docco ul, #docco ol {
+      margin: 0 0 15px; }
+    #docco #jump_to {
+      padding: 5px 10px; }
+    #docco #jump_wrapper {
+      padding: 0; }
+    #docco #jump_to, #docco #jump_page {
+      font: 10px Arial;
+      text-transform: uppercase; }
+    #docco #jump_page .source {
+      padding: 5px 10px; }
+    #docco #jump_to a.large {
+      display: inline-block; }
+    #docco #jump_to a.small {
+      display: none; }
+    #docco #background {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 350px;
+      background: #fff;
+      border-right: 1px solid #e5e5ee;
+      z-index: -1; }
+    #docco ul.sections > li > div.annotation ul, #docco ul.sections > li > div.annotation ol {
+      padding-left: 40px; }
+    #docco ul.sections > li {
+      white-space: nowrap; }
+    #docco ul.sections > li > div {
+      display: inline-block; }
+    #docco ul.sections > li > div.annotation {
+      max-width: 350px;
+      min-width: 350px;
+      min-height: 5px;
+      padding: 13px;
+      overflow-x: hidden;
+      white-space: normal;
+      vertical-align: top;
+      text-align: left; }
+    #docco ul.sections > li > div.annotation pre {
+      margin: 15px 0 15px;
+      padding-left: 15px; }
+    #docco ul.sections > li > div.content {
+      padding: 13px;
+      vertical-align: top;
+      border: none;
+      -webkit-box-shadow: none;
+      box-shadow: none; }
+    #docco .pilwrap {
+      position: relative;
+      display: inline; }
+    #docco .pilcrow {
+      font: 12px Arial;
+      text-decoration: none;
+      color: #454545;
+      position: absolute;
+      top: 3px;
+      left: -20px;
+      padding: 1px 2px;
+      opacity: 0;
+      -webkit-transition: opacity 0.2s linear; }
+    #docco .for-h1 .pilcrow {
+      top: 47px; }
+    #docco .for-h2 .pilcrow, #docco .for-h3 .pilcrow, #docco .for-h4 .pilcrow {
+      top: 35px; }
+    #docco ul.sections > li > div.annotation:hover .pilcrow {
+      opacity: 1; } }
+  @media only screen and (min-width: 1025px) {
+    #docco #container {
+      font-size: 16px;
+      line-height: 24px; }
+    #docco #background {
+      width: 525px; }
+    #docco ul.sections > li > div.annotation {
+      max-width: 525px;
+      min-width: 525px;
+      padding: 10px 25px 1px 50px; }
+    #docco ul.sections > li > div.content {
+      padding: 9px 15px 16px 25px; } }
+  #docco td.linenos {
+    background-color: #f0f0f0;
+    padding-right: 10px; }
+  #docco span.lineno {
+    background-color: #f0f0f0;
+    padding: 0 5px 0 5px; }
+  #docco pre code {
+    display: block;
+    padding: 0.5em;
+    color: #000;
+    background: #f8f8ff; }
+  #docco pre .hljs-comment, #docco pre .hljs-template_comment, #docco pre .hljs-diff .hljs-header, #docco pre .hljs-javadoc {
+    color: #408080;
+    font-style: italic; }
+  #docco pre .hljs-keyword, #docco pre .hljs-assignment, #docco pre .hljs-literal, #docco pre .hljs-css .hljs-rule .hljs-keyword, #docco pre .hljs-winutils, #docco pre .hljs-javascript .hljs-title, #docco pre .hljs-lisp .hljs-title, #docco pre .hljs-subst {
+    color: #954121;
+    /*font-weight: bold*/ }
+  #docco pre .hljs-number, #docco pre .hljs-hexcolor {
+    color: #40a070; }
+  #docco pre .hljs-string, #docco pre .hljs-tag .hljs-value, #docco pre .hljs-phpdoc, #docco pre .hljs-tex .hljs-formula {
+    color: #219161; }
+  #docco pre .hljs-title, #docco pre .hljs-id {
+    color: #19469D; }
+  #docco pre .hljs-params {
+    color: #00F; }
+  #docco pre .hljs-javascript .hljs-title, #docco pre .hljs-lisp .hljs-title, #docco pre .hljs-subst {
+    font-weight: normal; }
+  #docco pre .hljs-class .hljs-title, #docco pre .hljs-haskell .hljs-label, #docco pre .hljs-tex .hljs-command {
+    color: #458;
+    font-weight: bold; }
+  #docco pre .hljs-tag, #docco pre .hljs-tag .hljs-title, #docco pre .hljs-rules .hljs-property, #docco pre .hljs-django .hljs-tag .hljs-keyword {
+    color: #000080;
+    font-weight: normal; }
+  #docco pre .hljs-attribute, #docco pre .hljs-variable, #docco pre .hljs-instancevar, #docco pre .hljs-lisp .hljs-body {
+    color: #008080; }
+  #docco pre .hljs-regexp {
+    color: #B68; }
+  #docco pre .hljs-class {
+    color: #458;
+    font-weight: bold; }
+  #docco pre .hljs-symbol, #docco pre .hljs-ruby .hljs-symbol .hljs-string, #docco pre .hljs-ruby .hljs-symbol .hljs-keyword, #docco pre .hljs-ruby .hljs-symbol .hljs-keymethods, #docco pre .hljs-lisp .hljs-keyword, #docco pre .hljs-tex .hljs-special, #docco pre .hljs-input_number {
+    color: #990073; }
+  #docco pre .hljs-builtin, #docco pre .hljs-constructor, #docco pre .hljs-built_in, #docco pre .hljs-lisp .hljs-title {
+    color: #0086b3; }
+  #docco pre .hljs-preprocessor, #docco pre .hljs-pi, #docco pre .hljs-doctype, #docco pre .hljs-shebang, #docco pre .hljs-cdata {
+    color: #999;
+    font-weight: bold; }
+  #docco pre .hljs-deletion {
+    background: #fdd; }
+  #docco pre .hljs-addition {
+    background: #dfd; }
+  #docco pre .hljs-diff .hljs-change {
+    background: #0086b3; }
+  #docco pre .hljs-chunk {
+    color: #aaa; }
+  #docco pre .hljs-tex .hljs-formula {
+    opacity: 0.5; }

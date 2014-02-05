@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Pacto</title>
+	<link href="/pacto/atom.xml" rel="self"/>
+	<link href="/pacto"/>
+	<updated>2014-02-05T20:16:04.495Z</updated>
+	<id>/pacto</id>
+	<author>
+		<name>ThoughtWorks</name>
+		<email>pacto-gem@googlegroups.com</email>
+	</author>
+
+	
+</feed>

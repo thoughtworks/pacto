@@ -1,0 +1,92 @@
+html, body {
+  height: 100%; }
+
+#layout {
+  clear: both;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: -6em; }
+  #layout #layout_footer {
+    height: 6em; }
+
+#footer {
+  clear: both;
+  position: relative;
+  height: 6em; }
+
+#layout {
+  overflow: auto; }
+
+.container.top-bar {
+  margin-bottom: 0; }
+  .container.top-bar .top-bar-section {
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+    .container.top-bar .top-bar-section li a:not(.button):hover, .container.top-bar .top-bar-section li.active a:not(.button) {
+      background: #222; }
+
+h1, h2, h3, h4, h5, h6 {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out; }
+
+header {
+  padding: 1.5em 0;
+  background: #13A3C7;
+  margin-bottom: 2em; }
+  header.tall {
+    padding: 4.5em 0;
+    box-shadow: inset 0 -50px 100px #0c6c81; }
+    @media only screen and (min-width: 768px) {
+      header.tall {
+        padding: 7.5em 0;
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out; } }
+  header h1 {
+    margin: 0;
+    color: white; }
+    @media only screen and (min-width: 768px) {
+      header h1 {
+        font-size: 54px; } }
+  header h1 + h3 {
+    margin: 0 !important; }
+  header h3, header .amp {
+    margin: 0;
+    font-family: 'Maven Pro';
+    color: #0a586a; }
+  header a {
+    color: #0a586a; }
+    header a:hover {
+      color: #0a586a;
+      text-decoration: underline; }
+
+section {
+  margin-bottom: 1.5em; }
+
+article {
+  margin: 2em 0; }
+  article > header:first-child {
+    margin-top: -2em; }
+
+#footer {
+  padding-top: 1em;
+  color: #23c6ea;
+  background: #0c6c81; }
+  #footer div, #footer li {
+    line-height: 1.5em; }
+  #footer .foot-right a {
+    color: #ddf6fc; }
+    #footer .foot-right a:hover {
+      text-decoration: underline; }
+  @media only screen and (min-width: 768px) {
+    #footer .foot-right {
+      float: right; }
+      #footer .foot-right li {
+        float: right; } }
+
+.faqpost-content {
+  max-width: 45em; }
+
+#comments-container {
+  text-align: center; }

@@ -1,0 +1,49 @@
+#editor-container {
+  position: relative;
+  height: 95%; }
+
+#editor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+
+#editor-mask {
+  height: 100px;
+  overflow-y: hidden; }
+
+.bubble {
+  position: relative;
+  width: 250px;
+  height: 120px;
+  padding: 0px;
+  background: #eee;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: #7F7F7F solid 2px; }
+
+.bubble:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 15px 20px 15px 0;
+  border-color: transparent #eee;
+  display: block;
+  width: 0;
+  z-index: 1;
+  left: -20px;
+  top: 45px; }
+
+.bubble:before {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 16px 21px 16px 0;
+  border-color: transparent #7F7F7F;
+  display: block;
+  width: 0;
+  z-index: 0;
+  left: -23px;
+  top: 44px; }
