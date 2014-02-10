@@ -35,7 +35,7 @@ module Pacto
 
     let(:contract) do
       request_pattern_provider = double(for: nil)
-      Contract.new(expected_request, expected_response, 'some_file.json', request_pattern_provider)
+      Contract.new(expected_request, expected_response, 'some_file.json', 'sample', request_pattern_provider)
     end
 
     let(:opts) { {} }

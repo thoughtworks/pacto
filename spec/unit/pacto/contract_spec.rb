@@ -6,7 +6,7 @@ module Pacto
     let(:file) { 'contranct.json' }
     let(:request_pattern_provider) { double(for: nil) }
 
-    subject(:contract) { Contract.new(request, response, file, request_pattern_provider) }
+    subject(:contract) { Contract.new(request, response, file, 'sample', request_pattern_provider) }
 
     before do
       Pacto.configuration.provider = provider

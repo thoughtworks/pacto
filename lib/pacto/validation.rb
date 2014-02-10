@@ -25,13 +25,22 @@ module Pacto
     end
 
     def to_s
-      contract_name = @contract.nil? ? 'nil' : @contract.file
+      contract_name = @contract.nil? ? 'nil' : contract.name
       """
       Validation:
       \tRequest: #{@request}
       \tContract: #{contract_name}
       \tResults: \n\t\t#{@results.join "\n\t\t"}
       """
+    end
+
+    def summary
+      if @contract.nil?
+        "Missing contract for services provided by #{@request.uri.host}"
+      else
+        status = successful? ? 'successful' : 'unsuccessful'
+        "#{status} validation of #{@contract.name}"
+      end
     end
 
     private

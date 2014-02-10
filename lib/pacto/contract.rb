@@ -1,11 +1,12 @@
 module Pacto
   class Contract
-    attr_reader :values, :request, :response, :file, :request_pattern
+    attr_reader :name, :values, :request, :response, :file, :request_pattern
 
-    def initialize(request, response, file, request_pattern_provider = RequestPattern)
+    def initialize(request, response, file, name = nil, request_pattern_provider = RequestPattern)
       @request = request
       @response = response
       @file = file.to_s
+      @name = name || @file
       @request_pattern = request_pattern_provider.for(request)
       @values = {}
     end
