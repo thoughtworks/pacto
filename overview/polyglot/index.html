@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
   <!-- Our site title and description -->
-  <title>What are Consumer-Driven Contracts? | Pacto</title>
+  <title>Polyglot Testing | Pacto</title>
   <meta name="description" content="Easier Contract Testing" />
   <meta name="keywords" content="contract, consumder-driven, testing" />
   <meta name="author" content="ThoughtWorks" />
@@ -23,11 +23,11 @@
 
   <!-- Icons -->
   <!--
-    <link rel="shortcut icon" href="http://localhost:9778/faq/icons/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/faq/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/faq/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/faq/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/faq/icons/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="http://localhost:9778/overview/icons/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/overview/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/overview/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/overview/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/overview/icons/apple-touch-icon-57-precomposed.png">
 -->
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -73,23 +73,28 @@
       </nav>
     <div role="main">
       <article id="page" class="page">
-	
+  <header>
+    <div class="row">
+      <div class="columns">
+        <h1><%= @document.title %></h1>
+        <% if  @document.subtitle: %>
+          <h3><%= @document.subtitle %></h3>
+        <% end %>
+      </div>
+    </div>
+  </header>
+  <div class="row">
+    <nav class="columns large-3">
+      <%- console.log(@generateMenu(@document.url)) %>
+      <%- @partial('menu.html.eco', {menuItems: @generateMenu(@document.url)}) %>
+    </nav>
+    <div class="columns large-9 small-12 page-content">
+      <%- @content %>
+    </div>
+  </div>
 
+  
 
-	<div class="row">
-		<div class="columns faqpost-content">
-
-			<h1>What are Consumer-Driven Contracts?</h1>
-			
-
-			<p>You mean as opposed to Twitter Bootstrap?</p>
-<p>Well, Zurb Foundation 4 feels clean, without bloat. Moreover, you need editing to get rid of the typical Bootstap feel. Now you get a typical Foundation feel. Is that better? you decide :)</p>
-
-			<p>
-				<a href="http://localhost:9778/pages/faq">&#171; Back to all questions </a>
-			</p>
-		</div>
-	</div>
 </article>
     </div>
       <div id='layout_footer'></div>
@@ -108,11 +113,6 @@
             </li>
           
                 <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/consumers" class="">
-              <a href="http://localhost:9778/pages/consumers" property="dc:title">Consumers</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
             <li typeof="sioc:Page" about="/pages/faq" class="">
               <a href="http://localhost:9778/pages/faq" property="dc:title">FAQ</a>
             </li>
@@ -120,11 +120,6 @@
                 <li class="divider hide-for-small"></li>
             <li typeof="sioc:Page" about="/pages/blog" class="">
               <a href="http://localhost:9778/pages/blog" property="dc:title">Blog</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/polyglot" class="">
-              <a href="http://localhost:9778/pages/polyglot" property="dc:title"></a>
             </li>
           
             </ul>

@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
   <!-- Our site title and description -->
-  <title>What are Consumer-Driven Contracts? | Pacto</title>
+  <title>Confused? | Pacto</title>
   <meta name="description" content="Easier Contract Testing" />
   <meta name="keywords" content="contract, consumder-driven, testing" />
   <meta name="author" content="ThoughtWorks" />
@@ -22,13 +22,12 @@
   <meta name="viewport" content="width=device-width" />
 
   <!-- Icons -->
-  <!--
-    <link rel="shortcut icon" href="/pacto/faq/icons/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/faq/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/faq/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/faq/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/pacto/faq/icons/apple-touch-icon-57-precomposed.png">
--->
+    <link rel="shortcut icon" sizes="16x16" href="/pacto/icons/favicon.ico">
+    <link rel="shortcut icon" sizes="196x196" href="/pacto/icons/icon-196.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/pacto/icons/apple-touch-icon-57-precomposed.png">
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
     <script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,8 +59,8 @@
             <ul class="right">
               
               <li class="divider hide-for-small"></li>
-          <li typeof="sioc:Page" about="/pacto/pages/blog" class="">
-            <a href="/pacto/pages/blog" property="dc:title">Blog</a>
+          <li typeof="sioc:Page" about="/pacto/blog" class="">
+            <a href="/pacto/blog" property="dc:title">Blog</a>
           </li>
         
             </ul>
@@ -69,28 +68,159 @@
       </nav>
     <div role="main">
       <article id="page" class="page">
-	
+  <header>
+    <div class="row">
+      <div class="columns">
+        <h1>Confused?</h1>
+        
+          <h3>Hopefully this answers will help...</h3>
+        
+      </div>
+    </div>
+  </header>
+  <div class="row">
+    <nav class="columns large-3">
+      <!-- Define `renderMenu` partial -->
 
+<!-- Run `renderMenu` partial against passed `menuItems` meta-data  -->
 
-	<div class="row">
-		<div class="columns faqpost-content">
+<ul class="side-nav">
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li >
+            
+                <a href="/intro/">Intro</a>
+            
+            
+                
+<ul class="side-nav">
+    
+        
+        <li >
+            
+                <a href="/intro/consumers">Consumers</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/intro/providers">Providers</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/intro/contracts">Contracts</a>
+            
+            
+        </li>
+    
+</ul>   
 
-			<h1>What are Consumer-Driven Contracts?</h1>
-			
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/">Patterns</a>
+            
+            
+                
+<ul class="side-nav">
+    
+        
+        <li >
+            
+                <a href="/patterns/integration_contract_testing">Integration Contract Testing</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/cdc">Consumer-Driven Contracts</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/documentation_driven">Documentation-Driven Contracts</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/polyglot">Polyglot Testing</a>
+            
+            
+        </li>
+    
+</ul>   
 
-			<p>Consumer-Driven Contracts are pattern for evolving services.  In Consumer-Driven Contracts, each consumer captures their expectations of the provider in a separate contract.  All of these contracts are shared with the provider so they gain insight into the obligations they must fulfill for each individual client.  The provider can create a test suite to validate these obligations.  This lets them stay agile and make changes that do not affect any consumer, and pinpoint consumers that will be affected by a required change for deeper planning and discussion.</p>
-<p><img src="/pacto/images/cdc.png" alt="Consumer-Driven Contracts" title="Consumer-Driven Contracts"></p>
-<p>Pacto helps guarantee these obligations are met, and decouple the obligations from the implementation so the consumers and providers can be tested independently.</p>
-<p><img src="/pacto/images/cdc-stub.png" alt="Consumer-Driven Contracts" title="Consumer-Driven Contracts"></p>
-<p>Providers can also decouple from consumers for their testing.  Pacto can use the contracts to simulate consumers for provider testing:</p>
-<p><img src="/pacto/images/cdc-simulate.png" alt="Consumer-Driven Contracts" title="Consumer-Driven Contracts"></p>
-<p>Read more at <a href="http://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts: A Service Evolution Pattern</a>.</p>
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/blog">Blog</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/contact">Community</a>
+            
+            
+        </li>
+    
+</ul>   
 
-			<p>
-				<a href="/pacto/pages/faq">&#171; Back to all questions </a>
-			</p>
-		</div>
-	</div>
+    </nav>
+    <div class="columns large-9 small-12 page-content">
+      <ul>
+
+        <li>
+            <a href="/pacto/faq">Confused?</a>
+        </li>
+
+</ul>
+
+<p><a href="/pacto/pages/contact">Contact us</a> if your question isn&#39;t answered above.</p>
+
+    </div>
+  </div>
+
+  
+
 </article>
     </div>
       <div id='layout_footer'></div>
@@ -103,31 +233,6 @@
       <div class="columns large-7 small-12 ">
         <ul class="inline-list foot-right">
                 
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/contact" class="">
-              <a href="/pacto/pages/contact" property="dc:title">Community</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/consumers" class="">
-              <a href="/pacto/pages/consumers" property="dc:title">Consumers</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/faq" class="">
-              <a href="/pacto/pages/faq" property="dc:title">FAQ</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/blog" class="">
-              <a href="/pacto/pages/blog" property="dc:title">Blog</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/polyglot" class="">
-              <a href="/pacto/pages/polyglot" property="dc:title"></a>
-            </li>
-          
             </ul>
       </div>
     </div>

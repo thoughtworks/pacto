@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
   <!-- Our site title and description -->
-  <title>Confused? | Pacto</title>
+  <title>Consumers | Pacto</title>
   <meta name="description" content="Easier Contract Testing" />
   <meta name="keywords" content="contract, consumder-driven, testing" />
   <meta name="author" content="ThoughtWorks" />
@@ -23,11 +23,11 @@
 
   <!-- Icons -->
   <!--
-    <link rel="shortcut icon" href="http://localhost:9778/pages/icons/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/pages/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/pages/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/pages/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/pages/icons/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="http://localhost:9778/overview/icons/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/overview/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/overview/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/overview/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/overview/icons/apple-touch-icon-57-precomposed.png">
 -->
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -76,124 +76,20 @@
   <header>
     <div class="row">
       <div class="columns">
-        <h1>Confused?</h1>
-        
-          <h3>Hopefully this answers will help...</h3>
-        
+        <h1><%= @document.title %></h1>
+        <% if  @document.subtitle: %>
+          <h3><%= @document.subtitle %></h3>
+        <% end %>
       </div>
     </div>
   </header>
   <div class="row">
     <nav class="columns large-3">
-      <!-- Define `renderMenu` partial -->
-
-<!-- Run `renderMenu` partial against passed `menuItems` meta-data  -->
-
-<ul class="side-nav">
-    
-        <li >
-            
-                <a href="/pages/blog">Blog</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/pages/contact">Community</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/intro/">Intro</a>
-            
-            
-                
-<ul class="side-nav">
-    
-        <li >
-            
-                <a href="/intro/consumers">Consumers</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/intro/providers">Providers</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/intro/contracts">Contracts</a>
-            
-            
-        </li>
-    
-</ul>   
-
-            
-        </li>
-    
-        <li >
-            
-                <a href="/patterns/">Patterns</a>
-            
-            
-                
-<ul class="side-nav">
-    
-        <li >
-            
-                <a href="/patterns/integration_contract_testing">Integration Contract Testing</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/patterns/cdc">Consumer-Driven Contracts</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/patterns/documentation_driven">Documentation-Driven Contracts</a>
-            
-            
-        </li>
-    
-        <li >
-            
-                <a href="/patterns/polyglot">Polyglot Testing</a>
-            
-            
-        </li>
-    
-</ul>   
-
-            
-        </li>
-    
-</ul>   
-
+      <%- console.log(@generateMenu(@document.url)) %>
+      <%- @partial('menu.html.eco', {menuItems: @generateMenu(@document.url)}) %>
     </nav>
     <div class="columns large-9 small-12 page-content">
-      <ul>
-
-        <li>
-            <a href="http://localhost:9778/faq/cdc">What are Consumer-Driven Contracts?</a>
-        </li>
-
-</ul>
-
-<p><a href="http://localhost:9778/pages/contact">Contact us</a> if your question isn&#39;t answered above.</p>
-
+      <%- @content %>
     </div>
   </div>
 
@@ -217,7 +113,7 @@
             </li>
           
                 <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/faq" class="active">
+            <li typeof="sioc:Page" about="/pages/faq" class="">
               <a href="http://localhost:9778/pages/faq" property="dc:title">FAQ</a>
             </li>
           

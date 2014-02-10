@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
   <!-- Our site title and description -->
-  <title>What's it all about? | Pacto</title>
+  <title>Polyglot Testing | Pacto</title>
   <meta name="description" content="Easier Contract Testing" />
   <meta name="keywords" content="contract, consumder-driven, testing" />
   <meta name="author" content="ThoughtWorks" />
@@ -23,11 +23,11 @@
 
   <!-- Icons -->
   <!--
-    <link rel="shortcut icon" href="http://localhost:9778/pages/icons/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/pages/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/pages/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/pages/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/pages/icons/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="http://localhost:9778/overview/icons/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/overview/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/overview/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/overview/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/overview/icons/apple-touch-icon-57-precomposed.png">
 -->
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -73,10 +73,169 @@
       </nav>
     <div role="main">
       <article id="page" class="page">
+	<nav>
+		
+    <!-- Define `renderMenu` partial -->
+
+<!-- Run `renderMenu` partial against passed `menuItems` meta-data  -->
+
+
+<ul class="nav">
+    
+        <li class="nav__item">
+            
+                <a href="/pages/blog">Blog</a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/404">404 Not Found</a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/cheat_sheet"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item nav__item_selected">
+            
+                <a href="/"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/faq/cdc">What are Consumer-Driven Contracts?</a>
+            
+            
+        </li>
+    
+        <li class="nav__item nav__item_selected">
+            
+                <strong>Polyglot Testing</strong>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/animations.css"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/atom.xml"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/scripts/app.js"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/500">500 Internal Server Error</a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/pages/faq">Confused?</a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/scripts/editor.js"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/overview/consumers">Consumers</a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/docco.css"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/pages/contact">Community</a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/scripts/modernizr.js"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/editor.css"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/highlightjs-github.css"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/normalize.css"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/style.css"></a>
+            
+            
+        </li>
+    
+        <li class="nav__item">
+            
+                <a href="/styles/zurb-foundation.css"></a>
+            
+            
+        </li>
+    
+</ul>   
+
+  </nav>
 	<header>
 		<div class="row">
 			<div class="columns">
-				<h1>What's it all about?</h1>
+				<h1>Polyglot Testing</h1>
 				
 			</div>
 		</div>
@@ -84,7 +243,18 @@
 	<div class="row">
 
 		<div class="columns large-12 small-12 page-content">
-			<p>Let me tell you...</p>
+			<p>Pacto can be used to test more than just Ruby projects.  In fact, we&#39;ve been experimenting with Pacto as a way to validate OpenStack SDKs written in many languages.  The setup looks like this:</p>
+<p><img src="http://localhost:9778/images/polyglot.png" alt="Polyglot Testing" title="Polyglot Testing Setup"></p>
+<p>The test suite is used to ensure that similar code samples from each SDK trigger similar RESTful interactions with the provider&#39;s API.  The process is:</p>
+<ol>
+<li>The test suite (written in RSpec) launches a Pacto Server to intercept API interactions.</li>
+<li>The test suite then runs the sample code for each SDK.</li>
+<li>The SDKs are configured to call the APIs via a Pacto endpoint.  Pacto forwards the requests to the real service (or returns a stubbed response, if stubbing is enabled) and then validates the request/response interaction matched a contract.</li>
+<li>Once the sample code has finished running, the RSpec tests can check with Pacto to confirm only expected services were called, and that there were no validation errors.</li>
+<li>We then generate a <a href="https://github.com/maxlinc/matrix_formatter">feature matrix report</a> and other documentation for the SDKs.</li>
+</ol>
+<p>The test suite is designed so that necessary pieces within a test are multi-threaded and avoid deadlocks, and you can run multiple tests in parallel to minimize the time required to test.</p>
+<p>We haven&#39;t packaged this approach up as a reusable project yet, but our <a href="https://github.com/maxlinc/drg-tests">test suite is open-source</a> so check it out and then <a href="http://localhost:9778/pages/contact">contact us</a> if you&#39;re interested in helping extract reusable patterns.</p>
 
 		</div>
 	</div>
@@ -109,16 +279,6 @@
             </li>
           
                 <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/consumers" class="">
-              <a href="http://localhost:9778/pages/consumers" property="dc:title">Consumers</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/about" class="active">
-              <a href="http://localhost:9778/pages/about" property="dc:title">About</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
             <li typeof="sioc:Page" about="/pages/faq" class="">
               <a href="http://localhost:9778/pages/faq" property="dc:title">FAQ</a>
             </li>
@@ -126,11 +286,6 @@
                 <li class="divider hide-for-small"></li>
             <li typeof="sioc:Page" about="/pages/blog" class="">
               <a href="http://localhost:9778/pages/blog" property="dc:title">Blog</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/polyglot" class="">
-              <a href="http://localhost:9778/pages/polyglot" property="dc:title"></a>
             </li>
           
             </ul>

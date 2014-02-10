@@ -1,11 +1,273 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Consumers</title>
-		<meta http-equiv="REFRESH" content="0;url=/pages/consumers">
-		<link rel="canonical" href="/pages/consumers" />
-	</head>
-	<body>
-		This page has moved. You will be automatically redirected to its new location. If you aren't forwarded to the new page, <a href="/pages/consumers">click here</a>.
-	</body>
+<html lang="en">
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+     More info: h5bp.com/i/378 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <!-- Our site title and description -->
+  <title>Consumers | Pacto</title>
+  <meta name="description" content="Easier Contract Testing" />
+  <meta name="keywords" content="contract, consumder-driven, testing" />
+  <meta name="author" content="ThoughtWorks" />
+
+  <!-- Output DocPad produced meta elements -->
+  <meta name="generator" content="DocPad v6.63.3" />
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width" />
+
+  <!-- Icons -->
+  <!--
+    <link rel="shortcut icon" href="http://localhost:9778/pages/icons/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/pages/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/pages/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/pages/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost:9778/pages/icons/apple-touch-icon-57-precomposed.png">
+-->
+  <!-- Shims: IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  
+  <!-- Styles -->
+  <link href='http://fonts.googleapis.com/css?family=Montserrat|Maven+Pro' rel='stylesheet' type='text/css'>
+  <style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="http://localhost:9778/styles/docco.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/zurb-foundation.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/style.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/highlightjs-github.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/editor.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/animations.css" />
+
+</head>
+<body >
+  <div id='layout'>
+      <nav class="container top-bar">
+          <ul class=" title-area">
+            <li class="name">
+              <h1><a href="http://localhost:9778/"> Pacto</a></h1>
+            </li>
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+          </ul>  
+          <section class="top-bar-section">
+            <ul class="left">
+              <li>
+                <a href="https://github.com/thoughtworks/pacto">GitHub</a>
+              </li>
+              <li>
+                <a href="https://www.relishapp.com/maxlinc/pacto/docs">Documentation</a>
+              </li>
+            </ul>
+            <ul class="right">
+              
+              <li class="divider hide-for-small"></li>
+          <li typeof="sioc:Page" about="http://localhost:9778/pages/blog" class="">
+            <a href="http://localhost:9778/pages/blog" property="dc:title">Blog</a>
+          </li>
+        
+            </ul>
+          </section>
+      </nav>
+    <div role="main">
+      <article id="page" class="page">
+	<nav>
+    <!-- Define `renderMenu` partial -->
+
+<!-- Run `renderMenu` partial aginst passed `menuItems` meta-data  -->
+
+<ul class="nav">
+    
+        <!-- Highlight menu item if its `item.state` is not false -->
+        <li>
+            <!-- Remove link if we’re currently viewing this document -->
+            
+                <a href="/pages/polyglot">Polyglot Testing</a>
+            
+            <!-- Render submenu if item has children -->
+            
+        </li>
+    
+        <!-- Highlight menu item if its `item.state` is not false -->
+        <li class="selected">
+            <!-- Remove link if we’re currently viewing this document -->
+            
+                <strong>Consumers</strong>
+            
+            <!-- Render submenu if item has children -->
+            
+        </li>
+    
+        <!-- Highlight menu item if its `item.state` is not false -->
+        <li>
+            <!-- Remove link if we’re currently viewing this document -->
+            
+                <a href="/pages/contact">Community</a>
+            
+            <!-- Render submenu if item has children -->
+            
+        </li>
+    
+</ul>   
+
+  </nav>
+	<header>
+		<div class="row">
+			<div class="columns">
+				<h1>Consumers</h1>
+				
+			</div>
+		</div>
+	</header>
+	<div class="row">
+
+		<div class="columns large-12 small-12 page-content">
+			<p>A consumer uses a service from a provider.  Since Pacto deals with REST/HTTP, this means the consumer sends HTTP requests and the provider responds.  Pacto helps place constraints between the consumers and providers of a service.  This page outlines Pacto usage patterns from a consumers point-of-view.  The [providers] page outlines the same patterns from the other viewpoint.</p>
+<h4 id="overview-of-constraints">Overview of constraints</h4>
+<blockquote>
+  <p><strong>Collaboration tests</strong> prove that the client interacts with its collaborators correctly; the client sends the correct messages and message arguments to the collaborator and appropriately handles all outputs from the collaborator.&hellip;</p>
+  <p><strong>Contract testing</strong>, on the other hand, deals with testing that an interface implementation accurately respects the interface it is implementing. Does the implementor support the contract it declares to support?</p>
+  <cite>Chris Bartlin - <a href="http://bartling.blogspot.com/2012/01/understanding-power-of-isolated-object.html">Understanding the power of isolated object testing</a></cite>
+</blockquote>
+
+<p>You can use <a href="http://localhost:9778/pages/contract">Pacto Contracts</a> to place constraints on interface between a consumer/producer and Pacto&#39;s <a href="http://localhost:9778/pages/expectations">Rspec expectations</a> to create expectations about the actual messages expected between a consumer/provider for a given test scenario.</p>
+<h4 id="consumer-usage-patterns">Consumer Usage Patterns</h4>
+<h5 id="single-consumer">Single Consumer</h5>
+<p>If you are primarily concerned about the testing of a single consumer of a service, then your primary concern is fast and <a href="http://martinfowler.com/articles/nonDeterminism.html#RemoteServices">deterministic</a> test feedback.</p>
+<p>The recommended pattern here is to use Pacto for <a href="http://martinfowler.com/bliki/IntegrationContractTest.html">integration contract testing</a>.  In integration contract testing, you compare real remote services with test doubles that simulate them.  Pacto acts as a simple way to perform this comparison, by validating both against a contract, which includes expectations about HTTP headers and <a href="http://json-schema.org/">json-schemas</a> validate request and response bodies.</p>
+<p>You can setup a test suite so that Pacto validates responses whether they come from the live provider or are stubbed by a test double:</p>
+<p><img src="http://localhost:9778/images/pair.png" alt="Consumers" title="Consumer/Provider Pair"></p>
+<p>Pacto contracts will give you a clear, versionable history of your expectation of the service.  Pacto will make it clear if a test broke because of an unexpected change to the service structure (e.g. the service provider unexpectedly renamed a field or changed a data type) as opposed to tests that break because of changes to test data (e.g. getting a 404 when searching for a resource that used to exist).  The history of these changes can provided added clarity over the history provided by record-and-replay or <a href="http://martinfowler.com/bliki/SelfInitializingFake.html">self-initializing fakes</a>, because the Pacto contracts only document the structure of the service, not the data captured from multiple interactions with a service.  See the blog post <a href="http://localhost:9778/blog/pacto_and_vcr">Pacto and VCR</a> for details.</p>
+<p>There are <a href="http://robots.thoughtbot.com/how-to-stub-external-services-in-tests">many different ways</a> to stub external services, and Pacto can validate most of them.  Pacto will integrate with any WebMock-based stubbing system, and you can even use our <a href="http://localhost:9778/pages/polyglot">polyglot testing</a> techniques to test non-Ruby applications or non-Ruby stubbing systems that use real servers, like <a href="http://www.mbtest.org/">mountebank</a>.</p>
+<p>Pacto does have it&#39;s own stubbing system that generates stubbed responses based on the Contract.  This may be a good choice if you have a simple service and want to have maximum decoupling and contract validation, but it isn&#39;t powerful enough for tests that require stateful test doubles or complex data structures.</p>
+<h5 id="one-of-several-dissimilar-consumers">One of several dissimilar consumers</h5>
+<p>If the consumer you are testing is one of a few dissimilar consumers, then the service evolution pattern becomes important.  You want the provider to keep all its obligations to your service, and react quickly to requested changes.  However, you don&#39;t want to spend all your time in meetings and coordinating changes with other consumers.</p>
+<p><img src="http://localhost:9778/images/cdc.png" alt="Consumer-Driven Contracts" title="Consumer-Driven Contracts"></p>
+<p>There is a service evolution pattern called <a href="http://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts</a> that is a good option for this scenario.  It lets each consumer decide what they need from the provider.  The provider agrees to keep each consumer happy, but avoids making any unnecessary guarantees about the service.  This lets the provider remain agile.</p>
+<h5 id="one-of-many-similar-consumers">One of many similar consumers</h5>
+<p>Does one of these situations describe your consumer?</p>
+<ul>
+<li>You are rewriting a legacy application or microservice with different technology, but should provide a similar integration with external services.</li>
+<li>Your organization is implementing a web, iOS, and Android application with similar features.  You are writing one of those applications.</li>
+<li>You are writing one of several language-bindings for an API to <a href="http://blog.programmableweb.com/2014/01/15/six-ways-to-make-your-developer-portal-more-intuitive/">make your developer portal more intuitive</a>.</li>
+</ul>
+<p>If so, then the <a href="http://localhost:9778/pages/polyglot">polyglot testing</a> and/or (the <a href="http://localhost:9778/pages/documentation-driven">Documentation-Driven Contracts</a> patterns may be a good fit.</p>
+<p><img src="http://localhost:9778/images/polyglot.png" alt="Polyglot Testing" title="Polyglot Testing"></p>
+<p>The Polyglot Testing approaches let you use Pacto to test non-Ruby consumers.  It&#39;s especially useful for running similar test scenarios in each consumer and ensuring they trigger a similar interaction with the provider.</p>
+<p>The Documentation-Driven Contracts approach aims to ensure the documentation, test doubles, and live service are all consistent.  You generate contracts from documentation and then using those contracts to validate both test doubles and the live service.  Guaranteeing that the documentation and test doubles are accurate helps create additional consumers without having to rely on trial-and-error integration with the live service.</p>
+
+		</div>
+	</div>
+
+	
+
+</article>
+    </div>
+      <div id='layout_footer'></div>
+  </div>
+  <footer id='footer' class="panel">
+    <div class="row">
+      <div class="columns large-5 small-12">
+      &copy; ThoughtWorks 2014
+      </div>
+      <div class="columns large-7 small-12 ">
+        <ul class="inline-list foot-right">
+                
+                <li class="divider hide-for-small"></li>
+            <li typeof="sioc:Page" about="/pages/contact" class="">
+              <a href="http://localhost:9778/pages/contact" property="dc:title">Community</a>
+            </li>
+          
+                <li class="divider hide-for-small"></li>
+            <li typeof="sioc:Page" about="/pages/consumers" class="active">
+              <a href="http://localhost:9778/pages/consumers" property="dc:title">Consumers</a>
+            </li>
+          
+                <li class="divider hide-for-small"></li>
+            <li typeof="sioc:Page" about="/pages/faq" class="">
+              <a href="http://localhost:9778/pages/faq" property="dc:title">FAQ</a>
+            </li>
+          
+                <li class="divider hide-for-small"></li>
+            <li typeof="sioc:Page" about="/pages/blog" class="">
+              <a href="http://localhost:9778/pages/blog" property="dc:title">Blog</a>
+            </li>
+          
+                <li class="divider hide-for-small"></li>
+            <li typeof="sioc:Page" about="/pages/polyglot" class="">
+              <a href="http://localhost:9778/pages/polyglot" property="dc:title"></a>
+            </li>
+          
+            </ul>
+      </div>
+    </div>
+  </footer>
+  <!-- Scripts -->
+
+  <!-- Depending on browser support load the zepto-pack or the jquery-pack. 
+    As configured (see grunt-config.json) this includes: 
+     - modernizr, 
+     - zepto OR jquery
+     - foundation.topbar.js
+
+    condition jquery or zepto adapted from: 
+    http://foundation.zurb.com/docs/javascript.html
+  -->
+  <script src="http://localhost:9778/scripts/jquery-pack.min.js"></script>
+  <script src="http://localhost:9778/scripts/ace-pack.min.js"></script>
+  <script>
+    //init all foundation plugins. 
+    //Currently this only includes foundation.topbar.js
+    //See http://foundation.zurb.com/docs/javascript.html
+    $(document).foundation();
+  </script>
+  <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="http://localhost:9778/scripts/app.js"></script><script defer="defer"  src="http://localhost:9778/scripts/editor.js"></script>
+</body>
 </html>

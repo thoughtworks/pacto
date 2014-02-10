@@ -22,13 +22,12 @@
   <meta name="viewport" content="width=device-width" />
 
   <!-- Icons -->
-  <!--
-    <link rel="shortcut icon" href="/pacto/pages/icons/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/pages/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/pages/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/pages/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/pacto/pages/icons/apple-touch-icon-57-precomposed.png">
--->
+    <link rel="shortcut icon" sizes="16x16" href="/pacto/icons/favicon.ico">
+    <link rel="shortcut icon" sizes="196x196" href="/pacto/icons/icon-196.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/pacto/icons/apple-touch-icon-57-precomposed.png">
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
     <script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,8 +59,8 @@
             <ul class="right">
               
               <li class="divider hide-for-small"></li>
-          <li typeof="sioc:Page" about="/pacto/pages/blog" class="">
-            <a href="/pacto/pages/blog" property="dc:title">Blog</a>
+          <li typeof="sioc:Page" about="/pacto/blog" class="">
+            <a href="/pacto/blog" property="dc:title">Blog</a>
           </li>
         
             </ul>
@@ -69,18 +68,143 @@
       </nav>
     <div role="main">
       <article id="page" class="page">
-	<header>
-		<div class="row">
-			<div class="columns">
-				<h1>Consumers</h1>
-				
-			</div>
-		</div>
-	</header>
-	<div class="row">
+  <header>
+    <div class="row">
+      <div class="columns">
+        <h1>Consumers</h1>
+        
+      </div>
+    </div>
+  </header>
+  <div class="row">
+    <nav class="columns large-3">
+      <!-- Define `renderMenu` partial -->
 
-		<div class="columns large-12 small-12 page-content">
-			<p>A consumer uses a service from a provider.  Since Pacto deals with REST/HTTP, this means the consumer sends HTTP requests and the provider responds.  Pacto helps place constraints between the consumers and providers of a service.  This page outlines Pacto usage patterns from a consumers point-of-view.  The [providers] page outlines the same patterns from the other viewpiont.</p>
+<!-- Run `renderMenu` partial against passed `menuItems` meta-data  -->
+
+<ul class="side-nav">
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li  class="active">
+            
+                <a href="/intro/">Intro</a>
+            
+            
+                
+<ul class="side-nav">
+    
+        
+        <li  class="active">
+            
+                <strong>Consumers</strong>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/intro/providers">Providers</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/intro/contracts">Contracts</a>
+            
+            
+        </li>
+    
+</ul>   
+
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/">Patterns</a>
+            
+            
+                
+<ul class="side-nav">
+    
+        
+        <li >
+            
+                <a href="/patterns/integration_contract_testing">Integration Contract Testing</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/cdc">Consumer-Driven Contracts</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/documentation_driven">Documentation-Driven Contracts</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/patterns/polyglot">Polyglot Testing</a>
+            
+            
+        </li>
+    
+</ul>   
+
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/blog">Blog</a>
+            
+            
+        </li>
+    
+        
+        <li >
+            
+                <a href="/contact">Community</a>
+            
+            
+        </li>
+    
+</ul>   
+
+    </nav>
+    <div class="columns large-9 small-12 page-content">
+      <p>A consumer uses a service from a provider.  Since Pacto deals with REST/HTTP, this means the consumer sends HTTP requests and the provider responds.  Pacto helps place constraints between the consumers and providers of a service.  This page outlines Pacto usage patterns from a consumers point-of-view.  The [providers] page outlines the same patterns from the other viewpoint.</p>
 <h4 id="overview-of-constraints">Overview of constraints</h4>
 <blockquote>
   <p><strong>Collaboration tests</strong> prove that the client interacts with its collaborators correctly; the client sends the correct messages and message arguments to the collaborator and appropriately handles all outputs from the collaborator.&hellip;</p>
@@ -114,10 +238,10 @@
 <p>The Polyglot Testing approaches let you use Pacto to test non-Ruby consumers.  It&#39;s especially useful for running similar test scenarios in each consumer and ensuring they trigger a similar interaction with the provider.</p>
 <p>The Documentation-Driven Contracts approach aims to ensure the documentation, test doubles, and live service are all consistent.  You generate contracts from documentation and then using those contracts to validate both test doubles and the live service.  Guaranteeing that the documentation and test doubles are accurate helps create additional consumers without having to rely on trial-and-error integration with the live service.</p>
 
-		</div>
-	</div>
+    </div>
+  </div>
 
-	
+  
 
 </article>
     </div>
@@ -131,31 +255,6 @@
       <div class="columns large-7 small-12 ">
         <ul class="inline-list foot-right">
                 
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/contact" class="">
-              <a href="/pacto/pages/contact" property="dc:title">Community</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/consumers" class="active">
-              <a href="/pacto/pages/consumers" property="dc:title">Consumers</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/faq" class="">
-              <a href="/pacto/pages/faq" property="dc:title">FAQ</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/blog" class="">
-              <a href="/pacto/pages/blog" property="dc:title">Blog</a>
-            </li>
-          
-                <li class="divider hide-for-small"></li>
-            <li typeof="sioc:Page" about="/pages/polyglot" class="">
-              <a href="/pacto/pages/polyglot" property="dc:title"></a>
-            </li>
-          
             </ul>
       </div>
     </div>
