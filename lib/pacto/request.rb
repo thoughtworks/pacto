@@ -11,7 +11,7 @@ module Pacto
     end
 
     def uri
-      @uri ||= Pacto::URI.new(host, path, params)
+      @uri ||= Pacto::URI.for(host, path, params)
     end
 
     def body

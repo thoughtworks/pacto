@@ -1,31 +1,18 @@
 module Pacto
   class URI
-    def initialize(host, path, params = {})
-      @host = host
-      @path = path
-      @params = params
+    def self.for(host, path, params = {})
+      base_uri = Addressable::URI.parse("#{host}#{path}")
+      base_uri = Addressable::URI.parse("http://#{base_uri}") if base_uri.scheme.nil?
+      base_uri.query_values = params unless params.empty?
+      new(base_uri)
     end
 
-    def uri
-      if base_uri.scheme.nil?
-        Addressable::URI.parse "http://#{base_uri}"
-      else
-        base_uri
-      end
-    end
-
-    def base_uri
-      Addressable::URI.parse("#{host}#{path}").tap do |uri|
-        uri.query_values = params unless params.empty?
-      end
+    def initialize(base_uri)
+      @base_uri = base_uri
     end
 
     def to_s
-      uri.to_s
+      @base_uri.to_s
     end
-
-    private
-
-    attr_reader :host, :path, :params
   end
 end
