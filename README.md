@@ -4,34 +4,43 @@
 [![Dependency Status](https://gemnasium.com/thoughtworks/pacto.png)](https://gemnasium.com/thoughtworks/pacto)
 [![Coverage Status](https://coveralls.io/repos/thoughtworks/pacto/badge.png)](https://coveralls.io/r/thoughtworks/pacto)
 
-# Pacto
-
-Pacto is a Ruby framework to help with [Integration Contract Testing](http://martinfowler.com/bliki/IntegrationContractTest.html).
-
 **If you're viewing this at https://github.com/thoughtworks/pacto,
 you're reading the documentation for the master branch.
 [View documentation for the latest release
 (0.2.5).](https://github.com/thoughtworks/pacto/tree/v0.2.5)**
 
-With Pacto you can:
+# Pacto
 
-* [Evolve](https://www.relishapp.com/maxlinc/pacto/docs/evolve) your services with either a [Consumer-Driven Contracts](http://martinfowler.com/articles/consumerDrivenContracts.html) approach or by tracking provider contracts.
-* [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) a contract from your documentation or sample response.
-* [Validate](https://www.relishapp.com/maxlinc/pacto/docs/validate) your live or stubbed services against expectations to ensure they still comply with your Contracts.
-* [Stub](https://www.relishapp.com/maxlinc/pacto/docs/stub) services by letting Pacto creates responses that match a Contract.
+Pacto is a judge that arbitrates contract disputes between a **service provider** and one or more **consumers**.  In other words, it is a framework for [Integration Contract Testing](http://martinfowler.com/bliki/IntegrationContractTest.html), and helps guide service evolution patterns like [Consumer-Driven Contracts](http://thoughtworks.github.io/pacto/patterns/cdc/) or [Documentation-Driven Contracts](http://thoughtworks.github.io/pacto/patterns/documentation_driven/).
 
-See the [Usage](#usage) section for some basic examples on how you can use Pacto, and browse the [Relish documentation](https://www.relishapp.com/maxlinc/pacto) for more advanced options.
+Pacto considers two major terms in order decide if there has been a breach of contract: the **request clause** and the **response clause**.
 
-Pacto's contract validation capabilities are primarily backed by [json-schema](http://json-schema.org/).  This lets you the power of many assertions that will give detailed and precise error messages.  See the specification for possible assertions.
+The **request clause** defines what information must be sent by the **consumer** to the **provider** in order to compel them to render a service.  The request clause often describes the required HTTP request headers like `Content-Type`, the required parameters, and the required request body (defined in [json-schema](http://json-schema.org/)) when applicable.  Providers are not held liable for failing to deliver services for invalid requests.
 
-Pacto's stubbing ability ranges from very simple stubbing to:
-* Running a server to test from non-Ruby clients
-* Generating random or dynamic data as part of the response
-* Following simple patterns to simulate resource collections
+The **response clause** defines what information must be returned by the **provider** to the **consumer** in order to successfully complete the transaction.  This commonly includes HTTP response headers like `Location` as well as the required response body (also defined in [json-schema](http://json-schema.org/)).
 
-It's your choice - do you want simple behavior and strict contracts to focus on contract testing, or rich behavior and looser contracts to create dynamic test doubles for collaboration testing?
+## Test Doubles
 
-Note: Currently, Pacto is only designed to work with JSON services.  See the [Constraints](#constraints) section for further information on what Pacto does not do.
+The consumer may also enter into an agreement with **test doubles** like [WebMock](http://robots.thoughtbot.com/how-to-stub-external-services-in-tests), [vcr](https://github.com/vcr/vcr) or [mountebank](http://www.mbtest.org/).  The services delivered by the **test doubles** for the purposes of development and testing will be held to the same conditions as the service the final services rendered by the parent **provider**.  This prevents misrepresentation of sample services as realistic, leading to damages during late integration.
+
+Pacto can provide a [**test double**](#stubbing) if you cannot afford your own.
+
+## Due Diligence
+
+Pacto usually makes it clear if the **consumer** or **provider** is at fault, but if a contract is too vague Pacto cannot assign blame, and if it is too specific the matter may become litigious.
+
+Pacto can provide a [**contract writer**](#generating) that tries to strike a balance, but you may still need to adjust the terms.
+
+## Implied Terms
+
+- Pacto only arbitrates contracts for JSON services.
+- Pacto requires Ruby 1.9.3 or newer, though you can use [Polyglot Testing](http://thoughtworks.github.io/pacto/patterns/polyglot/) techniques to support older Rubies and non-Ruby projects.
+
+## Roadmap
+
+- The **test double** provided by Pacto is only semi-competent.  It handles simple cases, but we expect to find a more capable replacement in the near future.
+- Pacto will provide additional Contract Writers for converting from apiblueprint, WADL, or other documentation formats in the future.  It's part of our goal to support [Documentation-Driven Contracts](http://thoughtworks.github.io/pacto/patterns/documentation_driven/)
+- Pacto reserves the right to consider other clauses in the future, like security and compliance to industry specifications.
 
 ## Usage
 
