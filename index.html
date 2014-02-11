@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/pacto"/>
   <!-- Meta -->
   <meta charset="utf-8" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -22,19 +23,19 @@
   <meta name="viewport" content="width=device-width" />
 
   <!-- Icons -->
-    <link rel="shortcut icon" sizes="16x16" href="/pacto/icons/favicon.ico">
-    <link rel="shortcut icon" sizes="196x196" href="/pacto/icons/icon-196.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/pacto/icons/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" sizes="16x16" href="/icons/favicon.ico">
+    <link rel="shortcut icon" sizes="196x196" href="/icons/icon-196.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/icons/apple-touch-icon-57-precomposed.png">
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
     <script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   
   <!-- Styles -->
-  <link  rel="stylesheet" href="/pacto/styles/docco.css" /><link  rel="stylesheet" href="/pacto/styles/zurb-foundation.css" /><link  rel="stylesheet" href="/pacto/styles/style.css" /><link  rel="stylesheet" href="/pacto/styles/highlightjs-github.css" /><link  rel="stylesheet" href="/pacto/styles/editor.css" /><link  rel="stylesheet" href="/pacto/styles/animations.css" />
+  <link  rel="stylesheet" href="/styles/docco.css" /><link  rel="stylesheet" href="/styles/zurb-foundation.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlightjs-github.css" /><link  rel="stylesheet" href="/styles/editor.css" /><link  rel="stylesheet" href="/styles/animations.css" />
 
 </head>
 <body >
@@ -42,7 +43,7 @@
       <nav class="container top-bar">
           <ul class=" title-area">
             <li class="name">
-              <h1><a href="/pacto/"> Pacto</a></h1>
+              <h1><a href="/"> Pacto</a></h1>
             </li>
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
           </ul>  
@@ -52,14 +53,14 @@
                 <a href="https://github.com/thoughtworks/pacto">GitHub</a>
               </li>
               <li>
-                <a href="/pacto/intro/">Documentation</a>
+                <a href="/intro/">Documentation</a>
               </li>
             </ul>
             <ul class="right">
               
               <li class="divider hide-for-small"></li>
-          <li typeof="sioc:Page" about="/pacto/blog" class="">
-            <a href="/pacto/blog" property="dc:title">Blog</a>
+          <li typeof="sioc:Page" about="/blog" class="">
+            <a href="/blog" property="dc:title">Blog</a>
           </li>
         
             </ul>
@@ -70,7 +71,7 @@
 <header class="tall">
   <div class="row">
     <section class="small-12 large-6 columns large-centered show-for-touch">
-      <img src="/pacto/images/pacto-animation.gif"></img>
+      <img src="/images/pacto-animation.gif"></img>
     </section>
     <section id="editor-section" class="small-12 large-6 columns large-centered hide-for-touch">
       <div id="editor-mask" class="row">
@@ -84,7 +85,7 @@
   <div class="row">
     <section class="small-12 large-6 columns large-centered">
       <div id="comments-container">
-          <a href="/pacto/usage" class="button radius secondary large">View Usage Samples</a>
+          <a href="/usage" class="button radius secondary large">View Usage Samples</a>
       </div>
     </section>
   </div>
@@ -96,12 +97,12 @@
 	<section class="small-12 large-6 columns">
 		<h2>Consumers</h2>
 		<p>Pacto helps you test consumers by both validating and stubbing services.  This helps you decouple tests to reduce test times and non-deterministic test failures without losing confidence in your test suite.  You can also design compatibility tests for similar consumers.</p>
-		<p><a  href="/pacto/intro/consumers">Learn about Consumers</a></p>
+		<p><a  href="/intro/consumers">Learn about Consumers</a></p>
 	</section>
 	<section class="small-12 large-6 columns">
 		<h2>Providers</h2>
 		<p>You can use Consumer-Driven Contracts to ensure you're providers are well tested without losing agility.  Pacto will test the provider implementation and make sure it complies with the same contract used to stub the service for consumers.</p>
-		<p><a  href="/pacto/intro/providers">Learn about Providers</a></p>
+		<p><a  href="/intro/providers">Learn about Providers</a></p>
 	</section>
 </div>
     </div>
@@ -130,14 +131,14 @@
     condition jquery or zepto adapted from: 
     http://foundation.zurb.com/docs/javascript.html
   -->
-  <script src="/pacto/scripts/jquery-pack.min.js"></script>
-  <script src="/pacto/scripts/ace-pack.min.js"></script>
+  <script src="/scripts/jquery-pack.min.js"></script>
+  <script src="/scripts/ace-pack.min.js"></script>
   <script>
     //init all foundation plugins. 
     //Currently this only includes foundation.topbar.js
     //See http://foundation.zurb.com/docs/javascript.html
     $(document).foundation();
   </script>
-  <script defer="defer"  src="/pacto/scripts/app.js"></script><script defer="defer"  src="/pacto/scripts/editor.js"></script>
+  <script defer="defer"  src="/scripts/app.js"></script><script defer="defer"  src="/scripts/editor.js"></script>
 </body>
 </html>

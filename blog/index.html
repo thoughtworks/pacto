@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/pacto"/>
   <!-- Meta -->
   <meta charset="utf-8" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -22,19 +23,19 @@
   <meta name="viewport" content="width=device-width" />
 
   <!-- Icons -->
-    <link rel="shortcut icon" sizes="16x16" href="/pacto/icons/favicon.ico">
-    <link rel="shortcut icon" sizes="196x196" href="/pacto/icons/icon-196.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/pacto/icons/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" sizes="16x16" href="/icons/favicon.ico">
+    <link rel="shortcut icon" sizes="196x196" href="/icons/icon-196.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/icons/apple-touch-icon-57-precomposed.png">
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
     <script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   
   <!-- Styles -->
-  <link  rel="stylesheet" href="/pacto/styles/docco.css" /><link  rel="stylesheet" href="/pacto/styles/zurb-foundation.css" /><link  rel="stylesheet" href="/pacto/styles/style.css" /><link  rel="stylesheet" href="/pacto/styles/highlightjs-github.css" /><link  rel="stylesheet" href="/pacto/styles/editor.css" /><link  rel="stylesheet" href="/pacto/styles/animations.css" />
+  <link  rel="stylesheet" href="/styles/docco.css" /><link  rel="stylesheet" href="/styles/zurb-foundation.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlightjs-github.css" /><link  rel="stylesheet" href="/styles/editor.css" /><link  rel="stylesheet" href="/styles/animations.css" />
 
 </head>
 <body >
@@ -42,7 +43,7 @@
       <nav class="container top-bar">
           <ul class=" title-area">
             <li class="name">
-              <h1><a href="/pacto/"> Pacto</a></h1>
+              <h1><a href="/"> Pacto</a></h1>
             </li>
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
           </ul>  
@@ -52,14 +53,14 @@
                 <a href="https://github.com/thoughtworks/pacto">GitHub</a>
               </li>
               <li>
-                <a href="/pacto/intro/">Documentation</a>
+                <a href="/intro/">Documentation</a>
               </li>
             </ul>
             <ul class="right">
               
               <li class="divider hide-for-small"></li>
-          <li typeof="sioc:Page" about="/pacto/blog" class="active">
-            <a href="/pacto/blog" property="dc:title">Blog</a>
+          <li typeof="sioc:Page" about="/blog" class="active">
+            <a href="/blog" property="dc:title">Blog</a>
           </li>
         
             </ul>
@@ -97,11 +98,9 @@
         
         
         
-        
-        
         <li>
             
-                <a href="/pacto/intro/">Intro</a>
+                <a href="/intro/">Intro</a>
             
             
                 
@@ -110,7 +109,7 @@
         
         <li>
             
-                <a href="/pacto/intro/consumers">Consumers</a>
+                <a href="/intro/consumers">Consumers</a>
             
             
         </li>
@@ -118,7 +117,7 @@
         
         <li>
             
-                <a href="/pacto/intro/providers">Providers</a>
+                <a href="/intro/providers">Providers</a>
             
             
         </li>
@@ -126,7 +125,7 @@
         
         <li>
             
-                <a href="/pacto/intro/contracts">Contracts</a>
+                <a href="/intro/contracts">Contracts</a>
             
             
         </li>
@@ -139,7 +138,7 @@
         
         <li>
             
-                <a href="/pacto/patterns/">Patterns</a>
+                <a href="/patterns/">Patterns</a>
             
             
                 
@@ -148,7 +147,7 @@
         
         <li>
             
-                <a href="/pacto/patterns/integration_contract_testing">Integration Contract Testing</a>
+                <a href="/patterns/integration_contract_testing">Integration Contract Testing</a>
             
             
         </li>
@@ -156,7 +155,7 @@
         
         <li>
             
-                <a href="/pacto/patterns/cdc">Consumer-Driven Contracts</a>
+                <a href="/patterns/cdc">Consumer-Driven Contracts</a>
             
             
         </li>
@@ -164,7 +163,7 @@
         
         <li>
             
-                <a href="/pacto/patterns/documentation_driven">Documentation-Driven Contracts</a>
+                <a href="/patterns/documentation_driven">Documentation-Driven Contracts</a>
             
             
         </li>
@@ -172,7 +171,7 @@
         
         <li>
             
-                <a href="/pacto/patterns/polyglot">Polyglot Testing</a>
+                <a href="/patterns/polyglot">Polyglot Testing</a>
             
             
         </li>
@@ -185,7 +184,7 @@
         
         <li>
             
-                <a href="/pacto/usage">Samples</a>
+                <a href="/usage">Samples</a>
             
             
         </li>
@@ -240,14 +239,14 @@
     condition jquery or zepto adapted from: 
     http://foundation.zurb.com/docs/javascript.html
   -->
-  <script src="/pacto/scripts/jquery-pack.min.js"></script>
-  <script src="/pacto/scripts/ace-pack.min.js"></script>
+  <script src="/scripts/jquery-pack.min.js"></script>
+  <script src="/scripts/ace-pack.min.js"></script>
   <script>
     //init all foundation plugins. 
     //Currently this only includes foundation.topbar.js
     //See http://foundation.zurb.com/docs/javascript.html
     $(document).foundation();
   </script>
-  <script defer="defer"  src="/pacto/scripts/app.js"></script><script defer="defer"  src="/pacto/scripts/editor.js"></script>
+  <script defer="defer"  src="/scripts/app.js"></script><script defer="defer"  src="/scripts/editor.js"></script>
 </body>
 </html>
