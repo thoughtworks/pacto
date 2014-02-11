@@ -74,9 +74,9 @@ module Pacto
       let(:adapted_response) { double 'adapted response' }
 
       before do
-        WebMock.stub_request(:get, 'http://localhost/hello_world').
+        WebMock.stub_request(:get, 'http://localhost/hello_world?foo=bar').
           to_return(:status => 200, :body => '', :headers => {})
-        WebMock.stub_request(:post, 'http://localhost/hello_world').
+        WebMock.stub_request(:post, 'http://localhost/hello_world?foo=bar').
           to_return(:status => 200, :body => '', :headers => {})
         # TODO: Should we just use WebMock?
       end
@@ -90,7 +90,7 @@ module Pacto
       context 'for a GET request' do
         it 'makes the request thru the http client' do
           request.execute
-          expect(WebMock).to have_requested(:get, 'http://localhost/hello_world').
+          expect(WebMock).to have_requested(:get, 'http://localhost/hello_world?foo=bar').
             with(:headers => headers)
         end
       end
@@ -100,30 +100,8 @@ module Pacto
 
         it 'makes the request thru the http client' do
           request.execute
-          expect(WebMock).to have_requested(:post, 'http://localhost/hello_world').
+          expect(WebMock).to have_requested(:post, 'http://localhost/hello_world?foo=bar').
             with(:headers => headers)
-        end
-      end
-    end
-
-    describe '#absolute_uri' do
-      it 'returns the host followed by the path' do
-        expect(request.absolute_uri).to eq absolute_uri
-      end
-    end
-
-    describe '#full_uri' do
-      context 'when the request has a query' do
-        it 'returns the host followed by the path and the query' do
-          expect(request.full_uri).to eq 'http://localhost/hello_world?foo=bar'
-        end
-      end
-
-      context 'when the query does not have a query' do
-        let(:params) { {} }
-
-        it 'returns the host followed by the path' do
-          expect(request.absolute_uri).to eq 'http://localhost/hello_world'
         end
       end
     end
