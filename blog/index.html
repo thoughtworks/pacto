@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
   <!-- Our site title and description -->
-  <title>Providers | Pacto</title>
+  <title>Blog | Pacto</title>
   <meta name="description" content="Easier Contract Testing" />
   <meta name="keywords" content="contract, consumder-driven, testing" />
   <meta name="author" content="ThoughtWorks" />
@@ -58,7 +58,7 @@
             <ul class="right">
               
               <li class="divider hide-for-small"></li>
-          <li typeof="sioc:Page" about="/pacto/blog" class="">
+          <li typeof="sioc:Page" about="/pacto/blog" class="active">
             <a href="/pacto/blog" property="dc:title">Blog</a>
           </li>
         
@@ -70,7 +70,7 @@
   <header>
     <div class="row">
       <div class="columns">
-        <h1>Providers</h1>
+        <h1>Blog</h1>
         
       </div>
     </div>
@@ -118,7 +118,7 @@
         
         <li>
             
-                <strong>Providers</strong>
+                <a href="/pacto/intro/providers">Providers</a>
             
             
         </li>
@@ -193,7 +193,7 @@
         
         <li>
             
-                <a href="/pacto/blog">Blog</a>
+                <strong>Blog</strong>
             
             
         </li>
@@ -202,25 +202,13 @@
 
     </nav>
     <div class="columns large-9 small-12 page-content">
-      <p>This page outlines Pacto usage patterns from a providers point-of-view.  The <a href="consumers">consumers</a> page outlines the same patterns from the other viewpoint.</p>
-<h4 id="provider-usage-patterns">Provider Usage Patterns</h4>
-<h5 id="serving-a-single-consumer">Serving a single Consumer</h5>
-<p>Pacto has some benefits even if you only have plans to provide a service to a single consumer, though a major benefit is having a headstart towards either multi-consumer service evolution pattern.</p>
-<p>On the provider side, you can use the tools that come with Pacto to simulate consumers along with <a href="http://martinfowler.com/bliki/IntegrationContractTest.html">integration contract testing</a> to ensure it matches up with the agreements made with the consumer.  This consumer should be doing something similar - they are using integration contract testing to ensure they have realistically stubbed responses, while the provider ensures they ahve realistically simulated requests.</p>
-<p><strong>Recommendation</strong>: Use the <a href="http://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts</a> pattern (on a small scale).</p>
-<h5 id="serving-several-dissimilar-consumers">Serving several dissimilar Consumers</h5>
-<p>If you are serving several dissimilar consumers then we recommend scaling up the approach used for a single consumer so you have a contract for each consumer.  This let&#39;s you simulate <em>each</em> consumer with slight variations in their requests and expectations of the response for rapid feedback.</p>
-<p><strong>Recommendation</strong>: Use the <a href="http://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts</a> pattern.</p>
-<h5 id="serving-many-similar-consumers">Serving many similar Consumers</h5>
-<p>If you expect to run a public API or somethign else where you cannot possibly handle each consumer individually, then the best thing to do is integrate Pacto with your documentation system, so you know the promises you make in your documentation are the same ones you validate in your testing.</p>
-<p><strong>Recommendation</strong>: Use the <a href="/pacto/pages/documentation-driven">Documentation-Driven Contracts</a> pattern.</p>
-
+      <nav class="linklist">
+	
+</nav>
       <div>
         
-          <span class="left"><a href="/intro/consumers">&#8592; Consumers</a></span>
+          <span class="left"><a href="/usage">&#8592; Samples</a></span>
         
-        
-          <span class="right"><a href="/intro/contracts">Contracts &#8594;</a></span>
         
       </div>
     </div>
