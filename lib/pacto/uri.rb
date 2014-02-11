@@ -1,8 +1,7 @@
 module Pacto
   class URI
     def self.for(host, path, params = {})
-      base_uri = Addressable::URI.parse("#{host}#{path}")
-      base_uri = Addressable::URI.parse("http://#{base_uri}") if base_uri.scheme.nil?
+      base_uri = Addressable::URI.heuristic_parse("#{host}#{path}")
       base_uri.query_values = params unless params.empty?
       new(base_uri)
     end
