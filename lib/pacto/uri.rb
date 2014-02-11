@@ -1,8 +1,9 @@
 module Pacto
   class URI
-    def initialize(host, path)
+    def initialize(host, path, params = {})
       @host = host
       @path = path
+      @params = params
     end
 
     def uri
@@ -14,7 +15,9 @@ module Pacto
     end
 
     def base_uri
-      Addressable::URI.parse("#{host}#{path}")
+      Addressable::URI.parse("#{host}#{path}").tap do |uri|
+        uri.query_values = params unless params.empty?
+      end
     end
 
     def to_s
@@ -23,6 +26,6 @@ module Pacto
 
     private
 
-    attr_reader :host, :path
+    attr_reader :host, :path, :params
   end
 end
