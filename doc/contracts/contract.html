@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><title>contracts/contract</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="contracts/contract"><meta name="groc-project-path" content="samples/contracts/contract.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">samples/contracts/contract.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><p>Pacto Contracts describe the constraints we want to put on interactions between a consumer and a provider.  It sets some expectations about the headers expected for both the request and response, the expected response status code.  It also uses <a href="http://json-schema.org/">json-schema</a> to define the allowable request body (if one should exist) and response body.</p></div></div><div class="code"><div class="wrapper"><span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The Request section comes first.  In this case, we're just describing a simple get request that does not require any parameters or a request body.</p></div></div><div class="code"><div class="wrapper">  <span class="s2">&quot;request&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A request must exactly match these headers for Pacto to believe the request matches the contract, unless <code>Pacto.configuration.strict_matchers</code> is false.</p></div></div><div class="code"><div class="wrapper">      <span class="s2">&quot;Accept&quot;</span><span class="o">:</span> <span class="s2">&quot;application/vnd.github.beta+json&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Accept-Encoding&quot;</span><span class="o">:</span> <span class="s2">&quot;gzip;q=1.0,deflate;q=0.6,identity;q=0.3&quot;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The <code>method</code> and <code>path</code> are required.  The <code>path</code> may be an <a href="http://tools.ietf.org/html/rfc6570">rfc6570 URI template</a> for more flexible matching.</p></div></div><div class="code"><div class="wrapper">    <span class="s2">&quot;method&quot;</span><span class="o">:</span> <span class="s2">&quot;get&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span><span class="o">:</span> <span class="s2">&quot;/repos/thoughtworks/pacto/readme&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Status&quot;</span><span class="o">:</span> <span class="s2">&quot;200 OK&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Cache-Control&quot;</span><span class="o">:</span> <span class="s2">&quot;public, max-age=60, s-maxage=60&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Etag&quot;</span><span class="o">:</span> <span class="s2">&quot;\&quot;fc8e78b0a9694de66d47317768b20820\&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Vary&quot;</span><span class="o">:</span> <span class="s2">&quot;Accept, Accept-Encoding&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Access-Control-Allow-Credentials&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Access-Control-Expose-Headers&quot;</span><span class="o">:</span> <span class="s2">&quot;ETag, Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Access-Control-Allow-Origin&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;$schema&quot;</span><span class="o">:</span> <span class="s2">&quot;http://json-schema.org/draft-03/schema#&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Generated from https://api.github.com/repos/thoughtworks/pacto/readme with shasum 3ae59164c6d9f84c0a81f21fb63e17b3b8ce6894&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;path&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;sha&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;size&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;html_url&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;git_url&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;content&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;encoding&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;_links&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;self&quot;</span><span class="o">:</span> <span class="p">{</span>
+              <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;git&quot;</span><span class="o">:</span> <span class="p">{</span>
+              <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;html&quot;</span><span class="o">:</span> <span class="p">{</span>
+              <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></div></div></div></div></body></html>

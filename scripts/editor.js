@@ -32,78 +32,80 @@ window.animLoop = function( render, element ) {
 })( window, Date );
 
 $(document).ready(function() {
-  (function Editor() {
+  if ($("#editor-section").is(":visible")) {
+    (function Editor() {
 
-    var editor = ace.edit("editor");
-    editor.setReadOnly(true);
-    editor.setTheme("ace/theme/github");
-    editor.getSession().setMode("ace/mode/ruby");
-    this.editor = editor;
+      var editor = ace.edit("editor");
+      editor.setReadOnly(true);
+      editor.setTheme("ace/theme/github");
+      editor.getSession().setMode("ace/mode/ruby");
+      this.editor = editor;
 
-    this.typeCode = function(text, finalPause) {
-      var deferred = new $.Deferred();
-      var textArr = text.split('');
+      this.typeCode = function(text, finalPause) {
+        var deferred = new $.Deferred();
+        var textArr = text.split('');
 
-      var interval = 1000/25; // 25 fps
-      var now;
-      var then = Date.now();
-      var delta;
+        var interval = 1000/25; // 25 fps
+        var now;
+        var then = Date.now();
+        var delta;
 
-      animLoop(function (deltaT, now) {
-        now = Date.now();
-        delta = now - then;
+        animLoop(function (deltaT, now) {
+          now = Date.now();
+          delta = now - then;
 
-        if (delta > interval) { // limit fps
-          var nextChar = textArr.shift();
+          if (delta > interval) { // limit fps
+            var nextChar = textArr.shift();
 
-          if (typeof nextChar === "undefined") {
-            setTimeout(function() {
-              deferred.resolve();
-            }, finalPause);
-            // return false; will stop the loop
-            return false;
-          } else {
-            editor.insert(nextChar);
-            then = now - (delta % interval);
+            if (typeof nextChar === "undefined") {
+              setTimeout(function() {
+                deferred.resolve();
+              }, finalPause);
+              // return false; will stop the loop
+              return false;
+            } else {
+              editor.insert(nextChar);
+              then = now - (delta % interval);
+            }
           }
-        }
-      });
-      return deferred;
-    }
-
-    var demoEditor = this;
-    function clearEditor() {
-      var deferred = new $.Deferred();
-      editor.setValue("")
-      deferred.resolve();
-      return deferred;
-    }
-    var animationFrames = [
-      function() { return demoEditor.typeCode("# Welcome to Pacto\n# We're going to show you some basic usage here", 1000) },
-      clearEditor,
-      function() { return demoEditor.typeCode("# First, add Pacto to your Gemfile\n\ngem 'pacto'\n", 1000) }
-      // ,
-      // function() {
-      //   var deferred = new $.Deferred();
-      //   panel = $("<div class=\"bubble\"></div>");
-      //   panel.height($("#editor-section").height());
-      //   panel.append("<h4>And then...</h4>");
-      //   panel.append("<p>bundle install</p>");
-      //   $("#comments-container").append(panel).addClass('animated slideInRight');
-      //   deferred.resolve();
-      //   return deferred;
-      // }
-    ];
-
-    function runAnimation() {
-      var frame = animationFrames.shift();
-      if (typeof frame === "undefined") {
-        return
-      } else {
-        console.log("Running a frame");
-        frame().promise().done(runAnimation);
+        });
+        return deferred;
       }
-    };
-    runAnimation();
-  })();
+
+      var demoEditor = this;
+      function clearEditor() {
+        var deferred = new $.Deferred();
+        editor.setValue("")
+        deferred.resolve();
+        return deferred;
+      }
+      var animationFrames = [
+        function() { return demoEditor.typeCode("# Welcome to Pacto\n# We're going to show you some basic usage here", 1000) },
+        clearEditor,
+        function() { return demoEditor.typeCode("# First, add Pacto to your Gemfile\n\ngem 'pacto'\n", 1000) }
+        // ,
+        // function() {
+        //   var deferred = new $.Deferred();
+        //   panel = $("<div class=\"bubble\"></div>");
+        //   panel.height($("#editor-section").height());
+        //   panel.append("<h4>And then...</h4>");
+        //   panel.append("<p>bundle install</p>");
+        //   $("#comments-container").append(panel).addClass('animated slideInRight');
+        //   deferred.resolve();
+        //   return deferred;
+        // }
+      ];
+
+      function runAnimation() {
+        var frame = animationFrames.shift();
+        if (typeof frame === "undefined") {
+          return
+        } else {
+          console.log("Running a frame");
+          frame().promise().done(runAnimation);
+        }
+      };
+      runAnimation();
+    })();
+  }
 });

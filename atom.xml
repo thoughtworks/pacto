@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Pacto</title>
-	<link href="/pacto/atom.xml" rel="self"/>
-	<link href="/pacto"/>
-	<updated>2014-02-10T17:39:10.890Z</updated>
-	<id>/pacto</id>
+	<link href="http://localhost:9778/atom.xml" rel="self"/>
+	<link href="http://localhost:9778"/>
+	<updated>2014-02-11T05:38:53.324Z</updated>
+	<id>http://localhost:9778</id>
 	<author>
 		<name>ThoughtWorks</name>
 		<email>pacto-gem@googlegroups.com</email>

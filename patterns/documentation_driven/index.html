@@ -22,20 +22,23 @@
   <meta name="viewport" content="width=device-width" />
 
   <!-- Icons -->
-    <link rel="shortcut icon" sizes="16x16" href="/pacto/icons/favicon.ico">
-    <link rel="shortcut icon" sizes="196x196" href="/pacto/icons/icon-196.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/pacto/icons/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/pacto/icons/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/pacto/icons/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="/pacto/icons/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" sizes="16x16" href="http://localhost:9778/icons/favicon.ico">
+    <link rel="shortcut icon" sizes="196x196" href="http://localhost:9778/icons/icon-196.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:9778/icons/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:9778/icons/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:9778/icons/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="http://localhost:9778/icons/apple-touch-icon-57-precomposed.png">
   <!-- Shims: IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
     <script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   
   <!-- Styles -->
-  <link href='http://fonts.googleapis.com/css?family=Montserrat|Maven+Pro' rel='stylesheet' type='text/css'>
-  <link  rel="stylesheet" href="/pacto/styles/docco.css" /><link  rel="stylesheet" href="/pacto/styles/zurb-foundation.css" /><link  rel="stylesheet" href="/pacto/styles/style.css" /><link  rel="stylesheet" href="/pacto/styles/highlightjs-github.css" /><link  rel="stylesheet" href="/pacto/styles/editor.css" /><link  rel="stylesheet" href="/pacto/styles/animations.css" />
+  <style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="http://localhost:9778/styles/docco.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/zurb-foundation.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/style.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/highlightjs-github.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/editor.css" /><link  rel="stylesheet" href="http://localhost:9778/styles/animations.css" />
 
 </head>
 <body >
@@ -43,7 +46,7 @@
       <nav class="container top-bar">
           <ul class=" title-area">
             <li class="name">
-              <h1><a href="/pacto/"> Pacto</a></h1>
+              <h1><a href="http://localhost:9778/"> Pacto</a></h1>
             </li>
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
           </ul>  
@@ -53,14 +56,14 @@
                 <a href="https://github.com/thoughtworks/pacto">GitHub</a>
               </li>
               <li>
-                <a href="https://www.relishapp.com/maxlinc/pacto/docs">Documentation</a>
+                <a href="http://localhost:9778/intro/">Documentation</a>
               </li>
             </ul>
             <ul class="right">
               
               <li class="divider hide-for-small"></li>
-          <li typeof="sioc:Page" about="/pacto/blog" class="">
-            <a href="/pacto/blog" property="dc:title">Blog</a>
+          <li typeof="sioc:Page" about="http://localhost:9778/blog" class="">
+            <a href="http://localhost:9778/blog" property="dc:title">Blog</a>
           </li>
         
             </ul>
@@ -101,34 +104,34 @@
         
         
         
-        <li >
+        <li>
             
-                <a href="/pacto/intro/">Intro</a>
+                <a href="http://localhost:9778/intro/">Intro</a>
             
             
                 
 <ul class="side-nav">
     
         
-        <li >
+        <li>
             
-                <a href="/pacto/intro/consumers">Consumers</a>
-            
-            
-        </li>
-    
-        
-        <li >
-            
-                <a href="/pacto/intro/providers">Providers</a>
+                <a href="http://localhost:9778/intro/consumers">Consumers</a>
             
             
         </li>
     
         
-        <li >
+        <li>
             
-                <a href="/pacto/intro/contracts">Contracts</a>
+                <a href="http://localhost:9778/intro/providers">Providers</a>
+            
+            
+        </li>
+    
+        
+        <li>
+            
+                <a href="http://localhost:9778/intro/contracts">Contracts</a>
             
             
         </li>
@@ -139,32 +142,32 @@
         </li>
     
         
-        <li  class="active">
+        <li>
             
-                <a href="/pacto/patterns/">Patterns</a>
+                <a href="http://localhost:9778/patterns/">Patterns</a>
             
             
                 
 <ul class="side-nav">
     
         
-        <li >
+        <li>
             
-                <a href="/pacto/patterns/integration_contract_testing">Integration Contract Testing</a>
-            
-            
-        </li>
-    
-        
-        <li >
-            
-                <a href="/pacto/patterns/cdc">Consumer-Driven Contracts</a>
+                <a href="http://localhost:9778/patterns/integration_contract_testing">Integration Contract Testing</a>
             
             
         </li>
     
         
-        <li  class="active">
+        <li>
+            
+                <a href="http://localhost:9778/patterns/cdc">Consumer-Driven Contracts</a>
+            
+            
+        </li>
+    
+        
+        <li>
             
                 <strong>Documentation-Driven Contracts</strong>
             
@@ -172,9 +175,9 @@
         </li>
     
         
-        <li >
+        <li>
             
-                <a href="/pacto/patterns/polyglot">Polyglot Testing</a>
+                <a href="http://localhost:9778/patterns/polyglot">Polyglot Testing</a>
             
             
         </li>
@@ -185,17 +188,25 @@
         </li>
     
         
-        <li >
+        <li>
             
-                <a href="/pacto/blog">Blog</a>
+                <a href="http://localhost:9778/usage">Samples</a>
             
             
         </li>
     
         
-        <li >
+        <li>
             
-                <a href="/pacto/contact">Community</a>
+                <a href="http://localhost:9778/blog">Blog</a>
+            
+            
+        </li>
+    
+        
+        <li>
+            
+                <a href="http://localhost:9778/contact">Community</a>
             
             
         </li>
@@ -204,12 +215,26 @@
 
     </nav>
     <div class="columns large-9 small-12 page-content">
-      
+      <p>Documentation-Driven Contracts are another service evolution pattern that may be more appropriate for public APIs or other providers that many consumers.  Since establishing a separate contract for each consumer is not practical, the next best thing is to have ensure the documentation accurate reflects the promises made by the service.</p>
+<p>In Documentation-Driven Contracts you want to make your documentation the source of truth for the contract.  Good documentation formats are <a href="http://apiblueprint.org/">apiblueprint</a> (used by <a href="http://apiary.io/">apiary.io</a>), <a href="https://helloreverb.com/developers/swagger">swagger</a>, or <a href="http://en.wikipedia.org/wiki/Web_Application_Description_Language">WADL</a> (used by Apigee and others).</p>
+<p>We want to take those documentation formats:</p>
+<ul>
+<li>Create contracts based on the documented structure</li>
+<li>Create sample requests for simulated consumers to test providers</li>
+<li>Create stubbed responses to test consumers</li>
+</ul>
+<p>Pacto does not yet have support for generating a Contract from documentation, but it is on our roadmap.  We will likely start with <a href="http://apiblueprint.org/">apiblueprint</a>.</p>
+
+      <div>
+        
+          <span class="left"><a href="/patterns/cdc">&#8592; Consumer-Driven Contracts</a></span>
+        
+        
+          <span class="right"><a href="/patterns/polyglot">Polyglot Testing &#8594;</a></span>
+        
+      </div>
     </div>
   </div>
-
-  
-
 </article>
     </div>
       <div id='layout_footer'></div>
@@ -237,14 +262,59 @@
     condition jquery or zepto adapted from: 
     http://foundation.zurb.com/docs/javascript.html
   -->
-  <script src="/pacto/scripts/jquery-pack.min.js"></script>
-  <script src="/pacto/scripts/ace-pack.min.js"></script>
+  <script src="http://localhost:9778/scripts/jquery-pack.min.js"></script>
+  <script src="http://localhost:9778/scripts/ace-pack.min.js"></script>
   <script>
     //init all foundation plugins. 
     //Currently this only includes foundation.topbar.js
     //See http://foundation.zurb.com/docs/javascript.html
     $(document).foundation();
   </script>
-  <script defer="defer"  src="/pacto/scripts/app.js"></script><script defer="defer"  src="/pacto/scripts/editor.js"></script>
+  <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="http://localhost:9778/scripts/app.js"></script><script defer="defer"  src="http://localhost:9778/scripts/editor.js"></script>
 </body>
 </html>

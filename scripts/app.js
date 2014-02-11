@@ -4,5 +4,5 @@
  * @return {[type]} [description]
  */
 $(function(){
-	$('iframe.docco').iframeHeight();
+	$('iframe.groc').iframeHeight();
 });
