@@ -11,11 +11,7 @@ module Pacto
     end
 
     def uri
-      uri = Addressable::URI.parse full_uri
-      if uri.scheme.nil?
-        uri = Addressable::URI.parse "http://#{full_uri}"
-      end
-      uri
+      @uri ||= Pacto::URI.for(host, path, params)
     end
 
     def body
@@ -34,21 +30,8 @@ module Pacto
       @definition['params'] || {}
     end
 
-    def absolute_uri
-      @host + path
-    end
-
-    def full_uri
-      return absolute_uri if params.empty?
-
-      uri = Addressable::URI.new
-      uri.query_values = params
-
-      absolute_uri + '?' + uri.query
-    end
-
     def execute
-      conn = Faraday.new(:url => @host + path) do |faraday|
+      conn = Faraday.new(:url => uri.to_s) do |faraday|
         faraday.response :logger if Pacto.configuration.logger.level == :debug
         faraday.adapter  Faraday.default_adapter
       end
