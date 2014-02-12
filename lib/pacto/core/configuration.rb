@@ -10,7 +10,7 @@ module Pacto
       @contracts_path = nil
       @logger = Logger.instance
       define_logger_level
-      @hook = Hooks::ERBHook.new
+      @hook = Hook.new {}
       @generator_options = { :schema_version => 'draft3' }
     end
 

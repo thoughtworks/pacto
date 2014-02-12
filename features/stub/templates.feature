@@ -5,6 +5,9 @@ Feature: Templating
   Background:
     Given Pacto is configured with:
       """ruby
+      Pacto.configure do |c|
+        c.register_hook Pacto::Hooks::ERBHook.new
+      end
       Pacto.load_contracts('contracts', 'http://example.com').stub_all
       """
     Given a file named "contracts/template.json" with:

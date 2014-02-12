@@ -42,6 +42,7 @@ describe 'Templating' do
     it 'processes erb on each request' do
       Pacto.configure do |c|
         c.strict_matchers = false
+        c.register_hook Pacto::Hooks::ERBHook.new
       end
 
       expect(response.keys).to eq ['message']
