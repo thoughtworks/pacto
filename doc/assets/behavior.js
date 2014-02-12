@@ -9,15 +9,86 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "type": "file",
       "data": {
         "language": {
+          "nameMatchers": [".rb", ".ru", ".gemspec"],
+          "pygmentsLexer": "ruby",
+          "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
+          "name": "Ruby"
+        },
+        "sourcePath": "/Users/Thoughtworker/repos/opensource/pacto-site/samples/samples.rb",
+        "projectPath": "samples/samples.rb",
+        "targetPath": "index",
+        "pageTitle": "index",
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Overview",
+            "slug": "overview",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "Overview"
+      },
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Getting started",
+            "slug": "getting-started"
+          },
+          "depth": 1
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Generating a Contract",
+            "slug": "generating-a-contract"
+          },
+          "depth": 1
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Testing providers by simulating consumers",
+            "slug": "testing-providers-by-simulating-consumers"
+          },
+          "depth": 1
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Stubbing providers for consumer testing",
+            "slug": "stubbing-providers-for-consumer-testing"
+          },
+          "depth": 1
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Collaboration tests with RSpec",
+            "slug": "collaboration-tests-with-rspec"
+          },
+          "depth": 1
+        }
+      ]
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
           "nameMatchers": [".md", ".markdown", ".mkd", ".mkdn", ".mdown"],
           "commentsOnly": true,
           "name": "Markdown"
         },
         "sourcePath": "/Users/Thoughtworker/repos/opensource/pacto-site/samples/README.md",
         "projectPath": "samples/README.md",
-        "targetPath": "index",
-        "pageTitle": "index",
-        "title": "index"
+        "targetPath": "README",
+        "pageTitle": "README",
+        "title": "README"
       },
       "depth": 1,
       "outline": []
@@ -41,52 +112,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "depth": 1,
       "outline": []
     }, {
-      "type": "folder",
-      "data": {
-        "path": "contracts",
-        "title": "contracts"
-      },
-      "depth": 1,
-      "children": [
-        {
-          "type": "file",
-          "data": {
-            "language": {
-              "nameMatchers": [".md", ".markdown", ".mkd", ".mkdn", ".mdown"],
-              "commentsOnly": true,
-              "name": "Markdown"
-            },
-            "sourcePath": "/Users/Thoughtworker/repos/opensource/pacto-site/samples/contracts/README.md",
-            "projectPath": "samples/contracts/README.md",
-            "targetPath": "contracts/README",
-            "pageTitle": "contracts/README",
-            "title": "README"
-          },
-          "depth": 2,
-          "outline": []
-        }, {
-          "type": "file",
-          "data": {
-            "language": {
-              "nameMatchers": [".js"],
-              "pygmentsLexer": "javascript",
-              "multiLineComment": ["/*", "*", "*/"],
-              "singleLineComment": ["//"],
-              "ignorePrefix": "}",
-              "foldPrefix": "^",
-              "name": "JavaScript"
-            },
-            "sourcePath": "/Users/Thoughtworker/repos/opensource/pacto-site/samples/contracts/contract.js",
-            "projectPath": "samples/contracts/contract.js",
-            "targetPath": "contracts/contract",
-            "pageTitle": "contracts/contract",
-            "title": "contract"
-          },
-          "depth": 2,
-          "outline": []
-        }
-      ]
-    }, {
       "type": "file",
       "data": {
         "language": {
@@ -97,11 +122,11 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "Ruby"
         },
-        "sourcePath": "/Users/Thoughtworker/repos/opensource/pacto-site/samples/samples.rb",
-        "projectPath": "samples/samples.rb",
-        "targetPath": "samples",
-        "pageTitle": "samples",
-        "title": "samples"
+        "sourcePath": "/Users/Thoughtworker/repos/opensource/pacto-site/samples/generation.rb",
+        "projectPath": "samples/generation.rb",
+        "targetPath": "generation",
+        "pageTitle": "generation",
+        "title": "generation"
       },
       "depth": 1,
       "outline": []
@@ -476,3 +501,12 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
   });
 
 }).call(this);
+$.expr[':'].external = function(obj){
+    return !obj.href.match(/^mailto\:/)
+           && (obj.hostname != location.hostname)
+           && !obj.href.match(/^javascript\:/)
+           && !obj.href.match(/^$/)
+};
+$(document).ready(function() {
+  $('a:external').attr('target', '_blank');
+});
