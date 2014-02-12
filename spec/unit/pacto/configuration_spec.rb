@@ -3,8 +3,8 @@ module Pacto
     subject(:configuration) { Configuration.new }
     let(:contracts_path) { 'path_to_contracts' }
 
-    it 'sets the stub provider by default to BuiltIn' do
-      expect(configuration.provider).to be_kind_of Stubs::BuiltIn
+    it 'sets the stub provider by default to WebMockAdapter' do
+      expect(configuration.provider).to be_kind_of Stubs::WebMockAdapter
     end
 
     it 'sets strict matchers by default to true' do

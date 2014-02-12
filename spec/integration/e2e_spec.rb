@@ -17,14 +17,14 @@ describe 'Pacto' do
     end
 
     it 'verifies the contract against a producer' do
-      contract = Pacto.build_contracts(contract_path, 'http://localhost:8000')
+      contract = Pacto.load_contracts(contract_path, 'http://localhost:8000')
       expect(contract.validate_all.flatten).to eq([])
     end
   end
 
   context 'Stubbing a collection of contracts' do
     it 'generates a server that stubs the contract for consumers' do
-      contracts = Pacto.build_contracts(contract_path, 'http://dummyprovider.com')
+      contracts = Pacto.load_contracts(contract_path, 'http://dummyprovider.com')
       contracts.stub_all
 
       response = get_json('http://dummyprovider.com/hello')
@@ -39,7 +39,7 @@ describe 'Pacto' do
         c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      contracts = Pacto.build_contracts 'spec/integration/data/', 'http://dummyprovider.com'
+      contracts = Pacto.load_contracts 'spec/integration/data/', 'http://dummyprovider.com'
       contracts.stub_all(:device_id => 42)
 
       login_response = get_json('http://dummyprovider.com/hello')

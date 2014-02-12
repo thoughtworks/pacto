@@ -3,7 +3,7 @@ module Pacto
     let(:validation_errors) { ['some error', 'another error'] }
 
     let(:expected_response) do
-      Pacto::Response.new(
+      ResponseClause.new(
         'status' => 200,
         'headers' => {
           'Content-Type' => 'application/json'
@@ -23,7 +23,7 @@ module Pacto
     let(:actual_request) { double :actual_request }
 
     let(:expected_request) do
-      Pacto::Request.new(
+      RequestClause.new(
         'http://example.com',
         'body' =>  {
           :type => 'object',

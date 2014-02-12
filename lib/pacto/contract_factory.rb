@@ -14,8 +14,8 @@ module Pacto
       contract_definition = File.read(contract_path)
       definition = JSON.parse(contract_definition)
       schema.validate definition
-      request = Request.new(host, definition['request'])
-      response = Response.new(definition['response'])
+      request = RequestClause.new(host, definition['request'])
+      response = ResponseClause.new(definition['response'])
       Contract.new(request, response, contract_path, definition['name'])
     end
   end

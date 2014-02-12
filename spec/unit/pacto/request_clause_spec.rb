@@ -1,5 +1,5 @@
 module Pacto
-  describe Request do
+  describe RequestClause do
     let(:host)           { 'http://localhost' }
     let(:method)         { 'GET' }
     let(:path)           { '/hello_world' }
@@ -9,13 +9,14 @@ module Pacto
     let(:params_as_json) { "{\"foo\":\"bar\"}" }
     let(:absolute_uri)   { "#{host}#{path}" }
     subject(:request) do
-      Request.new(host,
-                  'method'  => method,
-                  'path'    => path,
-                  'headers' => headers,
-                  'params'  => params,
-                  'body'    => body
-                 )
+      RequestClause.new(
+        host,
+        'method'  => method,
+        'path'    => path,
+        'headers' => headers,
+        'params'  => params,
+        'body'    => body
+      )
     end
 
     it 'has a host' do

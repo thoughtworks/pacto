@@ -1,5 +1,5 @@
 module Pacto
-  class Response
+  class ResponseClause
     attr_reader :status, :headers, :schema
 
     def initialize(definition)

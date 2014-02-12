@@ -2,7 +2,7 @@ require 'pacto/stubs/webmock_helper'
 
 module Pacto
   module Stubs
-    class BuiltIn
+    class WebMockAdapter
       def initialize
         register_hooks
       end

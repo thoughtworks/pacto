@@ -5,20 +5,20 @@ module Pacto
     attr_reader :hook
 
     def initialize
-      @provider = Pacto::Stubs::BuiltIn.new
+      @provider = Stubs::WebMockAdapter.new
       @strict_matchers = true
       @contracts_path = nil
       @logger = Logger.instance
       define_logger_level
-      @hook = Pacto::Hooks::ERBHook.new
+      @hook = Hooks::ERBHook.new
       @generator_options = { :schema_version => 'draft3' }
     end
 
     def register_hook(hook = nil, &block)
       if block_given?
-        @hook = Pacto::Hook.new(&block)
+        @hook = Hook.new(&block)
       else
-        fail 'Expected a Pacto::Hook' unless hook.is_a? Pacto::Hook
+        fail 'Expected a Pacto::Hook' unless hook.is_a? Hook
         @hook = hook
       end
     end
