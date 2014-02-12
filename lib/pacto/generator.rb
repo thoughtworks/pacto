@@ -14,13 +14,6 @@ module Pacto
       @filters = filters
     end
 
-    def generate(request_file, host)
-      contract = Pacto.build_contract request_file, host
-      request = contract.request
-      response = contract.request.execute
-      save(request_file, request, response)
-    end
-
     def save(source, request, response)
       contract = generate_contract source, request, response
       pretty_contract = MultiJson.encode(contract, :pretty => true)
