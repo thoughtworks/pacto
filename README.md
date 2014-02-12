@@ -7,7 +7,7 @@
 **If you're viewing this at https://github.com/thoughtworks/pacto,
 you're reading the documentation for the master branch.
 [View documentation for the latest release
-(0.2.5).](https://github.com/thoughtworks/pacto/tree/v0.2.5)**
+(0.3.0).](https://github.com/thoughtworks/pacto/tree/v0.3.0)**
 
 # Pacto
 
