@@ -79,9 +79,9 @@ A ContractList represent a collection of endpoints attached to the same host.
 ```ruby
 require 'pacto'
 
-default_contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
-authentication_contracts = Pacto.build_contracts('contracts/auth', 'http://example.com')
-legacy_contracts = Pacto.build_contracts('contracts/legacy', 'http://example.com')
+default_contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
+authentication_contracts = Pacto.load_contracts('contracts/auth', 'http://example.com')
+legacy_contracts = Pacto.load_contracts('contracts/legacy', 'http://example.com')
 ```
 
 ### Validating
@@ -89,7 +89,7 @@ legacy_contracts = Pacto.build_contracts('contracts/legacy', 'http://example.com
 Once you have a ContractList, you can validate all the contracts against the live host.
 
 ```ruby
-contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
 contracts.validate_all
 ```
 
@@ -105,7 +105,7 @@ you can run your acceptance tests against the contract stubs without worries.
 To generate stubs based on a ContractList you can run:
 
 ```ruby
-contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
 contracts.stub_all
 ```
 
@@ -116,7 +116,7 @@ You can override any default value on the contracts by providing a hash of optio
 will override the keys for every contract in the list
 
 ```ruby
-contracts = Pacto.build_contracts('contracts/services', 'http://example.com')
+contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
 contracts.stub_all(request_id: 14, name: "Marcos")
 ```
 

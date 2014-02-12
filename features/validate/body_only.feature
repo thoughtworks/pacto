@@ -15,7 +15,7 @@ Feature: Validation
       require 'pacto'
       require_relative 'my_service'
 
-      contract_list = Pacto.build_contracts('contracts', 'http://example.com')
+      contract_list = Pacto.load_contracts('contracts', 'http://example.com')
       contract_list.stub_all
 
       contract = contract_list.contracts.first

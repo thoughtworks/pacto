@@ -66,7 +66,7 @@ module Pacto
       each_contract(dir) do |contract_file|
         contracts << contract_file
         print "#{contract_file.split('/').last}:"
-        contract = Pacto.build_contract(contract_file, host)
+        contract = Pacto.load_contract(contract_file, host)
         errors = contract.validate_provider
 
         if errors.empty?

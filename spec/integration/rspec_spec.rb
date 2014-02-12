@@ -27,7 +27,7 @@ describe 'pacto/rspec' do
 
   context 'successful validations' do
     let(:contracts) do
-      Pacto.build_contracts 'spec/integration/data/', 'http://dummyprovider.com'
+      Pacto.load_contracts 'spec/integration/data/', 'http://dummyprovider.com'
     end
 
     before(:each) do

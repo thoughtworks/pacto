@@ -87,11 +87,11 @@ module Pacto
       false
     end
 
-    def build_contract(contract_path, host)
-      build_contracts(contract_path, host).contracts.first
+    def load_contract(contract_path, host)
+      load_contracts(contract_path, host).contracts.first
     end
 
-    def build_contracts(contracts_path, host)
+    def load_contracts(contracts_path, host)
       files = ContractFiles.for(contracts_path)
       contracts = contract_factory.build(files, host)
       contracts.each do |contract|

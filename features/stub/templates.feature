@@ -5,7 +5,7 @@ Feature: Templating
   Background:
     Given Pacto is configured with:
       """ruby
-      Pacto.build_contracts('contracts', 'http://example.com').stub_all
+      Pacto.load_contracts('contracts', 'http://example.com').stub_all
       """
     Given a file named "contracts/template.json" with:
       """json

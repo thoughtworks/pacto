@@ -12,7 +12,7 @@ module Pacto
         def generate(request_signature, response)
           logger.debug("Generating Contract for #{request_signature}, #{response}")
           begin
-            contract_file = build_contract_file(request_signature)
+            contract_file = load_contract_file(request_signature)
 
             unless File.exists? contract_file
               generate_contract(request_signature, response, contract_file)
@@ -34,10 +34,10 @@ module Pacto
           File.write(contract_file, generator.save(uri, pacto_request, pacto_response))
           logger.debug("Generating #{contract_file}")
 
-          Pacto.build_contract contract_file, uri.host
+          Pacto.load_contract contract_file, uri.host
         end
 
-        def build_contract_file(request_signature)
+        def load_contract_file(request_signature)
           uri = URI(request_signature.uri)
           basename = File.basename(uri.path, '.json') + '.json'
           File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(uri.path), basename)

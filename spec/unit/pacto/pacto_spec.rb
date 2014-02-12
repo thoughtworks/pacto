@@ -41,7 +41,7 @@ describe Pacto do
     end
   end
 
-  describe 'building contracts' do
+  describe 'loading contracts' do
     let(:contracts_path) { 'path/to/dir' }
     let(:host) { 'localhost' }
     let(:contract1)  { double }
@@ -56,7 +56,7 @@ describe Pacto do
       allow(Pacto::ContractFiles).to receive(:for).with(contracts_path).and_return { %w{file1 file2} }
       allow(factory).to receive(:build).with(%w{file1 file2}, host).and_return { [contract1, contract2] }
       expect(Pacto::ContractList).to receive(:new).with([contract1, contract2])
-      Pacto.build_contracts(contracts_path, host)
+      Pacto.load_contracts(contracts_path, host)
     end
   end
 end
