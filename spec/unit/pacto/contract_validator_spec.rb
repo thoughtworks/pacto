@@ -23,7 +23,7 @@ module Pacto
     let(:actual_request) { double :actual_request }
 
     let(:expected_request) do
-      Pacto::Request.new(
+      RequestClause.new(
         'http://example.com',
         'body' =>  {
           :type => 'object',

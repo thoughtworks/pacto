@@ -5,19 +5,20 @@ module Pacto
         'http://example.com'
       end
       let(:request) do
-        Pacto::Request.new(record_host,
-                           'method' => 'GET',
-                           'path' => '/abcd',
-                           'headers' => {
-                             'Server' => ['example.com'],
-                             'Connection' => ['Close'],
-                             'Content-Length' => [1234],
-                             'Via' => ['Some Proxy'],
-                             'User-Agent' => ['rspec']
-                           },
-                           'params' => {
-                             'apikey' => "<%= ENV['MY_API_KEY'] %>"
-                           }
+        RequestClause.new(
+          record_host,
+          'method' => 'GET',
+          'path' => '/abcd',
+          'headers' => {
+            'Server' => ['example.com'],
+            'Connection' => ['Close'],
+            'Content-Length' => [1234],
+            'Via' => ['Some Proxy'],
+            'User-Agent' => ['rspec']
+          },
+          'params' => {
+            'apikey' => "<%= ENV['MY_API_KEY'] %>"
+          }
         )
       end
       let(:varies) { ['User-Agent'] }

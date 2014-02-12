@@ -1,5 +1,5 @@
 module Pacto
-  class Request
+  class RequestClause
     attr_reader :host, :method, :schema
     attr_accessor :body
 
