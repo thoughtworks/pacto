@@ -1,6 +1,6 @@
 module Pacto
   module Stubs
-    describe BuiltIn do
+    describe WebMockAdapter do
       let(:request) do
         double(
           :host => 'http://localhost',
@@ -33,7 +33,7 @@ module Pacto
 
       let(:request_pattern) { double('request_pattern') }
 
-      subject(:built_in) { BuiltIn.new }
+      subject(:built_in) { WebMockAdapter.new }
 
       before(:each) do
         stubbed_request.stub(:to_return).with(
@@ -50,7 +50,7 @@ module Pacto
             expect(block.parameters).to have(2).items
           end
 
-          BuiltIn.new
+          WebMockAdapter.new
         end
       end
 
