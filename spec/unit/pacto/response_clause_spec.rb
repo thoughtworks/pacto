@@ -1,5 +1,5 @@
 module Pacto
-  describe Response do
+  describe ResponseClause do
     let(:body_definition) do
       {
         :type => 'object',
@@ -18,7 +18,7 @@ module Pacto
       }
     end
 
-    subject(:response) { Response.new(definition) }
+    subject(:response) { ResponseClause.new(definition) }
 
     it 'has a status' do
       expect(response.status).to eq(200)
@@ -35,7 +35,7 @@ module Pacto
     end
 
     it 'has a default value for the schema' do
-      response = Response.new(definition.merge('body' => nil))
+      response = ResponseClause.new(definition.merge('body' => nil))
       expect(response.schema).to eq(Hash.new)
     end
 
