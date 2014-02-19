@@ -25,6 +25,13 @@ describe 'pacto/rspec' do
     MultiJson.load(response.body)
   end
 
+  def play_bad_response
+    contracts.stub_all(:device_id => 1.5)
+    Faraday.get('http://dummyprovider.com/strict') do |req|
+      req.headers = {'Accept' => 'application/json' }
+    end
+  end
+
   context 'successful validations' do
     let(:contracts) do
       Pacto.load_contracts 'spec/integration/data/', 'http://dummyprovider.com'
@@ -82,13 +89,15 @@ describe 'pacto/rspec' do
     end
 
     it 'displays Contract validation problems' do
-      contracts.stub_all(:device_id => 1.5)
-      Faraday.get('http://dummyprovider.com/strict') do |req|
-        req.headers = {'Accept' => 'application/json' }
-      end
+      play_bad_response
       expect_to_raise(/validation errors were found:/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
-
       expect_to_raise(/but the following issues were found:/) { expect(Pacto).to_not have_failed_validations }
+    end
+
+    it 'display the Contract file' do
+      play_bad_response
+      schema_file_uri = Addressable::URI.convert_path(File.absolute_path strict_contract_path).to_s
+      expect_to_raise(/in schema #{schema_file_uri}/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
     end
   end
 end
