@@ -3,19 +3,20 @@ module Pacto
     let(:record_host) do
       'http://example.com'
     end
-
     let(:request) do
-      Faraday::Request.create :get do |req|
-        req.path = '/abcd'
-        req.params = { 'apikey' => "<%= ENV['MY_API_KEY'] %>" }
-        req.headers =  {
-          'Content-Length' => [1234],
-          'Via' => ['Some Proxy'],
-          'User-Agent' => ['rspec']
-        }
-      end
+      Pacto::Request.new(record_host,
+                         'method' => 'GET',
+                         'path' => '/abcd',
+                         'headers' => {
+                           'Content-Length' => [1234],
+                           'Via' => ['Some Proxy'],
+                           'User-Agent' => ['rspec']
+                         },
+                         'params' => {
+                           'apikey' => "<%= ENV['MY_API_KEY'] %>"
+                         }
+      )
     end
-
     let(:response_adapter) do
       Faraday::Response.new(
         :status => 200,
@@ -41,6 +42,34 @@ module Pacto
 
     def pretty(obj)
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
+    end
+
+    describe '#generate' do
+      let(:request_contract) do
+        double(
+          :request => request,
+        )
+      end
+      let(:generated_contract) { double('generated contract') }
+      before do
+        Pacto.should_receive(:build_contract).with(request_file, record_host).and_return request_contract
+        request.should_receive(:execute).and_return response_adapter
+      end
+
+      it 'parses the request' do
+        generator.should_receive(:save).with(request_file, request, anything)
+        generator.generate request_file, record_host
+      end
+
+      it 'fetches a response' do
+        generator.should_receive(:save).with(request_file, anything, response_adapter)
+        generator.generate request_file, record_host
+      end
+
+      it 'saves the result' do
+        generator.should_receive(:save).with(request_file, request, response_adapter).and_return generated_contract
+        expect(generator.generate request_file, record_host).to eq(generated_contract)
+      end
     end
 
     describe '#save' do
