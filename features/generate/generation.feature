@@ -26,3 +26,54 @@ Feature: Contract Generation
         }
       }
     """
+
+  Scenario: Generating a contract using the rake task
+    Given a directory named "contracts"
+    When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:8000']`
+    Then the output should contain "Successfully generated all contracts"
+
+  Scenario: Generating a contract programmatically
+    Given a file named "generate.rb" with:
+    """ruby
+    require 'pacto'
+
+    WebMock.allow_net_connect!
+    generator = Pacto::Generator.new
+    contract = generator.generate('requests/my_contract.json', 'http://localhost:8000')
+    puts contract
+    """
+    When I successfully run `bundle exec ruby generate.rb`
+    Then the output should contain exactly:
+    """json
+    {
+      "request": {
+        "headers": {
+          "Accept": "application/json"
+        },
+        "method": "get",
+        "params": {
+        },
+        "path": "/hello"
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json",
+          "Vary": "Accept"
+        },
+        "status": 200,
+        "body": {
+          "$schema": "http://json-schema.org/draft-03/schema#",
+          "description": "Generated from requests/my_contract.json with shasum 210fa3b144ef2db8d1c160c4d9e8d8bf738ed851",
+          "type": "object",
+          "required": true,
+          "properties": {
+            "message": {
+              "type": "string",
+              "required": true
+            }
+          }
+        }
+      }
+    }
+
+    """
