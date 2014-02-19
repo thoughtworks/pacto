@@ -4,7 +4,7 @@ module Pacto
       'http://example.com'
     end
     let(:request) do
-      Pacto::Request.new(record_host,
+      Pacto::RequestClause.new(record_host,
                          'method' => 'GET',
                          'path' => '/abcd',
                          'headers' => {
