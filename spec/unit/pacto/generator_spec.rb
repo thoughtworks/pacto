@@ -52,7 +52,7 @@ module Pacto
       end
       let(:generated_contract) { double('generated contract') }
       before do
-        Pacto.should_receive(:build_contract).with(request_file, record_host).and_return request_contract
+        Pacto.should_receive(:load_contract).with(request_file, record_host).and_return request_contract
         request.should_receive(:execute).and_return response_adapter
       end
 
