@@ -5,17 +5,24 @@ module Pacto
         fail 'section name should be provided by subclass'
       end
 
-      def self.validate(schema, body)
+      def self.subschema(contract)
+        fail 'override to return the proper subschema the contract'
+      end
+
+      # FIXME: https://github.com/thoughtworks/pacto/issues/10#issuecomment-31281238
+      # rubocop:disable MethodLenth
+      def self.validate(contract, body)
+        schema = subschema(contract)
         if schema
+          schema['id'] = contract.file unless schema.key? 'id'
           if schema['type'] && schema['type'] == 'string'
             validate_as_pure_string schema, body.body
           else
-            body.respond_to?(:body) ? validate_as_json(schema, body.body) : validate_as_json(schema, body)
+            validate_as_json(schema, body)
           end
-        else
-          []
-        end
+        end || []
       end
+      # rubocop:enable MethodLenth
 
       private
 
@@ -34,6 +41,7 @@ module Pacto
       end
 
       def self.validate_as_json(schema, body)
+        body = body.body if body.respond_to? :body
         JSON::Validator.fully_validate(schema, body, :version => :draft3)
       end
     end

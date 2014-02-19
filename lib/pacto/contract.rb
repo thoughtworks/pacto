@@ -5,7 +5,7 @@ module Pacto
     def initialize(request, response, file, name = nil, request_pattern_provider = RequestPattern)
       @request = request
       @response = response
-      @file = file.to_s
+      @file = Addressable::URI.convert_path(file.to_s).to_s
       @name = name || @file
       @request_pattern = request_pattern_provider.for(request)
       @values = {}
