@@ -38,9 +38,9 @@ module Pacto
         end
 
         def load_contract_file(request_signature)
-          uri = URI(request_signature.uri)
+          uri = Addressable::URI.parse(Pacto::Generator::Tokenizer.new.tokenize_value request_signature.uri.to_s)
           basename = File.basename(uri.path, '.json') + '.json'
-          File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(uri.path), basename)
+          File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(uri.path), basename).gsub(':', '_')
         end
 
         def logger

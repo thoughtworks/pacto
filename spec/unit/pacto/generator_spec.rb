@@ -31,13 +31,12 @@ module Pacto
     let(:filtered_request_headers) { double('filtered_response_headers') }
     let(:filtered_response_headers) { double('filtered_response_headers') }
     let(:response_body_schema) { '{"message": "dummy generated schema"}' }
-    let(:version) { 'draft3' }
     let(:schema_generator) { double('schema_generator') }
     let(:validator) { double('validator') }
     let(:filters) { double :filters }
     let(:request_file) { 'request.json' }
     let(:options) { Pacto.configuration.generator_options }
-    let(:generator) { described_class.new version, schema_generator, validator, options, filters }
+    let(:generator) { described_class.new schema_generator, validator, options, filters }
 
     def pretty(obj)
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
