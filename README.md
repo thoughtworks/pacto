@@ -44,6 +44,8 @@ Pacto can provide a [**contract writer**](#generating) that tries to strike a ba
 
 ## Usage
 
+**See also: http://thoughtworks.github.io/pacto/usage/**
+
 Pacto can perform three activities: generating, validating, or stubbing services.  You can do each of these activities against either live or stubbed services.
 
 ### Configuration
@@ -121,6 +123,8 @@ contracts.stub_all(request_id: 14, name: "Marcos")
 ```
 
 ## Pacto Server (non-Ruby usage)
+
+**See also: http://thoughtworks.github.io/pacto/patterns/polyglot/**
 
 It is really easy to embed Pacto inside a small server.  We haven't bundled a server inside of Pacto, but check out [pacto-demo](https://github.com/thoughtworks/pacto-demo) to see how easily you can expose Pacto via server.
 
