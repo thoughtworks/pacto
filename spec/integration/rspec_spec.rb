@@ -94,7 +94,7 @@ describe 'pacto/rspec' do
       expect_to_raise(/but the following issues were found:/) { expect(Pacto).to_not have_failed_validations }
     end
 
-    it 'display the Contract file' do
+    it 'displays the Contract file' do
       play_bad_response
       schema_file_uri = Addressable::URI.convert_path(File.absolute_path strict_contract_path).to_s
       expect_to_raise(/in schema #{schema_file_uri}/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
