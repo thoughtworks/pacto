@@ -44,7 +44,7 @@ module Pacto
         end
 
         def logger
-          @logger ||= Logger.instance
+          @logger ||= Pacto.configuration.logger
         end
 
         def webmock_to_pacto_request(webmock_request)

@@ -46,7 +46,7 @@ module Pacto
     private
 
     def logger
-      @logger ||= Logger.instance
+      @logger ||= Pacto.configuration.logger
     end
 
     def validate
