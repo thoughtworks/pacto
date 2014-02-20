@@ -77,6 +77,12 @@ tasks:
 - Integration tests (`bundle exec rake integration`).
 - User journey tests (`bundle exec rake journey`).
 
+It is also possible run specific tests:
+
+- Unit tests (`bundle exec rspec spec/unit/[file_path]`
+- Integration tests  (`bundle exec rspec spec/integration/[file_path]`)
+- User journey tests (`bundle exec cucumber features/[file_path] -r features/support/env.rb`)
+
 ### Checking that all is green
 
 To know that both tests and static analysis is working fine you just have to
