@@ -8,7 +8,7 @@ module Pacto
       @provider = Stubs::WebMockAdapter.new
       @strict_matchers = true
       @contracts_path = nil
-      @logger = Logger.instance
+      @logger = Logger::SimpleLogger.instance
       define_logger_level
       @hook = Hook.new {}
       @generator_options = { :schema_version => 'draft3' }

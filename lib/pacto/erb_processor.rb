@@ -1,9 +1,10 @@
 module Pacto
   class ERBProcessor
+    include Logger
     def process(contract, values = {})
       erb = ERB.new(contract)
       erb_result = erb.result hash_binding(values)
-      Pacto.configuration.logger.debug "Processed contract: #{erb_result.inspect}"
+      logger.debug "Processed contract: #{erb_result.inspect}"
       erb_result
     end
 

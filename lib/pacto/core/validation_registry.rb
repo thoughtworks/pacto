@@ -1,6 +1,7 @@
 module Pacto
   class ValidationRegistry
     include Singleton
+    include Logger
     attr_reader :validations
 
     def initialize
@@ -34,12 +35,6 @@ module Pacto
       @validations.select do |validation|
         !validation.successful?
       end
-    end
-
-    private
-
-    def logger
-      @logger ||= Pacto.configuration.logger
     end
   end
 end

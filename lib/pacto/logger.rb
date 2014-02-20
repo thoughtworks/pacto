@@ -1,44 +1,50 @@
 require 'forwardable'
 
 module Pacto
-  class Logger
-    include Singleton
-    extend Forwardable
-
-    def_delegators :@log, :debug, :info, :warn, :error, :fatal
-
-    def initialize
-      log ::Logger.new STDOUT
+  module Logger
+    def logger
+      Pacto.configuration.logger
     end
 
-    def log(log)
-      @log = log
-      @log.level = default_level
-      @log.progname = 'Pacto'
-    end
+    class SimpleLogger
+      include Singleton
+      extend Forwardable
 
-    def level=(level)
-      @log.level = log_levels.fetch(level, default_level)
-    end
+      def_delegators :@log, :debug, :info, :warn, :error, :fatal
 
-    def level
-      log_levels.key @log.level
-    end
+      def initialize
+        log ::Logger.new STDOUT
+      end
 
-    private
+      def log(log)
+        @log = log
+        @log.level = default_level
+        @log.progname = 'Pacto'
+      end
 
-    def default_level
-      ::Logger::ERROR
-    end
+      def level=(level)
+        @log.level = log_levels.fetch(level, default_level)
+      end
 
-    def log_levels
-      {
-        debug: ::Logger::DEBUG,
-        info:  ::Logger::INFO,
-        warn:  ::Logger::WARN,
-        error: ::Logger::ERROR,
-        fatal: ::Logger::FATAL
-      }
+      def level
+        log_levels.key @log.level
+      end
+
+      private
+
+      def default_level
+        ::Logger::ERROR
+      end
+
+      def log_levels
+        {
+          debug: ::Logger::DEBUG,
+          info:  ::Logger::INFO,
+          warn:  ::Logger::WARN,
+          error: ::Logger::ERROR,
+          fatal: ::Logger::FATAL
+        }
+      end
     end
   end
 end

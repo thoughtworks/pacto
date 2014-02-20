@@ -16,7 +16,7 @@ module Pacto
     end
 
     it 'sets logger by default to Logger' do
-      expect(configuration.logger).to be_kind_of Logger
+      expect(configuration.logger).to be_kind_of Logger::SimpleLogger
     end
 
     context 'about logging' do

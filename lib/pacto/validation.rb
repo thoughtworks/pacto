@@ -1,5 +1,6 @@
 module Pacto
   class Validation
+    include Logger
     attr_reader :request, :response, :contract, :results
 
     def initialize(request, response, contract)
@@ -44,10 +45,6 @@ module Pacto
     end
 
     private
-
-    def logger
-      @logger ||= Pacto.configuration.logger
-    end
 
     def validate
       logger.debug("Validating #{@request}, #{@response} against #{@contract}")

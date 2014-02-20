@@ -2,6 +2,8 @@ module Pacto
   module Stubs
     class WebMockHelper
       class << self
+        include Logger
+
         def validate(request_signature, response)
           pacto_response = webmock_to_pacto_response(response)
           contract = Pacto.contracts_for(request_signature).first
@@ -41,10 +43,6 @@ module Pacto
           uri = URI(request_signature.uri)
           basename = File.basename(uri.path, '.json') + '.json'
           File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(uri.path), basename)
-        end
-
-        def logger
-          @logger ||= Pacto.configuration.logger
         end
 
         def webmock_to_pacto_request(webmock_request)
