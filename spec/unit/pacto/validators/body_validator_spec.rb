@@ -2,15 +2,28 @@ module Pacto
   module Validators
     describe BodyValidator do
       class MyBodyValidator < BodyValidator
-        def self.section_name
-          'my_section'
+        class << self
+          attr_writer :subschema
+
+          def section_name
+            'my_section'
+          end
+
+          def subschema(contract)
+            @subschema
+          end
         end
       end
 
       subject(:validator)    { MyBodyValidator }
       let(:string_required)  { true }
+      let(:contract)         { double('contract', :file => 'file:///a.json') }
       let(:body)             { 'a simple string' }
       let(:fake_interaction) { double(:fake_interaction, body: body) }
+
+      before(:each) do
+        MyBodyValidator.subschema = schema
+      end
 
       describe '#validate' do
         context 'when schema is not specified' do
@@ -18,7 +31,7 @@ module Pacto
 
           it 'gives no errors without validating body' do
             JSON::Validator.should_not_receive(:fully_validate)
-            expect(validator.validate(schema, fake_interaction)).to be_empty
+            expect(validator.validate(contract, fake_interaction)).to be_empty
           end
         end
 
@@ -31,17 +44,17 @@ module Pacto
             # FIXME: This seems like a design flaw. We're partially reproducing json-schema behavior
             # instead of finding a way to use it.
             JSON::Validator.should_not_receive(:fully_validate)
-            validator.validate(schema, fake_interaction)
+            validator.validate(contract, fake_interaction)
           end
 
           context 'if required' do
             it 'does not return an error when body is a string' do
-              expect(validator.validate(schema, fake_interaction)).to be_empty
+              expect(validator.validate(contract, fake_interaction)).to be_empty
             end
 
             it 'returns an error when body is nil' do
               expect(fake_interaction).to receive(:body).and_return nil
-              expect(validator.validate(schema, fake_interaction).size).to eq 1
+              expect(validator.validate(contract, fake_interaction).size).to eq 1
             end
           end
 
@@ -49,12 +62,12 @@ module Pacto
             let(:string_required) { false }
 
             it 'does not return an error when body is a string' do
-              expect(validator.validate(schema, fake_interaction)).to be_empty
+              expect(validator.validate(contract, fake_interaction)).to be_empty
             end
 
             it 'does not return an error when body is nil' do
               expect(fake_interaction).to receive(:body).and_return nil
-              expect(validator.validate(schema, fake_interaction)).to be_empty
+              expect(validator.validate(contract, fake_interaction)).to be_empty
             end
           end
 
@@ -67,7 +80,7 @@ module Pacto
               let(:body) { 'abc' } # This matches the pattern /a.c/
 
               it 'does not return an error' do
-                expect(validator.validate(schema, fake_interaction)).to be_empty
+                expect(validator.validate(contract, fake_interaction)).to be_empty
               end
             end
 
@@ -75,7 +88,7 @@ module Pacto
               let(:body) { 'acb' } # This does not matches the pattern /a.c/
 
               it 'returns an error' do
-                expect(validator.validate(schema, fake_interaction).size).to eq 1
+                expect(validator.validate(contract, fake_interaction).size).to eq 1
               end
             end
           end
@@ -87,7 +100,7 @@ module Pacto
           context 'when body matches' do
             it 'does not return any errors' do
               expect(JSON::Validator).to receive(:fully_validate).and_return([])
-              expect(validator.validate(schema, fake_interaction)).to be_empty
+              expect(validator.validate(contract, fake_interaction)).to be_empty
             end
           end
 
@@ -95,7 +108,7 @@ module Pacto
             it 'returns a list of errors' do
               errors = double 'some errors'
               expect(JSON::Validator).to receive(:fully_validate).and_return(errors)
-              expect(validator.validate(schema, fake_interaction)).to eq(errors)
+              expect(validator.validate(contract, fake_interaction)).to eq(errors)
             end
           end
         end

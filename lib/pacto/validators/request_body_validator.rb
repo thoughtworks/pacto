@@ -9,11 +9,14 @@ module Pacto
         'request'
       end
 
+      def self.subschema(contract)
+        contract.request.schema
+      end
+
       def call(env)
         if env[:validation_results].empty? # skip body validation if we already have other errors
-          expected_body = env[:contract].request.schema
           actual_body = env[:actual_request]
-          errors = self.class.validate(expected_body, actual_body)
+          errors = self.class.validate(env[:contract], actual_body)
           env[:validation_results].concat errors.compact
         end
         @app.call env
