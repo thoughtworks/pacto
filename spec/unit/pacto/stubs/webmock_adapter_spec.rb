@@ -39,7 +39,7 @@ module Pacto
         stubbed_request.stub(:to_return).with(
           :status => response.status,
           :headers => response.headers,
-          :body => response.body.to_json,
+          :body => response.body.to_json
         )
         stubbed_request.stub(:request_pattern).and_return request_pattern
       end

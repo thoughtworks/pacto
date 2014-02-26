@@ -47,7 +47,7 @@ module Pacto
     describe '#generate' do
       let(:request_contract) do
         double(
-          :request => request,
+          :request => request
         )
       end
       let(:generated_contract) { double('generated contract') }
