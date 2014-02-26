@@ -20,6 +20,5 @@ tmp
 .idea/
 .floo*
 .sublime*
-bin/*
 tags
-
+pacto.log

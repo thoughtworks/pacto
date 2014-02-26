@@ -10,7 +10,7 @@
 
   "response": {
     "status": 200,
-    "headers": { "Content-Type": "application/json" },
+    "headers": { "Content-Type": "application/json", "Vary": "Accept" },
     "body": {
       "type": "object",
       "required": true,
