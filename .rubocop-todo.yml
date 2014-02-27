@@ -22,3 +22,7 @@ LineLength:
 
 SpaceInsideHashLiteralBraces:
   Enabled: false
+
+MethodLength:
+  Max: 15
+
