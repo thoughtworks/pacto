@@ -1,0 +1,5 @@
+require 'goliath'
+require 'em-synchrony'
+require 'em-http-request'
+require 'pacto'
+require 'pacto/server/api'

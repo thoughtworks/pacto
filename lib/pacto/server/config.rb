@@ -1,0 +1,46 @@
+def token_map
+  if File.readable? '.tokens.json'
+    MultiJson.load(File.read '.tokens.json')
+  else
+    {}
+  end
+end
+
+def prepare_contracts(contracts)
+  contracts.stub_all if options[:stub]
+end
+
+config[:strip_port] = options[:strip_port]
+config[:strip_dev] = options[:strip_dev]
+config[:port] = port
+contracts_path = options[:directory] || File.expand_path('contracts', Dir.pwd)
+Pacto.configure do |pacto_config|
+  pacto_config.logger = logger
+  pacto_config.contracts_path = contracts_path
+  pacto_config.strict_matchers = options[:strict]
+  pacto_config.generator_options = {
+    :schema_version => :draft3,
+    :token_map => token_map
+  }
+end
+
+if options[:generate]
+  Pacto.generate!
+  logger.info 'Pacto generation mode enabled'
+end
+
+if options[:recursive_loading]
+  Dir["#{contracts_path}/*"].each do |host_dir|
+    host = File.basename host_dir
+    prepare_contracts Pacto.load_contracts(host_dir, "https://#{host}")
+  end
+else
+  prepare_contracts Pacto.load_contracts contracts_path, 'https://localhost'
+end
+
+Pacto.validate! if options[:validate]
+
+if options[:live]
+#  WebMock.reset!
+  WebMock.allow_net_connect!
+end
