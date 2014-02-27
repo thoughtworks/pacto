@@ -1,7 +1,7 @@
 require 'coveralls_helper'
 require 'webmock/rspec'
 require 'pacto'
-require 'pacto/server'
+require 'pacto/dummy_server'
 require 'stringio'
 require 'rspec'
 require 'should_not/rspec'

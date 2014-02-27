@@ -4,7 +4,7 @@ require 'webmock'
 require 'aruba'
 require 'aruba/cucumber'
 require 'aruba/jruby' if RUBY_PLATFORM == 'java'
-require_relative '../../spec/pacto/server'
+require_relative '../../spec/pacto/dummy_server'
 
 Before do
   # Given I successfully run `bundle install` can take a while.
@@ -12,7 +12,7 @@ Before do
 end
 
 # Was only going to use for @needs_server, but its easier to leave it running
-@server = Pacto::Server::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
+@server = Pacto::DummyServer::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
 @server.start
 
 Around do | scenario, block |

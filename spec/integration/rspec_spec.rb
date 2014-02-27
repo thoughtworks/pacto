@@ -6,7 +6,7 @@ describe 'pacto/rspec' do
 
   before :all do
     WebMock.allow_net_connect!
-    @server = Pacto::Server::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
+    @server = Pacto::DummyServer::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
     @server.start
   end
 

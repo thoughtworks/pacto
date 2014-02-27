@@ -1,4 +1,4 @@
-module Pacto::Server
+module Pacto::DummyServer
   describe PlaybackServlet do
     let(:request) { double }
     let(:response) { double('response', :status= => '', :[]= => '', :body= => '') }

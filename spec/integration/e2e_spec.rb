@@ -8,7 +8,7 @@ describe 'Pacto' do
 
   context 'Contract validation' do
     before :all do
-      @server = Pacto::Server::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
+      @server = Pacto::DummyServer::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
       @server.start
     end
 
