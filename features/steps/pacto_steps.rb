@@ -73,3 +73,8 @@ When(/^I make replacements in "([^"]*)":$/) do |file_name, replacements|
     File.open(file_name, 'w') { |file| file.write content }
   end
 end
+
+Then(/^the output should match this contract:$/) do |expected_contract|
+  actual_contract = all_output
+  expect(actual_contract).to be_json_eql(expected_contract).excluding('description')
+end
