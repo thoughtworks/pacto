@@ -18,3 +18,8 @@ RSpec.configure do |config|
     Pacto.clear!
   end
 end
+
+def sample_contract(name = 'simple_contract')
+  Pacto::ContractFactory.new.build_from_file "spec/integration/data/#{name}.json",
+                                             'http://localhost:8080'
+end

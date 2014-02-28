@@ -1,27 +1,12 @@
 module Pacto
-  class ContractRegistry
-    def initialize
-      @registry = Hash.new { |hash, key| hash[key] = Set.new }
-    end
-
-    def [](tag)
-      @registry[tag]
-    end
-
+  class ContractRegistry < Set
     def register(contract)
-      @registry[:default] << contract
-
-      self
+      fail ArgumentError, 'expected a Pacto::Contract' unless contract.is_a? Contract
+      add contract
     end
 
     def contracts_for(request_signature)
-      all_contracts.select { |c| c.matches? request_signature }
-    end
-
-    private
-
-    def all_contracts
-      @registry.values.inject(Set.new, :+)
+      select { |c| c.matches? request_signature }
     end
   end
 end
