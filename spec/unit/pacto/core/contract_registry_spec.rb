@@ -58,36 +58,6 @@ module Pacto
       end
     end
 
-    describe '.use' do
-      before do
-        contract_list
-          .register(contract, tag)
-          .register(another_contract, :default)
-      end
-
-      context 'when a contract has been registry' do
-        let(:response_body) { double('response_body') }
-
-        it 'stubs a contract with default values' do
-          contract.should_receive(:stub_contract!)
-          another_contract.should_receive(:stub_contract!)
-          contract_list.use(tag)
-        end
-
-        it 'stubs default contract if unused tag' do
-          another_contract.should_receive(:stub_contract!)
-          contract_list.use(another_tag)
-        end
-      end
-
-      context 'when contract has not been registry' do
-        it 'raises an argument error' do
-          contract_list = ContractRegistry.new
-          expect { contract_list.use('unregistry') }.to raise_error ArgumentError
-        end
-      end
-    end
-
     describe '.contracts_for' do
       context 'when no contracts are found for a request' do
         it 'returns an empty list' do
@@ -97,7 +67,7 @@ module Pacto
 
       context 'when contracts are found for a request' do
         it 'returns the matching contracts' do
-          register_and_use all_contracts
+          register_contracts all_contracts
           expect(contract_list.contracts_for request_signature).to eq(contracts_that_match)
         end
       end
@@ -111,9 +81,8 @@ module Pacto
       end
     end
 
-    def register_and_use(contracts)
+    def register_contracts(contracts)
       contracts.each { |contract| contract_list.register contract }
-      contract_list.use :default
     end
   end
 end

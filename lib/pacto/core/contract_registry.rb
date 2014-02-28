@@ -18,18 +18,6 @@ module Pacto
       self
     end
 
-    def use(tag, values = {})
-      merged_contracts = @registry[:default] + @registry[tag]
-
-      fail ArgumentError, "contract \"#{tag}\" not found" if merged_contracts.empty?
-
-      merged_contracts.each do |contract|
-        contract.stub_contract! values
-      end
-
-      self
-    end
-
     def contracts_for(request_signature)
       all_contracts.select { |c| c.matches? request_signature }
     end
