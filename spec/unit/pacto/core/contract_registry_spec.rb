@@ -12,47 +12,47 @@ module Pacto
     let(:contracts_that_dont_match) { create_contracts 3, false }
     let(:all_contracts)             { contracts_that_match + contracts_that_dont_match }
 
-    subject(:contract_list) do
+    subject(:contract_registry) do
       ContractRegistry.new
     end
 
     describe '.register' do
       context 'no tag' do
         it 'registers the contract with the default tag' do
-          contract_list.register contract
-          expect(contract_list[:default]).to include(contract)
+          contract_registry.register contract
+          expect(contract_registry[:default]).to include(contract)
         end
       end
 
       context 'one tag' do
         it 'registers a contract under a given tag' do
-          contract_list.register(contract, tag)
-          expect(contract_list[tag]).to include(contract)
+          contract_registry.register(contract, tag)
+          expect(contract_registry[tag]).to include(contract)
         end
 
         it 'does not duplicate a contract when it has already been registered with the same tag' do
-          contract_list
+          contract_registry
             .register(contract, tag)
             .register(contract, tag)
 
-          expect(contract_list[tag]).to include(contract)
-          expect(contract_list[tag]).to have(1).items
+          expect(contract_registry[tag]).to include(contract)
+          expect(contract_registry[tag]).to have(1).items
         end
       end
 
       context 'multiple tags' do
         it 'registers a contract using different tags' do
-          contract_list.register(contract, tag, another_tag)
-          expect(contract_list[tag]).to include(contract)
-          expect(contract_list[another_tag]).to include(contract)
+          contract_registry.register(contract, tag, another_tag)
+          expect(contract_registry[tag]).to include(contract)
+          expect(contract_registry[another_tag]).to include(contract)
         end
 
         it 'registers a tag with different contracts ' do
-          contract_list
+          contract_registry
             .register(contract, tag)
             .register(another_contract, tag)
 
-          expect(contract_list[tag]).to include(contract, another_contract)
+          expect(contract_registry[tag]).to include(contract, another_contract)
         end
 
       end
@@ -61,14 +61,14 @@ module Pacto
     describe '.contracts_for' do
       context 'when no contracts are found for a request' do
         it 'returns an empty list' do
-          expect(contract_list.contracts_for request_signature).to be_empty
+          expect(contract_registry.contracts_for request_signature).to be_empty
         end
       end
 
       context 'when contracts are found for a request' do
         it 'returns the matching contracts' do
           register_contracts all_contracts
-          expect(contract_list.contracts_for request_signature).to eq(contracts_that_match)
+          expect(contract_registry.contracts_for request_signature).to eq(contracts_that_match)
         end
       end
     end
@@ -82,7 +82,7 @@ module Pacto
     end
 
     def register_contracts(contracts)
-      contracts.each { |contract| contract_list.register contract }
+      contracts.each { |contract| contract_registry.register contract }
     end
   end
 end

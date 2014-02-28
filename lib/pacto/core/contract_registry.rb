@@ -4,10 +4,6 @@ module Pacto
       @registry = Hash.new { |hash, key| hash[key] = Set.new }
     end
 
-    def [](tag)
-      @registry[tag]
-    end
-
     def register(contract, *tags)
       tags << :default if tags.empty?
 
