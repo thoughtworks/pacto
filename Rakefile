@@ -45,6 +45,20 @@ task :release => :build do
   sh 'ls pkg/*.gem | xargs -n 1 gem push'
 end
 
+task :changelog do
+  changelog
+end
+
 def changelog
-  File.read('CHANGELOG').split("\n\n\n", 2).first
+  changelog = File.read('CHANGELOG').split("\n\n\n", 2).first
+  confirm "Does the CHANGELOG look correct? ", changelog
+end
+
+def confirm(question, data)
+  puts "Please confirm..."
+  puts data
+  print question
+  abort "Aborted" unless $stdin.gets.strip == 'y'
+  puts "Confirmed"
+  data
 end
