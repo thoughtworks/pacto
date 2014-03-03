@@ -44,19 +44,12 @@ describe Pacto do
   describe 'loading contracts' do
     let(:contracts_path) { 'path/to/dir' }
     let(:host) { 'localhost' }
-    let(:contract1)  { double }
-    let(:contract2)  { double }
-    let(:factory)  { double(:factory) }
-
-    before do
-      allow(Pacto::ContractFactory).to receive(:new).and_return(factory)
-    end
 
     it 'instantiates a contract list' do
-      allow(Pacto::ContractFiles).to receive(:for).with(contracts_path).and_return { %w{file1 file2} }
-      allow(factory).to receive(:build).with(%w{file1 file2}, host).and_return { [contract1, contract2] }
-      expect(Pacto::ContractList).to receive(:new).with([contract1, contract2])
-      Pacto.load_contracts(contracts_path, host)
+      expect(Pacto::ContractList).to receive(:new) do |contracts|
+        contracts.each { |contract| expect(contract).to be_a_kind_of(Pacto::Contract) }
+      end
+      Pacto.load_contracts('spec/integration/data/', host)
     end
   end
 end
