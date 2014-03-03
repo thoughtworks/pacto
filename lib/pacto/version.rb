@@ -1,3 +1,3 @@
 module Pacto
-  VERSION = '0.4.0.pre'
+  VERSION = '0.3.1'
 end
