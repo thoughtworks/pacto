@@ -51,14 +51,14 @@ end
 
 def changelog
   changelog = File.read('CHANGELOG').split("\n\n\n", 2).first
-  confirm "Does the CHANGELOG look correct? ", changelog
+  confirm 'Does the CHANGELOG look correct? ', changelog
 end
 
 def confirm(question, data)
-  puts "Please confirm..."
+  puts 'Please confirm...'
   puts data
   print question
-  abort "Aborted" unless $stdin.gets.strip == 'y'
-  puts "Confirmed"
+  abort 'Aborted' unless $stdin.gets.strip == 'y'
+  puts 'Confirmed'
   data
 end
