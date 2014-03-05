@@ -2,8 +2,6 @@ require_relative '../../../../lib/pacto/core/contract_registry'
 
 module Pacto
   describe ContractRegistry do
-    let(:tag) { 'contract_tag' }
-    let(:another_tag) { 'another_tag' }
     let(:contract) { sample_contract }
     let(:request_signature) { double('request signature') }
 
@@ -12,7 +10,7 @@ module Pacto
     end
 
     describe '.register' do
-      it 'registers the contract with the default tag' do
+      it 'registers the contract' do
         contract_registry.register contract
         expect(contract_registry).to include(contract)
       end
