@@ -16,7 +16,7 @@ module Pacto
       def build_relaxed_uri_pattern(request)
         path_pattern = request.path.gsub(/\/:\w+/, '/[^\/\?#]+')
         host_pattern = Regexp.quote(request.host)
-        /#{host_pattern}#{path_pattern}/
+        /#{host_pattern}#{path_pattern}(\?.*)?\Z/
       end
     end
   end
