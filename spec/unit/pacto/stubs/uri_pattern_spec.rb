@@ -7,6 +7,13 @@ module Pacto
         Pacto.configuration.strict_matchers = false
       end
 
+      it 'appends host if path is an Addressable::Template' do
+        path_pattern = '/{account}/data{.format}{?page,per_page}'
+        path = Addressable::Template.new path_pattern
+        request = double(host: 'https://www.example.com', path: path)
+        expect(UriPattern.for(request).pattern).to eq(Addressable::Template.new("https://www.example.com#{path_pattern}").pattern)
+      end
+
       it 'returns a regex containing the host and path' do
         request = double(host: 'myhost.com', path: '/stuff')
         expect(UriPattern.for(request).to_s).to include('myhost\.com')
