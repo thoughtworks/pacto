@@ -1,0 +1,42 @@
+{
+  "request": {
+    "headers": {
+      "Expect": "100-continue"
+    },
+    "method": "put",
+    "path": "/notifications",
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://api.github.com/notifications with shasum 87779008e3d57553b77f537d8fbb51724c0fc33e",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "last_read_at": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Status": "205 Reset Content",
+      "Access-Control-Allow-Credentials": "true",
+      "Access-Control-Expose-Headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "status": 205,
+    "body": {
+             "$schema": "http://json-schema.org/draft-03/schema#",
+             "description": "Generated from https://api.github.com/notifications with shasum 87779008e3d57553b77f537d8fbb51724c0fc33e",
+             "type": "object",
+             "required": true,
+             "properties": {
+               "last_read_at": {
+                 "type": "string",
+                 "required": true
+               }
+             }
+             }
+  }
+}

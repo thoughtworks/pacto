@@ -25,7 +25,22 @@ RSpec::Core::RakeTask.new(:integration) do |t|
   t.pattern = 'spec/integration/**/*_spec.rb'
 end
 
-task :default => [:unit, :integration, :journeys, :rubocop, 'coveralls:push']
+task :default => [:unit, :integration, :journeys, :samples, :rubocop, 'coveralls:push']
+
+desc 'Run the samples'
+task :samples do
+  Dir.chdir('samples') do
+    Bundler.with_clean_env do
+      system 'bundle install'
+      Dir['**/*.rb'].each do | sample_code_file |
+        system "bundle exec ruby #{sample_code_file}"
+      end
+      Dir['**/*.sh'].each do | sample_script |
+        system "./#{sample_script}"
+      end
+    end
+  end
+end
 
 desc 'Build gems into the pkg directory'
 task :build do
