@@ -1,4 +1,5 @@
 begin
+  require 'pacto'
   require 'goliath/test_helper'
   require 'pacto/server'
 rescue LoadError
