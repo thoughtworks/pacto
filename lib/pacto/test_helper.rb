@@ -26,7 +26,7 @@ module Pacto
       args = DEFAULT_ARGS.merge args
       with_api(Pacto::Server::API, args) do
         EM::Synchrony.defer do
-          yield
+          yield "http://localhost:#{@test_server_port}"
           EM.stop
         end
       end

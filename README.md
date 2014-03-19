@@ -48,6 +48,8 @@ Pacto can provide a [**contract writer**](#generating) that tries to strike a ba
 
 Pacto can perform three activities: generating, validating, or stubbing services.  You can do each of these activities against either live or stubbed services.
 
+You can also use [Pacto Server](#pacto-server-non-ruby-usage) if you are working with non-Ruby projects.
+
 ### Configuration
 
 In order to start with Pacto, you just need to require it and optionally customize the default [Configuration](https://www.relishapp.com/maxlinc/pacto/docs/configuration).  For example:
@@ -126,16 +128,48 @@ contracts.stub_all(request_id: 14, name: "Marcos")
 
 **See also: http://thoughtworks.github.io/pacto/patterns/polyglot/**
 
-It is really easy to embed Pacto inside a small server.  We haven't bundled a server inside of Pacto, but check out [pacto-demo](https://github.com/thoughtworks/pacto-demo) to see how easily you can expose Pacto via server.
+We've bundled a small server that embeds pacto so you can use it for non-Ruby projects.  If you want to take advantage of the full features, you'll still need to use Ruby (usually rspec) to drive your API testing.  You can run just the server in order to stub or to write validation issues to a log, but you won't have access to the full API fail your tests if there were validation problems.
 
-That demo lets you easily run a server in several modes:
+### Command-line
+
+The command-line version of the server will show you all the options.  These same options are used when you launch the server from within rspec.  In order to see the options:
+`bundle exec pacto-server --help`
+
+Some examples:
 ```sh
-$ bundle exec ruby pacto_server.rb -sv --generate
+$ bundle exec pacto-server -sv --generate
 # Runs a server that will generate Contracts for each request received
-$ bundle exec ruby pacto_server.rb -sv --validate
+$ bundle exec pacto-server -sv --stub --validate
 # Runs the server that provides stubs and checks them against Contracts
-$ bundle exec ruby pacto_server.rb -sv --validate --host http://example.com
+$ bundle exec pacto-server -sv --live --validate --host
 # Runs the server that acts as a proxy to http://example.com, validating each request/response against a Contract
+```
+
+### RSpec test helper
+
+You can also launch a server from within an rspec test.  The server does start up an external port and runs asynchronously so it doens't block your main test thread from kicking off your consumer code.  This gives you an externally accessable server that non-Ruby clients can hit, but still gives you the full Pacto API in order to validate and spy on HTTP interactions.
+
+Example usage of the rspec test helper:
+```ruby
+require 'rspec'
+require 'pacto/rspec'
+require 'pacto/test_helper'
+
+describe 'my consumer' do
+  include Pacto::TestHelper
+
+  it 'calls a service' do
+    with_pacto(
+      :port => 5000,
+      :directory => '../spec/integration/data',
+      :stub => true) do |pacto_endpoint|
+      # call your code
+      system "curl #{pacto_endpoint}/echo"
+      # check results
+      expect(Pacto).to have_validated(:get, 'https://localhost/echo')
+    end
+  end
+end
 ```
 
 ## Rake Tasks

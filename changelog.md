@@ -1,5 +1,8 @@
 ## 0.3.2
 
+  *New Features:*
+    - #105: Add pacto-server for non-ruby tests.  Use the pacto-server gem.
+
   *Breaking Changes:*
     
     - #107: Change default URI pattern to be less greedy.
