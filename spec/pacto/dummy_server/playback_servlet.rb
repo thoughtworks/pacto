@@ -1,5 +1,5 @@
 module Pacto
-  module Server
+  module DummyServer
     class PlaybackServlet
       attr_reader :status, :headers, :body
 

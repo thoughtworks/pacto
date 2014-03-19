@@ -4,14 +4,10 @@ describe 'pacto/rspec' do
   let(:contract_path) { 'spec/integration/data/simple_contract.json' }
   let(:strict_contract_path) { 'spec/integration/data/strict_contract.json' }
 
-  before :all do
-    WebMock.allow_net_connect!
-    @server = Pacto::Server::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
-    @server.start
-  end
-
-  after :all do
-    @server.terminate
+  around :each do |example|
+    run_pacto do
+      example.run
+    end
   end
 
   def expect_to_raise(message_pattern = nil, &blk)

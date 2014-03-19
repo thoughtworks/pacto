@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require 'goliath/api'
+require 'goliath/runner'
+require 'pacto/server'
+
+runner = Goliath::Runner.new(ARGV, Pacto::Server::API.new(:pwd => Dir.pwd))
+runner.app = Goliath::Rack::Builder.build(Pacto::Server::API, runner.api)
+runner.run

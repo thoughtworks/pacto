@@ -3,7 +3,7 @@ require 'forwardable'
 require 'tempfile'
 
 module Pacto
-  module Server
+  module DummyServer
     class Servlet < WEBrick::HTTPServlet::AbstractServlet
       extend Forwardable
 

@@ -7,13 +7,10 @@ describe 'Pacto' do
   end
 
   context 'Contract validation' do
-    before :all do
-      @server = Pacto::Server::Dummy.new 8000, '/hello', '{"message": "Hello World!"}'
-      @server.start
-    end
-
-    after :all do
-      @server.terminate
+    around :each do |example|
+      run_pacto do
+        example.run
+      end
     end
 
     it 'verifies the contract against a producer' do
