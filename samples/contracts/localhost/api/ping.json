@@ -1,0 +1,26 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/api/ping"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from http://localhost:9292/api/ping with shasum 2cf3478c18e3ce877fb823ed435cb75b4a801aaa",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "ping": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+}

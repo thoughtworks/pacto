@@ -33,10 +33,11 @@ task :samples do
     Bundler.with_clean_env do
       system 'bundle install'
       Dir['**/*.rb'].each do | sample_code_file |
-        system "bundle exec ruby #{sample_code_file}"
+        next if sample_code_file =~ /sample_api/
+        sh "bundle exec ruby -rbundler/setup -rrspec/autorun #{sample_code_file}"
       end
       Dir['**/*.sh'].each do | sample_script |
-        system "./#{sample_script}"
+        sh "./#{sample_script}"
       end
     end
   end

@@ -36,11 +36,12 @@ Pacto.generate!
 # [HTTP library supported by WebMock](https://github.com/bblimke/webmock#supported-http-libraries))
 # then Pacto will generate a Contract based on the HTTP request/response.
 #
-# Here, we're using [Octokit](https://github.com/octokit/octokit.rb) to call the GitHub API.  It will generate a Contract and save it two `contracts/api.github.com/repos/thoughtworks/pacto/readme.json`.
-require 'octokit'
-readme = Octokit.readme 'thoughtworks/pacto'
-# We're getting back real data from GitHub, so this should be the actual file encoding.
-puts readme.encoding
+# We're using the sample APIs in the sample_apis directory.
+require "faraday"
+conn = Faraday.new(:url => 'http://localhost:9292')
+response = conn.get '/api/ping'
+# This is the real request, so you should see {"ping":"pong"}
+puts response.body
 
 # # Testing providers by simulating consumers
 
@@ -52,7 +53,7 @@ puts readme.encoding
 # the response matches the JSON schema.  Obviously it will pass since we just recorded it,
 # but if the service has made a change, or if you alter the contract with new expectations,
 # then you will see a contract validation message.
-contracts = Pacto.load_contracts('contracts', 'https://api.github.com')
+contracts = Pacto.load_contracts('contracts', 'http://localhost:9292')
 contracts.validate_all
 
 # # Stubbing providers for consumer testing
@@ -60,39 +61,31 @@ contracts.validate_all
 contracts.stub_all
 # The stubbed data won't be very realistic, the default behavior is to return the simplest data
 # that complies with the schema.  That basically means that you'll have "bar" for every string.
-readme = Octokit.readme 'thoughtworks/pacto'
-# You're now getting stubbed data.  Unless you generated the schema with the `defaults` option enabled,
-# then this will just return "bar" as the encoding.  If you recorded the defaults, then it will return
-# the value received when the Contract was generated.
-puts readme.type
+response = conn.get '/api/ping'
+# You're now getting stubbed data.  You should see {"ping":"bar"} unless you recorded with
+# the `defaults` option enabled, in which case you will still seee {"ping":"pong"}.
+puts response.body
 
 # # Collaboration tests with RSpec
 
-# You can turn on validation mode so Pacto will detect and validate HTTP requests.
-Pacto.validate!
-
 # Pacto comes with rspec matchers
 require 'pacto/rspec'
-describe 'my_code' do
-  it 'calls a service' do
-    Octokit.readme 'thoughtworks/pacto'
-    # The have_validated matcher makes sure that Pacto received and successfully validated a request
-    expect(Pacto).to have_validated(:get, 'https://api.github.com/repos/thoughtworks/pacto/readme')
-  end
-end
 
 # It's probably a good idea to reset Pacto between each rspec scenario
 RSpec.configure do |c|
   c.after(:each)  { Pacto.clear! }
 end
 
-Pacto.load_contracts('contracts', 'https://api.github.com').stub_all
+# Load your contracts, and stub them if you'd like.
+Pacto.load_contracts('contracts', 'http://localhost:9292').stub_all
+# You can turn on validation mode so Pacto will detect and validate HTTP requests.
 Pacto.validate!
 
 describe 'my_code' do
   it 'calls a service' do
-    Octokit.readme 'thoughtworks/pacto'
+    conn = Faraday.new(:url => 'http://localhost:9292')
+    response = conn.get '/api/ping'
     # The have_validated matcher makes sure that Pacto received and successfully validated a request
-    expect(Pacto).to have_validated(:get, 'https://api.github.com/repos/thoughtworks/pacto/readme')
+    expect(Pacto).to have_validated(:get, 'http://localhost:9292/api/ping')
   end
 end
