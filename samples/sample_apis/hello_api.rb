@@ -7,7 +7,7 @@ module DummyServices
     desc 'Hello'
     get '/hello' do
       header 'Vary', 'Accept'
-      {message: "Hello World!"}
+      {message: 'Hello World!'}
     end
   end
 end

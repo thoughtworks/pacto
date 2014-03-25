@@ -37,7 +37,7 @@ Pacto.generate!
 # then Pacto will generate a Contract based on the HTTP request/response.
 #
 # We're using the sample APIs in the sample_apis directory.
-require "faraday"
+require 'faraday'
 conn = Faraday.new(:url => 'http://localhost:9292')
 response = conn.get '/api/ping'
 # This is the real request, so you should see {"ping":"pong"}

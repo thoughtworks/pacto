@@ -5,7 +5,7 @@ module DummyServices
     format :json
 
     helpers do
-      def echo message
+      def echo(message)
         error!('Bad Request', 400) unless message
         message
       end

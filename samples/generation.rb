@@ -14,7 +14,7 @@ Pacto.generate!
 # then Pacto will generate a Contract based on the HTTP request/response.
 #
 # This code snippet will generate a Contract and save it to `contracts/samples/contracts/localhost/api/ping.json`.
-require "faraday"
+require 'faraday'
 conn = Faraday.new(:url => 'http://localhost:9292')
 response = conn.get '/api/ping'
 # We're getting back real data from GitHub, so this should be the actual file encoding.

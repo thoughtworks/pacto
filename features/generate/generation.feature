@@ -58,7 +58,6 @@ Feature: Contract Generation
       "response": {
         "headers": {
           "Content-Type": "application/json",
-          "Status": "200 OK",
           "Vary": "Accept"
         },
         "status": 200,

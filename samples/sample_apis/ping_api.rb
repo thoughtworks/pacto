@@ -4,7 +4,7 @@ module DummyServices
     format :json
     desc 'Ping'
     get '/ping' do
-      { ping: "pong" }
+      { ping: 'pong' }
     end
   end
 end
