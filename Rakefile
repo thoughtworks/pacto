@@ -29,7 +29,7 @@ namespace :server do
   task :autostart do
     Dir.chdir('samples') do
       Bundler.with_clean_env do
-        # system 'bundle install'
+        system 'bundle install'
         system 'bundle exec rake server:autostart'
       end
     end
