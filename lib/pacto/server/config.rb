@@ -10,6 +10,7 @@ def prepare_contracts(contracts)
   contracts.stub_all if options[:stub]
 end
 
+config[:backend_host] = options[:backend_host]
 config[:strip_port] = options[:strip_port]
 config[:strip_dev] = options[:strip_dev]
 config[:port] = port

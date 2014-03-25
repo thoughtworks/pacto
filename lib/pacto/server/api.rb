@@ -78,14 +78,18 @@ module Pacto
 
       def determine_proxy_uri(env)
         path = env[Goliath::Request::REQUEST_PATH]
-        host = env['HTTP_HOST']
-        # FIXME: These options are hacky, but cover the way I use in Pacto specs vs Polytrix
-        if env.config[:strip_dev]
-          host.gsub!(".dev:#{port}", '.com')
-        end
-        uri = Addressable::URI.parse("https://#{host}#{path}")
-        if env.config[:strip_port]
-          uri.port = nil
+        if env.config[:backend_host]
+          uri = Addressable::URI.parse("#{env.config[:backend_host]}#{path}")
+        else
+          host = env['HTTP_HOST']
+          # FIXME: These options are hacky, but cover the way I use in Pacto specs vs Polytrix
+          if env.config[:strip_dev]
+            host.gsub!(".dev:#{port}", '.com')
+          end
+          uri = Addressable::URI.parse("https://#{host}#{path}")
+          if env.config[:strip_port]
+            uri.port = nil
+          end
         end
         uri.to_s
       end

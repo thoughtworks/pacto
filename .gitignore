@@ -1,4 +1,6 @@
 *.gem
+*.log
+*.pid
 *.rbc
 .bundle
 .config
