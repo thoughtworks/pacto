@@ -2,7 +2,7 @@ language: ruby
 before_install: gem update --remote bundler
 before_script:
   - bundle install
-  - cd samples/ && bundle install
+  - pushd samples/ && bundle install && popd
 rvm:
   - 2.1.0
   - 2.0.0
