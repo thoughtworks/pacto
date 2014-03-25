@@ -33,6 +33,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'json-schema-generator', '~> 0.0', '>= 0.0.7'
   gem.add_dependency 'term-ansicolor', '~> 1.3'
 
+  gem.add_development_dependency 'foreman', '~> 0'
+  gem.add_development_dependency 'unicorn', '~> 0'
   gem.add_development_dependency 'coveralls', '~> 0'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'rake-notes', '~> 0'

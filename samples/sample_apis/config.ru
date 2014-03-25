@@ -10,6 +10,7 @@ module DummyServices
   class API < Grape::API
     prefix 'api'
     format :json
+    mount DummyServices::Hello
     mount DummyServices::Ping
     mount DummyServices::Echo
     mount DummyServices::Files

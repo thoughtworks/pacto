@@ -8,7 +8,7 @@ Feature: Validation
           {
           "request": {
             "method": "GET",
-            "path": "/hello",
+            "path": "/api/hello",
             "headers": { "Accept": "application/json" },
             "params": {}
           },
@@ -26,10 +26,10 @@ Feature: Validation
           }
         }
       """
-      When I successfully run `bundle exec rake pacto:validate['http://localhost:8000','tmp/aruba/contracts/simple_contract.json']`
+      When I successfully run `bundle exec rake pacto:validate['http://localhost:9292','tmp/aruba/contracts/simple_contract.json']`
       Then the output should contain:
         """"
-        Validating contracts in directory tmp/aruba/contracts/simple_contract.json against host http://localhost:8000
+        Validating contracts in directory tmp/aruba/contracts/simple_contract.json against host http://localhost:9292
 
         simple_contract.json: OK!
         1 valid contract

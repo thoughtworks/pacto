@@ -1,5 +1,6 @@
 language: ruby
 before_install: gem update --remote bundler
+before_script: cd samples/sample_apis && bundle install && bundle exec unicorn -D -c unicorn.rb config.ru
 rvm:
   - 2.1.0
   - 2.0.0

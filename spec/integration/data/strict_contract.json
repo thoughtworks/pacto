@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "path": "/strict",
+    "path": "/api/strict",
     "headers": {
       "Accept": "application/json"
     },
