@@ -25,6 +25,21 @@ RSpec::Core::RakeTask.new(:integration) do |t|
   t.pattern = 'spec/integration/**/*_spec.rb'
 end
 
+namespace :server do
+  task :autostart do
+    Dir.chdir('samples') do
+      Bundler.with_clean_env do
+        # system 'bundle install'
+        system 'bundle exec rake server:autostart'
+      end
+    end
+  end
+end
+
+%w{ unit integration journeys samples}.each do |taskname|
+  task taskname => 'server:autostart'
+end
+
 task :default => [:unit, :integration, :journeys, :samples, :rubocop, 'coveralls:push']
 
 desc 'Run the samples'

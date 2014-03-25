@@ -1,1 +1,10 @@
 require 'pacto/rake_task'
+require 'rakeup'
+
+RakeUp::ServerTask.new do |t|
+  t.host = 'localhost'
+  t.port = 9292
+  t.pid_file = 'server.pid'
+  t.rackup_file = 'sample_apis/config.ru'
+  t.server = :thin # Or puma, mongrel, etc.
+end
