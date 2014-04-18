@@ -43,7 +43,7 @@ Feature: Contract Generation
     puts contract
     """
     When I successfully run `bundle exec ruby generate.rb`
-    Then the output should match this contract:
+    Then the stdout should match this contract:
     """json
     {
       "request": {

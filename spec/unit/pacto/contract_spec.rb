@@ -1,12 +1,28 @@
 module Pacto
   describe Contract do
-    let(:request)  { double 'request' }
-    let(:response) { double 'response definition' }
+    let(:request) do
+      request = double('request')
+      allow(request).to receive(:is_a?) do |arg|
+        arg == Pacto::RequestClause
+      end
+      request
+    end
+    let(:response) do
+      Pacto::ResponseClause.new(:status => 200)
+    end
     let(:provider) { double 'provider' }
-    let(:file) { 'contranct.json' }
+    let(:file) { 'contract.json' }
     let(:request_pattern_provider) { double(for: nil) }
 
-    subject(:contract) { Contract.new(request, response, file, 'sample', request_pattern_provider) }
+    subject(:contract) do
+      Contract.new(
+        request: request,
+        response: response,
+        file: file,
+        name: 'sample',
+        request_pattern_provider: request_pattern_provider
+      )
+    end
 
     before do
       Pacto.configuration.provider = provider
@@ -51,7 +67,7 @@ module Pacto
         end
 
         it 'generates the response' do
-          request.should_receive :execute
+          expect(request).to receive(:execute)
           contract.validate_provider
         end
 

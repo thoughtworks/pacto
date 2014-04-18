@@ -4,18 +4,19 @@ module Pacto
       'http://example.com'
     end
     let(:request) do
-      Pacto::RequestClause.new(record_host,
-                               'method' => 'GET',
-                               'path' => '/abcd',
-                               'headers' => {
-                                 'Content-Length' => [1234],
-                                 'Via' => ['Some Proxy'],
-                                 'User-Agent' => ['rspec']
-                               },
-                               'params' => {
-                                 'apikey' => "<%= ENV['MY_API_KEY'] %>"
-                               }
-                              )
+      Pacto::RequestClause.new(
+        host: record_host,
+        method: 'GET',
+        path: '/abcd',
+        headers: {
+          'Content-Length' => [1234],
+          'Via' => ['Some Proxy'],
+          'User-Agent' => ['rspec']
+        },
+        params: {
+          'apikey' => "<%= ENV['MY_API_KEY'] %>"
+        }
+      )
     end
     let(:response_adapter) do
       Faraday::Response.new(

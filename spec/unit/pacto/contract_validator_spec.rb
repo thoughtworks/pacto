@@ -8,7 +8,7 @@ module Pacto
         'headers' => {
           'Content-Type' => 'application/json'
         },
-        'body' =>  {:type => 'object', :required => true, :properties => double('body definition properties')}
+        schema: {:type => 'object', :required => true, :properties => double('body definition properties')}
       )
     end
 
@@ -24,8 +24,8 @@ module Pacto
 
     let(:expected_request) do
       RequestClause.new(
-        'http://example.com',
-        'body' =>  {
+        host: 'http://example.com',
+        schema:  {
           :type => 'object',
           :required => true,
           :properties => double('body definition properties')
@@ -35,7 +35,13 @@ module Pacto
 
     let(:contract) do
       request_pattern_provider = double(for: nil)
-      Contract.new(expected_request, expected_response, 'some_file.json', 'sample', request_pattern_provider)
+      Contract.new(
+        request: expected_request,
+        response: expected_response,
+        file: 'some_file.json',
+        name: 'sample',
+        request_pattern_provider: request_pattern_provider
+      )
     end
 
     let(:opts) { {} }

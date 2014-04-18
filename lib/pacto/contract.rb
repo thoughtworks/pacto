@@ -1,25 +1,31 @@
 module Pacto
-  class Contract
-    attr_reader :name, :values, :request, :response, :file, :request_pattern
+  class Contract < Hashie::Dash
+    include Hashie::Extensions::Coercion
+    property :file, required: true
+    property :request,  required: true
+    property :response, required: true
+    property :values, default: {}
+    # Gotta figure out how to use test doubles w/ coercion
+    coerce_key :request,  RequestClause
+    coerce_key :response, ResponseClause
+    property :name
+    property :request_pattern_provider, default: Pacto::RequestPattern
+    attr_reader :request_pattern
 
-    def initialize(request, response, file, name = nil, request_pattern_provider = RequestPattern)
-      @request = request
-      @response = response
-      @file = Addressable::URI.convert_path(file.to_s).to_s
-      @name = name || @file
+    def initialize(opts)
+      opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
+      opts[:name] ||= opts[:file]
+      super
       @request_pattern = request_pattern_provider.for(request)
-      @values = {}
     end
 
     def stub_contract!(values = {})
-      @values = values
+      self.values = values
       Pacto.configuration.provider.stub_request!(request, response)
     end
 
     def validate_provider(opts = {})
-      request = @request
-      response = provider_response
-      validate_consumer request, response, opts
+      validate_consumer request, provider_response, opts
     end
 
     def validate_consumer(request, response, opts = {})
@@ -33,7 +39,7 @@ module Pacto
     private
 
     def provider_response
-      @request.execute
+      request.execute
     end
   end
 end

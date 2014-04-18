@@ -6,6 +6,8 @@ require 'aruba/jruby' if RUBY_PLATFORM == 'java'
 require 'pacto/test_helper'
 require_relative '../../spec/pacto/dummy_server'
 
+Pacto.configuration.hide_deprecations = true
+
 Before do
   # Given I successfully run `bundle install` can take a while.
   @aruba_timeout_seconds = RUBY_PLATFORM == 'java' ? 60 : 10

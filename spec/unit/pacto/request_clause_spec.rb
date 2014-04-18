@@ -9,14 +9,16 @@ module Pacto
     let(:params_as_json) { "{\"foo\":\"bar\"}" }
     let(:absolute_uri)   { "#{host}#{path}" }
     subject(:request) do
-      RequestClause.new(
-        host,
+      req_hash = {
+        host: host,
         'method'  => method,
         'path'    => path,
         'headers' => headers,
-        'params'  => params,
-        'body'    => body
-      )
+        'params'  => params
+      }
+      # The default test is for missing keys, not explicitly nil keys
+      req_hash.merge!('schema' => body) if body
+      RequestClause.new(req_hash)
     end
 
     it 'has a host' do
@@ -42,7 +44,7 @@ module Pacto
         expect(request.schema).to eq body
       end
 
-      describe 'when definition does not have body' do
+      describe 'when definition does not have a schema' do
         let(:body) { nil }
 
         it 'returns an empty empty hash' do

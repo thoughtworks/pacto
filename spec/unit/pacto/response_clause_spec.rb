@@ -14,7 +14,7 @@ module Pacto
         'headers' => {
           'Content-Type' => 'application/json'
         },
-        'body' => body_definition
+        'schema' => body_definition
       }
     end
 
@@ -35,7 +35,8 @@ module Pacto
     end
 
     it 'has a default value for the schema' do
-      response = ResponseClause.new(definition.merge('body' => nil))
+      definition.delete 'schema'
+      response = ResponseClause.new(definition)
       expect(response.schema).to eq(Hash.new)
     end
 
@@ -44,7 +45,7 @@ module Pacto
 
       it 'is the json generated from the schema' do
         JSON::Generator.should_receive(:generate).
-          with(definition['body']).
+          with(definition['schema']).
           and_return(generated_body)
 
         expect(response.body).to eq(generated_body)

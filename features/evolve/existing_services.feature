@@ -48,7 +48,7 @@ Feature: Existing services journey
     puts Faraday.get('http://www.example.com/service2').body
     """
     When I successfully run `bundle exec ruby test.rb`
-    Then the output should contain exactly:
+    Then the stdout should contain exactly:
     """
     {"thoughtworks":"bar"}
     {"service2":["bar"]}
