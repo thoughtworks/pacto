@@ -10,13 +10,11 @@ module Pacto
     coerce_key :response, ResponseClause
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
-    attr_reader :request_pattern
 
     def initialize(opts)
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
       opts[:name] ||= opts[:file]
       super
-      @request_pattern = request_pattern_provider.for(request)
     end
 
     def stub_contract!(values = {})
@@ -34,6 +32,10 @@ module Pacto
 
     def matches?(request_signature)
       request_pattern.matches? request_signature
+    end
+
+    def request_pattern
+      @request_pattern ||= request_pattern_provider.for(request)
     end
 
     private
