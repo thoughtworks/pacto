@@ -6,17 +6,17 @@ module Pacto
       end
       let(:request) do
         RequestClause.new(
-          record_host,
-          'method' => 'GET',
-          'path' => '/abcd',
-          'headers' => {
+          host: record_host,
+          method: 'GET',
+          path: '/abcd',
+          headers: {
             'Server' => ['example.com'],
             'Connection' => ['Close'],
             'Content-Length' => [1234],
             'Via' => ['Some Proxy'],
             'User-Agent' => ['rspec']
           },
-          'params' => {
+          params: {
             'apikey' => "<%= ENV['MY_API_KEY'] %>"
           }
         )

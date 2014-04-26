@@ -37,7 +37,7 @@ Feature: Meta-validation
 
   Scenario: Meta-validation via a rake task
     When I successfully run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
-    Then the output should contain "All contracts successfully meta-validated"
+    Then the stdout should contain "All contracts successfully meta-validated"
 
   Scenario: Programmatic meta-validation
     Given a file named "meta_validate.rb" with:
@@ -46,7 +46,7 @@ Feature: Meta-validation
     Pacto.validate_contract 'contracts/my_contract.json'
     """
     When I successfully run `bundle exec ruby meta_validate.rb`
-    Then the output should contain "Validating contracts/my_contract.json"
+    Then the stdout should contain "Validating contracts/my_contract.json"
 
 # The tests from here down should probably be specs instead of relish
 
@@ -57,7 +57,7 @@ Feature: Meta-validation
     """
     When I run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
-    And the output should contain "did not match the following type"
+    And the stdout should contain "did not match the following type"
 
 
   Scenario: Meta-validation of a contract with empty request and response
@@ -67,7 +67,7 @@ Feature: Meta-validation
     """
     When I run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
-    And the output should contain "did not contain a required property"
+    And the stdout should contain "did not contain a required property"
 
   Scenario: Meta-validation of a contracts response body
     Given a file named "contracts/my_contract.json" with:
@@ -88,4 +88,4 @@ Feature: Meta-validation
     """
     When I run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the exit status should be 1
-    And the output should contain "did not match the following type"
+    And the stdout should contain "did not match the following type"

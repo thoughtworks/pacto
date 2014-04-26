@@ -1,7 +1,7 @@
 module Pacto
   class Configuration
     attr_accessor :provider, :strict_matchers,
-                  :contracts_path, :logger, :generator_options
+                  :contracts_path, :logger, :generator_options, :hide_deprecations
     attr_reader :hook
 
     def initialize

@@ -7,8 +7,14 @@ describe 'Pacto' do
   end
 
   context 'Contract validation' do
+    around :each do |example|
+      run_pacto do
+        example.run
+      end
+    end
+
     it 'verifies the contract against a producer' do
-      contract = Pacto.load_contracts(contract_path, 'http://localhost:9292')
+      contract = Pacto.load_contracts(contract_path, 'http://localhost:8000')
       expect(contract.validate_all.flatten).to eq([])
     end
   end
@@ -18,7 +24,7 @@ describe 'Pacto' do
       contracts = Pacto.load_contracts(contract_path, 'http://dummyprovider.com')
       contracts.stub_all
 
-      response = get_json('http://dummyprovider.com/api/hello')
+      response = get_json('http://dummyprovider.com/hello')
       expect(response['message']).to eq 'bar'
     end
   end
@@ -33,11 +39,11 @@ describe 'Pacto' do
       contracts = Pacto.load_contracts 'spec/integration/data/', 'http://dummyprovider.com'
       contracts.stub_all(:device_id => 42)
 
-      login_response = get_json('http://dummyprovider.com/api/hello')
+      login_response = get_json('http://dummyprovider.com/hello')
       expect(login_response.keys).to eq ['message']
       expect(login_response['message']).to be_kind_of(String)
 
-      devices_response = get_json('http://dummyprovider.com/api/strict')
+      devices_response = get_json('http://dummyprovider.com/strict')
       expect(devices_response['devices']).to have(2).items
       expect(devices_response['devices'][0]).to eq('/dev/42')
       expect(devices_response['devices'][1]).to eq('/dev/43')

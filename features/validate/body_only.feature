@@ -79,7 +79,7 @@ Feature: Validation
     end
     """
     When I run `bundle exec ruby validate.rb`
-    Then the output should contain:
+    Then the stdout should contain:
       """
       Validated successfully!
       """

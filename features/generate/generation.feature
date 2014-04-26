@@ -13,7 +13,7 @@ Feature: Contract Generation
         {
         "request": {
           "method": "GET",
-          "path": "/api/hello",
+          "path": "/hello",
           "headers": {
             "Accept": "application/json"
           }
@@ -29,8 +29,8 @@ Feature: Contract Generation
 
   Scenario: Generating a contract using the rake task
     Given a directory named "contracts"
-    When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:9292']`
-    Then the output should contain "Successfully generated all contracts"
+    When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:8000']`
+    Then the stdout should contain "Successfully generated all contracts"
 
   Scenario: Generating a contract programmatically
     Given a file named "generate.rb" with:
@@ -39,11 +39,11 @@ Feature: Contract Generation
 
     WebMock.allow_net_connect!
     generator = Pacto::Generator.new
-    contract = generator.generate('requests/my_contract.json', 'http://localhost:9292')
+    contract = generator.generate('requests/my_contract.json', 'http://localhost:8000')
     puts contract
     """
     When I successfully run `bundle exec ruby generate.rb`
-    Then the output should match this contract:
+    Then the stdout should match this contract:
     """json
     {
       "request": {
@@ -53,7 +53,7 @@ Feature: Contract Generation
         "method": "get",
         "params": {
         },
-        "path": "/api/hello"
+        "path": "/hello"
       },
       "response": {
         "headers": {

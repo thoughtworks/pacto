@@ -74,7 +74,7 @@ When(/^I make replacements in "([^"]*)":$/) do |file_name, replacements|
   end
 end
 
-Then(/^the output should match this contract:$/) do |expected_contract|
-  actual_contract = all_output
+Then(/^the stdout should match this contract:$/) do |expected_contract|
+  actual_contract = all_stdout
   expect(actual_contract).to be_json_eql(expected_contract).excluding('description')
 end

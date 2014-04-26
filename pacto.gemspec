@@ -27,7 +27,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'multi_json', '~> 1.8'
   gem.add_dependency 'json-schema', '~> 2.0'
   gem.add_dependency 'json-generator', '~> 0.0', '>= 0.0.5'
-  gem.add_dependency 'hash-deep-merge', '~> 0.1'
+  gem.add_dependency 'hashie', '~> 2.1'
   gem.add_dependency 'faraday', '~> 0.9'
   gem.add_dependency 'addressable', '~> 2.3'
   gem.add_dependency 'json-schema-generator', '~> 0.0', '>= 0.0.7'
