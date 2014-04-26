@@ -75,7 +75,7 @@ Feature: Strict Matching
 
   Scenario: Default (strict) behavior
     When I run `bundle exec ruby requests.rb true`
-    Then the output should contain:
+    Then the stdout should contain:
       """
       Pacto.configuration.strict_matchers = true
 
@@ -87,7 +87,7 @@ Feature: Strict Matching
 
   Scenario: Non-strict matching
     When I run `bundle exec ruby requests.rb false`
-    Then the output should contain:
+    Then the stdout should contain:
       """
       Pacto.configuration.strict_matchers = false
 

@@ -40,7 +40,7 @@ Feature: Templating
 
   Scenario: ERB Template
     When I request "http://example.com/hello"
-    Then the output should contain:
+    Then the stdout should contain:
       """
       {"message":"!dlrow ,olleH"}
       """

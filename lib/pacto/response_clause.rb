@@ -1,12 +1,8 @@
 module Pacto
-  class ResponseClause
-    attr_reader :status, :headers, :schema
-
-    def initialize(definition)
-      @status = definition['status']
-      @headers = definition['headers']
-      @schema = definition['body'] || {}
-    end
+  class ResponseClause < Hashie::Dash
+    property :status
+    property :headers
+    property :schema, default: {}
 
     def body
       @body ||= JSON::Generator.generate(schema)

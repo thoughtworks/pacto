@@ -23,7 +23,7 @@ Feature: Existing services journey
   @no-clobber
   Scenario: Ensuring all contracts are valid
     When I successfully run `bundle exec rake pacto:meta_validate['contracts']`
-    Then the output should contain exactly:
+    Then the stdout should contain exactly:
     """
     Validating contracts/www.example.com/service1.json
     Validating contracts/www.example.com/service2.json
@@ -48,7 +48,7 @@ Feature: Existing services journey
     puts Faraday.get('http://www.example.com/service2').body
     """
     When I successfully run `bundle exec ruby test.rb`
-    Then the output should contain exactly:
+    Then the stdout should contain exactly:
     """
     {"thoughtworks":"bar"}
     {"service2":["bar"]}
@@ -76,7 +76,7 @@ Feature: Existing services journey
     Faraday.get 'http://www.example.com/service1'
     Faraday.get 'http://www.example.com/service2'
     """
-    Then the output should contain exactly:
+    Then the stdout should contain exactly:
     """
     
     """

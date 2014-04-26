@@ -30,7 +30,7 @@ Feature: Contract Generation
   Scenario: Generating a contract using the rake task
     Given a directory named "contracts"
     When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:8000']`
-    Then the output should contain "Successfully generated all contracts"
+    Then the stdout should contain "Successfully generated all contracts"
 
   Scenario: Generating a contract programmatically
     Given a file named "generate.rb" with:
@@ -43,7 +43,7 @@ Feature: Contract Generation
     puts contract
     """
     When I successfully run `bundle exec ruby generate.rb`
-    Then the output should match this contract:
+    Then the stdout should match this contract:
     """json
     {
       "request": {
