@@ -21,8 +21,12 @@ Feature: Validation
       contract = contract_list.contracts.first
       service = MyService.new
       response = service.hello
-      successful = contract.validate_consumer nil, response, :body_only => true
-      puts "Validated successfully!" if successful
+      errors = contract.validate_consumer nil, response, :body_only => true
+      if errors.empty?
+        puts "Validated successfully!"
+      else
+        puts "Validation failed!"
+      end
       """
     Given a file named "contracts/template.json" with:
       """json
@@ -30,9 +34,7 @@ Feature: Validation
         "request": {
           "method": "GET",
           "path": "/hello",
-          "headers": {
-            "Accept": "application/json"
-          },
+          "headers": { "Accept": "application/json" },
           "params": {}
         },
 
@@ -43,15 +45,14 @@ Feature: Validation
             "type": "object",
             "required": true,
             "properties": {
-              "message": { "type": "string", "required": true
-              }
+              "message": { "type": "string", "required": true }
             }
           }
         }
       }
       """
 
-  Scenario: Validate the response body only
+  Scenario: Validate correctly the response body only
     # This should be in the Before block, but https://github.com/cucumber/cucumber/issues/52
     Given I successfully run `bundle install --local`
     Given a file named "my_service.rb" with:
@@ -82,4 +83,36 @@ Feature: Validation
     Then the stdout should contain:
       """
       Validated successfully!
+      """
+  Scenario: Validate with errors the response body only
+    # This should be in the Before block, but https://github.com/cucumber/cucumber/issues/52
+    Given I successfully run `bundle install --local`
+    Given a file named "my_service.rb" with:
+    """ruby
+    require 'excon'
+    class MyService
+      def response(params={})
+        body    = params[:body] || {}
+        status  = params[:status] || 200
+        headers = params[:headers] || {}
+
+        response = Excon::Response.new(:body => body, :headers => headers, :status => status)
+        if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+          raise(Excon::Errors.status_error(params, response))
+        else response
+        end
+      end
+
+      def hello
+        body = {
+          'answer' => 42
+        }
+        response({:body => body})
+      end
+    end
+    """
+    When I run `bundle exec ruby validate.rb`
+    Then the output should contain:
+      """
+      Validation failed!
       """
