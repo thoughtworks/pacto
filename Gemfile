@@ -12,3 +12,4 @@ end
 # pre-install so we can speed up the test with `bundle install --local`,
 # avoiding Aruba timeouts.
 gem 'excon'
+gem 'octokit'

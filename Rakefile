@@ -1,11 +1,12 @@
 require 'rspec/core/rake_task'
-require 'pacto/rake_task'
+# require 'pacto/rake_task'
 require 'cucumber'
 require 'cucumber/rake/task'
 require 'coveralls/rake/task'
 require 'rubocop/rake_task'
 require 'rake/notes/rake_task'
-
+require 'rake/packagetask'
+Dir.glob('tasks/*.rake').each { |r| import r }
 Coveralls::RakeTask.new
 
 Rubocop::RakeTask.new(:rubocop) do |task|
@@ -36,7 +37,7 @@ namespace :server do
   end
 end
 
-%w{ unit integration journeys samples}.each do |taskname|
+%w(unit integration journeys samples).each do |taskname|
   task taskname => 'server:autostart'
 end
 
@@ -58,6 +59,11 @@ task :samples do
   end
 end
 
+desc 'Build the documentation from the samples'
+task :documentation do
+  sh "docco -t #{Dir.pwd}/docco_embeddable_layout/docco.jst samples/*"
+end
+
 desc 'Build gems into the pkg directory'
 task :build do
   FileUtils.rm_rf('pkg')
@@ -68,17 +74,14 @@ task :build do
   FileUtils.mv(Dir['*.gem'], 'pkg')
 end
 
-desc 'Tags version, pushes to remote, and pushes gems'
-task :release => :build do
-  sh 'git', 'tag', '-m', changelog, "v#{Pacto::VERSION}"
-  sh 'git push origin master'
-  sh "git push origin v#{Pacto::VERSION}"
-  sh 'ls pkg/*.gem | xargs -n 1 gem push'
+
+
+Rake::PackageTask.new('pacto_docs', Pacto::VERSION) do |p|
+  p.need_zip = true
+  p.need_tar = true
+  p.package_files.include('docs/**/*')
 end
 
-task :changelog do
-  changelog
-end
 
 def changelog
   changelog = File.read('CHANGELOG').split("\n\n\n", 2).first
