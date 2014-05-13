@@ -1,5 +1,4 @@
 require 'rspec/core/rake_task'
-# require 'pacto/rake_task'
 require 'cucumber'
 require 'cucumber/rake/task'
 require 'coveralls/rake/task'
@@ -8,6 +7,9 @@ require 'rake/notes/rake_task'
 require 'rake/packagetask'
 Dir.glob('tasks/*.rake').each { |r| import r }
 Coveralls::RakeTask.new
+
+require 'pacto/rake_task' # FIXME: This require turns on WebMock
+WebMock.allow_net_connect!
 
 Rubocop::RakeTask.new(:rubocop) do |task|
   # abort rake on failure
