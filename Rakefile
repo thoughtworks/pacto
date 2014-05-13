@@ -76,14 +76,11 @@ task :build do
   FileUtils.mv(Dir['*.gem'], 'pkg')
 end
 
-
-
 Rake::PackageTask.new('pacto_docs', Pacto::VERSION) do |p|
   p.need_zip = true
   p.need_tar = true
   p.package_files.include('docs/**/*')
 end
-
 
 def changelog
   changelog = File.read('CHANGELOG').split("\n\n\n", 2).first
