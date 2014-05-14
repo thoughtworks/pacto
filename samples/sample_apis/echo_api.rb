@@ -11,12 +11,12 @@ module DummyServices
       end
     end
 
-    # curl localhost:9292/api/echo --get --data-urlencode 'msg={"one fish": "two fish"}' -vv
+    # curl localhost:5000/api/echo --get --data-urlencode 'msg={"one fish": "two fish"}' -vv
     get '/echo' do
       echo params[:msg]
     end
 
-    # curl localhost:9292/api/echo -H 'Content-Type: application/json' -d '{"red fish": "blue fish"}' -vv
+    # curl localhost:5000/api/echo -H 'Content-Type: application/json' -d '{"red fish": "blue fish"}' -vv
     post '/echo' do
       echo env['api.request.body']
     end

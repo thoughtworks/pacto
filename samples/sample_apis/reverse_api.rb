@@ -11,7 +11,7 @@ module DummyServices
       end
     end
 
-    # curl localhost:9292/api/echo -H 'Content-Type: application/json' -d '{"red fish": "blue fish"}' -vv
+    # curl localhost:5000/api/echo -H 'Content-Type: application/json' -d '{"red fish": "blue fish"}' -vv
     post '/reverse' do
       echo(env['api.request.body']).reverse
     end

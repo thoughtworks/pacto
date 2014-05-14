@@ -40,7 +40,7 @@ module DummyServices
     end
 
     namespace '/files' do
-      # curl localhost:9292/api/files/myfile.txt -H 'X-Auth-Token: 12345' -d @myfile.txt -vv
+      # curl localhost:5000/api/files/myfile.txt -H 'X-Auth-Token: 12345' -d @myfile.txt -vv
       put ':name' do
         params[:name]
       end

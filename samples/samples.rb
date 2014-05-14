@@ -38,7 +38,7 @@ Pacto.generate!
 #
 # We're using the sample APIs in the sample_apis directory.
 require 'faraday'
-conn = Faraday.new(:url => 'http://localhost:9292')
+conn = Faraday.new(:url => 'http://localhost:5000')
 response = conn.get '/api/ping'
 # This is the real request, so you should see {"ping":"pong"}
 puts response.body
@@ -53,7 +53,7 @@ puts response.body
 # the response matches the JSON schema.  Obviously it will pass since we just recorded it,
 # but if the service has made a change, or if you alter the contract with new expectations,
 # then you will see a contract validation message.
-contracts = Pacto.load_contracts('contracts', 'http://localhost:9292')
+contracts = Pacto.load_contracts('contracts', 'http://localhost:5000')
 contracts.validate_all
 
 # # Stubbing providers for consumer testing
@@ -77,15 +77,15 @@ RSpec.configure do |c|
 end
 
 # Load your contracts, and stub them if you'd like.
-Pacto.load_contracts('contracts', 'http://localhost:9292').stub_all
+Pacto.load_contracts('contracts', 'http://localhost:5000').stub_all
 # You can turn on validation mode so Pacto will detect and validate HTTP requests.
 Pacto.validate!
 
 describe 'my_code' do
   it 'calls a service' do
-    conn = Faraday.new(:url => 'http://localhost:9292')
+    conn = Faraday.new(:url => 'http://localhost:5000')
     response = conn.get '/api/ping'
     # The have_validated matcher makes sure that Pacto received and successfully validated a request
-    expect(Pacto).to have_validated(:get, 'http://localhost:9292/api/ping')
+    expect(Pacto).to have_validated(:get, 'http://localhost:5000/api/ping')
   end
 end

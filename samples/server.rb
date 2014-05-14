@@ -6,8 +6,8 @@ describe 'ping service' do
 
   it 'pongs' do
     with_pacto(
-      :port => 5000,
-      :backend_host => 'http://localhost:9292',
+      :port => 6000,
+      :backend_host => 'http://localhost:5000',
       :live => true,
       :stub => false,
       :generate => false,
@@ -18,6 +18,6 @@ describe 'ping service' do
     end
 
     # check results
-    expect(Pacto).to have_validated(:get, 'http://localhost:9292/api/ping')
+    expect(Pacto).to have_validated(:get, 'http://localhost:5000/api/ping')
   end
 end

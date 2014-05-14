@@ -1,0 +1,2 @@
+require 'pacto/rake_task' # FIXME: This require turns on WebMock
+WebMock.allow_net_connect!
