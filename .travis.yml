@@ -5,4 +5,5 @@ rvm:
   - 2.0.0
   - 1.9.3
   - jruby
-
+allow_failures:
+  - rvm: jruby
