@@ -6,5 +6,4 @@ rvm:
   - jruby
 before_script:
   - gem install foreman
-  - bash -c 'cd samples && bundle install'
   - foreman start &
