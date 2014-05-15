@@ -15,6 +15,8 @@ gem 'excon'
 gem 'octokit'
 
 group :samples do
+  gem 'pacto', :path => '.'
+  gem 'pacto-server', :path => '.'
   gem 'grape'
   gem 'grape-swagger'
   gem 'puma'
