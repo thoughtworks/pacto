@@ -30,6 +30,10 @@ end
 
 task :default => [:unit, :integration, :journeys, :samples, :rubocop, 'coveralls:push']
 
+%w(unit integration journeys samples).each do |taskname|
+  task taskname => 'smoke_test_services'
+end
+
 desc 'Run the samples'
 task :samples do
   Dir.chdir('samples') do
@@ -79,4 +83,39 @@ def confirm(question, data)
   abort 'Aborted' unless $stdin.gets.strip == 'y'
   puts 'Confirmed'
   data
+end
+
+desc 'Make sure the sample services are running'
+task :smoke_test_services do
+  require 'faraday'
+  begin
+    retryable(:tries => 5, :sleep => 1) do
+      Faraday.get('http://localhost:5000/api/ping')
+    end
+  rescue
+    abort 'Could not connect to the demo services, please start them with `foreman start`'
+  end
+end
+
+# Retries a given block a specified number of times in the
+# event the specified exception is raised. If the retries
+# run out, the final exception is raised.
+#
+# This code is slightly adapted from https://github.com/mitchellh/vagrant/blob/master/lib/vagrant/util/retryable.rb,
+# which is in turn adapted slightly from the following blog post:
+# http://blog.codefront.net/2008/01/14/retrying-code-blocks-in-ruby-on-exceptions-whatever/
+def retryable(opts = nil)
+  opts   = { :tries => 1, :on => Exception }.merge(opts || {})
+
+  begin
+    return yield
+  rescue *opts[:on] => e
+    if (opts[:tries] -= 1) > 0
+      $stderr.puts("Retryable exception raised: #{e.inspect}")
+
+      sleep opts[:sleep].to_f if opts[:sleep]
+      retry
+    end
+    raise
+  end
 end
