@@ -7,7 +7,10 @@ describe Pacto::Hooks::ERBHook do
       {'HEADERS' => {'User-Agent' => 'abcd'}}
     end
     let(:res) do
-      OpenStruct.new(:body => 'before')
+      Pacto::PactoResponse.new(
+        :status => 200,
+        :body => 'before'
+      )
     end
 
     before do
@@ -36,7 +39,10 @@ describe Pacto::Hooks::ERBHook do
       it 'binds the request and the first contract\'s values' do
         contract1 = OpenStruct.new(:values => {:max => 'test'})
         contract2 = OpenStruct.new(:values => {:mob => 'team'})
-        res = OpenStruct.new(:body => 'before')
+        res = Pacto::PactoResponse.new(
+          :status => 200,
+          :body => 'before'
+        )
         mock_erb(:req => converted_req, :max => 'test')
         contracts = Set.new([contract1, contract2])
         described_class.new.process contracts, req, res

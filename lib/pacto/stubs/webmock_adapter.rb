@@ -1,10 +1,49 @@
 require 'pacto/stubs/webmock_helper'
 
 module Pacto
+  module Adapters
+    module WebMock
+      class PactoRequest < PactoRequest
+        extend Forwardable
+        def_delegators :@webmock_request_signature, :headers, :body, :method, :uri, :to_s
+
+        def initialize(webmock_request_signature)
+          @webmock_request_signature = webmock_request_signature
+        end
+
+        def params
+          @webmock_request_signature.uri.query_values
+        end
+
+        def path
+          @webmock_request_signature.uri.path
+        end
+      end
+      class PactoResponse < PactoResponse
+        extend Forwardable
+        def_delegators :@webmock_response, :body, :body=, :headers=, :status=, :to_s
+
+        def initialize(webmock_response)
+          @webmock_response = webmock_response
+        end
+
+        def headers
+          @webmock_response.headers || {}
+        end
+
+        def status
+          status, _ = @webmock_response.status
+          status
+        end
+      end
+    end
+  end
   module Stubs
     class WebMockAdapter
       def initialize
-        register_hooks
+        WebMock.after_request do |webmock_request_signature, webmock_response|
+          process_hooks webmock_request_signature, webmock_response
+        end
       end
 
       def stub_request!(request, response)
@@ -25,22 +64,19 @@ module Pacto
         WebMock.reset_callbacks
       end
 
-      def process_hooks(request_signature, response)
-        WebMockHelper.generate(request_signature, response) if Pacto.generating?
+      def process_hooks(webmock_request_signature, webmock_response)
+        pacto_request = Pacto::Adapters::WebMock::PactoRequest.new webmock_request_signature
+        pacto_response = Pacto::Adapters::WebMock::PactoResponse.new webmock_response
 
-        contracts = Pacto.contracts_for request_signature
-        Pacto.configuration.hook.process contracts, request_signature, response
+        WebMockHelper.generate(pacto_request, pacto_response) if Pacto.generating?
 
-        WebMockHelper.validate(request_signature, response) if Pacto.validating?
+        contracts = Pacto.contracts_for pacto_request
+        Pacto.configuration.hook.process contracts, pacto_request, pacto_response
+
+        WebMockHelper.validate(pacto_request, pacto_response) if Pacto.validating?
       end
 
       private
-
-      def register_hooks
-        WebMock.after_request do |request_signature, response|
-          process_hooks request_signature, response
-        end
-      end
 
       def format_body(body)
         if body.is_a?(Hash) || body.is_a?(Array)

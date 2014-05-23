@@ -64,19 +64,19 @@ module Pacto
 
         it 'calls the registered hook' do
           Pacto.configuration.hook.should_receive(:process)
-            .with(anything, request_signature, response)
+            .with(anything, a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
           built_in.process_hooks request_signature, response
         end
 
         it 'calls generate when generate is enabled' do
           Pacto.generate!
-          WebMockHelper.should_receive(:generate).with(request_signature, response)
+          WebMockHelper.should_receive(:generate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
           built_in.process_hooks request_signature, response
         end
 
         it 'calls validate when validate mode is enabled' do
           Pacto.validate!
-          WebMockHelper.should_receive(:validate).with(request_signature, response)
+          WebMockHelper.should_receive(:validate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
           built_in.process_hooks request_signature, response
         end
       end
