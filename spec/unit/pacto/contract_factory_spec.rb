@@ -6,18 +6,68 @@ module Pacto
     let(:contract_name)        { 'contract' }
     let(:contracts_path)       { %w(spec unit data) }
     let(:contract_path)        { File.join(contracts_path, "#{contract_name}.json") }
+    let(:contract_files)       { [contract_path, contract_path] }
     subject(:contract_factory) { ContractFactory.new }
 
-    it 'builds a contract given a JSON file path and a host' do
-      contract = contract_factory.build_from_file(contract_path, host)
-      expect(contract).to be_a(Contract)
-    end
+    describe '#build' do
+      context 'default contract format' do
+        it 'builds contracts from a list of file paths and a host' do
+          contracts = contract_factory.build(contract_files, host)
+          contracts.each do |contract|
+            expect(contract).to be_a(Contract)
+          end
+        end
+      end
 
-    it 'builds contracts from a list of file paths and a host' do
-      contract_files = [contract_path, contract_path]
-      contracts = contract_factory.build(contract_files, host)
-      contracts.each do |contract|
-        expect(contract).to be_a(Contract)
+      context 'custom format' do
+        let(:dummy_contract) { double }
+
+        class CustomContractFactory
+          def initialize(dummy_contract)
+            @dummy_contract = dummy_contract
+          end
+
+          def build_from_file(contract_path, host)
+            @dummy_contract
+          end
+        end
+
+        before do
+          subject.add_factory :custom, CustomContractFactory.new(dummy_contract)
+        end
+
+        it 'delegates to the registered factory' do
+          expect(contract_factory.build(contract_files, host, :custom)).to eq([dummy_contract, dummy_contract])
+        end
+      end
+
+      context 'flattening' do
+        let(:contracts_per_file) { 4 }
+
+        class MultiContractFactory
+          def initialize(contracts)
+            @contracts = contracts
+          end
+
+          def build_from_file(contract_path, host)
+            @contracts
+          end
+        end
+
+        before do
+          contracts = contracts_per_file.times.map do
+            double
+          end
+          subject.add_factory :multi, MultiContractFactory.new(contracts)
+        end
+
+        it 'delegates to the registered factory' do
+          loaded_contracts = contract_factory.build(contract_files, host, :multi)
+          expected_size = contracts_per_file * contract_files.size
+          # If the ContractFactory doesn't flatten returned contracts the size will be off. It needs
+          # to flatten because some factories load a single contract per file, others load multiple.
+          expect(loaded_contracts.size).to eq(expected_size)
+        end
       end
     end
   end

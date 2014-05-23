@@ -1,36 +1,28 @@
+require 'pacto/native_contract_factory'
+
 module Pacto
   class ContractFactory
     include Logger
-    attr_reader :schema
 
-    def initialize(options = {})
-      @schema = options[:schema] || MetaSchema.new
+    def initialize
+      @factories = {
+        :default => NativeContractFactory.new
+      }
     end
 
-    def build(contract_files, host)
-      contract_files.map { |file| build_from_file(file, host) }
+    def add_factory(format, factory)
+      @factories[format] = factory
     end
 
-    def build_from_file(contract_path, host)
-      contract_definition = File.read(contract_path)
-      definition = JSON.parse(contract_definition)
-      schema.validate definition
-      definition['request'].merge!('host' => host)
-      body_to_schema(definition, 'request')
-      body_to_schema(definition, 'response')
-      request = RequestClause.new(definition['request'])
-      response = ResponseClause.new(definition['response'])
-      Contract.new(request: request, response: response, file: contract_path, name: definition['name'])
+    def remove_factory(format)
+      @factories.delete format
     end
 
-    private
+    def build(contract_files, host, format = :default)
+      factory = @factories[format]
+      fail "No Contract factory registered for #{format}" if factory.nil?
 
-    def body_to_schema(definition, section)
-      schema = definition[section].delete 'body'
-      if schema
-        Pacto::UI.deprecation "Contract format deprecation: #{section}:body will be moved to #{section}:schema"
-        definition[section]['schema'] = schema
-      end
+      contract_files.map { |file| factory.build_from_file(file, host) }.flatten
     end
   end
 end

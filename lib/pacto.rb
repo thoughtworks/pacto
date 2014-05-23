@@ -49,7 +49,7 @@ require 'pacto/validators/response_header_validator'
 module Pacto
   class << self
     def contract_factory
-      @factory = ContractFactory.new
+      @factory ||= ContractFactory.new
     end
 
     def configuration
@@ -88,13 +88,13 @@ module Pacto
       false
     end
 
-    def load_contract(contract_path, host)
-      load_contracts(contract_path, host).contracts.first
+    def load_contract(contract_path, host, format = :default)
+      load_contracts(contract_path, host, format).contracts.first
     end
 
-    def load_contracts(contracts_path, host)
+    def load_contracts(contracts_path, host, format = :default)
       files = ContractFiles.for(contracts_path)
-      contracts = contract_factory.build(files, host)
+      contracts = contract_factory.build(files, host, format)
       contracts.each do |contract|
         contract_registry.register(contract)
       end
