@@ -27,7 +27,7 @@ module Pacto
     end
 
     def validate_consumer(request, response, opts = {})
-      Pacto::ContractValidator.validate self, request, response, opts
+      Pacto::ContractValidator.validate request, response, self, opts
     end
 
     def matches?(request_signature)

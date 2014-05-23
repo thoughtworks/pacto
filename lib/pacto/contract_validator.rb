@@ -1,7 +1,7 @@
 module Pacto
   class ContractValidator
     class << self
-      def validate(contract, request, response, opts)
+      def validate(request, response, contract, opts = {})
         env = {
           :contract => contract,
           :actual_request => request,

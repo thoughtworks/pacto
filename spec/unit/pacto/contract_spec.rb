@@ -46,12 +46,12 @@ module Pacto
       let(:validation_result) { double 'validation result' }
 
       before do
-        allow(Pacto::ContractValidator).to receive(:validate).with(contract, request, fake_response, {}).and_return validation_result
+        allow(Pacto::ContractValidator).to receive(:validate).with(request, fake_response, contract, {}).and_return validation_result
       end
 
       describe '#validate_consumer' do
         it 'returns the result of the validation' do
-          expect(Pacto::ContractValidator).to receive(:validate).with(contract, request, fake_response, {})
+          expect(Pacto::ContractValidator).to receive(:validate).with(request, fake_response, contract, {})
           expect(contract.validate_consumer request, fake_response).to eq validation_result
         end
 
@@ -72,7 +72,7 @@ module Pacto
         end
 
         it 'returns the result of the validating the generated response' do
-          expect(Pacto::ContractValidator).to receive(:validate).with(contract, request, fake_response, {})
+          expect(Pacto::ContractValidator).to receive(:validate).with(request, fake_response, contract, {})
           expect(contract.validate_provider).to eq validation_result
         end
       end
