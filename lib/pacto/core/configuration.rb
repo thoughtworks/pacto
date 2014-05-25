@@ -5,7 +5,7 @@ module Pacto
     attr_reader :hook
 
     def initialize
-      @provider = Stubs::WebMockAdapter.new
+      @provider = Stubs::WebMockAdapter.new(Pacto::Core::HTTPMiddleware.new)
       @strict_matchers = true
       @contracts_path = nil
       @logger = Logger::SimpleLogger.instance

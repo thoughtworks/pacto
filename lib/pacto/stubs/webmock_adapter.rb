@@ -1,5 +1,3 @@
-require 'pacto/stubs/webmock_helper'
-
 module Pacto
   module Adapters
     module WebMock
@@ -40,7 +38,9 @@ module Pacto
   end
   module Stubs
     class WebMockAdapter
-      def initialize
+      def initialize(middleware)
+        @middleware = middleware
+
         WebMock.after_request do |webmock_request_signature, webmock_response|
           process_hooks webmock_request_signature, webmock_response
         end
@@ -67,13 +67,7 @@ module Pacto
       def process_hooks(webmock_request_signature, webmock_response)
         pacto_request = Pacto::Adapters::WebMock::PactoRequest.new webmock_request_signature
         pacto_response = Pacto::Adapters::WebMock::PactoResponse.new webmock_response
-
-        WebMockHelper.generate(pacto_request, pacto_response) if Pacto.generating?
-
-        contracts = Pacto.contracts_for pacto_request
-        Pacto.configuration.hook.process contracts, pacto_request, pacto_response
-
-        WebMockHelper.validate(pacto_request, pacto_response) if Pacto.validating?
+        @middleware.process pacto_request, pacto_response
       end
 
       private

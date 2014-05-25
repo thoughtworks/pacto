@@ -1,6 +1,8 @@
 module Pacto
   module Stubs
     describe WebMockAdapter do
+      let(:middleware) { double }
+
       let(:request) do
         double(
           :host => 'http://localhost',
@@ -33,7 +35,7 @@ module Pacto
 
       let(:request_pattern) { double('request_pattern') }
 
-      subject(:built_in) { WebMockAdapter.new }
+      subject(:adapter) { WebMockAdapter.new middleware }
 
       before(:each) do
         stubbed_request.stub(:to_return).with(
@@ -58,26 +60,9 @@ module Pacto
       describe '#process_hooks' do
         let(:request_signature) { double('request_signature') }
 
-        before do
-          Pacto.configuration.hook.stub(:process)
-        end
-
-        it 'calls the registered hook' do
-          Pacto.configuration.hook.should_receive(:process)
-            .with(anything, a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
-          built_in.process_hooks request_signature, response
-        end
-
-        it 'calls generate when generate is enabled' do
-          Pacto.generate!
-          WebMockHelper.should_receive(:generate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
-          built_in.process_hooks request_signature, response
-        end
-
-        it 'calls validate when validate mode is enabled' do
-          Pacto.validate!
-          WebMockHelper.should_receive(:validate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
-          built_in.process_hooks request_signature, response
+        it 'calls the middleware for processing' do
+          expect(middleware).to receive(:process).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
+          adapter.process_hooks request_signature, response
         end
       end
 
@@ -103,7 +88,7 @@ module Pacto
 
             request_pattern.stub(:with)
 
-            built_in.stub_request! request, response
+            adapter.stub_request! request, response
           end
 
           context 'when the response body is an array' do
@@ -120,7 +105,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              built_in.stub_request! request, response
+              adapter.stub_request! request, response
             end
           end
 
@@ -136,7 +121,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              built_in.stub_request! request, response
+              adapter.stub_request! request, response
             end
           end
 
@@ -147,7 +132,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :query => request.params).
                 and_return(stubbed_request)
-              built_in.stub_request! request, response
+              adapter.stub_request! request, response
             end
           end
 
@@ -158,7 +143,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :body => request.params).
                 and_return(stubbed_request)
-              built_in.stub_request! request, response
+              adapter.stub_request! request, response
             end
           end
 
@@ -177,7 +162,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:query => request.params).
                 and_return(stubbed_request)
-              built_in.stub_request! request, response
+              adapter.stub_request! request, response
             end
           end
 
@@ -196,7 +181,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with({}).
                 and_return(stubbed_request)
-              built_in.stub_request! request, response
+              adapter.stub_request! request, response
             end
           end
         end
