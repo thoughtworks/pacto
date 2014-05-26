@@ -39,7 +39,7 @@ Feature: Contract Generation
 
     WebMock.allow_net_connect!
     generator = Pacto::Generator.new
-    contract = generator.generate('requests/my_contract.json', 'http://localhost:8000')
+    contract = generator.generate_from_partial_contract('requests/my_contract.json', 'http://localhost:8000')
     puts contract
     """
     When I successfully run `bundle exec ruby generate.rb`

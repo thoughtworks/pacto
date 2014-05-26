@@ -2,19 +2,39 @@ require 'json/schema_generator'
 
 module Pacto
   class Generator
+    include Logger
+
     def initialize(schema_version = 'draft3',
       schema_generator = JSON::SchemaGenerator,
       validator = Pacto::MetaSchema.new,
-      generator_options = Pacto.configuration.generator_options,
       filters = Pacto::Generator::Filters.new)
       @schema_version = schema_version
       @validator = validator
       @schema_generator = schema_generator
-      @generator_options = generator_options
       @filters = filters
     end
 
-    def generate(request_file, host)
+    def generate(pacto_request, pacto_response)
+      return unless Pacto.generating?
+      logger.debug("Generating Contract for #{pacto_request}, #{pacto_response}")
+      begin
+        contract_file = load_contract_file(pacto_request)
+
+        unless File.exists? contract_file
+          uri = URI(pacto_request.uri)
+          FileUtils.mkdir_p(File.dirname contract_file)
+          File.write(contract_file, save(uri, pacto_request, pacto_response))
+          logger.debug("Generating #{contract_file}")
+
+          Pacto.load_contract contract_file, uri.host
+        end
+      rescue => e
+        logger.error("Error while generating Contract #{contract_file}: #{e.message}")
+        logger.error("Backtrace: #{e.backtrace}")
+      end
+    end
+
+    def generate_from_partial_contract(request_file, host)
       contract = Pacto.load_contract request_file, host
       request = contract.request
       response = contract.request.execute
@@ -57,11 +77,18 @@ module Pacto
       }.delete_if { |k, v| v.nil? }
     end
 
-    def generate_body(source, body)
+    def generate_body(source, body, generator_options = Pacto.configuration.generator_options)
       if body && !body.empty?
-        body_schema = JSON::SchemaGenerator.generate source, body, @generator_options
+        body_schema = JSON::SchemaGenerator.generate source, body, generator_options
         MultiJson.load(body_schema)
       end
+    end
+
+    def load_contract_file(pacto_request)
+      uri = URI(pacto_request.uri)
+      path = uri.path
+      basename = File.basename(path, '.json') + '.json'
+      File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(path), basename)
     end
   end
 end

@@ -100,7 +100,7 @@ module Pacto
       failed_contracts = []
       each_contract(input_dir) do |contract_file|
         begin
-          contract = generator.generate(contract_file, host)
+          contract = generator.generate_from_partial_contract(contract_file, host)
           output_file = File.expand_path(File.basename(contract_file), output_dir)
           output_file = File.open(output_file, 'wb')
           output_file.write contract

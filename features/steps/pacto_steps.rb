@@ -57,8 +57,7 @@ eof
                    # It's just for testing...
 
     rescue SyntaxError => e
-      puts e
-      puts e.backtrace
+      raise e
     end
   end
 end

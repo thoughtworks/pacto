@@ -38,14 +38,13 @@ module Pacto
     let(:validator) { double('validator') }
     let(:filters) { double :filters }
     let(:request_file) { 'request.json' }
-    let(:options) { Pacto.configuration.generator_options }
-    let(:generator) { described_class.new version, schema_generator, validator, options, filters }
+    let(:generator) { described_class.new version, schema_generator, validator, filters }
 
     def pretty(obj)
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
     end
 
-    describe '#generate' do
+    describe '#generate_from_partial_contract' do
       let(:request_contract) do
         double(
           :request => request
@@ -59,17 +58,17 @@ module Pacto
 
       it 'parses the request' do
         generator.should_receive(:save).with(request_file, request, anything)
-        generator.generate request_file, record_host
+        generator.generate_from_partial_contract request_file, record_host
       end
 
       it 'fetches a response' do
         generator.should_receive(:save).with(request_file, anything, response_adapter)
-        generator.generate request_file, record_host
+        generator.generate_from_partial_contract request_file, record_host
       end
 
       it 'saves the result' do
         generator.should_receive(:save).with(request_file, request, response_adapter).and_return generated_contract
-        expect(generator.generate request_file, record_host).to eq(generated_contract)
+        expect(generator.generate_from_partial_contract request_file, record_host).to eq(generated_contract)
       end
     end
 
