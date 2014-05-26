@@ -1,7 +1,22 @@
 module Pacto
   class ContractValidator
     class << self
-      def validate(request, response, contract, opts = {})
+      def validate(request_signature, pacto_response)
+        return unless Pacto.validating?
+        contracts = Pacto.contracts_for(request_signature)
+        if contracts.empty?
+          # This is kinda dumb
+          validation = Validation.new request_signature, pacto_response, nil, nil
+          Pacto::ValidationRegistry.instance.register_validation validation
+        else
+          contracts.each do |contract|
+            validation = validate_contract request_signature, pacto_response, contract
+            Pacto::ValidationRegistry.instance.register_validation validation
+          end
+        end
+      end
+
+      def validate_contract(request, response, contract, opts = {})
         env = {
           :contract => contract,
           :actual_request => request,
@@ -9,7 +24,9 @@ module Pacto
           :validation_results => []
         }
         validation_stack(opts).call env
-        env[:validation_results].compact
+        results = env[:validation_results].compact
+
+        Validation.new request, response, contract, results
       end
 
       private

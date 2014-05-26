@@ -67,18 +67,15 @@ module Pacto
         contracts << contract_file
         print "#{contract_file.split('/').last}:"
         contract = Pacto.load_contract(contract_file, host)
-        errors = contract.validate_provider
+        validation = contract.validate_provider
 
-        if errors.empty?
+        if validation.successful?
           puts Pacto::UI.green(' OK!')
         else
           @exit_with_error = true
           total_failed += 1
           puts Pacto::UI.red(' FAILED!')
-          errors.each do |error|
-            puts Pacto::UI.red("\t* #{error}")
-          end
-          puts ''
+          puts Pacto::UI.red(validation.summary)
         end
       end
 

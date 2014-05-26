@@ -3,11 +3,11 @@ module Pacto
     include Logger
     attr_reader :request, :response, :contract, :results
 
-    def initialize(request, response, contract)
+    def initialize(request, response, contract, results)
       @request = request
       @response = response
       @contract = contract
-      validate unless contract.nil?
+      @results = results
     end
 
     def successful?
@@ -42,13 +42,6 @@ module Pacto
         status = successful? ? 'successful' : 'unsuccessful'
         "#{status} validation of #{@contract.name}"
       end
-    end
-
-    private
-
-    def validate
-      logger.debug("Validating #{@request}, #{@response} against #{@contract}")
-      @results = contract.validate_consumer(@request, @response)
     end
   end
 end

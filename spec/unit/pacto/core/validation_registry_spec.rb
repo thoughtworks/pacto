@@ -3,9 +3,9 @@ describe Pacto::ValidationRegistry do
   let(:request_pattern) { WebMock::RequestPattern.new(:get, 'www.example.com') }
   let(:request_signature) { WebMock::RequestSignature.new(:get, 'www.example.com') }
   let(:different_request_signature) { WebMock::RequestSignature.new(:get, 'www.thoughtworks.com') }
-  let(:validation) { Pacto::Validation.new(request_signature, double, nil) }
-  let(:validation_for_a_similar_request) { Pacto::Validation.new(request_signature, double, nil) }
-  let(:validation_for_a_different_request) { Pacto::Validation.new(different_request_signature, double, nil) }
+  let(:validation) { Pacto::Validation.new(request_signature, double, nil, []) }
+  let(:validation_for_a_similar_request) { Pacto::Validation.new(request_signature, double, nil, []) }
+  let(:validation_for_a_different_request) { Pacto::Validation.new(different_request_signature, double, nil, []) }
 
   before(:each) do
     registry.reset!
@@ -42,8 +42,7 @@ describe Pacto::ValidationRegistry do
     let(:contract) { double('contract', :name => 'test') }
 
     it 'returns validations with no contract' do
-      allow(contract).to receive(:validate_consumer).with(different_request_signature, anything).and_return(double('results', :empty? => true))
-      validation_with_results = Pacto::Validation.new(different_request_signature, double, contract)
+      validation_with_results = Pacto::Validation.new(different_request_signature, double, contract, [])
       registry.register_validation(validation)
       registry.register_validation(validation_for_a_similar_request)
       registry.register_validation(validation_for_a_different_request)
@@ -59,12 +58,11 @@ describe Pacto::ValidationRegistry do
 
     it 'returns validations with unsuccessful results' do
       allow(contract).to receive(:name).and_return 'test'
-      allow(contract).to receive(:validate_consumer).with(request_signature, anything).and_return(results2)
-      validation_with_successful_results = Pacto::Validation.new(request_signature, double, contract)
-      validation_with_unsuccessful_results = Pacto::Validation.new(request_signature, double, contract)
+      validation_with_successful_results = Pacto::Validation.new(request_signature, double, nil, ['error'])
+      validation_with_unsuccessful_results = Pacto::Validation.new(request_signature, double, nil, %w(error2 error3))
 
-      expect(validation_with_successful_results).to receive(:successful?).twice.and_return true
-      expect(validation_with_unsuccessful_results).to receive(:successful?).twice.and_return false
+      expect(validation_with_successful_results).to receive(:successful?).and_return true
+      expect(validation_with_unsuccessful_results).to receive(:successful?).and_return false
 
       registry.register_validation(validation)
       registry.register_validation(validation_with_successful_results)

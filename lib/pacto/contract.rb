@@ -26,8 +26,9 @@ module Pacto
       validate_consumer request, provider_response, opts
     end
 
+    # Should this be deprecated?
     def validate_consumer(request, response, opts = {})
-      Pacto::ContractValidator.validate request, response, self, opts
+      Pacto::ContractValidator.validate_contract request, response, self, opts
     end
 
     def matches?(request_signature)

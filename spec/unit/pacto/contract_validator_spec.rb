@@ -46,31 +46,33 @@ module Pacto
 
     let(:opts) { {} }
 
-    describe '.validate' do
+    describe '.validate_contract' do
       before do
         allow(Pacto::Validators::RequestBodyValidator).to receive(:validate).with(contract, actual_request).and_return([])
         allow(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(contract, actual_response).and_return([])
       end
 
       context 'default validator stack' do
+        let(:validation) { ContractValidator.validate_contract actual_request, actual_response, contract, opts }
+
         it 'calls the RequestBodyValidator' do
           expect(Pacto::Validators::RequestBodyValidator).to receive(:validate).with(contract, actual_request).and_return(validation_errors)
-          expect(ContractValidator.validate actual_request, actual_response, contract, opts).to eq(validation_errors)
+          expect(validation.results).to eq(validation_errors)
         end
 
         it 'calls the ResponseStatusValidator' do
           expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(expected_response.status, actual_response.status).and_return(validation_errors)
-          expect(ContractValidator.validate actual_request, actual_response, contract, opts).to eq(validation_errors)
+          expect(validation.results).to eq(validation_errors)
         end
 
         it 'calls the ResponseHeaderValidator' do
           expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(expected_response.headers, actual_response.headers).and_return(validation_errors)
-          expect(ContractValidator.validate actual_request, actual_response, contract, opts).to eq(validation_errors)
+          expect(validation.results).to eq(validation_errors)
         end
 
         it 'calls the ResponseBodyValidator' do
           expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(contract, actual_response).and_return(validation_errors)
-          expect(ContractValidator.validate actual_request, actual_response, contract, opts).to eq(validation_errors)
+          expect(validation.results).to eq(validation_errors)
         end
       end
 
@@ -83,7 +85,7 @@ module Pacto
           expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(expected_response.status, actual_response.status).and_return([])
           expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(expected_response.headers, actual_response.headers).and_return([])
           expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(contract, actual_response).and_return([])
-          expect(ContractValidator.validate actual_request, actual_response, contract, opts).to be_empty
+          expect(ContractValidator.validate_contract actual_request, actual_response, contract, opts).to be_successful
         end
       end
     end
