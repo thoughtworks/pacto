@@ -81,7 +81,6 @@ module Pacto
           to_return(:status => 200, :body => '', :headers => {})
         WebMock.stub_request(:post, 'http://localhost/hello_world?foo=bar').
           to_return(:status => 200, :body => '', :headers => {})
-        # TODO: Should we just use WebMock?
       end
 
       context 'for any request' do

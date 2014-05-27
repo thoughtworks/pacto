@@ -15,18 +15,5 @@ module Pacto
         normalized
       end
     end
-
-    module HashSubsetOf
-      # FIXME: Only used by HashMergeProcessor, which I'd like to deprecate
-      def normalize_keys
-        reduce({}) do |normalized, (key, value)|
-          normalized[key.to_s.downcase] = value
-          normalized
-        end
-      end
-    end
   end
 end
-
-# FIXME: Let's not extend Hash...
-Hash.send(:include, Pacto::Extensions::HashSubsetOf)
