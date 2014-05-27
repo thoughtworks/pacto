@@ -25,6 +25,7 @@ Feature: Meta-validation
             "body": {
               "description": "A simple response",
               "type": "object",
+              "required": ["message"],
               "properties": {
                 "message": {
                   "type": "string"

@@ -1,46 +1,59 @@
 {
   "title": "Example Schema",
   "type": "object",
+  "required": ["request", "response"],
+  "definitions": {
+    "subschema": {
+      "anyOf": [
+        { "$ref": "http://json-schema.org/draft-03/schema#" },
+        { "$ref": "http://json-schema.org/draft-04/schema#" }
+      ]
+    }
+  },
   "properties": {
     "name": {
-      "type": "string",
-      "required": false
+      "type": "string"
     },
     "request": {
       "type": "object",
-      "required": true,
+      "required": ["method", "path"],
       "properties": {
         "method": {
-          "type": "string",
-          "required": true          
+          "type": "string"
         },
         "path": {
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "headers": {
-          "type": "object",
-          "required": false
+          "type": "object"
         },
         "params": {   
-          "type": "object",
-          "required": false
+          "type": "object"
         },
         "body": {
-          "$ref": "http://json-schema.org/draft-03/schema#"
+          "description": "body is deprecated, use schema",
+          "$ref": "#/definitions/subschema"
+        },
+        "schema": {
+          "description": "body is deprecated, use schema",
+          "$ref": "#/definitions/subschema"
         }
       }
     },
     "response": {
       "type": "object",
-      "required": true,
+      "required": ["status"],
       "properties": {
         "status":{
-          "type": "integer",
-          "required": true
+          "type": "integer"
         },
         "body": {
-          "$ref": "http://json-schema.org/draft-03/schema#"
+          "description": "body is deprecated, use schema",
+          "$ref": "#/definitions/subschema"
+        },
+        "schema": {
+          "description": "body is deprecated, use schema",
+          "$ref": "#/definitions/subschema"
         }
       }
     }

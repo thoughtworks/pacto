@@ -16,7 +16,7 @@ module Pacto
       end
 
       subject(:validator)    { MyBodyValidator }
-      let(:string_required)  { true }
+      let(:string_required)  { %w(#) }
       let(:contract)         { double('contract', :file => 'file:///a.json') }
       let(:body)             { 'a simple string' }
       let(:fake_interaction) { double(:fake_interaction, body: body) }
@@ -36,14 +36,9 @@ module Pacto
         end
 
         context 'when the body is a string' do
-          # TODO: Apparently a schema has string as keys. Probably we could
-          # make convert it into a symbol based key.
           let(:schema) { { 'type' => 'string', 'required' => string_required } }
 
           it 'does not validate using JSON Schema' do
-            # FIXME: This seems like a design flaw. We're partially reproducing json-schema behavior
-            # instead of finding a way to use it.
-            JSON::Validator.should_not_receive(:fully_validate)
             validator.validate(contract, fake_interaction)
           end
 
@@ -59,14 +54,14 @@ module Pacto
           end
 
           context 'if not required' do
-            let(:string_required) { false }
+            let(:string_required) { %w() }
 
             it 'does not return an error when body is a string' do
               expect(validator.validate(contract, fake_interaction)).to be_empty
             end
 
-            it 'does not return an error when body is nil' do
-              expect(fake_interaction).to receive(:body).and_return nil
+            it 'does not return an error when body is empty' do
+              expect(fake_interaction).to receive(:body).and_return ''
               expect(validator.validate(contract, fake_interaction)).to be_empty
             end
           end
