@@ -35,7 +35,6 @@
           "$ref": "#/definitions/subschema"
         },
         "schema": {
-          "description": "body is deprecated, use schema",
           "$ref": "#/definitions/subschema"
         }
       }
@@ -52,7 +51,6 @@
           "$ref": "#/definitions/subschema"
         },
         "schema": {
-          "description": "body is deprecated, use schema",
           "$ref": "#/definitions/subschema"
         }
       }
