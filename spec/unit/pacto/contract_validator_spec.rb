@@ -8,7 +8,7 @@ module Pacto
         'headers' => {
           'Content-Type' => 'application/json'
         },
-        schema: {:type => 'object', :required => true, :properties => double('body definition properties')}
+        schema: {:type => 'object', :required => %w(#), :properties => double('body definition properties')}
       )
     end
 
