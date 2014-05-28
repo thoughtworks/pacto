@@ -17,7 +17,7 @@ module Pacto
             "headers": {
               "Content-Type": "application/json"
             },
-            "body": {
+            "schema": {
               "description": "A simple response",
               "type": "object",
               "properties": {
@@ -64,7 +64,7 @@ module Pacto
             "headers": {
               "Content-Type": "application/json"
             },
-            "body": {
+            "schema": {
               "description": "A simple response",
               "required": {},
               "type": "object",

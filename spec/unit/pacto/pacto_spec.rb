@@ -49,7 +49,7 @@ describe Pacto do
       expect(Pacto::ContractList).to receive(:new) do |contracts|
         contracts.each { |contract| expect(contract).to be_a_kind_of(Pacto::Contract) }
       end
-      Pacto.load_contracts('spec/integration/data/', host)
+      Pacto.load_contracts('spec/fixtures/contracts/', host)
     end
   end
 end

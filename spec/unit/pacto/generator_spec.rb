@@ -98,8 +98,8 @@ module Pacto
         end
         subject(:generated_contract) { JSON.parse raw_contract }
 
-        it 'sets the body to the generated json-schema' do
-          expect(subject['response']['body']).to eq(JSON.parse response_body_schema)
+        it 'sets the schema to the generated json-schema' do
+          expect(subject['response']['schema']).to eq(JSON.parse response_body_schema)
         end
 
         it 'sets the request attributes' do

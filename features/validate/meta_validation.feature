@@ -22,7 +22,7 @@ Feature: Meta-validation
             "headers": {
               "Content-Type": "application/json"
             },
-            "body": {
+            "schema": {
               "description": "A simple response",
               "type": "object",
               "required": ["message"],
@@ -81,7 +81,7 @@ Feature: Meta-validation
 
         "response": {
           "status": 200,
-          "body": {
+          "schema": {
             "required": "anystring"
             }
           }

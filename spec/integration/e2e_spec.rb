@@ -1,6 +1,6 @@
 describe 'Pacto' do
-  let(:contract_path) { 'spec/integration/data/simple_contract.json' }
-  let(:strict_contract_path) { 'spec/integration/data/strict_contract.json' }
+  let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
+  let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
 
   before :all do
     WebMock.allow_net_connect!
@@ -37,7 +37,7 @@ describe 'Pacto' do
         c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      contracts = Pacto.load_contracts 'spec/integration/data/', 'http://dummyprovider.com'
+      contracts = Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
       contracts.stub_all(:device_id => 42)
 
       login_response = get_json('http://dummyprovider.com/hello')

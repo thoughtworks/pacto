@@ -16,7 +16,7 @@ Feature: Validation
           "response": {
             "status": 200,
             "headers": { "Content-Type": "application/json" },
-            "body": {
+            "schema": {
               "description": "A simple response",
               "type": "object",
               "properties": {

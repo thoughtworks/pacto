@@ -65,7 +65,7 @@ module Pacto
         :method => request.method,
         :params => request.params,
         :path => request.path,
-        :body => generate_body(source, request.body)
+        :schema => generate_schema(source, request.body)
       }.delete_if { |k, v| v.nil? }
     end
 
@@ -73,11 +73,11 @@ module Pacto
       {
         :headers => @filters.filter_response_headers(request, response),
         :status => response.status,
-        :body => generate_body(source, response.body)
+        :schema => generate_schema(source, response.body)
       }.delete_if { |k, v| v.nil? }
     end
 
-    def generate_body(source, body, generator_options = Pacto.configuration.generator_options)
+    def generate_schema(source, body, generator_options = Pacto.configuration.generator_options)
       if body && !body.empty?
         body_schema = JSON::SchemaGenerator.generate source, body, generator_options
         MultiJson.load(body_schema)

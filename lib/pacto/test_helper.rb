@@ -19,7 +19,7 @@ module Pacto
       :generate => false,
       :verbose => true,
       :validate => true,
-      :directory => File.join(Dir.pwd, 'spec', 'integration' , 'data'),
+      :directory => File.join(Dir.pwd, 'spec', 'fixtures', 'contracts'),
       :port => 9000
     }
 

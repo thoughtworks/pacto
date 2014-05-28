@@ -12,8 +12,8 @@ module Pacto
       definition = JSON.parse(contract_definition)
       schema.validate definition
       definition['request'].merge!('host' => host)
-      body_to_schema(definition, 'request')
-      body_to_schema(definition, 'response')
+      body_to_schema(definition, 'request', contract_path)
+      body_to_schema(definition, 'response', contract_path)
       request = RequestClause.new(definition['request'])
       response = ResponseClause.new(definition['response'])
       Contract.new(request: request, response: response, file: contract_path, name: definition['name'])
@@ -21,10 +21,10 @@ module Pacto
 
     private
 
-    def body_to_schema(definition, section)
+    def body_to_schema(definition, section, file)
       schema = definition[section].delete 'body'
       if schema
-        Pacto::UI.deprecation "Contract format deprecation: #{section}:body will be moved to #{section}:schema"
+        Pacto::UI.deprecation "Contract format deprecation: #{section}:body will be moved to #{section}:schema (#{file})"
         definition[section]['schema'] = schema
       end
     end

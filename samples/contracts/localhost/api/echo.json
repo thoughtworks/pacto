@@ -10,7 +10,7 @@
       "Content-Type": "application/json"
     },
     "status": 400,
-    "body": {
+    "schema": {
       "$schema": "http://json-schema.org/draft-03/schema#",
       "description": "Generated from http://localhost:9292/api/echo with shasum 8b6da9e052fa786f6c658cc81429bfc6fcbfa473",
       "type": "object",

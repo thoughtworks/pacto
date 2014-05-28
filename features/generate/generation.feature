@@ -20,7 +20,7 @@ Feature: Contract Generation
         },
         "response": {
           "status": 200,
-          "body": {
+          "schema": {
             "required": true
           }
         }
@@ -61,7 +61,7 @@ Feature: Contract Generation
           "Vary": "Accept"
         },
         "status": 200,
-        "body": {
+        "schema": {
           "$schema": "http://json-schema.org/draft-03/schema#",
           "description": "Generated from requests/my_contract.json with shasum 210fa3b144ef2db8d1c160c4d9e8d8bf738ed851",
           "type": "object",

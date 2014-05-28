@@ -28,7 +28,7 @@ Feature: Strict Matching
         "response": {
           "status": 200,
           "headers": { "Content-Type": "application/json" },
-          "body": {
+          "schema": {
             "type": "object",
             "required": true,
             "properties": {

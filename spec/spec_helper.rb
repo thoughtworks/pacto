@@ -23,6 +23,6 @@ RSpec.configure do |config|
 end
 
 def sample_contract(name = 'simple_contract')
-  Pacto::NativeContractFactory.new.build_from_file "spec/integration/data/#{name}.json",
+  Pacto::NativeContractFactory.new.build_from_file "spec/fixtures/contracts/#{name}.json",
                                                    'http://localhost:8080'
 end
