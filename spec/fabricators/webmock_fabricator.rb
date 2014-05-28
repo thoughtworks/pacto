@@ -1,5 +1,3 @@
-WebMock::RequestSignature.new(:get, 'www.example.com')
-
 Fabricator(:webmock_request_signature, from: WebMock::RequestSignature) do
   initialize_with do
     uri = _transient_attributes[:uri]

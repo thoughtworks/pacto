@@ -52,12 +52,12 @@ module Pacto
       describe '#validate_consumer' do
         it 'returns the result of the validation' do
           expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
-          expect(contract.validate_consumer Pacto::PactoRequest.from_request_clause(request), fake_response).to eq validation
+          expect(contract.validate_consumer request.to_pacto_request, fake_response).to eq validation
         end
 
         it 'does not generate another response' do
           request_strategy.should_not_receive :execute
-          contract.validate_consumer Pacto::PactoRequest.from_request_clause(request), fake_response
+          contract.validate_consumer request.to_pacto_request, fake_response
         end
       end
 

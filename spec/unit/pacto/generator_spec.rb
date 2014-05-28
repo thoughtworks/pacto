@@ -5,7 +5,7 @@ module Pacto
     end
     let(:request_clause) { Fabricate(:request_clause, :params => {'api_key' => "<%= ENV['MY_API_KEY'] %>"}) }
     let(:request) do
-      Pacto::PactoRequest.from_request_clause request_clause
+      request_clause.to_pacto_request
     end
     let(:response_adapter) do
       Faraday::Response.new(

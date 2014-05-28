@@ -2,10 +2,10 @@ module Pacto
   module Core
     describe SimpleRequestStrategy do
       subject(:strategy) { described_class.new }
+      let(:get_request)  { Fabricate(:request_clause, method: :get,  host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}).to_pacto_request }
+      let(:post_request) { Fabricate(:request_clause, method: :post, host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}).to_pacto_request }
+
       describe '#execute' do
-        let(:connection)       { double 'connection' }
-        let(:response)         { double 'response' }
-        let(:adapted_response) { double 'adapted response' }
 
         before do
           WebMock.stub_request(:get, 'http://localhost/hello_world?foo=bar').
@@ -15,26 +15,24 @@ module Pacto
         end
 
         context 'for any request' do
-          xit 'returns the a Faraday response' do
-            expect(strategy.execute request).to be_a Faraday::Response
+          it 'returns the a Pacto::PactoResponse' do
+            expect(strategy.execute get_request).to be_a Pacto::PactoResponse
           end
         end
 
         context 'for a GET request' do
-          xit 'makes the request thru the http client' do
-            strategy.execute
-            expect(WebMock).to have_requested(:get, 'http://localhost/hello_world?foo=bar').
-              with(:headers => headers)
+          it 'makes the request thru the http client' do
+            strategy.execute get_request
+            expect(WebMock).to have_requested(:get, 'http://localhost/hello_world?foo=bar')
           end
         end
 
         context 'for a POST request' do
           let(:method)  { 'POST' }
 
-          xit 'makes the request thru the http client' do
-            strategy.execute
-            expect(WebMock).to have_requested(:post, 'http://localhost/hello_world?foo=bar').
-              with(:headers => headers)
+          it 'makes the request thru the http client' do
+            strategy.execute post_request
+            expect(WebMock).to have_requested(:post, 'http://localhost/hello_world?foo=bar')
           end
         end
       end

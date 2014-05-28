@@ -42,7 +42,7 @@ module Pacto
     end
 
     def execute
-      pacto_request = Pacto::PactoRequest.from_request_clause request
+      pacto_request = request.to_pacto_request
       pacto_response = request_strategy.execute pacto_request
       [pacto_request, pacto_response]
     end
