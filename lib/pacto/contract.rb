@@ -10,6 +10,7 @@ module Pacto
     coerce_key :response, ResponseClause
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
+    property :request_strategy, default: Pacto::Core::SimpleRequestStrategy.new
 
     def initialize(opts)
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
@@ -23,7 +24,8 @@ module Pacto
     end
 
     def validate_provider(opts = {})
-      validate_consumer request, provider_response, opts
+      pacto_request, pacto_response = execute
+      validate_consumer pacto_request, pacto_response, opts
     end
 
     # Should this be deprecated?
@@ -39,10 +41,10 @@ module Pacto
       @request_pattern ||= request_pattern_provider.for(request)
     end
 
-    private
-
-    def provider_response
-      request.execute
+    def execute
+      pacto_request = Pacto::PactoRequest.from_request_clause request
+      pacto_response = request_strategy.execute pacto_request
+      [pacto_request, pacto_response]
     end
   end
 end

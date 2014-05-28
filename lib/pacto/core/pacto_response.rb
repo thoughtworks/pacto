@@ -3,7 +3,7 @@ module Pacto
     attr_accessor :body, :headers, :status
 
     def initialize(data)
-      @headers = data[:header]
+      @headers = data[:headers]
       @body    = data[:body]
       @status  = data[:status]
     end

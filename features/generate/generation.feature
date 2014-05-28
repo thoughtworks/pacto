@@ -51,8 +51,6 @@ Feature: Contract Generation
           "Accept": "application/json"
         },
         "method": "get",
-        "params": {
-        },
         "path": "/hello"
       },
       "response": {

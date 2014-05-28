@@ -3,7 +3,7 @@ module Pacto
     let(:record_host) do
       'http://example.com'
     end
-    let(:request) do
+    let(:request_clause) do
       Pacto::RequestClause.new(
         host: record_host,
         method: 'GET',
@@ -17,6 +17,9 @@ module Pacto
           'apikey' => "<%= ENV['MY_API_KEY'] %>"
         }
       )
+    end
+    let(:request) do
+      Pacto::PactoRequest.from_request_clause request_clause
     end
     let(:response_adapter) do
       Faraday::Response.new(
@@ -53,7 +56,7 @@ module Pacto
       let(:generated_contract) { double('generated contract') }
       before do
         Pacto.should_receive(:load_contract).with(request_file, record_host).and_return request_contract
-        request.should_receive(:execute).and_return response_adapter
+        request_contract.should_receive(:execute).and_return([request, response_adapter])
       end
 
       it 'parses the request' do
@@ -104,8 +107,8 @@ module Pacto
 
         it 'sets the request attributes' do
           generated_request = subject['request']
-          expect(generated_request['params']).to eq(request.params)
-          expect(generated_request['path']).to eq(request.path)
+          expect(generated_request['params']).to eq(request.uri.query_values)
+          expect(generated_request['path']).to eq(request.uri.path)
         end
 
         it 'preserves ERB in the request params' do

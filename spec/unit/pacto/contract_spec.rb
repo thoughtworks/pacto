@@ -1,11 +1,14 @@
 module Pacto
   describe Contract do
     let(:request) do
-      request = double('request')
-      allow(request).to receive(:is_a?) do |arg|
-        arg == Pacto::RequestClause
-      end
-      request
+      Pacto::RequestClause.new(
+        method: 'GET',
+        host: 'http://example.com',
+        schema:  {
+          :type => 'object',
+          :required => true # , :properties => double('body definition properties')
+        }
+      )
     end
     let(:response) do
       Pacto::ResponseClause.new(:status => 200)
@@ -13,6 +16,7 @@ module Pacto
     let(:provider) { double 'provider' }
     let(:file) { 'contract.json' }
     let(:request_pattern_provider) { double(for: nil) }
+    let(:request_strategy) { double }
 
     subject(:contract) do
       Contract.new(
@@ -20,18 +24,13 @@ module Pacto
         response: response,
         file: file,
         name: 'sample',
-        request_pattern_provider: request_pattern_provider
+        request_pattern_provider: request_pattern_provider,
+        request_strategy: request_strategy
       )
     end
 
     before do
       Pacto.configuration.provider = provider
-    end
-
-    it 'has a request pattern' do
-      pattern = double
-      expect(request_pattern_provider).to receive(:for).and_return(pattern)
-      expect(contract.request_pattern).to eq pattern
     end
 
     describe '#stub_contract!' do
@@ -47,33 +46,33 @@ module Pacto
       let(:validation) { Validation.new request, fake_response, contract, validation_result }
 
       before do
-        allow(Pacto::ContractValidator).to receive(:validate_contract).with(request, fake_response, contract, {}).and_return validation
+        allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {}).and_return validation
       end
 
       describe '#validate_consumer' do
         it 'returns the result of the validation' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(request, fake_response, contract, {})
-          expect(contract.validate_consumer request, fake_response).to eq validation
+          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
+          expect(contract.validate_consumer Pacto::PactoRequest.from_request_clause(request), fake_response).to eq validation
         end
 
         it 'does not generate another response' do
-          request.should_not_receive :execute
-          contract.validate_consumer request, fake_response
+          request_strategy.should_not_receive :execute
+          contract.validate_consumer Pacto::PactoRequest.from_request_clause(request), fake_response
         end
       end
 
       describe '#validate_provider' do
         before do
-          allow(request).to receive(:execute).and_return fake_response
+          allow(request_strategy).to receive(:execute).with(an_instance_of(Pacto::PactoRequest)).and_return fake_response
         end
 
         it 'generates the response' do
-          expect(request).to receive(:execute)
+          expect(request_strategy).to receive(:execute).with(an_instance_of(Pacto::PactoRequest))
           contract.validate_provider
         end
 
         it 'returns the result of the validating the generated response' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(request, fake_response, contract, {})
+          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
           expect(contract.validate_provider).to eq validation
         end
       end

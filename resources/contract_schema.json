@@ -54,6 +54,19 @@
           "$ref": "#/definitions/subschema"
         }
       }
+    },
+    "examples": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["request", "response"],
+        "properties": {
+          "request": {
+          },
+          "response": {
+          }
+        }
+      }
     }
   }
 }

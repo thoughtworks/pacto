@@ -10,26 +10,13 @@ module Pacto
     property :params, default: {}
 
     def initialize(definition)
-      definition['method'] = definition['method'].to_s.downcase.to_sym
-      super
+      mash = Hashie::Mash.new definition
+      mash['method'] = mash['method'].to_s.downcase.to_sym
+      super mash
     end
 
     def uri
       @uri ||= Pacto::URI.for(host, path, params)
-    end
-
-    def body
-      JSON::Generator.generate(schema)
-    end
-
-    def execute
-      conn = Faraday.new(:url => uri.to_s) do |faraday|
-        faraday.response :logger if Pacto.configuration.logger.level == :debug
-        faraday.adapter  Faraday.default_adapter
-      end
-      conn.send(method) do |req|
-        req.headers = headers
-      end
     end
 
     # FIXME: Send a PR to Hashie so it doesn't coerce values that already match the target class
