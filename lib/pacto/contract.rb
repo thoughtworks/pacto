@@ -10,7 +10,7 @@ module Pacto
     coerce_key :response, ResponseClause
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
-    property :request_strategy, default: Pacto::Core::SimpleRequestStrategy.new
+    property :consumer_driver, default: Pacto::Consumer::FaradayDriver.new
 
     def initialize(opts)
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
@@ -43,7 +43,7 @@ module Pacto
 
     def execute
       pacto_request = request.to_pacto_request
-      pacto_response = request_strategy.execute pacto_request
+      pacto_response = consumer_driver.execute pacto_request
       [pacto_request, pacto_response]
     end
   end

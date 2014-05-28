@@ -16,7 +16,7 @@ module Pacto
     let(:provider) { double 'provider' }
     let(:file) { 'contract.json' }
     let(:request_pattern_provider) { double(for: nil) }
-    let(:request_strategy) { double }
+    let(:consumer_driver) { double }
 
     subject(:contract) do
       Contract.new(
@@ -25,7 +25,7 @@ module Pacto
         file: file,
         name: 'sample',
         request_pattern_provider: request_pattern_provider,
-        request_strategy: request_strategy
+        consumer_driver: consumer_driver
       )
     end
 
@@ -56,18 +56,18 @@ module Pacto
         end
 
         it 'does not generate another response' do
-          request_strategy.should_not_receive :execute
+          consumer_driver.should_not_receive :execute
           contract.validate_consumer request.to_pacto_request, fake_response
         end
       end
 
       describe '#validate_provider' do
         before do
-          allow(request_strategy).to receive(:execute).with(an_instance_of(Pacto::PactoRequest)).and_return fake_response
+          allow(consumer_driver).to receive(:execute).with(an_instance_of(Pacto::PactoRequest)).and_return fake_response
         end
 
         it 'generates the response' do
-          expect(request_strategy).to receive(:execute).with(an_instance_of(Pacto::PactoRequest))
+          expect(consumer_driver).to receive(:execute).with(an_instance_of(Pacto::PactoRequest))
           contract.validate_provider
         end
 

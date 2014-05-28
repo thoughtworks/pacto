@@ -1,6 +1,6 @@
 module Pacto
-  module Core
-    class SimpleRequestStrategy
+  module Consumer
+    class FaradayDriver
       def execute(req)
         conn = Faraday.new(:url => req.uri.to_s) do |faraday|
           faraday.response :logger if Pacto.configuration.logger.level == :debug

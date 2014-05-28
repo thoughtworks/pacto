@@ -1,6 +1,6 @@
 module Pacto
-  module Core
-    describe SimpleRequestStrategy do
+  module Consumer
+    describe FaradayDriver do
       subject(:strategy) { described_class.new }
       let(:get_request)  { Fabricate(:request_clause, method: :get,  host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}).to_pacto_request }
       let(:post_request) { Fabricate(:request_clause, method: :post, host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}).to_pacto_request }
