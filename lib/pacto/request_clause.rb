@@ -11,8 +11,12 @@ module Pacto
 
     def initialize(definition)
       mash = Hashie::Mash.new definition
-      mash['method'] = mash['method'].to_s.downcase.to_sym
+      mash['method'] = normalize(mash['method'])
       super mash
+    end
+
+    def method=(method)
+      normalize(method)
     end
 
     def uri
@@ -26,6 +30,12 @@ module Pacto
       else
         RequestClause.new value
       end
+    end
+
+    private
+
+    def normalize(method)
+      method.to_s.downcase.to_sym
     end
   end
 end

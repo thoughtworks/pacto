@@ -17,7 +17,7 @@ module Pacto
 
       subject(:validator)    { MyBodyValidator }
       let(:string_required)  { %w(#) }
-      let(:contract)         { double('contract', :file => 'file:///a.json') }
+      let(:contract)         { Fabricate(:contract, :file => 'file:///a.json') }
       let(:body)             { 'a simple string' }
       let(:fake_interaction) { double(:fake_interaction, body: body) }
 

@@ -1,11 +1,7 @@
 module Pacto
   describe ResponseClause do
     let(:body_definition) do
-      {
-        :type => 'object',
-        :required => true,
-        :properties => double('body definition properties')
-      }
+      Fabricate(:schema)
     end
 
     let(:definition) do

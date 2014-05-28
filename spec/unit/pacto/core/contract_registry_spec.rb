@@ -2,8 +2,8 @@ require_relative '../../../../lib/pacto/core/contract_registry'
 
 module Pacto
   describe ContractRegistry do
-    let(:contract) { sample_contract }
-    let(:request_signature) { double('request signature') }
+    let(:contract) { Fabricate(:contract) }
+    let(:request_signature) { Fabricate(:webmock_request_signature) }
 
     subject(:contract_registry) do
       ContractRegistry.new

@@ -3,16 +3,11 @@ module Pacto
     let(:validation_errors) { ['some error', 'another error'] }
 
     let(:expected_response) do
-      ResponseClause.new(
-        'status' => 200,
-        'headers' => {
-          'Content-Type' => 'application/json'
-        },
-        schema: {:type => 'object', :required => %w(#), :properties => double('body definition properties')}
-      )
+      Fabricate(:response_clause)
     end
 
     let(:actual_response) do
+      # TODO: Replace this with a Fabrication for Pacto::PactoResponse (perhaps backed by WebMock)
       double(
         :status => 200,
         :headers => {'Content-Type' => 'application/json', 'Age' => '60'},
@@ -23,24 +18,14 @@ module Pacto
     let(:actual_request) { double :actual_request }
 
     let(:expected_request) do
-      RequestClause.new(
-        host: 'http://example.com',
-        schema:  {
-          :type => 'object',
-          :required => true,
-          :properties => double('body definition properties')
-        }
-      )
+      Fabricate(:request_clause)
     end
 
     let(:contract) do
-      request_pattern_provider = double(for: nil)
-      Contract.new(
+      Fabricate(
+        :contract,
         request: expected_request,
-        response: expected_response,
-        file: 'some_file.json',
-        name: 'sample',
-        request_pattern_provider: request_pattern_provider
+        response: expected_response
       )
     end
 

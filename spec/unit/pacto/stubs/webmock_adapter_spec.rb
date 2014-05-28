@@ -1,5 +1,6 @@
 module Pacto
   module Stubs
+    # FIXME: Review this test and see which requests are Pacto vs WebMock, then use Fabricate
     describe WebMockAdapter do
       let(:middleware) { double }
 

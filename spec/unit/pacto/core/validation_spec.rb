@@ -2,7 +2,7 @@ module Pacto
   describe Validation do
     let(:request) { double('request') }
     let(:response) { double('response') }
-    let(:contract) { double('contract') }
+    let(:contract) { Fabricate(:contract) }
     let(:validation_results) { [] }
     let(:validation_results_with_errors) { ['an error occurred'] }
 

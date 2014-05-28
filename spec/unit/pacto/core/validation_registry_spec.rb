@@ -1,8 +1,8 @@
 describe Pacto::ValidationRegistry do
   subject(:registry) { Pacto::ValidationRegistry.instance }
-  let(:request_pattern) { WebMock::RequestPattern.new(:get, 'www.example.com') }
-  let(:request_signature) { WebMock::RequestSignature.new(:get, 'www.example.com') }
-  let(:different_request_signature) { WebMock::RequestSignature.new(:get, 'www.thoughtworks.com') }
+  let(:request_pattern) { Fabricate(:webmock_request_pattern) }
+  let(:request_signature) { Fabricate(:webmock_request_signature) }
+  let(:different_request_signature) { Fabricate(:webmock_request_signature, :uri => 'www.thoughtworks.com') }
   let(:validation) { Pacto::Validation.new(request_signature, double, nil, []) }
   let(:validation_for_a_similar_request) { Pacto::Validation.new(request_signature, double, nil, []) }
   let(:validation_for_a_different_request) { Pacto::Validation.new(different_request_signature, double, nil, []) }
@@ -39,7 +39,7 @@ describe Pacto::ValidationRegistry do
   end
 
   describe '.unmatched_validations' do
-    let(:contract) { double('contract', :name => 'test') }
+    let(:contract) { Fabricate(:contract) }
 
     it 'returns validations with no contract' do
       validation_with_results = Pacto::Validation.new(different_request_signature, double, contract, [])
@@ -53,7 +53,7 @@ describe Pacto::ValidationRegistry do
   end
 
   describe '.failed_validations' do
-    let(:contract) { double('contract', :name => 'test') }
+    let(:contract) { Fabricate(:contract) }
     let(:results2) { double('results2', :empty? => false, :join => 'wtf') }
 
     it 'returns validations with unsuccessful results' do

@@ -3,21 +3,7 @@ module Pacto
     let(:record_host) do
       'http://example.com'
     end
-    let(:request_clause) do
-      Pacto::RequestClause.new(
-        host: record_host,
-        method: 'GET',
-        path: '/abcd',
-        headers: {
-          'Content-Length' => [1234],
-          'Via' => ['Some Proxy'],
-          'User-Agent' => ['rspec']
-        },
-        params: {
-          'apikey' => "<%= ENV['MY_API_KEY'] %>"
-        }
-      )
-    end
+    let(:request_clause) { Fabricate(:request_clause, :params => {'api_key' => "<%= ENV['MY_API_KEY'] %>"}) }
     let(:request) do
       Pacto::PactoRequest.from_request_clause request_clause
     end
@@ -48,12 +34,13 @@ module Pacto
     end
 
     describe '#generate_from_partial_contract' do
+      # TODO: Deprecate partial contracts?
       let(:request_contract) do
         double(
           :request => request
         )
       end
-      let(:generated_contract) { double('generated contract') }
+      let(:generated_contract) { Fabricate(:contract) }
       before do
         Pacto.should_receive(:load_contract).with(request_file, record_host).and_return request_contract
         request_contract.should_receive(:execute).and_return([request, response_adapter])
@@ -113,7 +100,7 @@ module Pacto
 
         it 'preserves ERB in the request params' do
           generated_request = subject['request']
-          expect(generated_request['params']['apikey']).to eq("<%= ENV['MY_API_KEY'] %>")
+          expect(generated_request['params']).to eq('api_key' => "<%= ENV['MY_API_KEY'] %>")
         end
 
         it 'normalizes the request method' do
