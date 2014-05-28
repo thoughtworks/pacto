@@ -1,10 +1,10 @@
 inherit_from: .rubocop-todo.yml
 
 AllCops:
-  Includes:
+  Include:
     - Guardfile
     - Rakefile
     - pacto.gemspec
-  Excludes:
+  Exclude:
     - bin/**
     - tmp/**
