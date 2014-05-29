@@ -1,11 +1,13 @@
 module Pacto
   class PactoResponse
+    # FIXME: Need case insensitive header lookup, but case-sensitive storage
     attr_accessor :body, :headers, :status
 
     def initialize(data)
-      @headers = data[:headers]
-      @body    = data[:body]
-      @status  = data[:status]
+      mash = Hashie::Mash.new data
+      @headers = mash.headers.to_h
+      @body    = mash.body
+      @status  = mash.status.to_i
     end
   end
 end

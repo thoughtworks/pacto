@@ -8,6 +8,7 @@ module Pacto
     property :path
     property :headers
     property :params, default: {}
+    property :request_builder, default: Pacto::Actors::JSONGenerator
 
     def initialize(definition)
       mash = Hashie::Mash.new definition
@@ -24,10 +25,7 @@ module Pacto
     end
 
     def to_pacto_request
-      data = to_hash
-      data['uri'] = uri
-      data['body'] = '' # Should be strategy
-      Pacto::PactoRequest.new(data)
+      request_builder.build_request self
     end
 
     # FIXME: Send a PR to Hashie so it doesn't coerce values that already match the target class

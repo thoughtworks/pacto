@@ -17,10 +17,20 @@ module Pacto
       let(:method) { :get }
 
       let(:response) do
-        double(
+        Fabricate(
+          :response_clause,
           :status => 200,
           :headers => {},
-          :body => body
+          :schema => {
+            type: 'object',
+            required: ['message'],
+            properties: {
+              message: {
+                type: 'string',
+                default: 'foo'
+              }
+            }
+          }
         )
       end
 
@@ -39,10 +49,11 @@ module Pacto
       subject(:adapter) { WebMockAdapter.new middleware }
 
       before(:each) do
+        pacto_response = response.to_pacto_response
         stubbed_request.stub(:to_return).with(
-          :status => response.status,
-          :headers => response.headers,
-          :body => response.body.to_json
+          :status => pacto_response.status,
+          :headers => pacto_response.headers,
+          :body => pacto_response.body
         )
         stubbed_request.stub(:request_pattern).and_return request_pattern
       end
@@ -81,10 +92,11 @@ module Pacto
           end
 
           it 'stubs the response body with a json representation' do
+            pacto_response = response.to_pacto_response
             stubbed_request.should_receive(:to_return).with(
-              :status => response.status,
-              :headers => response.headers,
-              :body => response.body.to_json
+              :status => pacto_response.status,
+              :headers => pacto_response.headers,
+              :body => pacto_response.body
             )
 
             request_pattern.stub(:with)
@@ -98,10 +110,11 @@ module Pacto
             end
 
             it 'stubs the response body with a json representation' do
+              pacto_response = response.to_pacto_response
               stubbed_request.should_receive(:to_return).with(
-                :status => response.status,
-                :headers => response.headers,
-                :body => response.body.to_json
+                :status => pacto_response.status,
+                :headers => pacto_response.headers,
+                :body => pacto_response.body
               )
 
               request_pattern.stub(:with)
@@ -114,10 +127,11 @@ module Pacto
             let(:body) { nil }
 
             it 'stubs the response body with the original body' do
+              pacto_response = response.to_pacto_response
               stubbed_request.should_receive(:to_return).with(
-                :status => response.status,
-                :headers => response.headers,
-                :body => response.body
+                :status => pacto_response.status,
+                :headers => pacto_response.headers,
+                :body => pacto_response.body
               )
 
               request_pattern.stub(:with)

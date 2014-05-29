@@ -36,15 +36,17 @@ module Pacto
       expect(response.schema).to eq(Hash.new)
     end
 
-    describe 'the response body' do
-      let(:generated_body) { double }
+    describe '#to_pacto_response' do
+      context 'using the default builder' do
+        let(:generated_body) { double }
 
-      it 'is the json generated from the schema' do
-        JSON::Generator.should_receive(:generate).
-          with(definition['schema']).
-          and_return(generated_body)
+        it 'generates the body from the schema' do
+          JSON::Generator.should_receive(:generate).
+            with(definition['schema']).
+            and_return(generated_body)
 
-        expect(response.body).to eq(generated_body)
+          expect(response.to_pacto_response.body).to eq(generated_body)
+        end
       end
     end
   end

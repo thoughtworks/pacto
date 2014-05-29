@@ -46,11 +46,12 @@ module Pacto
         end
       end
 
-      def stub_request!(request, response)
-        uri_pattern = UriPattern.for(request)
-        stub = WebMock.stub_request(request.method, uri_pattern)
+      def stub_request!(request_clause, response_clause)
+        uri_pattern = UriPattern.for(request_clause)
+        stub = WebMock.stub_request(request_clause.method, uri_pattern)
 
-        stub.request_pattern.with(strict_details(request)) if Pacto.configuration.strict_matchers
+        stub.request_pattern.with(strict_details(request_clause)) if Pacto.configuration.strict_matchers
+        response = response_clause.to_pacto_response
 
         stub.to_return(
           :status => response.status,
