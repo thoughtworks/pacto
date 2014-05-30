@@ -11,6 +11,7 @@ module Pacto
     # Gotta figure out how to use test doubles w/ coercion
     coerce_key :request,  RequestClause
     coerce_key :response, ResponseClause
+    property :examples
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
     property :adapter, default: proc { Pacto.configuration.adapter }
@@ -21,6 +22,10 @@ module Pacto
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
       opts[:name] ||= opts[:file]
       super
+    end
+
+    def examples?
+      examples && !examples.empty?
     end
 
     def stub_contract!(values = {})

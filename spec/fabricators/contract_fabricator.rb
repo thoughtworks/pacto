@@ -5,10 +5,24 @@ require 'hashie/mash'
 
 Fabricator(:contract, from: Pacto::Contract) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
+  transient :example_count => 0
   name { 'Dummy Contract' }
   file { '/does/not/exist/dummy_contract.json' }
   request { Fabricate(:request_clause).to_hash }
   response { Fabricate(:response_clause).to_hash }
+  examples do |attr|
+    example_count = attr[:example_count]
+    if example_count
+      examples = attr[:example_count].times.reduce({}) do |h, i|
+        name = i.to_s
+        h[name] = Fabricate(:an_example, name: name)
+        h
+      end
+      examples
+    else
+      nil
+    end
+  end
 end
 
 Fabricator(:partial_contract, from: Pacto::Contract) do
@@ -56,6 +70,25 @@ Fabricator(:schema, from: Hashie::Mash) do
   properties do
     {
       type: 'string'
+    }
+  end
+end
+
+Fabricator(:an_example, from: Hashie::Mash) do
+  initialize_with { @_klass.new to_hash } # Hash based initialization
+  transient :name => 'default'
+  request do |attr|
+    {
+      body: {
+        message: "I am example request #{attr[:name]}"
+      }
+    }
+  end
+  response do |attr|
+    {
+      body: {
+        message: "I am example response #{attr[:name]}"
+      }
     }
   end
 end
