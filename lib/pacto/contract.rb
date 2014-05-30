@@ -13,8 +13,9 @@ module Pacto
     coerce_key :response, ResponseClause
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
-    property :consumer, default: Pacto::Consumer
-    property :provider, default: Pacto::Provider
+    property :adapter, default: proc { Pacto.configuration.adapter }
+    property :consumer, default: proc { Pacto.configuration.default_consumer }
+    property :provider, default: proc { Pacto.configuration.default_provider }
 
     def initialize(opts)
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
@@ -24,7 +25,7 @@ module Pacto
 
     def stub_contract!(values = {})
       self.values = values
-      Pacto.configuration.provider.stub_request!(self)
+      adapter.stub_request!(self)
     end
 
     def validate_provider(opts = {})

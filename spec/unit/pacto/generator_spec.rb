@@ -29,7 +29,7 @@ module Pacto
       Fabricate(:partial_contract, :request => request_clause, :file => request_file)
     end
     let(:request) do
-      Pacto::Consumer.build_request request_contract
+      Pacto.configuration.default_consumer.build_request request_contract
     end
 
     def pretty(obj)

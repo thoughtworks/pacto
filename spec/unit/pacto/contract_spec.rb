@@ -13,7 +13,7 @@ module Pacto
     let(:response_clause) do
       Pacto::ResponseClause.new(:status => 200)
     end
-    let(:provider) { double 'provider' }
+    let(:adapter) { double 'provider' }
     let(:file) { 'contract.json' }
     let(:request_pattern_provider) { double(for: nil) }
     let(:consumer_driver) { double }
@@ -30,22 +30,22 @@ module Pacto
     end
 
     before do
-      Pacto.configuration.provider = provider
+      Pacto.configuration.adapter = adapter
       allow(consumer_driver).to receive(:respond_to?).with(:execute).and_return true
       allow(provider_actor).to receive(:respond_to?).with(:build_response).and_return true
-      Pacto::Consumer.driver = consumer_driver
-      Pacto::Provider.actor = provider_actor
+      Pacto.configuration.default_consumer.driver = consumer_driver
+      Pacto.configuration.default_provider.actor = provider_actor
     end
 
     describe '#stub_contract!' do
       it 'register a stub for the contract' do
-        provider.should_receive(:stub_request!).with(contract)
+        adapter.should_receive(:stub_request!).with(contract)
         contract.stub_contract!
       end
     end
 
     context 'validations' do
-      let(:request) { Pacto::Consumer.build_request contract }
+      let(:request) { Pacto.configuration.default_consumer.build_request contract }
       let(:fake_response) { double('fake response') }
       let(:validation_result) { double 'validation result' }
       let(:validation) { Validation.new request, fake_response, contract, validation_result }

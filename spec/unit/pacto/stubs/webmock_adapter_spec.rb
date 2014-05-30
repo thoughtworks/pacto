@@ -63,8 +63,7 @@ module Pacto
             expect(block.parameters).to have(2).items
           end
 
-          # WebMockAdapter.new
-          Pacto.configuration.provider # this way the rpec after block doesn't create a second instance
+          Pacto.configuration.adapter # (rather than WebMockAdapter.new, to prevent rpec after block from creating a second instance
         end
       end
 
