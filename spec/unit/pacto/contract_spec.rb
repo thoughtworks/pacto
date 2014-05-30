@@ -1,6 +1,6 @@
 module Pacto
   describe Contract do
-    let(:request) do
+    let(:request_clause) do
       Pacto::RequestClause.new(
         method: 'GET',
         host: 'http://example.com',
@@ -10,7 +10,7 @@ module Pacto
         }
       )
     end
-    let(:response) do
+    let(:response_clause) do
       Pacto::ResponseClause.new(:status => 200)
     end
     let(:provider) { double 'provider' }
@@ -20,12 +20,11 @@ module Pacto
 
     subject(:contract) do
       Contract.new(
-        request: request,
-        response: response,
+        request: request_clause,
+        response: response_clause,
         file: file,
         name: 'sample',
-        request_pattern_provider: request_pattern_provider,
-        consumer_driver: consumer_driver
+        request_pattern_provider: request_pattern_provider
       )
     end
 
@@ -35,29 +34,32 @@ module Pacto
 
     describe '#stub_contract!' do
       it 'register a stub for the contract' do
-        provider.should_receive(:stub_request!).with(request, response)
+        provider.should_receive(:stub_request!).with(contract)
         contract.stub_contract!
       end
     end
 
     context 'validations' do
+      let(:request) { Pacto::Consumer.build_request contract }
       let(:fake_response) { double('fake response') }
       let(:validation_result) { double 'validation result' }
       let(:validation) { Validation.new request, fake_response, contract, validation_result }
 
       before do
         allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {}).and_return validation
+        allow(consumer_driver).to receive(:respond_to?).with(:execute).and_return true
+        Pacto::Consumer.driver = consumer_driver
       end
 
       describe '#validate_consumer' do
         it 'returns the result of the validation' do
           expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
-          expect(contract.validate_consumer request.to_pacto_request, fake_response).to eq validation
+          expect(contract.validate_consumer request, fake_response).to eq validation
         end
 
         it 'does not generate another response' do
           consumer_driver.should_not_receive :execute
-          contract.validate_consumer request.to_pacto_request, fake_response
+          contract.validate_consumer request, fake_response
         end
       end
 

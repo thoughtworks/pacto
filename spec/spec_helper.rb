@@ -15,10 +15,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
   config.after(:each) do
-    provider = Pacto.configuration.provider
-    unless provider.respond_to? :reset!
-      provider.stub(:reset!)
-    end
     Pacto.clear!
   end
 end

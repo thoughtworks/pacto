@@ -1,18 +1,21 @@
 require 'pacto'
 require 'hashie/mash'
 
-Fabricator(:schema, from: Hashie::Mash) do
-  transient :version
+# Fabricators for contracts or parts of contracts
+
+Fabricator(:contract, from: Pacto::Contract) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
-  type { 'object' }
-  required do |attrs|
-    attrs[:version] == :draft3 ? 'true' : []
-  end
-  properties do
-    {
-      type: 'string'
-    }
-  end
+  name { 'Dummy Contract' }
+  file { '/does/not/exist/dummy_contract.json' }
+  request { Fabricate(:request_clause).to_hash }
+  response { Fabricate(:response_clause).to_hash }
+end
+
+Fabricator(:partial_contract, from: Pacto::Contract) do
+  initialize_with { @_klass.new to_hash } # Hash based initialization
+  name { 'Dummy Contract' }
+  file { '/does/not/exist/dummy_contract.json' }
+  request { Fabricate(:request_clause).to_hash }
 end
 
 Fabricator(:request_clause, from: Pacto::RequestClause) do
@@ -43,10 +46,16 @@ Fabricator(:response_clause, from: Pacto::ResponseClause) do
   schema { Fabricate(:schema).to_hash }
 end
 
-Fabricator(:contract, from: Pacto::Contract) do
+Fabricator(:schema, from: Hashie::Mash) do
+  transient :version
   initialize_with { @_klass.new to_hash } # Hash based initialization
-  name { 'Dummy Contract' }
-  file { '/does/not/exist/dummy_contract.json' }
-  request { Fabricate(:request_clause).to_hash }
-  response { Fabricate(:response_clause).to_hash }
+  type { 'object' }
+  required do |attrs|
+    attrs[:version] == :draft3 ? 'true' : []
+  end
+  properties do
+    {
+      type: 'string'
+    }
+  end
 end

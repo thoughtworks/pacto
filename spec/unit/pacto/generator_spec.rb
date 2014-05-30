@@ -4,9 +4,6 @@ module Pacto
       'http://example.com'
     end
     let(:request_clause) { Fabricate(:request_clause, :params => {'api_key' => "<%= ENV['MY_API_KEY'] %>"}) }
-    let(:request) do
-      request_clause.to_pacto_request
-    end
     let(:response_adapter) do
       Faraday::Response.new(
         :status => 200,
@@ -28,6 +25,12 @@ module Pacto
     let(:filters) { double :filters }
     let(:request_file) { 'request.json' }
     let(:generator) { described_class.new version, schema_generator, validator, filters }
+    let(:request_contract) do
+      Fabricate(:partial_contract, :request => request_clause, :file => request_file)
+    end
+    let(:request) do
+      Pacto::Consumer.build_request request_contract
+    end
 
     def pretty(obj)
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
@@ -35,11 +38,6 @@ module Pacto
 
     describe '#generate_from_partial_contract' do
       # TODO: Deprecate partial contracts?
-      let(:request_contract) do
-        double(
-          :request => request
-        )
-      end
       let(:generated_contract) { Fabricate(:contract) }
       before do
         Pacto.should_receive(:load_contract).with(request_file, record_host).and_return request_contract

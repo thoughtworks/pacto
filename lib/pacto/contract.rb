@@ -3,14 +3,16 @@ module Pacto
     include Hashie::Extensions::Coercion
     property :file, required: true
     property :request,  required: true
-    property :response, required: true
+    # Although I'd like response to be required, it complicates
+    # the partial contracts used the rake generation task...
+    # yet another reason I'd like to deprecate that feature
+    property :response # , required: true
     property :values, default: {}
     # Gotta figure out how to use test doubles w/ coercion
     coerce_key :request,  RequestClause
     coerce_key :response, ResponseClause
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
-    property :consumer_driver, default: Pacto::Consumer::FaradayDriver.new
 
     def initialize(opts)
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
@@ -20,7 +22,7 @@ module Pacto
 
     def stub_contract!(values = {})
       self.values = values
-      Pacto.configuration.provider.stub_request!(request, response)
+      Pacto.configuration.provider.stub_request!(self)
     end
 
     def validate_provider(opts = {})
@@ -41,10 +43,10 @@ module Pacto
       @request_pattern ||= request_pattern_provider.for(request)
     end
 
-    def execute
-      pacto_request = request.to_pacto_request
-      pacto_response = consumer_driver.execute pacto_request
-      [pacto_request, pacto_response]
+    def execute(additional_values = {})
+      # FIXME: Do we really need to store on the Contract, or just as a param for #stub_contact! and #execute?
+      full_values = values.merge(additional_values)
+      Pacto::Consumer.reenact(self, full_values)
     end
   end
 end

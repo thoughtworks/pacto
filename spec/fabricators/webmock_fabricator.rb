@@ -1,3 +1,5 @@
+# Fabricators for WebMock objects
+
 Fabricator(:webmock_request_signature, from: WebMock::RequestSignature) do
   initialize_with do
     uri = _transient_attributes[:uri]

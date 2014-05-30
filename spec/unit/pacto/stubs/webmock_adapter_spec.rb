@@ -2,15 +2,15 @@ module Pacto
   module Stubs
     # FIXME: Review this test and see which requests are Pacto vs WebMock, then use Fabricate
     describe WebMockAdapter do
-      let(:middleware) { double }
+      let(:middleware) { double('middleware') }
 
       let(:request) do
-        double(
-          :host => 'http://localhost',
-          :method => method,
-          :path => '/hello_world',
-          :headers => {'Accept' => 'application/json'},
-          :params => {'foo' => 'bar'}
+        Fabricate(:request_clause,
+                  :host => 'http://localhost',
+                  :method => method,
+                  :path => '/hello_world',
+                  :headers => {'Accept' => 'application/json'},
+                  :params => {'foo' => 'bar'}
         )
       end
 
@@ -34,6 +34,10 @@ module Pacto
         )
       end
 
+      let(:contract) do
+        Fabricate(:contract, :request => request, :response => response)
+      end
+
       let(:body) do
         {'message' => 'foo'}
       end
@@ -49,7 +53,7 @@ module Pacto
       subject(:adapter) { WebMockAdapter.new middleware }
 
       before(:each) do
-        pacto_response = response.to_pacto_response
+        pacto_response = Pacto::Consumer.build_response contract
         stubbed_request.stub(:to_return).with(
           :status => pacto_response.status,
           :headers => pacto_response.headers,
@@ -92,7 +96,7 @@ module Pacto
           end
 
           it 'stubs the response body with a json representation' do
-            pacto_response = response.to_pacto_response
+            pacto_response = Pacto::Consumer.build_response contract
             stubbed_request.should_receive(:to_return).with(
               :status => pacto_response.status,
               :headers => pacto_response.headers,
@@ -101,7 +105,7 @@ module Pacto
 
             request_pattern.stub(:with)
 
-            adapter.stub_request! request, response
+            adapter.stub_request! contract
           end
 
           context 'when the response body is an array' do
@@ -110,7 +114,7 @@ module Pacto
             end
 
             it 'stubs the response body with a json representation' do
-              pacto_response = response.to_pacto_response
+              pacto_response = Pacto::Consumer.build_response contract
               stubbed_request.should_receive(:to_return).with(
                 :status => pacto_response.status,
                 :headers => pacto_response.headers,
@@ -119,7 +123,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
@@ -127,7 +131,7 @@ module Pacto
             let(:body) { nil }
 
             it 'stubs the response body with the original body' do
-              pacto_response = response.to_pacto_response
+              pacto_response = Pacto::Consumer.build_response contract
               stubbed_request.should_receive(:to_return).with(
                 :status => pacto_response.status,
                 :headers => pacto_response.headers,
@@ -136,7 +140,7 @@ module Pacto
 
               request_pattern.stub(:with)
 
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
@@ -147,7 +151,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :query => request.params).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
@@ -158,18 +162,18 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :body => request.params).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
           context 'a request with no headers' do
             let(:request) do
-              double(
-                :host => 'http://localhost',
-                :method => :get,
-                :path => '/hello_world',
-                :headers => {},
-                :params => {'foo' => 'bar'}
+              Fabricate(:request_clause,
+                        :host => 'http://localhost',
+                        :method => :get,
+                        :path => '/hello_world',
+                        :headers => {},
+                        :params => {'foo' => 'bar'}
               )
             end
 
@@ -177,18 +181,18 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:query => request.params).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
           context 'a request with no params' do
             let(:request) do
-              double(
-                :host => 'http://localhost',
-                :method => :get,
-                :path => '/hello_world',
-                :headers => {},
-                :params => {}
+              Fabricate(:request_clause,
+                        :host => 'http://localhost',
+                        :method => :get,
+                        :path => '/hello_world',
+                        :headers => {},
+                        :params => {}
               )
             end
 
@@ -196,7 +200,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with({}).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
         end

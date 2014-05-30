@@ -24,10 +24,6 @@ module Pacto
       @uri ||= Pacto::URI.for(host, path, params)
     end
 
-    def to_pacto_request
-      request_builder.build_request self
-    end
-
     # FIXME: Send a PR to Hashie so it doesn't coerce values that already match the target class
     def self.coerce(value)
       if value.is_a? self
