@@ -8,7 +8,7 @@ module Pacto
     end
 
     def self.actor
-      @actor ||= Pacto::Actors::JSONGenerator
+      @actor ||= Pacto::Actors::FromExamples.new
     end
 
     def self.actor=(actor)

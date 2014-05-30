@@ -8,7 +8,6 @@ module Pacto
     property :path
     property :headers
     property :params, default: {}
-    property :request_builder, default: Pacto::Actors::JSONGenerator
 
     def initialize(definition)
       mash = Hashie::Mash.new definition
