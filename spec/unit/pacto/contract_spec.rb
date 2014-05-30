@@ -17,6 +17,7 @@ module Pacto
     let(:file) { 'contract.json' }
     let(:request_pattern_provider) { double(for: nil) }
     let(:consumer_driver) { double }
+    let(:provider_actor) { double }
 
     subject(:contract) do
       Contract.new(
@@ -30,6 +31,10 @@ module Pacto
 
     before do
       Pacto.configuration.provider = provider
+      allow(consumer_driver).to receive(:respond_to?).with(:execute).and_return true
+      allow(provider_actor).to receive(:respond_to?).with(:build_response).and_return true
+      Pacto::Consumer.driver = consumer_driver
+      Pacto::Provider.actor = provider_actor
     end
 
     describe '#stub_contract!' do
@@ -47,8 +52,6 @@ module Pacto
 
       before do
         allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {}).and_return validation
-        allow(consumer_driver).to receive(:respond_to?).with(:execute).and_return true
-        Pacto::Consumer.driver = consumer_driver
       end
 
       describe '#validate_consumer' do

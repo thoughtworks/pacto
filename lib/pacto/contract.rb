@@ -13,6 +13,8 @@ module Pacto
     coerce_key :response, ResponseClause
     property :name
     property :request_pattern_provider, default: Pacto::RequestPattern
+    property :consumer, default: Pacto::Consumer
+    property :provider, default: Pacto::Provider
 
     def initialize(opts)
       opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
@@ -43,10 +45,14 @@ module Pacto
       @request_pattern ||= request_pattern_provider.for(request)
     end
 
+    def response_for(pacto_request)
+      provider.response_for self, pacto_request
+    end
+
     def execute(additional_values = {})
       # FIXME: Do we really need to store on the Contract, or just as a param for #stub_contact! and #execute?
       full_values = values.merge(additional_values)
-      Pacto::Consumer.reenact(self, full_values)
+      consumer.reenact(self, full_values)
     end
   end
 end

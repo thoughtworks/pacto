@@ -53,12 +53,7 @@ module Pacto
       subject(:adapter) { WebMockAdapter.new middleware }
 
       before(:each) do
-        pacto_response = Pacto::Consumer.build_response contract
-        stubbed_request.stub(:to_return).with(
-          :status => pacto_response.status,
-          :headers => pacto_response.headers,
-          :body => pacto_response.body
-        )
+        allow(stubbed_request).to receive(:to_return).with(no_args)
         stubbed_request.stub(:request_pattern).and_return request_pattern
       end
 
@@ -93,55 +88,6 @@ module Pacto
         context 'when the response body is an object' do
           let(:body) do
             {'message' => 'foo'}
-          end
-
-          it 'stubs the response body with a json representation' do
-            pacto_response = Pacto::Consumer.build_response contract
-            stubbed_request.should_receive(:to_return).with(
-              :status => pacto_response.status,
-              :headers => pacto_response.headers,
-              :body => pacto_response.body
-            )
-
-            request_pattern.stub(:with)
-
-            adapter.stub_request! contract
-          end
-
-          context 'when the response body is an array' do
-            let(:body) do
-              [1, 2, 3]
-            end
-
-            it 'stubs the response body with a json representation' do
-              pacto_response = Pacto::Consumer.build_response contract
-              stubbed_request.should_receive(:to_return).with(
-                :status => pacto_response.status,
-                :headers => pacto_response.headers,
-                :body => pacto_response.body
-              )
-
-              request_pattern.stub(:with)
-
-              adapter.stub_request! contract
-            end
-          end
-
-          context 'when the response body is not an object or an array' do
-            let(:body) { nil }
-
-            it 'stubs the response body with the original body' do
-              pacto_response = Pacto::Consumer.build_response contract
-              stubbed_request.should_receive(:to_return).with(
-                :status => pacto_response.status,
-                :headers => pacto_response.headers,
-                :body => pacto_response.body
-              )
-
-              request_pattern.stub(:with)
-
-              adapter.stub_request! contract
-            end
           end
 
           context 'a GET request' do

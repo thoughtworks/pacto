@@ -54,13 +54,16 @@ module Pacto
         stub = WebMock.stub_request(request_clause.method, uri_pattern)
 
         stub.request_pattern.with(strict_details(request_clause)) if Pacto.configuration.strict_matchers
-        response = Pacto::Consumer.actor.build_response contract
 
-        stub.to_return(
-          :status => response.status,
-          :headers => response.headers,
-          :body => format_body(response.body)
-        )
+        stub.to_return do |request|
+          pacto_request = Pacto::Adapters::WebMock::PactoRequest.new request
+          response = contract.response_for pacto_request
+          {
+            :status => response.status,
+            :headers => response.headers,
+            :body => format_body(response.body)
+          }
+        end
       end
 
       def self.reset!
