@@ -5,7 +5,7 @@ module Pacto
 
     def initialize(data)
       mash = Hashie::Mash.new data
-      @headers = mash.headers.to_h
+      @headers = mash.headers.nil? ? {} : mash.headers.to_h
       @body    = mash.body
       @status  = mash.status.to_i
     end
