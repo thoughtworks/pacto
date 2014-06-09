@@ -67,7 +67,7 @@ module Pacto
         contracts << contract_file
         print "#{contract_file.split('/').last}:"
         contract = Pacto.load_contract(contract_file, host)
-        validation = contract.validate_provider
+        validation = contract.simulate_request
 
         if validation.successful?
           puts Pacto::UI.green(' OK!')

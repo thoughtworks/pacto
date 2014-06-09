@@ -33,7 +33,7 @@ module Pacto
       adapter.stub_request!(self)
     end
 
-    def validate_provider(opts = {})
+    def simulate_request(opts = {})
       pacto_request, pacto_response = execute
       validate_response pacto_request, pacto_response, opts
     end

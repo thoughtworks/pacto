@@ -66,19 +66,19 @@ module Pacto
         end
       end
 
-      describe '#validate_provider' do
+      describe '#simulate_request' do
         before do
           allow(consumer_driver).to receive(:execute).with(an_instance_of(Pacto::PactoRequest)).and_return fake_response
         end
 
         it 'generates the response' do
           expect(consumer_driver).to receive(:execute).with(an_instance_of(Pacto::PactoRequest))
-          contract.validate_provider
+          contract.simulate_request
         end
 
         it 'returns the result of the validating the generated response' do
           expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
-          expect(contract.validate_provider).to eq validation
+          expect(contract.simulate_request).to eq validation
         end
       end
     end
