@@ -1,26 +1,41 @@
 module Pacto
   module Stubs
+    # FIXME: Review this test and see which requests are Pacto vs WebMock, then use Fabricate
     describe WebMockAdapter do
-      let(:middleware) { double }
+      let(:middleware) { double('middleware') }
 
       let(:request) do
-        double(
-          :host => 'http://localhost',
-          :method => method,
-          :path => '/hello_world',
-          :headers => {'Accept' => 'application/json'},
-          :params => {'foo' => 'bar'}
+        Fabricate(:request_clause,
+                  :host => 'http://localhost',
+                  :method => method,
+                  :path => '/hello_world',
+                  :headers => {'Accept' => 'application/json'},
+                  :params => {'foo' => 'bar'}
         )
       end
 
       let(:method) { :get }
 
       let(:response) do
-        double(
+        Fabricate(
+          :response_clause,
           :status => 200,
           :headers => {},
-          :body => body
+          :schema => {
+            type: 'object',
+            required: ['message'],
+            properties: {
+              message: {
+                type: 'string',
+                default: 'foo'
+              }
+            }
+          }
         )
+      end
+
+      let(:contract) do
+        Fabricate(:contract, :request => request, :response => response)
       end
 
       let(:body) do
@@ -38,11 +53,7 @@ module Pacto
       subject(:adapter) { WebMockAdapter.new middleware }
 
       before(:each) do
-        stubbed_request.stub(:to_return).with(
-          :status => response.status,
-          :headers => response.headers,
-          :body => response.body.to_json
-        )
+        allow(stubbed_request).to receive(:to_return).with(no_args)
         stubbed_request.stub(:request_pattern).and_return request_pattern
       end
 
@@ -52,8 +63,7 @@ module Pacto
             expect(block.parameters).to have(2).items
           end
 
-          # WebMockAdapter.new
-          Pacto.configuration.provider # this way the rpec after block doesn't create a second instance
+          Pacto.configuration.adapter # (rather than WebMockAdapter.new, to prevent rpec after block from creating a second instance
         end
       end
 
@@ -79,52 +89,6 @@ module Pacto
             {'message' => 'foo'}
           end
 
-          it 'stubs the response body with a json representation' do
-            stubbed_request.should_receive(:to_return).with(
-              :status => response.status,
-              :headers => response.headers,
-              :body => response.body.to_json
-            )
-
-            request_pattern.stub(:with)
-
-            adapter.stub_request! request, response
-          end
-
-          context 'when the response body is an array' do
-            let(:body) do
-              [1, 2, 3]
-            end
-
-            it 'stubs the response body with a json representation' do
-              stubbed_request.should_receive(:to_return).with(
-                :status => response.status,
-                :headers => response.headers,
-                :body => response.body.to_json
-              )
-
-              request_pattern.stub(:with)
-
-              adapter.stub_request! request, response
-            end
-          end
-
-          context 'when the response body is not an object or an array' do
-            let(:body) { nil }
-
-            it 'stubs the response body with the original body' do
-              stubbed_request.should_receive(:to_return).with(
-                :status => response.status,
-                :headers => response.headers,
-                :body => response.body
-              )
-
-              request_pattern.stub(:with)
-
-              adapter.stub_request! request, response
-            end
-          end
-
           context 'a GET request' do
             let(:method) { :get }
 
@@ -132,7 +96,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :query => request.params).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
@@ -143,18 +107,18 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:headers => request.headers, :body => request.params).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
           context 'a request with no headers' do
             let(:request) do
-              double(
-                :host => 'http://localhost',
-                :method => :get,
-                :path => '/hello_world',
-                :headers => {},
-                :params => {'foo' => 'bar'}
+              Fabricate(:request_clause,
+                        :host => 'http://localhost',
+                        :method => :get,
+                        :path => '/hello_world',
+                        :headers => {},
+                        :params => {'foo' => 'bar'}
               )
             end
 
@@ -162,18 +126,18 @@ module Pacto
               request_pattern.should_receive(:with).
                 with(:query => request.params).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
 
           context 'a request with no params' do
             let(:request) do
-              double(
-                :host => 'http://localhost',
-                :method => :get,
-                :path => '/hello_world',
-                :headers => {},
-                :params => {}
+              Fabricate(:request_clause,
+                        :host => 'http://localhost',
+                        :method => :get,
+                        :path => '/hello_world',
+                        :headers => {},
+                        :params => {}
               )
             end
 
@@ -181,7 +145,7 @@ module Pacto
               request_pattern.should_receive(:with).
                 with({}).
                 and_return(stubbed_request)
-              adapter.stub_request! request, response
+              adapter.stub_request! contract
             end
           end
         end

@@ -20,7 +20,7 @@ module Pacto
 
       def filter_request_headers(request, response)
         # FIXME: Do we need to handle all these cases in real situations, or just because of stubbing?
-        vary_headers = response.headers['Vary'] || []
+        vary_headers = response.headers['vary'] || response.headers['Vary'] || []
         vary_headers = [vary_headers] if vary_headers.is_a? String
         vary_headers = vary_headers.map do |h|
           h.split(',').map(&:strip)

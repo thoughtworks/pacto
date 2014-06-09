@@ -3,21 +3,7 @@ module Pacto
     let(:record_host) do
       'http://example.com'
     end
-    let(:request) do
-      Pacto::RequestClause.new(
-        host: record_host,
-        method: 'GET',
-        path: '/abcd',
-        headers: {
-          'Content-Length' => [1234],
-          'Via' => ['Some Proxy'],
-          'User-Agent' => ['rspec']
-        },
-        params: {
-          'apikey' => "<%= ENV['MY_API_KEY'] %>"
-        }
-      )
-    end
+    let(:request_clause) { Fabricate(:request_clause, :params => {'api_key' => "<%= ENV['MY_API_KEY'] %>"}) }
     let(:response_adapter) do
       Faraday::Response.new(
         :status => 200,
@@ -39,21 +25,23 @@ module Pacto
     let(:filters) { double :filters }
     let(:request_file) { 'request.json' }
     let(:generator) { described_class.new version, schema_generator, validator, filters }
+    let(:request_contract) do
+      Fabricate(:partial_contract, :request => request_clause, :file => request_file)
+    end
+    let(:request) do
+      Pacto.configuration.default_consumer.build_request request_contract
+    end
 
     def pretty(obj)
       MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
     end
 
     describe '#generate_from_partial_contract' do
-      let(:request_contract) do
-        double(
-          :request => request
-        )
-      end
-      let(:generated_contract) { double('generated contract') }
+      # TODO: Deprecate partial contracts?
+      let(:generated_contract) { Fabricate(:contract) }
       before do
         Pacto.should_receive(:load_contract).with(request_file, record_host).and_return request_contract
-        request.should_receive(:execute).and_return response_adapter
+        request_contract.should_receive(:execute).and_return([request, response_adapter])
       end
 
       it 'parses the request' do
@@ -104,13 +92,13 @@ module Pacto
 
         it 'sets the request attributes' do
           generated_request = subject['request']
-          expect(generated_request['params']).to eq(request.params)
-          expect(generated_request['path']).to eq(request.path)
+          expect(generated_request['params']).to eq(request.uri.query_values)
+          expect(generated_request['path']).to eq(request.uri.path)
         end
 
         it 'preserves ERB in the request params' do
           generated_request = subject['request']
-          expect(generated_request['params']['apikey']).to eq("<%= ENV['MY_API_KEY'] %>")
+          expect(generated_request['params']).to eq('api_key' => "<%= ENV['MY_API_KEY'] %>")
         end
 
         it 'normalizes the request method' do

@@ -16,7 +16,7 @@ module Pacto
       body_to_schema(definition, 'response', contract_path)
       request = RequestClause.new(definition['request'])
       response = ResponseClause.new(definition['response'])
-      Contract.new(request: request, response: response, file: contract_path, name: definition['name'])
+      Contract.new(request: request, response: response, file: contract_path, name: definition['name'], examples: definition['examples'])
     end
 
     private

@@ -1,0 +1,58 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/api/echo",
+    "schema": {
+      "type": "object",
+      "required": ["message"],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "required": ["message"],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "examples": {
+    "max": {
+      "request": {
+        "body": {
+          "message": "max"
+        }
+      },
+      "response": {
+        "body": {
+          "message": "max"
+        }
+      }
+    },
+    "12345": {
+      "request": {
+        "body": {
+          "message": 12345
+        }
+      },
+      "response": {
+        "body": {
+          "message": 12345
+        }
+      }
+    }
+  }
+}

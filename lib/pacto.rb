@@ -13,10 +13,16 @@ require 'logger'
 require 'hashie/dash'
 require 'hashie/extensions/coercion'
 
+require 'pacto/resettable'
 require 'pacto/logger'
 require 'pacto/ui'
 require 'pacto/request_pattern'
 require 'pacto/core/http_middleware'
+require 'pacto/consumer/faraday_driver'
+require 'pacto/consumer'
+require 'pacto/provider'
+require 'pacto/actors/json_generator'
+require 'pacto/actors/from_examples'
 require 'pacto/core/pacto_request'
 require 'pacto/core/pacto_response'
 require 'pacto/core/contract_registry'
@@ -64,11 +70,10 @@ module Pacto
     end
 
     def clear!
-      Pacto.configuration.provider.reset!
+      Pacto::Resettable.reset_all
       @modes = nil
       @configuration = nil
       @registry = nil
-      Pacto::ValidationRegistry.instance.reset!
     end
 
     def configure

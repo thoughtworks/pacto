@@ -36,8 +36,7 @@ module Pacto
 
     def generate_from_partial_contract(request_file, host)
       contract = Pacto.load_contract request_file, host
-      request = contract.request
-      response = contract.request.execute
+      request, response = contract.execute
       save(request_file, request, response)
     end
 
@@ -63,8 +62,8 @@ module Pacto
       {
         :headers => @filters.filter_request_headers(request, response),
         :method => request.method,
-        :params => request.params,
-        :path => request.path,
+        :params => request.uri.query_values,
+        :path => request.uri.path,
         :schema => generate_schema(source, request.body)
       }.delete_if { |k, v| v.nil? }
     end

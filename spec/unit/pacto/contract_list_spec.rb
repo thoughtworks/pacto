@@ -2,8 +2,8 @@ require 'spec_helper'
 
 module Pacto
   describe ContractList do
-    let(:contract1) { double(:contract_1) }
-    let(:contract2) { double(:contract_2) }
+    let(:contract1) { Fabricate(:contract) }
+    let(:contract2) { Fabricate(:contract, request: Fabricate(:request_clause, host: 'www2.example.com')) }
 
     it 'holds a list of contracts' do
       list = ContractList.new([contract1, contract2])

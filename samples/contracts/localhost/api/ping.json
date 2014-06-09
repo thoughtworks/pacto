@@ -22,5 +22,16 @@
         }
       }
     }
+  },
+  "examples": {
+    "default": {
+      "request": {
+      },
+      "response": {
+        "body": {
+          "ping": "pong - from the example!"
+        }
+      }
+    }
   }
 }

@@ -1,7 +1,8 @@
 module Pacto
   class Configuration
-    attr_accessor :provider, :strict_matchers,
-                  :contracts_path, :logger, :generator_options, :hide_deprecations
+    attr_accessor :adapter, :strict_matchers,
+                  :contracts_path, :logger, :generator_options,
+                  :hide_deprecations, :default_consumer, :default_provider
     attr_reader :hook
 
     def initialize
@@ -10,7 +11,9 @@ module Pacto
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
 
-      @provider = Stubs::WebMockAdapter.new(@middleware)
+      @default_consumer = Pacto::Consumer
+      @default_provider = Pacto::Provider
+      @adapter = Stubs::WebMockAdapter.new(@middleware)
       @strict_matchers = true
       @contracts_path = nil
       @logger = Logger::SimpleLogger.instance

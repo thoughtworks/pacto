@@ -2,10 +2,15 @@ module Pacto
   class ValidationRegistry
     include Singleton
     include Logger
+    include Resettable
     attr_reader :validations
 
     def initialize
       @validations = []
+    end
+
+    def self.reset!
+      instance.reset!
     end
 
     def reset!

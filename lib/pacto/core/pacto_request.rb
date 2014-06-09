@@ -1,12 +1,16 @@
+require 'hashie/mash'
+
 module Pacto
   class PactoRequest
-    attr_reader :headers, :body, :method, :uri
+    # FIXME: Need case insensitive header lookup, but case-sensitive storage
+    attr_accessor :headers, :body, :method, :uri
 
     def initialize(data)
-      @headers = data[:header]
-      @body    = data[:body]
-      @method  = data[:method]
-      @uri     = data[:uri]
+      mash = Hashie::Mash.new data
+      @headers = mash.headers.nil? ? {} : mash.headers
+      @body    = mash.body
+      @method  = mash[:method]
+      @uri     = mash.uri
     end
   end
 end

@@ -3,9 +3,5 @@ module Pacto
     property :status
     property :headers
     property :schema, default: {}
-
-    def body
-      @body ||= JSON::Generator.generate(schema)
-    end
   end
 end

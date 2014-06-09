@@ -1,11 +1,7 @@
 module Pacto
   describe ResponseClause do
     let(:body_definition) do
-      {
-        :type => 'object',
-        :required => true,
-        :properties => double('body definition properties')
-      }
+      Fabricate(:schema)
     end
 
     let(:definition) do
@@ -40,16 +36,5 @@ module Pacto
       expect(response.schema).to eq(Hash.new)
     end
 
-    describe 'the response body' do
-      let(:generated_body) { double }
-
-      it 'is the json generated from the schema' do
-        JSON::Generator.should_receive(:generate).
-          with(definition['schema']).
-          and_return(generated_body)
-
-        expect(response.body).to eq(generated_body)
-      end
-    end
   end
 end

@@ -12,8 +12,8 @@ Gem::Specification.new do |gem|
   gem.version       = Pacto::VERSION
   gem.authors       = ['ThoughtWorks & Abril']
   gem.email         = ['pacto-gem@googlegroups.com']
-  gem.description   = %q{Pacto is a judge that arbitrates contract disputes between a service provider and one or more consumers. In other words, it is a framework for Integration Contract Testing, and helps guide service evolution patterns like Consumer-Driven Contracts or Documentation-Driven Contracts.}
-  gem.summary       = %q{Integration Contract Testing framework}
+  gem.description   = %q(Pacto is a judge that arbitrates contract disputes between a service provider and one or more consumers. In other words, it is a framework for Integration Contract Testing, and helps guide service evolution patterns like Consumer-Driven Contracts or Documentation-Driven Contracts.)
+  gem.summary       = %q(Integration Contract Testing framework)
   gem.homepage      = 'http://thoughtworks.github.io/pacto/'
   gem.license       = 'MIT'
 
@@ -34,6 +34,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'term-ansicolor', '~> 1.3'
 
   gem.add_development_dependency 'coveralls', '~> 0'
+  gem.add_development_dependency 'fabrication', '~> 2.11'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'rake-notes', '~> 0'
   gem.add_development_dependency 'rspec', '~> 2.14'
@@ -43,7 +44,8 @@ Gem::Specification.new do |gem|
   # Only required to push documentation, and not easily installed on Windows
   # gem.add_development_dependency 'relish'
   gem.add_development_dependency 'guard-rspec', '~> 4.2'
-  gem.add_development_dependency 'rubocop', '~> 0.18', '>= 0.18.1'
+  # FIXME: Rubocop upgrade needed... rubocop -a will do most of the work
+  gem.add_development_dependency 'rubocop', '~> 0.18.0'
   gem.add_development_dependency 'guard-rubocop', '~> 1.0'
   gem.add_development_dependency 'guard-cucumber', '~> 1.4'
   gem.add_development_dependency 'rb-fsevent', '~> 0' if RUBY_PLATFORM =~ /darwin/i
