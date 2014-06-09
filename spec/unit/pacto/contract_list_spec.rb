@@ -28,7 +28,7 @@ module Pacto
         expect(contract2).to receive(:stub_contract!).with(values)
 
         list = ContractList.new([contract1, contract2])
-        list.stub_all(values)
+        list.stub_providers(values)
       end
     end
   end

@@ -22,7 +22,7 @@ describe 'pacto/rspec' do
   end
 
   def play_bad_response
-    contracts.stub_all(:device_id => 1.5)
+    contracts.stub_providers(:device_id => 1.5)
     Faraday.get('http://dummyprovider.com/strict') do |req|
       req.headers = {'Accept' => 'application/json' }
     end
@@ -39,7 +39,7 @@ describe 'pacto/rspec' do
         c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      contracts.stub_all(:device_id => 42)
+      contracts.stub_providers(:device_id => 42)
       Pacto.validate!
 
       Faraday.get('http://dummyprovider.com/hello') do |req|

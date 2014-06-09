@@ -6,7 +6,7 @@ module Pacto
       @contracts = contracts
     end
 
-    def stub_all(values = {})
+    def stub_providers(values = {})
       contracts.each { |contract| contract.stub_contract!(values) }
     end
 

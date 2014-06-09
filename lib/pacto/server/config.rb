@@ -7,7 +7,7 @@ def token_map
 end
 
 def prepare_contracts(contracts)
-  contracts.stub_all if options[:stub]
+  contracts.stub_providers if options[:stub]
 end
 
 config[:backend_host] = options[:backend_host]

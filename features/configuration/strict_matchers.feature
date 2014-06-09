@@ -50,7 +50,7 @@ Feature: Strict Matching
       Pacto.configure do |config|
         config.strict_matchers = strict
       end
-      Pacto.load_contracts('contracts', 'http://dummyprovider.com').stub_all
+      Pacto.load_contracts('contracts', 'http://dummyprovider.com').stub_providers
 
       def response url, headers
         begin

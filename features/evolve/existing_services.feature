@@ -42,7 +42,7 @@ Feature: Existing services journey
     end
 
     contracts = Pacto.load_contracts('contracts/www.example.com/', 'http://www.example.com')
-    contracts.stub_all
+    contracts.stub_providers
 
     puts Faraday.get('http://www.example.com/service1').body
     puts Faraday.get('http://www.example.com/service2').body
@@ -70,7 +70,7 @@ Feature: Existing services journey
       c.contracts_path = 'contracts'
     end
 
-    Pacto.load_contracts('contracts', 'http://www.example.com').stub_all
+    Pacto.load_contracts('contracts', 'http://www.example.com').stub_providers
     Pacto.validate!
 
     Faraday.get 'http://www.example.com/service1'

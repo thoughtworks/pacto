@@ -8,7 +8,7 @@ Feature: Templating
       Pacto.configure do |c|
         c.register_hook Pacto::Hooks::ERBHook.new
       end
-      Pacto.load_contracts('contracts', 'http://example.com').stub_all
+      Pacto.load_contracts('contracts', 'http://example.com').stub_providers
       """
     Given a file named "contracts/template.json" with:
       """json

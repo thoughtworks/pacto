@@ -23,7 +23,7 @@ describe 'Pacto' do
   context 'Stubbing a collection of contracts' do
     it 'generates a server that stubs the contract for consumers' do
       contracts = Pacto.load_contracts(contract_path, 'http://dummyprovider.com')
-      contracts.stub_all
+      contracts.stub_providers
 
       response = get_json('http://dummyprovider.com/hello')
       expect(response['message']).to eq 'bar'
@@ -38,7 +38,7 @@ describe 'Pacto' do
       end
 
       contracts = Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
-      contracts.stub_all(:device_id => 42)
+      contracts.stub_providers(:device_id => 42)
 
       login_response = get_json('http://dummyprovider.com/hello')
       expect(login_response.keys).to eq ['message']

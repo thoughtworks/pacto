@@ -110,18 +110,18 @@ To generate stubs based on a ContractList you can run:
 
 ```ruby
 contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
-contracts.stub_all
+contracts.stub_providers
 ```
 
 This method uses webmock to ensure that whenever you make a request against one of contracts you actually get a stubbed response,
 based on the default values specified on the contract, instead of hitting the real provider. 
 
-You can override any default value on the contracts by providing a hash of optional values to the stub_all method. This
+You can override any default value on the contracts by providing a hash of optional values to the stub_providers method. This
 will override the keys for every contract in the list
 
 ```ruby
 contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
-contracts.stub_all(request_id: 14, name: "Marcos")
+contracts.stub_providers(request_id: 14, name: "Marcos")
 ```
 
 ## Pacto Server (non-Ruby usage)

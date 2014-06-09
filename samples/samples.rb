@@ -58,7 +58,7 @@ contracts.simulate_consumers
 
 # # Stubbing providers for consumer testing
 # We can also use Pacto to stub the service based on the contract.
-contracts.stub_all
+contracts.stub_providers
 # The stubbed data won't be very realistic, the default behavior is to return the simplest data
 # that complies with the schema.  That basically means that you'll have "bar" for every string.
 response = conn.get '/api/ping'
@@ -77,7 +77,7 @@ RSpec.configure do |c|
 end
 
 # Load your contracts, and stub them if you'd like.
-Pacto.load_contracts('contracts', 'http://localhost:5000').stub_all
+Pacto.load_contracts('contracts', 'http://localhost:5000').stub_providers
 # You can turn on validation mode so Pacto will detect and validate HTTP requests.
 Pacto.validate!
 
