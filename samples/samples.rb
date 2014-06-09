@@ -54,7 +54,7 @@ puts response.body
 # but if the service has made a change, or if you alter the contract with new expectations,
 # then you will see a contract validation message.
 contracts = Pacto.load_contracts('contracts', 'http://localhost:5000')
-contracts.validate_all
+contracts.simulate_consumers
 
 # # Stubbing providers for consumer testing
 # We can also use Pacto to stub the service based on the contract.

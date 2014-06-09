@@ -10,7 +10,7 @@ module Pacto
       contracts.each { |contract| contract.stub_contract!(values) }
     end
 
-    def validate_all
+    def simulate_consumers
       contracts.map { |contract| contract.simulate_request }
     end
   end

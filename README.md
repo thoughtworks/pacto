@@ -94,7 +94,7 @@ Once you have a ContractList, you can validate all the contracts against the liv
 
 ```ruby
 contracts = Pacto.load_contracts('contracts/services', 'http://example.com')
-contracts.validate_all
+contracts.simulate_consumers
 ```
 
 This method will hit the real endpoint, with a request created based on the request part of the contract.  

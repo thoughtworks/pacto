@@ -16,7 +16,7 @@ module Pacto
         expect(contract2).to receive(:simulate_request)
 
         list = ContractList.new([contract1, contract2])
-        list.validate_all
+        list.simulate_consumers
       end
     end
 
