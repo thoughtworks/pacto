@@ -7,7 +7,7 @@ module Pacto
     let(:validation_results_with_errors) { ['an error occurred'] }
 
     before(:each) do
-      allow(contract).to receive(:validate_consumer)
+      allow(contract).to receive(:validate_response)
     end
 
     it 'stores the request, response, contract and results' do

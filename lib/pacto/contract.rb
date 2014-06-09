@@ -35,11 +35,11 @@ module Pacto
 
     def validate_provider(opts = {})
       pacto_request, pacto_response = execute
-      validate_consumer pacto_request, pacto_response, opts
+      validate_response pacto_request, pacto_response, opts
     end
 
     # Should this be deprecated?
-    def validate_consumer(request, response, opts = {})
+    def validate_response(request, response, opts = {})
       Pacto::ContractValidator.validate_contract request, response, self, opts
     end
 
