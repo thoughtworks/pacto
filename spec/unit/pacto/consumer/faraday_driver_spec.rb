@@ -1,5 +1,5 @@
 module Pacto
-  module Consumer
+  class Consumer
     describe FaradayDriver do
       subject(:strategy) { described_class.new }
       let(:get_request)  { Fabricate(:pacto_request, method: :get,  host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}) }

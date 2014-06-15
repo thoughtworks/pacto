@@ -1,5 +1,5 @@
 module Pacto
-  module Provider
+  class Provider
     include Resettable
 
     def self.reset!

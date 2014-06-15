@@ -1,5 +1,5 @@
 module Pacto
-  module Consumer
+  class Consumer
     include Resettable
 
     def self.reset!

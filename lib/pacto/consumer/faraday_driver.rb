@@ -1,5 +1,5 @@
 module Pacto
-  module Consumer
+  class Consumer
     class FaradayDriver
       # Sends a Pacto::PactoRequest
       def execute(req)
