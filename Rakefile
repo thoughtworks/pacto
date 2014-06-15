@@ -36,6 +36,7 @@ end
 
 desc 'Run the samples'
 task :samples do
+  FileUtils.rm_rf('samples/tmp')
   Dir.chdir('samples') do
     Bundler.with_clean_env do
       system 'bundle install'
