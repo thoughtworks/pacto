@@ -27,7 +27,7 @@ module Pacto
             @dummy_contract = dummy_contract
           end
 
-          def build_from_file(contract_path, host)
+          def build_from_file(_contract_path, _host)
             @dummy_contract
           end
         end
@@ -49,7 +49,7 @@ module Pacto
             @contracts = contracts
           end
 
-          def build_from_file(contract_path, host)
+          def build_from_file(_contract_path, _host)
             @contracts
           end
         end

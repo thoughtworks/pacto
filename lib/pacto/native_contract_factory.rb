@@ -23,10 +23,10 @@ module Pacto
 
     def body_to_schema(definition, section, file)
       schema = definition[section].delete 'body'
-      if schema
-        Pacto::UI.deprecation "Contract format deprecation: #{section}:body will be moved to #{section}:schema (#{file})"
-        definition[section]['schema'] = schema
-      end
+      return nil unless schema
+
+      Pacto::UI.deprecation "Contract format deprecation: #{section}:body will be moved to #{section}:schema (#{file})"
+      definition[section]['schema'] = schema
     end
   end
 end

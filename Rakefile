@@ -11,8 +11,7 @@ Coveralls::RakeTask.new
 require 'pacto/rake_task' # FIXME: This require turns on WebMock
 WebMock.allow_net_connect!
 
-Rubocop::RakeTask.new(:rubocop) do |task|
-  # abort rake on failure
+RuboCop::RakeTask.new(:rubocop) do |task|
   task.fail_on_error = true
 end
 

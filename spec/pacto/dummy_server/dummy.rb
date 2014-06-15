@@ -22,7 +22,7 @@ module Pacto
 
     class Dummy
       def initialize(port, path, response)
-        log_file = File.exists?('/dev/null') ? '/dev/null' : Tempfile.new('log') # So tests run on Windows
+        log_file = File.exist?('/dev/null') ? '/dev/null' : Tempfile.new('log') # So tests run on Windows
         params = {
           :Port => port,
           :AccessLog => [],

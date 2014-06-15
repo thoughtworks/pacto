@@ -28,7 +28,7 @@ module Pacto
 
       private
 
-      HeaderValidatorMap = Hash.new do |map, key|
+      HeaderValidatorMap = Hash.new do |_map, key|
         proc do |expected_value, actual_value|
           unless expected_value.eql? actual_value
             "Invalid response header #{key}: expected #{expected_value.inspect} but received #{actual_value.inspect}"

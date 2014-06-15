@@ -3,7 +3,7 @@ module Pacto
     class API < Goliath::API
       use ::Rack::ContentLength
 
-      def initialize(opts = {})
+      def initialize(_opts = {})
         @original_pwd = Dir.pwd
       end
 
@@ -23,16 +23,16 @@ module Pacto
         options[:config] ||= File.expand_path('../config.rb', __FILE__)
         options[:strip_port] ||= true
 
-        opts.on('-l', '--live', 'Send requests to live services (instead of stubs)') { |val| options[:live] = true }
-        opts.on('--stub', 'Stub responses based on contracts') { |val| options[:stub] = true }
-        opts.on('-g', '--generate', 'Generate Contracts from requests') { |val| options[:generate] = true }
-        opts.on('-V', '--validate', 'Validate requests/responses against Contracts') { |val| options[:validate] = true }
-        opts.on('-m', '--match-strict', 'Enforce strict request matching rules') { |val| options[:strict] = true }
+        opts.on('-l', '--live', 'Send requests to live services (instead of stubs)') { |_val| options[:live] = true }
+        opts.on('--stub', 'Stub responses based on contracts') { |_val| options[:stub] = true }
+        opts.on('-g', '--generate', 'Generate Contracts from requests') { |_val| options[:generate] = true }
+        opts.on('-V', '--validate', 'Validate requests/responses against Contracts') { |_val| options[:validate] = true }
+        opts.on('-m', '--match-strict', 'Enforce strict request matching rules') { |_val| options[:strict] = true }
         opts.on('-x', '--contracts_dir DIR', 'Directory that contains the contracts to be registered') { |val| options[:directory] = File.expand_path(val, @original_pwd) }
         opts.on('-H', '--host HOST', 'Host of the real service, for generating or validating live requests') { |val| options[:backend_host] = val }
-        opts.on('-r', '--recursive-loading', 'Load contracts from folders named after the host to be stubbed') { |val| options[:recursive_loading] = true }
-        opts.on('--strip-port', 'Strip the port from the request URI to build the proxied URI') { |val| options[:strip_port] = true }
-        opts.on('--strip-dev', 'Strip .dev from the request domain to build the proxied URI') { |val| options[:strip_dev] = true }
+        opts.on('-r', '--recursive-loading', 'Load contracts from folders named after the host to be stubbed') { |_val| options[:recursive_loading] = true }
+        opts.on('--strip-port', 'Strip the port from the request URI to build the proxied URI') { |_val| options[:strip_port] = true }
+        opts.on('--strip-dev', 'Strip .dev from the request domain to build the proxied URI') { |_val| options[:strip_dev] = true }
       end
 
       def response(env)
@@ -60,7 +60,7 @@ module Pacto
           :head => filter_request_headers(env),
           :query => env['QUERY_STRING'],
           :body => env['async-body']
-        }.delete_if { | k, v | v.nil? }
+        }.delete_if { | _k, v | v.nil? }
         EventMachine::HttpRequest.new(uri).send(em_request_method, em_request_options)
       end
 
@@ -68,7 +68,7 @@ module Pacto
         fail resp.error if resp.error
 
         code = resp.response_header.http_status
-        safe_response_headers = normalize_headers(resp.response_header).reject { |k, v| %w{connection content-encoding content-length transfer-encoding}.include? k.downcase }
+        safe_response_headers = normalize_headers(resp.response_header).reject { |k, _v| %w(connection content-encoding content-length transfer-encoding).include? k.downcase }
         body = proxy_rewrite(resp.response)
 
         env.logger.debug "response headers: #{safe_response_headers}"
@@ -96,7 +96,7 @@ module Pacto
 
       def filter_request_headers(env)
         headers = env['client-headers']
-        safe_headers = headers.reject { |k, v| %w{host content-length transfer-encoding}.include? k.downcase }
+        safe_headers = headers.reject { |k, _v| %w(host content-length transfer-encoding).include? k.downcase }
         env.logger.debug "filtered headers: #{safe_headers}"
         safe_headers
       end
@@ -106,13 +106,12 @@ module Pacto
       end
 
       def normalize_headers(headers)
-        headers.reduce({}) do |res, elem|
+        headers.each_with_object({}) do |elem, res|
           key = elem.first.dup
           value = elem.last
           key.gsub!('_', '-')
           key = key.split('-').map { |w| w.capitalize }.join '-'
           res[key] = value
-          res
         end
       end
 

@@ -42,6 +42,6 @@ end
 Pacto.validate! if options[:validate]
 
 if options[:live]
-#  WebMock.reset!
+  #  WebMock.reset!
   WebMock.allow_net_connect!
 end

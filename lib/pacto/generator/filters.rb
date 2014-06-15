@@ -1,20 +1,20 @@
 module Pacto
   class Generator
     class Filters
-      CONNECTION_CONTROL_HEADERS = %w{
+      CONNECTION_CONTROL_HEADERS = %w(
         Via
         Server
         Connection
         Transfer-Encoding
         Content-Length
-      }
+      )
 
       FRESHNESS_HEADERS =
-      %w{
+      %w(
         Date
         Last-Modified
         ETag
-      }
+      )
 
       HEADERS_TO_FILTER = CONNECTION_CONTROL_HEADERS + FRESHNESS_HEADERS
 
@@ -31,7 +31,7 @@ module Pacto
         end
       end
 
-      def filter_response_headers(request, response)
+      def filter_response_headers(_request, response)
         Pacto::Extensions.normalize_header_keys(response.headers).reject do |header|
           (HEADERS_TO_FILTER.include? header) || (header.start_with?('X-'))
         end

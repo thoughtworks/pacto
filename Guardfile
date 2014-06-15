@@ -13,7 +13,7 @@ group :tests, halt_on_fail: true do
   guard :rspec, cmd: 'bundle exec rspec' do
     # Unit tests
     watch(%r{^spec/unit/.+_spec\.rb$})
-    watch(/^lib\/(.+)\.rb$/)             { |m| 'spec/unit/#{m[1]}_spec.rb' }
+    watch(/^lib\/(.+)\.rb$/)             { |_m| 'spec/unit/#{m[1]}_spec.rb' }
     watch('spec/spec_helper.rb')         { 'spec/unit' }
     watch('spec/unit/spec_helper.rb')    { 'spec/unit' }
     watch(%r{^spec/unit/data/.+\.json$}) { 'spec/unit' }
@@ -30,6 +30,6 @@ group :tests, halt_on_fail: true do
   guard :cucumber, cmd: 'bundle exec cucumber', all_on_start: false do
     watch(/^features\/.+\.feature$/)
     watch(%r{^features/support/.+$})                      { 'features' }
-    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join('**/#{m[1]}.feature')][0] || 'features' }
+    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |_m| Dir[File.join('**/#{m[1]}.feature')][0] || 'features' }
   end
 end

@@ -44,8 +44,8 @@ Gem::Specification.new do |gem|
   # gem.add_development_dependency 'relish'
   gem.add_development_dependency 'guard-rspec', '~> 4.2'
   # FIXME: Rubocop upgrade needed... rubocop -a will do most of the work
-  gem.add_development_dependency 'rubocop', '~> 0.18.0'
-  gem.add_development_dependency 'rubocop-rspec', '~> 0.18.0'
+  gem.add_development_dependency 'rubocop', '~> 0.23'
+  gem.add_development_dependency 'rubocop-rspec', '~> 1.0.rc3'
   gem.add_development_dependency 'guard-rubocop', '~> 1.0'
   gem.add_development_dependency 'guard-cucumber', '~> 1.4'
   gem.add_development_dependency 'rb-fsevent', '~> 0' if RUBY_PLATFORM =~ /darwin/i

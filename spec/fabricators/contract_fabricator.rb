@@ -13,10 +13,9 @@ Fabricator(:contract, from: Pacto::Contract) do
   examples do |attr|
     example_count = attr[:example_count]
     if example_count
-      examples = attr[:example_count].times.reduce({}) do |h, i|
+      examples = attr[:example_count].times.each_with_object({}) do |i, h|
         name = i.to_s
         h[name] = Fabricate(:an_example, name: name)
-        h
       end
       examples
     else

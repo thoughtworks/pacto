@@ -21,7 +21,7 @@ module Pacto
 
     def validate_task
       desc 'Validates all contracts in a given directory against a given host'
-      task :validate, :host, :dir do |t, args|
+      task :validate, :host, :dir do |_t, args|
         if args.to_a.size < 2
           fail Pacto::UI.yellow('USAGE: rake pacto:validate[<host>, <contract_dir>]')
         end
@@ -32,7 +32,7 @@ module Pacto
 
     def generate_task
       desc 'Generates contracts from partial contracts'
-      task :generate, :input_dir, :output_dir, :host do |t, args|
+      task :generate, :input_dir, :output_dir, :host do |_t, args|
         if args.to_a.size < 3
           fail Pacto::UI.yellow('USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]')
         end
@@ -45,7 +45,7 @@ module Pacto
     # rubocop:disable MethodLength
     def meta_validate
       desc 'Validates a directory of contract definitions'
-      task :meta_validate, :dir do |t, args|
+      task :meta_validate, :dir do |_t, args|
         if args.to_a.size < 1
           fail Pacto::UI.yellow('USAGE: rake pacto:meta_validate[<contract_dir>]')
         end

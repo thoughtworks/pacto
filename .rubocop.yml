@@ -1,4 +1,6 @@
 inherit_from: .rubocop-todo.yml
+# Uncomment once rubocop-rspec 1.0 is released...
+# require: rubocop-rspec
 
 AllCops:
   Include:

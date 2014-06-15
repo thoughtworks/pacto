@@ -59,7 +59,7 @@ module Pacto
 
       describe '#initialize' do
         it 'sets up a hook' do
-          expect(WebMock).to receive(:after_request) do | arg, &block |
+          expect(WebMock).to receive(:after_request) do | _arg, &block |
             expect(block.parameters.size).to eq(2)
           end
 
@@ -78,7 +78,7 @@ module Pacto
 
       describe '#stub_request!' do
         before(:each) do
-          expect(WebMock).to receive(:stub_request) do | method, url |
+          expect(WebMock).to receive(:stub_request) do | _method, url |
             stubbed_request[:path] = url
             stubbed_request
           end

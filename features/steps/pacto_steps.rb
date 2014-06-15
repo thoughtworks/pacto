@@ -1,19 +1,19 @@
 Given(/^Pacto is configured with:$/) do |string|
-  steps %Q{
+  steps %Q(
     Given a file named "pacto_config.rb" with:
     """ruby
     #{string}
     """
-  }
+  )
 end
 
 Given(/^I have a Rakefile$/) do
-  steps %Q{
+  steps %Q(
     Given a file named "Rakefile" with:
     """ruby
     require 'pacto/rake_task'
     """
-  }
+  )
 end
 
 When(/^I request "(.*?)"$/) do |url|
@@ -36,7 +36,7 @@ end
 Given(/^an existing set of services$/) do
   WebMock.stub_request(:get, 'www.example.com/service1').to_return(:body => {'thoughtworks' => 'pacto' }.to_json)
   WebMock.stub_request(:post, 'www.example.com/service1').with(:body => 'thoughtworks').to_return(:body => 'pacto')
-  WebMock.stub_request(:get, 'www.example.com/service2').to_return(:body => {'service2' => %w{'thoughtworks', 'pacto'} }.to_json)
+  WebMock.stub_request(:get, 'www.example.com/service2').to_return(:body => {'service2' => %w('thoughtworks', 'pacto') }.to_json)
   WebMock.stub_request(:post, 'www.example.com/service2').with(:body => 'thoughtworks').to_return(:body => 'pacto')
 end
 
@@ -54,7 +54,7 @@ When(/^I execute:$/) do |script|
       end
 eof
       eval(script) # rubocop:disable Eval
-                   # It's just for testing...
+    # It's just for testing...
 
     rescue SyntaxError => e
       raise e

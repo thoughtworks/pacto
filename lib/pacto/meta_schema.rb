@@ -18,9 +18,7 @@ module Pacto
 
     def validate(definition)
       errors = engine.fully_validate(schema, definition)
-      unless errors.empty?
-        fail InvalidContract, errors
-      end
+      fail InvalidContract, errors unless errors.empty?
     end
   end
 end

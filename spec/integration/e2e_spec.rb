@@ -13,7 +13,7 @@ describe 'Pacto' do
       end
     end
 
-    it 'verifies the contract against a producer' do
+    it 'should verify the contract against a producer' do
       # FIXME: Does this really test what it says it does??
       contract = Pacto.load_contracts(contract_path, 'http://localhost:8000')
       expect(contract.simulate_consumers.map(&:successful?).uniq).to eq([true])

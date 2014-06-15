@@ -1,5 +1,5 @@
 describe Pacto do
-  modes = %w{generate validate}
+  modes = %w(generate validate)
   modes.each do |mode|
     enable_method = "#{mode}!".to_sym # generate!
     query_method = "#{mode[0..-2]}ing?".to_sym # generating?

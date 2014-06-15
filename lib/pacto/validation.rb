@@ -15,24 +15,24 @@ module Pacto
     end
 
     def against_contract?(contract_pattern)
-      unless @contract.nil?
-        case contract_pattern
-        when String
-          @contract if @contract.file.eql? contract_pattern
-        when Regexp
-          @contract if @contract.file =~ contract_pattern
-        end
+      return nil if @contract.nil?
+
+      case contract_pattern
+      when String
+        @contract if @contract.file.eql? contract_pattern
+      when Regexp
+        @contract if @contract.file =~ contract_pattern
       end
     end
 
     def to_s
       contract_name = @contract.nil? ? 'nil' : contract.name
-      """
+      ''"
       Validation:
       \tRequest: #{@request}
       \tContract: #{contract_name}
       \tResults: \n\t\t#{@results.join "\n\t\t"}
-      """
+      "''
     end
 
     def summary

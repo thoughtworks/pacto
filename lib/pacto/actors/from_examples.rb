@@ -1,12 +1,12 @@
 module Pacto
   module Actors
     class FirstExampleSelector
-      def self.select(examples, values)
+      def self.select(examples, _values)
         Hashie::Mash.new examples.values.first
       end
     end
     class RandomExampleSelector
-      def self.select(examples, values)
+      def self.select(examples, _values)
         Hashie::Mash.new examples.values.sample
       end
     end

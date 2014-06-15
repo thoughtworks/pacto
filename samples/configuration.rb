@@ -15,7 +15,7 @@ Pacto.configure do |c|
   c.logger = Pacto::Logger::SimpleLogger.instance
   # (Deprecated) You can specify a callback for post-processing responses.  Note that only one hook
   # can be active, and specifying your own will disable ERB post-processing.
-  c.register_hook do |contracts, request, response|
+  c.register_hook do |_contracts, request, _response|
     puts "Received #{request}"
   end
   # Options to pass to the [json-schema-generator](https://github.com/maxlinc/json-schema-generator) while generating contracts.

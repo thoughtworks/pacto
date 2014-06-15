@@ -9,7 +9,7 @@ module Pacto
             'my_section'
           end
 
-          def subschema(contract)
+          def subschema(_contract)
             @subschema
           end
         end

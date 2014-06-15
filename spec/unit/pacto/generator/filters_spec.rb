@@ -63,7 +63,7 @@ module Pacto
           end
           context 'as multiple items' do
             let(:varies) do
-              %w{User-Agent Via}
+              %w(User-Agent Via)
             end
             it 'keeps each header' do
               expect(filtered_request_headers).to include 'user-agent'

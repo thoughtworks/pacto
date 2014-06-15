@@ -5,7 +5,7 @@ module Pacto
       def execute(req)
         conn = Faraday.new(:url => req.uri.to_s) do |faraday|
           faraday.response :logger if Pacto.configuration.logger.level == :debug
-          faraday.adapter  Faraday.default_adapter
+          faraday.adapter Faraday.default_adapter
         end
 
         response = conn.send(req.method) do |faraday_request|

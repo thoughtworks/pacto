@@ -9,7 +9,7 @@ module Pacto
         @body = attributes.fetch(:body, nil)
       end
 
-      def do_GET(request, response) # rubocop:disable MethodName
+      def do_GET(_request, response) # rubocop:disable MethodName
         response.status = status
         headers.each do |key, value|
           response[key] = value

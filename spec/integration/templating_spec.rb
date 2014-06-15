@@ -12,9 +12,9 @@ describe 'Templating' do
 
     raw_response = Faraday.get('http://dummyprovider.com/echo') do |req|
       req.headers = {
-      'Accept' => 'application/json',
-      'Custom-Auth-Token' => "#{auth_token}",
-      'X-Message' => "#{key}"
+        'Accept' => 'application/json',
+        'Custom-Auth-Token' => "#{auth_token}",
+        'X-Message' => "#{key}"
       }
     end
     MultiJson.load(raw_response.body)
@@ -28,7 +28,7 @@ describe 'Templating' do
     it 'does not proccess erb tag' do
       Pacto.configure do |c|
         c.strict_matchers = false
-        c.register_hook do |contracts, req, res|
+        c.register_hook do |_contracts, _req, res|
           res
         end
       end

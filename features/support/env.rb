@@ -22,7 +22,7 @@ World do
   PactoWorld.new
 end
 
-Around do | scenario, block |
+Around do | _scenario, block |
   # This is a cucumber bug (see cucumber #640)
   world = self || PactoWorld.new
   world.run_pacto do

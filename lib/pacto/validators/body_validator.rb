@@ -5,7 +5,7 @@ module Pacto
         fail 'section name should be provided by subclass'
       end
 
-      def self.subschema(contract)
+      def self.subschema(_contract)
         fail 'override to return the proper subschema the contract'
       end
 
@@ -16,8 +16,6 @@ module Pacto
           validate_as_json(schema, body)
         end || []
       end
-
-      private
 
       def self.validate_as_json(schema, body)
         body = body.body if body.respond_to? :body
