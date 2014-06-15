@@ -8,8 +8,8 @@ rescue LoadError
 end
 
 RSpec::Matchers.define :have_unmatched_requests do |method, uri|
-  @unmatched_validations = Pacto::ValidationRegistry.instance.unmatched_validations
   match do
+    @unmatched_validations = Pacto::ValidationRegistry.instance.unmatched_validations
     !@unmatched_validations.empty?
   end
 
@@ -24,8 +24,8 @@ RSpec::Matchers.define :have_unmatched_requests do |method, uri|
 end
 
 RSpec::Matchers.define :have_failed_validations do |method, uri|
-  @failed_validations = Pacto::ValidationRegistry.instance.failed_validations
   match do
+    @failed_validations = Pacto::ValidationRegistry.instance.failed_validations
     !@failed_validations.empty?
   end
 
@@ -39,8 +39,9 @@ RSpec::Matchers.define :have_failed_validations do |method, uri|
 end
 
 RSpec::Matchers.define :have_validated do |method, uri|
-  @request_pattern = WebMock::RequestPattern.new(method, uri)
   match do
+    @request_pattern = WebMock::RequestPattern.new(method, uri)
+    @request_pattern.with(@options) if @options
     validated? @request_pattern
   end
 
@@ -49,7 +50,7 @@ RSpec::Matchers.define :have_validated do |method, uri|
   end
 
   chain :with do |options|
-    @request_pattern.with options
+    @options = options
   end
 
   def validated?(request_pattern)

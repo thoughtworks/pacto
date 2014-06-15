@@ -86,7 +86,7 @@ module Pacto
         it 'does not raise any exceptions' do
           expect do
             schema.validate(valid_contract)
-          end.to_not raise_error(Exception)
+          end.to_not raise_error
         end
       end
 

@@ -54,13 +54,13 @@ module Pacto
 
       before(:each) do
         allow(stubbed_request).to receive(:to_return).with(no_args)
-        stubbed_request.stub(:request_pattern).and_return request_pattern
+        allow(stubbed_request).to receive(:request_pattern).and_return request_pattern
       end
 
       describe '#initialize' do
         it 'sets up a hook' do
-          WebMock.should_receive(:after_request) do | arg, &block |
-            expect(block.parameters).to have(2).items
+          expect(WebMock).to receive(:after_request) do | arg, &block |
+            expect(block.parameters.size).to eq(2)
           end
 
           Pacto.configuration.adapter # (rather than WebMockAdapter.new, to prevent rpec after block from creating a second instance
@@ -78,7 +78,7 @@ module Pacto
 
       describe '#stub_request!' do
         before(:each) do
-          WebMock.should_receive(:stub_request) do | method, url |
+          expect(WebMock).to receive(:stub_request) do | method, url |
             stubbed_request[:path] = url
             stubbed_request
           end
@@ -93,7 +93,7 @@ module Pacto
             let(:method) { :get }
 
             it 'uses WebMock to stub the request' do
-              request_pattern.should_receive(:with).
+              expect(request_pattern).to receive(:with).
                 with(:headers => request.headers, :query => request.params).
                 and_return(stubbed_request)
               adapter.stub_request! contract
@@ -104,7 +104,7 @@ module Pacto
             let(:method) { :post }
 
             it 'uses WebMock to stub the request' do
-              request_pattern.should_receive(:with).
+              expect(request_pattern).to receive(:with).
                 with(:headers => request.headers, :body => request.params).
                 and_return(stubbed_request)
               adapter.stub_request! contract
@@ -123,7 +123,7 @@ module Pacto
             end
 
             it 'uses WebMock to stub the request' do
-              request_pattern.should_receive(:with).
+              expect(request_pattern).to receive(:with).
                 with(:query => request.params).
                 and_return(stubbed_request)
               adapter.stub_request! contract
@@ -142,7 +142,7 @@ module Pacto
             end
 
             it 'uses WebMock to stub the request' do
-              request_pattern.should_receive(:with).
+              expect(request_pattern).to receive(:with).
                 with({}).
                 and_return(stubbed_request)
               adapter.stub_request! contract

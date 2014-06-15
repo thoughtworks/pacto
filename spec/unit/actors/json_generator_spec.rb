@@ -61,7 +61,7 @@ module Pacto
               }
             }
           end
-          pending 'draft4 is not supported by JSONGenerator'
+          skip 'draft4 is not supported by JSONGenerator'
           # include_examples 'uses defaults'
         end
       end
@@ -95,7 +95,7 @@ module Pacto
               }
             }
           end
-          pending 'draft4 is not supported by JSONGenerator'
+          skip 'draft4 is not supported by JSONGenerator'
           # include_examples 'uses dumb values'
         end
       end

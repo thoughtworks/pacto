@@ -30,7 +30,7 @@ module Pacto
           let(:schema) { nil }
 
           it 'gives no errors without validating body' do
-            JSON::Validator.should_not_receive(:fully_validate)
+            expect(JSON::Validator).not_to receive(:fully_validate)
             expect(validator.validate(contract, fake_interaction)).to be_empty
           end
         end

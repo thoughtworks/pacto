@@ -6,9 +6,9 @@ require 'pacto/dummy_server'
 require 'fabrication'
 require 'stringio'
 require 'rspec'
-require 'should_not/rspec'
 
 RSpec.configure do |config|
+  config.raise_errors_for_deprecations!
   config.include Pacto::TestHelper
   config.include Pacto::DummyServer::JRubyWorkaroundHelper
   config.expect_with :rspec do |c|

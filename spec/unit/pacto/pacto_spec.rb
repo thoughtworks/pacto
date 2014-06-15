@@ -21,7 +21,7 @@ describe Pacto do
         mock_validation []
         success = Pacto.validate_contract 'my_contract.json'
         expect(output).to eq 'Validating my_contract.json'
-        expect(success).to be_true
+        expect(success).to be true
       end
     end
 
@@ -30,13 +30,13 @@ describe Pacto do
         mock_validation ['Error 1']
         success = Pacto.validate_contract 'my_contract.json'
         expect(output).to match(/error/)
-        expect(success).to be_false
+        expect(success).to be_falsey
       end
 
       it 'displays several error messages and return false' do
         mock_validation ['Error 1', 'Error 2']
         success = Pacto.validate_contract 'my_contract.json'
-        expect(success).to be_false
+        expect(success).to be_falsey
       end
     end
   end

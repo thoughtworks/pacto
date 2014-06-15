@@ -39,7 +39,7 @@ module Pacto
 
     describe '#stub_contract!' do
       it 'register a stub for the contract' do
-        adapter.should_receive(:stub_request!).with(contract)
+        expect(adapter).to receive(:stub_request!).with(contract)
         contract.stub_contract!
       end
     end
@@ -61,7 +61,7 @@ module Pacto
         end
 
         it 'does not generate another response' do
-          consumer_driver.should_not_receive :execute
+          expect(consumer_driver).not_to receive :execute
           contract.validate_response request, fake_response
         end
       end

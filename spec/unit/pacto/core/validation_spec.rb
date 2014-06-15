@@ -25,7 +25,7 @@ module Pacto
 
       describe '#successful?' do
         it 'returns false' do
-          expect(validation.successful?).to be_false
+          expect(validation.successful?).to be_falsey
         end
       end
     end
@@ -36,7 +36,7 @@ module Pacto
       end
 
       it 'returns false' do
-        expect(validation.successful?).to be_true
+        expect(validation.successful?).to be true
       end
     end
 

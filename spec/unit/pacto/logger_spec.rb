@@ -9,27 +9,27 @@ module Pacto
       let(:logger_lib) { ::Logger.new(StringIO.new) }
 
       it 'delegates debug to the logger lib' do
-        logger_lib.should_receive(:debug)
+        expect(logger_lib).to receive(:debug)
         logger.debug
       end
 
       it 'delegates info to the logger lib' do
-        logger_lib.should_receive(:info)
+        expect(logger_lib).to receive(:info)
         logger.info
       end
 
       it 'delegates warn to the logger lib' do
-        logger_lib.should_receive(:warn)
+        expect(logger_lib).to receive(:warn)
         logger.warn
       end
 
       it 'delegates error to the logger lib' do
-        logger_lib.should_receive(:error)
+        expect(logger_lib).to receive(:error)
         logger.error
       end
 
       it 'delegates fatal to the logger lib' do
-        logger_lib.should_receive(:error)
+        expect(logger_lib).to receive(:error)
         logger.error
       end
 

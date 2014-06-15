@@ -40,48 +40,48 @@ module Pacto
       # TODO: Deprecate partial contracts?
       let(:generated_contract) { Fabricate(:contract) }
       before do
-        Pacto.should_receive(:load_contract).with(request_file, record_host).and_return request_contract
-        request_contract.should_receive(:execute).and_return([request, response_adapter])
+        expect(Pacto).to receive(:load_contract).with(request_file, record_host).and_return request_contract
+        expect(request_contract).to receive(:execute).and_return([request, response_adapter])
       end
 
       it 'parses the request' do
-        generator.should_receive(:save).with(request_file, request, anything)
+        expect(generator).to receive(:save).with(request_file, request, anything)
         generator.generate_from_partial_contract request_file, record_host
       end
 
       it 'fetches a response' do
-        generator.should_receive(:save).with(request_file, anything, response_adapter)
+        expect(generator).to receive(:save).with(request_file, anything, response_adapter)
         generator.generate_from_partial_contract request_file, record_host
       end
 
       it 'saves the result' do
-        generator.should_receive(:save).with(request_file, request, response_adapter).and_return generated_contract
+        expect(generator).to receive(:save).with(request_file, request, response_adapter).and_return generated_contract
         expect(generator.generate_from_partial_contract request_file, record_host).to eq(generated_contract)
       end
     end
 
     describe '#save' do
       before do
-        filters.should_receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
-        filters.should_receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
+        expect(filters).to receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
+        expect(filters).to receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
       end
       context 'invalid schema' do
         it 'raises an error if schema generation fails' do
-          JSON::SchemaGenerator.should_receive(:generate).and_raise ArgumentError.new('Could not generate schema')
+          expect(JSON::SchemaGenerator).to receive(:generate).and_raise ArgumentError.new('Could not generate schema')
           expect { generator.save request_file, request, response_adapter }.to raise_error
         end
 
         it 'raises an error if the generated contract is invalid' do
-          JSON::SchemaGenerator.should_receive(:generate).and_return response_body_schema
-          validator.should_receive(:validate).and_raise InvalidContract.new('dummy error')
+          expect(JSON::SchemaGenerator).to receive(:generate).and_return response_body_schema
+          expect(validator).to receive(:validate).and_raise InvalidContract.new('dummy error')
           expect { generator.save request_file, request, response_adapter }.to raise_error
         end
       end
 
       context 'valid schema' do
         let(:raw_contract) do
-          JSON::SchemaGenerator.should_receive(:generate).with(request_file, response_adapter.body, Pacto.configuration.generator_options).and_return response_body_schema
-          validator.should_receive(:validate).and_return true
+          expect(JSON::SchemaGenerator).to receive(:generate).with(request_file, response_adapter.body, Pacto.configuration.generator_options).and_return response_body_schema
+          expect(validator).to receive(:validate).and_return true
           generator.save request_file, request, response_adapter
         end
         subject(:generated_contract) { JSON.parse raw_contract }

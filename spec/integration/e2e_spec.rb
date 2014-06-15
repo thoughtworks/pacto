@@ -16,7 +16,7 @@ describe 'Pacto' do
     it 'verifies the contract against a producer' do
       # FIXME: Does this really test what it says it does??
       contract = Pacto.load_contracts(contract_path, 'http://localhost:8000')
-      expect(contract.simulate_consumers.map(&:successful?).uniq).to be_true
+      expect(contract.simulate_consumers.map(&:successful?).uniq).to eq([true])
     end
   end
 
@@ -45,7 +45,7 @@ describe 'Pacto' do
       expect(login_response['message']).to be_kind_of(String)
 
       devices_response = get_json('http://dummyprovider.com/strict')
-      expect(devices_response['devices']).to have(2).items
+      expect(devices_response['devices'].size).to eq(2)
       expect(devices_response['devices'][0]).to eq('/dev/42')
       expect(devices_response['devices'][1]).to eq('/dev/43')
     end

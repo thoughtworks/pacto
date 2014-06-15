@@ -19,7 +19,6 @@ group :samples do
   gem 'grape'
   gem 'grape-swagger'
   gem 'puma'
-  gem 'rspec', '~> 2.14.0'
   gem 'rake'
   gem 'pry'
   gem 'rack'

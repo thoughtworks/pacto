@@ -52,6 +52,6 @@ describe Pacto::Hooks::ERBHook do
   end
 
   def mock_erb(hash)
-    Pacto::ERBProcessor.any_instance.should_receive(:process).with('before', hash).and_return('after')
+    expect_any_instance_of(Pacto::ERBProcessor).to receive(:process).with('before', hash).and_return('after')
   end
 end

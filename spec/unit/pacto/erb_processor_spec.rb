@@ -11,7 +11,7 @@ module Pacto
       end
 
       it 'logs the erb processed' do
-        Pacto.configuration.logger.should_receive(:debug).with("Processed contract: \"#{result}\"")
+        expect(Pacto.configuration.logger).to receive(:debug).with("Processed contract: \"#{result}\"")
         processor.process erb
       end
 

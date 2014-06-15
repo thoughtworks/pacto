@@ -37,15 +37,15 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'fabrication', '~> 2.11'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'rake-notes', '~> 0'
-  gem.add_development_dependency 'rspec', '~> 2.14'
-  gem.add_development_dependency 'should_not', '~> 1.0'
+  gem.add_development_dependency 'rspec', '~> 2.99'
   gem.add_development_dependency 'aruba', '~> 0'
-  gem.add_development_dependency 'json_spec', '~> 0'
+  gem.add_development_dependency 'json_spec', '~> 1.0'
   # Only required to push documentation, and not easily installed on Windows
   # gem.add_development_dependency 'relish'
   gem.add_development_dependency 'guard-rspec', '~> 4.2'
   # FIXME: Rubocop upgrade needed... rubocop -a will do most of the work
   gem.add_development_dependency 'rubocop', '~> 0.18.0'
+  gem.add_development_dependency 'rubocop-rspec', '~> 0.18.0'
   gem.add_development_dependency 'guard-rubocop', '~> 1.0'
   gem.add_development_dependency 'guard-cucumber', '~> 1.4'
   gem.add_development_dependency 'rb-fsevent', '~> 0' if RUBY_PLATFORM =~ /darwin/i

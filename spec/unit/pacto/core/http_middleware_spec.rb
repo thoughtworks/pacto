@@ -21,20 +21,20 @@ module Pacto
         end
 
         xit 'calls the registered hook' do
-          Pacto.configuration.hook.should_receive(:process)
+          expect(Pacto.configuration.hook).to receive(:process)
             .with(anything, a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
           adapter.process_hooks request_signature, response
         end
 
         xit 'calls generate when generate is enabled' do
           Pacto.generate!
-          WebMockHelper.should_receive(:generate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
+          expect(WebMockHelper).to receive(:generate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
           adapter.process_hooks request_signature, response
         end
 
         xit 'calls validate when validate mode is enabled' do
           Pacto.validate!
-          WebMockHelper.should_receive(:validate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
+          expect(WebMockHelper).to receive(:validate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
           adapter.process_hooks request_signature, response
         end
         xit 'validates a WebMock request/response pair' do

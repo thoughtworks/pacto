@@ -8,7 +8,7 @@ module Pacto
     end
 
     it 'sets strict matchers by default to true' do
-      expect(configuration.strict_matchers).to be_true
+      expect(configuration.strict_matchers).to be true
     end
 
     it 'sets contracts path by default to nil' do

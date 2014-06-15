@@ -27,7 +27,7 @@ describe Pacto::ValidationRegistry do
     end
 
     it 'reports if validation is not registered' do
-      expect(registry.validated? request_pattern).to be_false
+      expect(registry.validated? request_pattern).to be_falsey
     end
 
     it 'registers and returns matching validations' do
