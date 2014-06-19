@@ -6,9 +6,9 @@
 #
 # In addition to this document, here are some highlighted samples:
 # <ul>
-#   <li><a href="configuration.html">Configuration</a>: Shows all available configuration options</li>
-#   <li><a href="generation.html">Generation</a>: More details on generation</li>
-#   <li><a href="rspec.html">RSpec</a>: More samples for RSpec expectations</li>
+#   <li><a href="configuration">Configuration</a>: Shows all available configuration options</li>
+#   <li><a href="generation">Generation</a>: More details on generation</li>
+#   <li><a href="rspec">RSpec</a>: More samples for RSpec expectations</li>
 # </ul>
 
 # You can also find other samples using the Table of Content (upper right corner), including sample contracts.
