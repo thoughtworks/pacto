@@ -24,5 +24,4 @@ tmp
 .sublime*
 tags
 pacto.log
-bin/
 docs/
