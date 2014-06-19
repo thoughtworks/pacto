@@ -10,7 +10,7 @@ def prepare_contracts(contracts)
   contracts.stub_providers if options[:stub]
 end
 
-config[:backend_host] = options[:backend_host]
+config[:backend_host] = options[:backend_host] ||= 'https://localhost'
 config[:strip_port] = options[:strip_port]
 config[:strip_dev] = options[:strip_dev]
 config[:port] = port
@@ -36,7 +36,7 @@ if options[:recursive_loading]
     prepare_contracts Pacto.load_contracts(host_dir, "https://#{host}")
   end
 else
-  prepare_contracts Pacto.load_contracts contracts_path, 'https://localhost'
+  prepare_contracts Pacto.load_contracts contracts_path, options[:backend_host]
 end
 
 Pacto.validate! if options[:validate]
