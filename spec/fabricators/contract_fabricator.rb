@@ -34,7 +34,7 @@ end
 Fabricator(:request_clause, from: Pacto::RequestClause) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   host { 'example.com' }
-  method { 'GET' }
+  http_method { 'GET' }
   path { '/abcd' }
   headers do
     {

@@ -16,9 +16,13 @@
     },
     "request": {
       "type": "object",
-      "required": ["method", "path"],
+      "required": ["path"],
       "properties": {
         "method": {
+          "_deprecated": true,
+          "type": "string"
+        },
+        "http_method": {
           "type": "string"
         },
         "path": {
@@ -27,7 +31,7 @@
         "headers": {
           "type": "object"
         },
-        "params": {   
+        "params": {
           "type": "object"
         },
         "body": {

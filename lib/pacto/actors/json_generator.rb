@@ -5,6 +5,7 @@ module Pacto
         data = contract.request.to_hash
         data['uri'] = contract.request.uri
         data['body'] = JSON::Generator.generate(data['schema'])
+        data['method'] = contract.request.http_method
         Pacto::PactoRequest.new(data)
       end
 

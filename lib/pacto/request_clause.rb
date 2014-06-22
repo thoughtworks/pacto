@@ -3,7 +3,7 @@ module Pacto
     include Hashie::Extensions::Coercion
     # include Hashie::Extensions::IndifferentAccess # remove this if we cleanup string vs symbol
     property :host # required?
-    property :method, required: true
+    property :http_method, required: true
     property :schema, default: {}
     property :path
     property :headers
@@ -11,11 +11,11 @@ module Pacto
 
     def initialize(definition)
       mash = Hashie::Mash.new definition
-      mash['method'] = normalize(mash['method'])
+      mash['http_method'] = normalize(mash['http_method'])
       super mash
     end
 
-    def method=(method)
+    def http_method=(method)
       normalize(method)
     end
 

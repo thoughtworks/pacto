@@ -2,18 +2,18 @@ require 'spec_helper'
 
 module Pacto
   describe RequestPattern do
-    let(:method) { :get  }
+    let(:http_method) { :get  }
     let(:uri_pattern) { double }
     let(:request_pattern) { double }
-    let(:request) { double(method: method) }
+    let(:request) { double(http_method: http_method) }
 
-    it 'returns a pattern that combines the contracts method and uri_pattern' do
+    it 'returns a pattern that combines the contracts http_method and uri_pattern' do
       expect(UriPattern).to receive(:for).
         with(request).
         and_return(uri_pattern)
 
       expect(WebMock::RequestPattern).to receive(:new).
-        with(method, uri_pattern).
+        with(http_method, uri_pattern).
         and_return(request_pattern)
 
       expect(RequestPattern.for(request)).to eq request_pattern

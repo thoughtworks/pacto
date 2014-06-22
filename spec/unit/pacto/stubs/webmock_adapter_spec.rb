@@ -7,14 +7,14 @@ module Pacto
       let(:request) do
         Fabricate(:request_clause,
                   :host => 'http://localhost',
-                  :method => method,
+                  :http_method => http_method,
                   :path => '/hello_world',
                   :headers => {'Accept' => 'application/json'},
                   :params => {'foo' => 'bar'}
         )
       end
 
-      let(:method) { :get }
+      let(:http_method) { :get }
 
       let(:response) do
         Fabricate(
@@ -90,7 +90,7 @@ module Pacto
           end
 
           context 'a GET request' do
-            let(:method) { :get }
+            let(:http_method) { :get }
 
             it 'uses WebMock to stub the request' do
               expect(request_pattern).to receive(:with).
@@ -101,7 +101,7 @@ module Pacto
           end
 
           context 'a POST request' do
-            let(:method) { :post }
+            let(:http_method) { :post }
 
             it 'uses WebMock to stub the request' do
               expect(request_pattern).to receive(:with).
@@ -115,7 +115,7 @@ module Pacto
             let(:request) do
               Fabricate(:request_clause,
                         :host => 'http://localhost',
-                        :method => :get,
+                        :http_method => :get,
                         :path => '/hello_world',
                         :headers => {},
                         :params => {'foo' => 'bar'}
@@ -134,7 +134,7 @@ module Pacto
             let(:request) do
               Fabricate(:request_clause,
                         :host => 'http://localhost',
-                        :method => :get,
+                        :http_method => :get,
                         :path => '/hello_world',
                         :headers => {},
                         :params => {}

@@ -7,7 +7,7 @@ module Pacto
       let(:request) do
         RequestClause.new(
           host: record_host,
-          method: 'GET',
+          http_method: 'GET',
           path: '/abcd',
           headers: {
             'Server' => ['example.com'],

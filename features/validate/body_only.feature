@@ -28,7 +28,7 @@ Feature: Validation
       """json
       {
         "request": {
-          "method": "GET",
+          "http_method": "GET",
           "path": "/hello",
           "headers": {
             "Accept": "application/json"

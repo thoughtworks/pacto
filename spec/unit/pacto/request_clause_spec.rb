@@ -11,7 +11,7 @@ module Pacto
     subject(:request) do
       req_hash = {
         host: host,
-        'method'  => method,
+        'http_method'  => method,
         'path'    => path,
         'headers' => headers,
         'params'  => params
@@ -25,17 +25,17 @@ module Pacto
       expect(request.host).to eq host
     end
 
-    describe '#method' do
+    describe '#http_method' do
       it 'delegates to definition' do
-        expect(request.method).to eq :get
+        expect(request.http_method).to eq :get
       end
 
       it 'downcases the method' do
-        expect(request.method).to eq request.method.downcase
+        expect(request.http_method).to eq request.http_method.downcase
       end
 
       it 'returns a symbol' do
-        expect(request.method).to be_kind_of Symbol
+        expect(request.http_method).to be_kind_of Symbol
       end
     end
 

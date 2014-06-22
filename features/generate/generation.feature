@@ -12,7 +12,7 @@ Feature: Contract Generation
     """
         {
         "request": {
-          "method": "GET",
+          "http_method": "GET",
           "path": "/hello",
           "headers": {
             "Accept": "application/json"
@@ -50,7 +50,7 @@ Feature: Contract Generation
         "headers": {
           "Accept": "application/json"
         },
-        "method": "get",
+        "http_method": "get",
         "path": "/hello"
       },
       "response": {
