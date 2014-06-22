@@ -23,15 +23,6 @@ module Pacto
       @uri ||= Pacto::URI.for(host, path, params)
     end
 
-    # FIXME: Send a PR to Hashie so it doesn't coerce values that already match the target class
-    def self.coerce(value)
-      if value.is_a? self
-        value
-      else
-        RequestClause.new value
-      end
-    end
-
     private
 
     def normalize(method)
