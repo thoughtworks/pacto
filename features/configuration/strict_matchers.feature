@@ -67,7 +67,7 @@ Feature: Strict Matching
       puts response 'http://dummyprovider.com/hello/:id', headers: {'Accept' => 'application/json' }
 
       print 'Wrong headers: '
-      puts response 'http://dummyprovider.com/hello/:id', headers: {'Content-Type' => 'application/json' }
+      puts response 'http://dummyprovider.com/hello/123', headers: {'Content-Type' => 'application/json' }
 
       print 'ID placeholder: '
       puts response 'http://dummyprovider.com/hello/123', headers: {'Accept' => 'application/json' }
@@ -79,9 +79,9 @@ Feature: Strict Matching
       """
       Pacto.configuration.strict_matchers = true
 
-      Exact: {"message":"Hello, world!"}
+      Exact: WebMock::NetConnectNotAllowedError
       Wrong headers: WebMock::NetConnectNotAllowedError
-      ID placeholder: WebMock::NetConnectNotAllowedError
+      ID placeholder: {"message":"Hello, world!"}
 
       """
 
@@ -91,7 +91,7 @@ Feature: Strict Matching
       """
       Pacto.configuration.strict_matchers = false
 
-      Exact: {"message":"Hello, world!"}
+      Exact: WebMock::NetConnectNotAllowedError
       Wrong headers: {"message":"Hello, world!"}
       ID placeholder: {"message":"Hello, world!"}
       """
