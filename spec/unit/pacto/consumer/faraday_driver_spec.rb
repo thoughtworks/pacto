@@ -28,8 +28,6 @@ module Pacto
         end
 
         context 'for a POST request' do
-          let(:method)  { 'POST' }
-
           it 'makes the request thru the http client' do
             strategy.execute post_request
             expect(WebMock).to have_requested(:post, 'http://localhost/hello_world?foo=bar')

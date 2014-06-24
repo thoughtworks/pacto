@@ -2,7 +2,7 @@
   "request": {
     "headers": {
     },
-    "method": "get",
+    "http_method": "get",
     "path": "/api/echo",
     "schema": {
       "type": "object",

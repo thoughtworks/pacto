@@ -2,7 +2,7 @@ module Pacto
   describe Contract do
     let(:request_clause) do
       Pacto::RequestClause.new(
-        method: 'GET',
+        http_method: 'GET',
         host: 'http://example.com',
         schema:  {
           :type => 'object',

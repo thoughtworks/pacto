@@ -9,7 +9,7 @@ Feature: Meta-validation
       """
           {
           "request": {
-            "method": "GET",    
+            "http_method": "GET",
             "path": "/hello_world",
             "headers": {
               "Accept": "application/json"
@@ -75,7 +75,7 @@ Feature: Meta-validation
     """
         {
         "request": {
-          "method": "GET",
+          "http_method": "GET",
           "path": "/hello_world"
         },
 

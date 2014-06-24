@@ -14,6 +14,7 @@ module Pacto
       definition['request'].merge!('host' => host)
       body_to_schema(definition, 'request', contract_path)
       body_to_schema(definition, 'response', contract_path)
+      method_to_http_method(definition, contract_path)
       request = RequestClause.new(definition['request'])
       response = ResponseClause.new(definition['response'])
       Contract.new(request: request, response: response, file: contract_path, name: definition['name'], examples: definition['examples'])
@@ -27,6 +28,14 @@ module Pacto
 
       Pacto::UI.deprecation "Contract format deprecation: #{section}:body will be moved to #{section}:schema (#{file})"
       definition[section]['schema'] = schema
+    end
+
+    def method_to_http_method(definition, file)
+      method = definition['request'].delete 'method'
+      return nil unless method
+
+      Pacto::UI.deprecation "Contract format deprecation: request:method will be moved to request:http_method (#{file})"
+      definition['request']['http_method'] = method
     end
   end
 end

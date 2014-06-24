@@ -103,7 +103,7 @@ module Pacto
 
         it 'normalizes the request method' do
           generated_request = subject['request']
-          expect(generated_request['method']).to eq(request.method.downcase.to_s)
+          expect(generated_request['http_method']).to eq(request.method.downcase.to_s)
         end
 
         it 'sets the response attributes' do

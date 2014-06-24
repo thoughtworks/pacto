@@ -1,6 +1,6 @@
 {
   "request": {
-    "method": "GET",
+    "http_method": "GET",
     "path": "/echo",
     "headers": {
       "Accept": "application/json",

@@ -17,7 +17,7 @@ Feature: Strict Matching
       """json
       {
         "request": {
-          "method": "GET",
+          "http_method": "GET",
           "path": "/hello/:id",
           "headers": {
             "Accept": "application/json"
@@ -94,4 +94,4 @@ Feature: Strict Matching
       Exact: {"message":"Hello, world!"}
       Wrong headers: {"message":"Hello, world!"}
       ID placeholder: {"message":"Hello, world!"}
-      """    
+      """

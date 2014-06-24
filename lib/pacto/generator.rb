@@ -61,7 +61,7 @@ module Pacto
     def generate_request(request, response, source)
       {
         :headers => @filters.filter_request_headers(request, response),
-        :method => request.method,
+        :http_method => request.method,
         :params => request.uri.query_values,
         :path => request.uri.path,
         :schema => generate_schema(source, request.body)
