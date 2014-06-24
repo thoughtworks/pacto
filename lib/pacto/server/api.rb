@@ -37,9 +37,8 @@ module Pacto
 
       def response(env)
         log_request(env)
-        em_http_request = prepare_em_request(env)
-        env.logger.info "forwarding: #{em_http_request.request_signature}"
-        resp = EM::Synchrony.sync prepare_em_request(env)
+        req = prepare_pacto_request(env)
+        resp = Pacto::Consumer::FaradayDriver.new.execute(req)
         process_pacto_response resp, env
       rescue => e
         env.logger.warn "responding with error: #{e.message}"
@@ -53,26 +52,19 @@ module Pacto
         env.logger.info "received: #{method} #{env['REQUEST_URI']} with headers #{env['client-headers']}"
       end
 
-      def prepare_em_request(env)
-        uri = determine_proxy_uri(env)
-        em_request_method = "a#{env['REQUEST_METHOD'].downcase}".to_sym
-        em_request_options = {
-          :head => filter_request_headers(env),
-          :query => env['QUERY_STRING'],
-          :body => env['async-body']
-        }.delete_if { | _k, v | v.nil? }
-        EventMachine::HttpRequest.new(uri).send(em_request_method, em_request_options)
+      def prepare_pacto_request(env)
+        PactoRequest.new(
+          body: env['async-body'],
+          headers: filter_request_headers(env),
+          method: :get,
+          uri: determine_proxy_uri(env)
+        )
       end
 
-      def process_pacto_response(resp, env)
-        fail resp.error if resp.error
-
-        code = resp.response_header.http_status
-        safe_response_headers = normalize_headers(resp.response_header).reject { |k, _v| %w(connection content-encoding content-length transfer-encoding).include? k.downcase }
-        body = proxy_rewrite(resp.response)
-
-        env.logger.debug "response headers: #{safe_response_headers}"
-        env.logger.debug "response body: #{body}"
+      def process_pacto_response(resp, _env)
+        code = resp.status
+        safe_response_headers = normalize_headers(resp.headers).reject { |k, _v| %w(connection content-encoding content-length transfer-encoding).include? k.downcase }
+        body = proxy_rewrite(resp.body)
         [code, safe_response_headers, body]
       end
 
