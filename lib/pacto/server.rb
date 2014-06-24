@@ -1,6 +1,3 @@
 require 'goliath'
-require 'em-synchrony'
-require 'em-synchrony/em-http'
-require 'em-http-request'
 require 'pacto'
 require 'pacto/server/api'
