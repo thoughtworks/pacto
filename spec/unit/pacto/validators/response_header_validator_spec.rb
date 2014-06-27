@@ -9,7 +9,7 @@ module Pacto
       end
       describe '#validate' do
         context 'when headers do not match' do
-          let(:actual_headers) { {'Content-Type' => 'text/html'} }
+          let(:actual_headers) { { 'Content-Type' => 'text/html' } }
 
           it 'indicates the exact mismatches' do
             expect(validator.validate(expected_headers, actual_headers)).
@@ -40,7 +40,7 @@ module Pacto
           end
 
           context 'and no Location header is sent' do
-            let(:actual_headers) { {'Content-Type' => 'application/json'} }
+            let(:actual_headers) { { 'Content-Type' => 'application/json' } }
             it 'returns a header error when no Location header is sent' do
               expect(validator.validate(expected_headers, actual_headers)).to eq ['Missing expected response header: Location']
             end
@@ -74,7 +74,7 @@ module Pacto
         end
 
         context 'when headers are a subset of expected headers' do
-          let(:actual_headers) { {'Content-Type' => 'application/json'} }
+          let(:actual_headers) { { 'Content-Type' => 'application/json' } }
 
           it 'does not return any errors' do
             expect(validator.validate(expected_headers, actual_headers)).to be_empty
@@ -82,7 +82,7 @@ module Pacto
         end
 
         context 'when headers values match but keys have different case' do
-          let(:actual_headers) { {'content-type' => 'application/json'} }
+          let(:actual_headers) { { 'content-type' => 'application/json' } }
 
           it 'does not return any errors' do
             expect(validator.validate(expected_headers, actual_headers)).to be_empty

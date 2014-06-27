@@ -38,7 +38,7 @@ describe 'Pacto' do
       end
 
       contracts = Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
-      contracts.stub_providers(:device_id => 42)
+      contracts.stub_providers(device_id: 42)
 
       login_response = get_json('http://dummyprovider.com/hello')
       expect(login_response.keys).to eq ['message']
@@ -53,7 +53,7 @@ describe 'Pacto' do
 
   def get_json(url)
     response = Faraday.get(url) do |req|
-      req.headers = {'Accept' => 'application/json' }
+      req.headers = { 'Accept' => 'application/json' }
     end
     MultiJson.load(response.body)
   end

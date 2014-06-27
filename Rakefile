@@ -27,7 +27,7 @@ RSpec::Core::RakeTask.new(:integration) do |t|
   t.pattern = 'spec/integration/**/*_spec.rb'
 end
 
-task :default => [:unit, :integration, :journeys, :samples, :rubocop, 'coveralls:push']
+task default: [:unit, :integration, :journeys, :samples, :rubocop, 'coveralls:push']
 
 %w(unit integration journeys samples).each do |taskname|
   task taskname => 'smoke_test_services'
@@ -89,7 +89,7 @@ desc 'Make sure the sample services are running'
 task :smoke_test_services do
   require 'faraday'
   begin
-    retryable(:tries => 5, :sleep => 1) do
+    retryable(tries: 5, sleep: 1) do
       Faraday.get('http://localhost:5000/api/ping')
     end
   rescue
@@ -105,7 +105,7 @@ end
 # which is in turn adapted slightly from the following blog post:
 # http://blog.codefront.net/2008/01/14/retrying-code-blocks-in-ruby-on-exceptions-whatever/
 def retryable(opts = nil)
-  opts   = { :tries => 1, :on => Exception }.merge(opts || {})
+  opts   = { tries: 1, on: Exception }.merge(opts || {})
 
   begin
     return yield

@@ -18,10 +18,10 @@ module Pacto
 
       def validate_contract(request, response, contract, opts = {})
         env = {
-          :contract => contract,
-          :actual_request => request,
-          :actual_response => response,
-          :validation_results => []
+          contract: contract,
+          actual_request: request,
+          actual_response: response,
+          validation_results: []
         }
         validation_stack(opts).call env
         results = env[:validation_results].compact

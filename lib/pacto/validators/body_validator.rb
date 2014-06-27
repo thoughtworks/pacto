@@ -19,7 +19,7 @@ module Pacto
 
       def self.validate_as_json(schema, body)
         body = body.body if body.respond_to? :body
-        JSON::Validator.fully_validate(schema, body, :schema => :draft3)
+        JSON::Validator.fully_validate(schema, body, schema: :draft3)
       end
     end
   end

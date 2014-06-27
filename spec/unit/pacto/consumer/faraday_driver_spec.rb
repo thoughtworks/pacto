@@ -2,16 +2,16 @@ module Pacto
   class Consumer
     describe FaradayDriver do
       subject(:strategy) { described_class.new }
-      let(:get_request)  { Fabricate(:pacto_request, method: :get,  host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}) }
-      let(:post_request) { Fabricate(:pacto_request, method: :post, host: 'http://localhost/', path: 'hello_world', params: {'foo' => 'bar'}) }
+      let(:get_request)  { Fabricate(:pacto_request, method: :get,  host: 'http://localhost/', path: 'hello_world', params: { 'foo' => 'bar' }) }
+      let(:post_request) { Fabricate(:pacto_request, method: :post, host: 'http://localhost/', path: 'hello_world', params: { 'foo' => 'bar' }) }
 
       describe '#execute' do
 
         before do
           WebMock.stub_request(:get, 'http://localhost/hello_world?foo=bar').
-            to_return(:status => 200, :body => '', :headers => {})
+            to_return(status: 200, body: '', headers: {})
           WebMock.stub_request(:post, 'http://localhost/hello_world?foo=bar').
-            to_return(:status => 200, :body => '', :headers => {})
+            to_return(status: 200, body: '', headers: {})
         end
 
         context 'for any request' do

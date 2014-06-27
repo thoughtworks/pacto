@@ -5,7 +5,7 @@ require 'hashie/mash'
 
 Fabricator(:contract, from: Pacto::Contract) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
-  transient :example_count => 0
+  transient example_count: 0
   name { 'Dummy Contract' }
   file { '/does/not/exist/dummy_contract.json' }
   request { Fabricate(:request_clause).to_hash }
@@ -75,7 +75,7 @@ end
 
 Fabricator(:an_example, from: Hashie::Mash) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
-  transient :name => 'default'
+  transient name: 'default'
   request do |attr|
     {
       body: {

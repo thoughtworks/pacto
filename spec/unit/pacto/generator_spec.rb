@@ -3,17 +3,17 @@ module Pacto
     let(:record_host) do
       'http://example.com'
     end
-    let(:request_clause) { Fabricate(:request_clause, :params => {'api_key' => "<%= ENV['MY_API_KEY'] %>"}) }
+    let(:request_clause) { Fabricate(:request_clause, params: { 'api_key' => "<%= ENV['MY_API_KEY'] %>" }) }
     let(:response_adapter) do
       Faraday::Response.new(
-        :status => 200,
-        :response_headers => {
+        status: 200,
+        response_headers: {
           'Date' => [Time.now],
           'Server' => ['Fake Server'],
           'Content-Type' => ['application/json'],
           'Vary' => ['User-Agent']
         },
-        :body => 'dummy body' # body is just a string
+        body: 'dummy body' # body is just a string
       )
     end
     let(:filtered_request_headers) { double('filtered_response_headers') }
@@ -26,14 +26,14 @@ module Pacto
     let(:request_file) { 'request.json' }
     let(:generator) { described_class.new version, schema_generator, validator, filters }
     let(:request_contract) do
-      Fabricate(:partial_contract, :request => request_clause, :file => request_file)
+      Fabricate(:partial_contract, request: request_clause, file: request_file)
     end
     let(:request) do
       Pacto.configuration.default_consumer.build_request request_contract
     end
 
     def pretty(obj)
-      MultiJson.encode(obj, :pretty => true).gsub(/^$\n/, '')
+      MultiJson.encode(obj, pretty: true).gsub(/^$\n/, '')
     end
 
     describe '#generate_from_partial_contract' do

@@ -2,7 +2,7 @@ describe Pacto::ValidationRegistry do
   subject(:registry) { Pacto::ValidationRegistry.instance }
   let(:request_pattern) { Fabricate(:webmock_request_pattern) }
   let(:request_signature) { Fabricate(:webmock_request_signature) }
-  let(:different_request_signature) { Fabricate(:webmock_request_signature, :uri => 'www.thoughtworks.com') }
+  let(:different_request_signature) { Fabricate(:webmock_request_signature, uri: 'www.thoughtworks.com') }
   let(:validation) { Pacto::Validation.new(request_signature, double, nil, []) }
   let(:validation_for_a_similar_request) { Pacto::Validation.new(request_signature, double, nil, []) }
   let(:validation_for_a_different_request) { Pacto::Validation.new(different_request_signature, double, nil, []) }

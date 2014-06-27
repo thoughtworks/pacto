@@ -10,17 +10,17 @@ module Pacto
   module TestHelper
     include Goliath::TestHelper
     DEFAULT_ARGS = {
-      :stdout => true,
-      :log_file => 'pacto.log',
+      stdout: true,
+      log_file: 'pacto.log',
       # :config => 'pacto/config/pacto_server.rb',
-      :strict => false,
-      :stub => true,
-      :live => false,
-      :generate => false,
-      :verbose => true,
-      :validate => true,
-      :directory => File.join(Dir.pwd, 'spec', 'fixtures', 'contracts'),
-      :port => 9000
+      strict: false,
+      stub: true,
+      live: false,
+      generate: false,
+      verbose: true,
+      validate: true,
+      directory: File.join(Dir.pwd, 'spec', 'fixtures', 'contracts'),
+      port: 9000
     }
 
     def with_pacto(args = DEFAULT_ARGS)

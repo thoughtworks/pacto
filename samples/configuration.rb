@@ -19,11 +19,11 @@ Pacto.configure do |c|
     puts "Received #{request}"
   end
   # Options to pass to the [json-schema-generator](https://github.com/maxlinc/json-schema-generator) while generating contracts.
-  c.generator_options = { :schema_version => 'draft3' }
+  c.generator_options = { schema_version: 'draft3' }
 end
 
 # You can also do inline configuration.  This example tells the json-schema-generator to store default values in the schema.
-Pacto.configuration.generator_options = { :defaults => true }
+Pacto.configuration.generator_options = { defaults: true }
 
 # If you're using Pacto's rspec matchers you might want to configure a reset between each scenario
 require 'pacto/rspec'

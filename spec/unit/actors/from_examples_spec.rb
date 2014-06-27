@@ -16,7 +16,7 @@ module Pacto
       end
 
       context 'a contract with examples' do
-        let(:contract) { Fabricate(:contract, :example_count => 3) }
+        let(:contract) { Fabricate(:contract, example_count: 3) }
         let(:request) { generator.build_request contract }
         let(:response) { generator.build_response contract }
 
@@ -30,8 +30,8 @@ module Pacto
         context 'example specified' do
           let(:name) { '1' }
           subject(:generator) { described_class.new fallback, Pacto::Actors::NamedExampleSelector }
-          let(:request) { generator.build_request contract, :example_name => name }
-          let(:response) { generator.build_response contract, :example_name => name }
+          let(:request) { generator.build_request contract, example_name: name }
+          let(:response) { generator.build_response contract, example_name: name }
 
           it 'uses the named example' do
             expect(request.body).to eq(contract.examples[name].request.body)

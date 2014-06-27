@@ -1,15 +1,15 @@
 describe Pacto::Hooks::ERBHook do
   describe '#process' do
     let(:req) do
-      OpenStruct.new(:headers => {'User-Agent' => 'abcd'})
+      OpenStruct.new(headers: { 'User-Agent' => 'abcd' })
     end
     let(:converted_req) do
-      {'HEADERS' => {'User-Agent' => 'abcd'}}
+      { 'HEADERS' => { 'User-Agent' => 'abcd' } }
     end
     let(:res) do
       Pacto::PactoResponse.new(
-        :status => 200,
-        :body => 'before'
+        status: 200,
+        body: 'before'
       )
     end
 
@@ -19,7 +19,7 @@ describe Pacto::Hooks::ERBHook do
     context 'no matching contracts' do
       it 'binds the request' do
         contracts = Set.new
-        mock_erb(:req => converted_req)
+        mock_erb(req: converted_req)
         described_class.new.process contracts, req, res
         expect(res.body).to eq('after')
       end
@@ -27,9 +27,9 @@ describe Pacto::Hooks::ERBHook do
 
     context 'one matching contract' do
       it 'binds the request and the contract\'s values' do
-        contract = OpenStruct.new(:values => {:max => 'test'})
+        contract = OpenStruct.new(values: { max: 'test' })
         contracts = Set.new([contract])
-        mock_erb(:req => converted_req, :max => 'test')
+        mock_erb(req: converted_req, max: 'test')
         described_class.new.process contracts, req, res
         expect(res.body).to eq('after')
       end
@@ -37,13 +37,13 @@ describe Pacto::Hooks::ERBHook do
 
     context 'multiple matching contracts' do
       it 'binds the request and the first contract\'s values' do
-        contract1 = OpenStruct.new(:values => {:max => 'test'})
-        contract2 = OpenStruct.new(:values => {:mob => 'team'})
+        contract1 = OpenStruct.new(values: { max: 'test' })
+        contract2 = OpenStruct.new(values: { mob: 'team' })
         res = Pacto::PactoResponse.new(
-          :status => 200,
-          :body => 'before'
+          status: 200,
+          body: 'before'
         )
-        mock_erb(:req => converted_req, :max => 'test')
+        mock_erb(req: converted_req, max: 'test')
         contracts = Set.new([contract1, contract2])
         described_class.new.process contracts, req, res
         expect(res.body).to eq('after')

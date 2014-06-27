@@ -19,7 +19,7 @@ module Pacto
       @logger = Logger::SimpleLogger.instance
       define_logger_level
       @hook = Hook.new {}
-      @generator_options = { :schema_version => 'draft3' }
+      @generator_options = { schema_version: 'draft3' }
     end
 
     def register_hook(hook = nil, &block)

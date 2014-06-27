@@ -42,7 +42,7 @@ module Pacto
 
     def save(source, request, response)
       contract = generate_contract source, request, response
-      pretty_contract = MultiJson.encode(contract, :pretty => true)
+      pretty_contract = MultiJson.encode(contract, pretty: true)
       # This is because of a discrepency w/ jruby vs MRI pretty json
       pretty_contract.gsub!(/^$\n/, '')
       @validator.validate pretty_contract
@@ -53,26 +53,26 @@ module Pacto
 
     def generate_contract(source, request, response)
       {
-        :request => generate_request(request, response, source),
-        :response => generate_response(request, response, source)
+        request: generate_request(request, response, source),
+        response: generate_response(request, response, source)
       }
     end
 
     def generate_request(request, response, source)
       {
-        :headers => @filters.filter_request_headers(request, response),
-        :http_method => request.method,
-        :params => request.uri.query_values,
-        :path => request.uri.path,
-        :schema => generate_schema(source, request.body)
+        headers: @filters.filter_request_headers(request, response),
+        http_method: request.method,
+        params: request.uri.query_values,
+        path: request.uri.path,
+        schema: generate_schema(source, request.body)
       }.delete_if { |_k, v| v.nil? }
     end
 
     def generate_response(request, response, source)
       {
-        :headers => @filters.filter_response_headers(request, response),
-        :status => response.status,
-        :schema => generate_schema(source, response.body)
+        headers: @filters.filter_response_headers(request, response),
+        status: response.status,
+        schema: generate_schema(source, response.body)
       }.delete_if { |_k, v| v.nil? }
     end
 

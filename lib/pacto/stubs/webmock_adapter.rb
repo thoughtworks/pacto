@@ -60,9 +60,9 @@ module Pacto
           pacto_request = Pacto::Adapters::WebMock::PactoRequest.new request
           response = contract.response_for pacto_request
           {
-            :status => response.status,
-            :headers => response.headers,
-            :body => format_body(response.body)
+            status: response.status,
+            headers: response.headers,
+            body: format_body(response.body)
           }
         end
       end
@@ -90,12 +90,8 @@ module Pacto
 
       def strict_details(request)
         {}.tap do |details|
-          unless request.params.empty?
-            details[webmock_params_key(request)] = request.params
-          end
-          unless request.headers.empty?
-            details[:headers] = request.headers
-          end
+          details[webmock_params_key(request)] = request.params unless request.params.empty?
+          details[:headers] = request.headers unless request.headers.empty?
         end
       end
 

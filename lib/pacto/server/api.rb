@@ -75,13 +75,9 @@ module Pacto
         else
           host = env['HTTP_HOST']
           # FIXME: These options are hacky, but cover the way I use in Pacto specs vs Polytrix
-          if env.config[:strip_dev]
-            host.gsub!(".dev:#{port}", '.com')
-          end
+          host.gsub!(".dev:#{port}", '.com') if env.config[:strip_dev]
           uri = Addressable::URI.parse("https://#{host}#{path}")
-          if env.config[:strip_port]
-            uri.port = nil
-          end
+          uri.port = nil if env.config[:strip_port]
         end
         uri.to_s
       end
