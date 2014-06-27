@@ -20,7 +20,7 @@ module Pacto
     let(:provider_actor) { double }
 
     subject(:contract) do
-      Contract.new(
+      described_class.new(
         request: request_clause,
         response: response_clause,
         file: file,

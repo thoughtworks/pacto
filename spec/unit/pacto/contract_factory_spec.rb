@@ -24,11 +24,11 @@ module Pacto
 
         class CustomContractFactory
           def initialize(dummy_contract)
-            @dummy_contract = dummy_contract
+            @dummy_contract = dummy_contract # rubocop:disable RSpec/InstanceVariable
           end
 
           def build_from_file(_contract_path, _host)
-            @dummy_contract
+            @dummy_contract # rubocop:disable RSpec/InstanceVariable
           end
         end
 
@@ -46,11 +46,11 @@ module Pacto
 
         class MultiContractFactory
           def initialize(contracts)
-            @contracts = contracts
+            @contracts = contracts # rubocop:disable RSpec/InstanceVariable
           end
 
           def build_from_file(_contract_path, _host)
-            @contracts
+            @contracts # rubocop:disable RSpec/InstanceVariable
           end
         end
 

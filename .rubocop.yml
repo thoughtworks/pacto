@@ -1,5 +1,4 @@
-# Uncomment once rubocop-rspec 1.0 is released...
-# require: rubocop-rspec
+require: rubocop-rspec
 
 Documentation:
   Enabled: false
@@ -21,3 +20,7 @@ AllCops:
   Exclude:
     - bin/**/*
     - tmp/**/*
+RSpec/DescribeClass:
+  Exclude:
+    - samples/**/*
+    - spec/integration/**/*

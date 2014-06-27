@@ -1,4 +1,4 @@
-describe 'Pacto' do
+describe Pacto do
   let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
   let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
 
@@ -13,16 +13,16 @@ describe 'Pacto' do
       end
     end
 
-    it 'should verify the contract against a producer' do
+    it 'verifies the contract against a producer' do
       # FIXME: Does this really test what it says it does??
-      contract = Pacto.load_contracts(contract_path, 'http://localhost:8000')
+      contract = described_class.load_contracts(contract_path, 'http://localhost:8000')
       expect(contract.simulate_consumers.map(&:successful?).uniq).to eq([true])
     end
   end
 
   context 'Stubbing a collection of contracts' do
     it 'generates a server that stubs the contract for consumers' do
-      contracts = Pacto.load_contracts(contract_path, 'http://dummyprovider.com')
+      contracts = described_class.load_contracts(contract_path, 'http://dummyprovider.com')
       contracts.stub_providers
 
       response = get_json('http://dummyprovider.com/hello')
@@ -32,12 +32,12 @@ describe 'Pacto' do
 
   context 'Journey' do
     it 'stubs multiple services with a single use' do
-      Pacto.configure do |c|
+      described_class.configure do |c|
         c.strict_matchers = false
         c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      contracts = Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
+      contracts = described_class.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
       contracts.stub_providers(device_id: 42)
 
       login_response = get_json('http://dummyprovider.com/hello')

@@ -1,6 +1,6 @@
 module Pacto
   describe ERBProcessor do
-    subject(:processor) { ERBProcessor.new }
+    subject(:processor) { described_class.new }
 
     describe '#process' do
       let(:erb) { '2 + 2 = <%= 2 + 2 %>' }

@@ -10,7 +10,7 @@ module Pacto
           end
 
           def subschema(_contract)
-            @subschema
+            @subschema # rubocop:disable RSpec/InstanceVariable
           end
         end
       end

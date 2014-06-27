@@ -19,7 +19,7 @@ describe Pacto do
     context 'valid' do
       it 'displays a success message and return true' do
         mock_validation []
-        success = Pacto.validate_contract 'my_contract.json'
+        success = described_class.validate_contract 'my_contract.json'
         expect(output).to eq 'Validating my_contract.json'
         expect(success).to be true
       end
@@ -28,14 +28,14 @@ describe Pacto do
     context 'invalid' do
       it 'displays one error messages and return false' do
         mock_validation ['Error 1']
-        success = Pacto.validate_contract 'my_contract.json'
+        success = described_class.validate_contract 'my_contract.json'
         expect(output).to match(/error/)
         expect(success).to be_falsey
       end
 
       it 'displays several error messages and return false' do
         mock_validation ['Error 1', 'Error 2']
-        success = Pacto.validate_contract 'my_contract.json'
+        success = described_class.validate_contract 'my_contract.json'
         expect(success).to be_falsey
       end
     end
@@ -49,7 +49,7 @@ describe Pacto do
       expect(Pacto::ContractList).to receive(:new) do |contracts|
         contracts.each { |contract| expect(contract).to be_a_kind_of(Pacto::Contract) }
       end
-      Pacto.load_contracts('spec/fixtures/contracts/', host)
+      described_class.load_contracts('spec/fixtures/contracts/', host)
     end
   end
 end

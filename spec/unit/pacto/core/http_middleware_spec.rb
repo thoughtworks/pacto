@@ -38,7 +38,7 @@ module Pacto
           adapter.process_hooks request_signature, response
         end
         xit 'validates a WebMock request/response pair' do
-          described_class.validate @request_signature, @response
+          described_class.validate request_signature, response
         end
       end
     end
