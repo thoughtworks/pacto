@@ -1,5 +1,5 @@
 describe Pacto::ValidationRegistry do
-  subject(:registry) { Pacto::ValidationRegistry.instance }
+  subject(:registry) { described_class.instance }
   let(:request_pattern) { Fabricate(:webmock_request_pattern) }
   let(:request_signature) { Fabricate(:webmock_request_signature) }
   let(:different_request_signature) { Fabricate(:webmock_request_signature, uri: 'www.thoughtworks.com') }

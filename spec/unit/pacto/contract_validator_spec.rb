@@ -38,7 +38,7 @@ module Pacto
       end
 
       context 'default validator stack' do
-        let(:validation) { ContractValidator.validate_contract actual_request, actual_response, contract, opts }
+        let(:validation) { described_class.validate_contract actual_request, actual_response, contract, opts }
 
         it 'calls the RequestBodyValidator' do
           expect(Pacto::Validators::RequestBodyValidator).to receive(:validate).with(contract, actual_request).and_return(validation_errors)
@@ -70,7 +70,7 @@ module Pacto
           expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(expected_response.status, actual_response.status).and_return([])
           expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(expected_response.headers, actual_response.headers).and_return([])
           expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(contract, actual_response).and_return([])
-          expect(ContractValidator.validate_contract actual_request, actual_response, contract, opts).to be_successful
+          expect(described_class.validate_contract actual_request, actual_response, contract, opts).to be_successful
         end
       end
     end

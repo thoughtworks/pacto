@@ -14,7 +14,7 @@ module Pacto
       }
     end
 
-    subject(:response) { ResponseClause.new(definition) }
+    subject(:response) { described_class.new(definition) }
 
     it 'has a status' do
       expect(response.status).to eq(200)
@@ -32,7 +32,7 @@ module Pacto
 
     it 'has a default value for the schema' do
       definition.delete 'schema'
-      response = ResponseClause.new(definition)
+      response = described_class.new(definition)
       expect(response.schema).to eq(Hash.new)
     end
 

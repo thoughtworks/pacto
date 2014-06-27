@@ -1,6 +1,6 @@
 module Pacto
   describe Configuration do
-    subject(:configuration) { Configuration.new }
+    subject(:configuration) { described_class.new }
     let(:contracts_path) { 'path_to_contracts' }
 
     it 'sets the http adapter by default to WebMockAdapter' do

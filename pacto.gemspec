@@ -12,8 +12,8 @@ Gem::Specification.new do |gem|
   gem.version       = Pacto::VERSION
   gem.authors       = ['ThoughtWorks & Abril']
   gem.email         = ['pacto-gem@googlegroups.com']
-  gem.description   = %q(Pacto is a judge that arbitrates contract disputes between a service provider and one or more consumers. In other words, it is a framework for Integration Contract Testing, and helps guide service evolution patterns like Consumer-Driven Contracts or Documentation-Driven Contracts.)
-  gem.summary       = %q(Integration Contract Testing framework)
+  gem.description   = 'Pacto is a judge that arbitrates contract disputes between a service provider and one or more consumers. In other words, it is a framework for Integration Contract Testing, and helps guide service evolution patterns like Consumer-Driven Contracts or Documentation-Driven Contracts.'
+  gem.summary       = 'Integration Contract Testing framework'
   gem.homepage      = 'http://thoughtworks.github.io/pacto/'
   gem.license       = 'MIT'
 

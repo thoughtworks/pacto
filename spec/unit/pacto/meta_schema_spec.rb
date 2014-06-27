@@ -79,7 +79,7 @@ module Pacto
       EOF
     end
 
-    subject(:schema) { MetaSchema.new }
+    subject(:schema) { described_class.new }
 
     describe 'when validating a contract against the master schema' do
       context 'with a valid contract structure' do

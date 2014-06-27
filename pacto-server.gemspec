@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Pacto::VERSION
   gem.authors       = ['ThoughtWorks']
   gem.email         = ['pacto-gem@googlegroups.com']
-  gem.description   = %q(Pacto Server let's you run Pacto as a standalone server to arbitrate contract disputes between a service provider and one or more consumers in any programming language. It's Pacto beyond Ruby)
-  gem.summary       = %q(Polyglot Integration Contract Testing server)
+  gem.description   = "Pacto Server let's you run Pacto as a standalone server to arbitrate contract disputes between a service provider and one or more consumers in any programming language. It's Pacto beyond Ruby"
+  gem.summary       = 'Polyglot Integration Contract Testing server'
   gem.homepage      = 'http://thoughtworks.github.io/pacto/'
   gem.license       = 'MIT'
 

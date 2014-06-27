@@ -18,7 +18,7 @@ module Pacto
       }
       # The default test is for missing keys, not explicitly nil keys
       req_hash.merge!('schema' => body) if body
-      RequestClause.new(req_hash)
+      described_class.new(req_hash)
     end
 
     it 'has a host' do
