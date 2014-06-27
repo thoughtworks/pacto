@@ -24,8 +24,8 @@ module Pacto
       let(:varies) { ['User-Agent'] }
       let(:response) do
         Faraday::Response.new(
-          :status => 200,
-          :response_headers => {
+          status: 200,
+          response_headers: {
             'Date' => Time.now.rfc2822,
             'Last-Modified' => Time.now.rfc2822,
             'ETag' => 'abc123',
@@ -33,7 +33,7 @@ module Pacto
             'Content-Type' => ['application/json'],
             'Vary' => varies
           },
-          :body => double('dummy body')
+          body: double('dummy body')
         )
       end
 

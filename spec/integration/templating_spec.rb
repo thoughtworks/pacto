@@ -8,7 +8,7 @@ describe 'Templating' do
   let(:auth_token) { SecureRandom.hex }
 
   let :response do
-    contracts.stub_providers(:key => key, :auth_token => auth_token)
+    contracts.stub_providers(key: key, auth_token: auth_token)
 
     raw_response = Faraday.get('http://dummyprovider.com/echo') do |req|
       req.headers = {

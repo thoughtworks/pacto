@@ -38,7 +38,7 @@ Pacto.generate!
 #
 # We're using the sample APIs in the sample_apis directory.
 require 'faraday'
-conn = Faraday.new(:url => 'http://localhost:5000')
+conn = Faraday.new(url: 'http://localhost:5000')
 response = conn.get '/api/ping'
 # This is the real request, so you should see {"ping":"pong"}
 puts response.body
@@ -83,7 +83,7 @@ Pacto.validate!
 
 describe 'my_code' do
   it 'calls a service' do
-    conn = Faraday.new(:url => 'http://localhost:5000')
+    conn = Faraday.new(url: 'http://localhost:5000')
     response = conn.get '/api/ping'
     # The have_validated matcher makes sure that Pacto received and successfully validated a request
     expect(Pacto).to have_validated(:get, 'http://localhost:5000/api/ping')

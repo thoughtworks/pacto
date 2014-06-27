@@ -6,12 +6,12 @@ describe 'ping service' do
 
   it 'pongs' do
     with_pacto(
-      :port => 6000,
-      :backend_host => 'http://localhost:5000',
-      :live => true,
-      :stub => false,
-      :generate => false,
-      :directory => 'contracts'
+      port: 6000,
+      backend_host: 'http://localhost:5000',
+      live: true,
+      stub: false,
+      generate: false,
+      directory: 'contracts'
       ) do |pacto_endpoint|
       # call your code
       system "curl #{pacto_endpoint}/api/ping"

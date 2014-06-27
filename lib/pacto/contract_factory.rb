@@ -6,7 +6,7 @@ module Pacto
 
     def initialize
       @factories = {
-        :default => NativeContractFactory.new
+        default: NativeContractFactory.new
       }
     end
 

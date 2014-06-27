@@ -3,8 +3,8 @@ module Pacto
     let(:host)           { 'http://localhost' }
     let(:method)         { 'GET' }
     let(:path)           { '/hello_world' }
-    let(:headers)        { {'accept' => 'application/json'} }
-    let(:params)         { {'foo' => 'bar'} }
+    let(:headers)        { { 'accept' => 'application/json' } }
+    let(:params)         { { 'foo' => 'bar' } }
     let(:body)           { double :body }
     let(:params_as_json) { "{\"foo\":\"bar\"}" }
     let(:absolute_uri)   { "#{host}#{path}" }

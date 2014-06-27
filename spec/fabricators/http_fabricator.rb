@@ -6,9 +6,9 @@ require 'hashie/mash'
 Fabricator(:pacto_request, from: Pacto::PactoRequest) do
   initialize_with { @_klass.new @_transient_attributes } # Hash based initialization
   # These transient attributes turn into the URI
-  transient :host => 'example.com'
-  transient :path => '/abcd'
-  transient :params => {}
+  transient host: 'example.com'
+  transient path: '/abcd'
+  transient params: {}
   method { 'GET' }
   uri do |attr|
     Addressable::URI.heuristic_parse(attr[:host]).tap do |uri|

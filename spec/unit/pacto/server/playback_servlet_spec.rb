@@ -11,7 +11,7 @@ module Pacto
       end
 
       it 'alters reponse data with recorded headers' do
-        servlet = PlaybackServlet.new headers: {'Content-Type' => 'application/json'}
+        servlet = PlaybackServlet.new headers: { 'Content-Type' => 'application/json' }
         servlet.do_GET(request, response)
         expect(response).to have_received(:[]=).with('Content-Type', 'application/json')
       end

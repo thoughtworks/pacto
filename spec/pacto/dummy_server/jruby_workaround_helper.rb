@@ -12,7 +12,7 @@ module Pacto
           yield
           @server.terminate
         else
-          with_pacto(:port => 8000, :strip_port => true) do
+          with_pacto(port: 8000, strip_port: true) do
             yield
           end
         end

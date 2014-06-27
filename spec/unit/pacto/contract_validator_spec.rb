@@ -9,9 +9,9 @@ module Pacto
     let(:actual_response) do
       # TODO: Replace this with a Fabrication for Pacto::PactoResponse (perhaps backed by WebMock)
       double(
-        :status => 200,
-        :headers => {'Content-Type' => 'application/json', 'Age' => '60'},
-        :body => { 'message' => 'response' }
+        status: 200,
+        headers: { 'Content-Type' => 'application/json', 'Age' => '60' },
+        body: { 'message' => 'response' }
       )
     end
 

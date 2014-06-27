@@ -60,9 +60,9 @@ module Pacto
           pacto_request = Pacto::Adapters::WebMock::PactoRequest.new request
           response = contract.response_for pacto_request
           {
-            :status => response.status,
-            :headers => response.headers,
-            :body => format_body(response.body)
+            status: response.status,
+            headers: response.headers,
+            body: format_body(response.body)
           }
         end
       end

@@ -20,8 +20,8 @@ Pacto.configure do |pacto_config|
   pacto_config.contracts_path = contracts_path
   pacto_config.strict_matchers = options[:strict]
   pacto_config.generator_options = {
-    :schema_version => :draft3,
-    :token_map => token_map
+    schema_version: :draft3,
+    token_map: token_map
   }
 end
 

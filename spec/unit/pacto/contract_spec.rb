@@ -5,13 +5,13 @@ module Pacto
         http_method: 'GET',
         host: 'http://example.com',
         schema:  {
-          :type => 'object',
-          :required => true # , :properties => double('body definition properties')
+          type: 'object',
+          required: true # , :properties => double('body definition properties')
         }
       )
     end
     let(:response_clause) do
-      Pacto::ResponseClause.new(:status => 200)
+      Pacto::ResponseClause.new(status: 200)
     end
     let(:adapter) { double 'provider' }
     let(:file) { 'contract.json' }

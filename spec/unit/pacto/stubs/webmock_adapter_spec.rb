@@ -6,11 +6,11 @@ module Pacto
 
       let(:request) do
         Fabricate(:request_clause,
-                  :host => 'http://localhost',
-                  :http_method => http_method,
-                  :path => '/hello_world',
-                  :headers => {'Accept' => 'application/json'},
-                  :params => {'foo' => 'bar'}
+                  host: 'http://localhost',
+                  http_method: http_method,
+                  path: '/hello_world',
+                  headers: { 'Accept' => 'application/json' },
+                  params: { 'foo' => 'bar' }
         )
       end
 
@@ -19,9 +19,9 @@ module Pacto
       let(:response) do
         Fabricate(
           :response_clause,
-          :status => 200,
-          :headers => {},
-          :schema => {
+          status: 200,
+          headers: {},
+          schema: {
             type: 'object',
             required: ['message'],
             properties: {
@@ -35,16 +35,16 @@ module Pacto
       end
 
       let(:contract) do
-        Fabricate(:contract, :request => request, :response => response)
+        Fabricate(:contract, request: request, response: response)
       end
 
       let(:body) do
-        {'message' => 'foo'}
+        { 'message' => 'foo' }
       end
 
       let(:stubbed_request) do
         {
-          :path => nil
+          path: nil
         }
       end
 
@@ -86,7 +86,7 @@ module Pacto
 
         context 'when the response body is an object' do
           let(:body) do
-            {'message' => 'foo'}
+            { 'message' => 'foo' }
           end
 
           context 'a GET request' do
@@ -94,7 +94,7 @@ module Pacto
 
             it 'uses WebMock to stub the request' do
               expect(request_pattern).to receive(:with).
-                with(:headers => request.headers, :query => request.params).
+                with(headers: request.headers, query: request.params).
                 and_return(stubbed_request)
               adapter.stub_request! contract
             end
@@ -105,7 +105,7 @@ module Pacto
 
             it 'uses WebMock to stub the request' do
               expect(request_pattern).to receive(:with).
-                with(:headers => request.headers, :body => request.params).
+                with(headers: request.headers, body: request.params).
                 and_return(stubbed_request)
               adapter.stub_request! contract
             end
@@ -114,17 +114,17 @@ module Pacto
           context 'a request with no headers' do
             let(:request) do
               Fabricate(:request_clause,
-                        :host => 'http://localhost',
-                        :http_method => :get,
-                        :path => '/hello_world',
-                        :headers => {},
-                        :params => {'foo' => 'bar'}
+                        host: 'http://localhost',
+                        http_method: :get,
+                        path: '/hello_world',
+                        headers: {},
+                        params: { 'foo' => 'bar' }
               )
             end
 
             it 'uses WebMock to stub the request' do
               expect(request_pattern).to receive(:with).
-                with(:query => request.params).
+                with(query: request.params).
                 and_return(stubbed_request)
               adapter.stub_request! contract
             end
@@ -133,11 +133,11 @@ module Pacto
           context 'a request with no params' do
             let(:request) do
               Fabricate(:request_clause,
-                        :host => 'http://localhost',
-                        :http_method => :get,
-                        :path => '/hello_world',
-                        :headers => {},
-                        :params => {}
+                        host: 'http://localhost',
+                        http_method: :get,
+                        path: '/hello_world',
+                        headers: {},
+                        params: {}
               )
             end
 

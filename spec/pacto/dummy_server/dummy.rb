@@ -12,7 +12,7 @@ module Pacto
 
         @doer = PlaybackServlet.new(
           status: 200,
-          headers: {'Content-Type' => 'application/json', 'Vary' => 'Accept'},
+          headers: { 'Content-Type' => 'application/json', 'Vary' => 'Accept' },
           body: json
         )
       end
@@ -24,9 +24,9 @@ module Pacto
       def initialize(port, path, response)
         log_file = File.exist?('/dev/null') ? '/dev/null' : Tempfile.new('log') # So tests run on Windows
         params = {
-          :Port => port,
-          :AccessLog => [],
-          :Logger => WEBrick::Log.new(log_file, 7)
+          Port: port,
+          AccessLog: [],
+          Logger: WEBrick::Log.new(log_file, 7)
         }
         @server = WEBrick::HTTPServer.new params
         @server.mount path, Servlet, response
