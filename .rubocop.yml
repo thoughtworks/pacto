@@ -1,6 +1,29 @@
-inherit_from: .rubocop-todo.yml
 # Uncomment once rubocop-rspec 1.0 is released...
 # require: rubocop-rspec
+
+Documentation:
+  Enabled: false
+
+DotPosition:
+  Enabled: false
+
+Encoding:
+  Enabled: false
+
+HashSyntax:
+  Enabled: false
+
+IfUnlessModifier:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+MethodLength:
+  Max: 15
 
 AllCops:
   Include:
