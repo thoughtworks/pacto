@@ -12,6 +12,9 @@ LineLength:
 MethodLength:
   Max: 15
 
+Style/Encoding:
+  EnforcedStyle: when_needed
+
 AllCops:
   Include:
     - Guardfile
