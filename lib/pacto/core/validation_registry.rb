@@ -25,6 +25,7 @@ module Pacto
     end
 
     def register_validation(validation)
+      Pacto.configuration.stenographer.log_validation validation
       @validations << validation
       logger.info "Detected #{validation.summary}"
       validation

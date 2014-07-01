@@ -2,7 +2,7 @@ module Pacto
   class Configuration
     attr_accessor :adapter, :strict_matchers,
                   :contracts_path, :logger, :generator_options,
-                  :hide_deprecations, :default_consumer, :default_provider
+                  :hide_deprecations, :default_consumer, :default_provider, :stenographer
     attr_reader :hook
 
     def initialize
@@ -10,6 +10,9 @@ module Pacto
       @middleware.add_observer Pacto::ContractValidator, :validate
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
+      access_log = File.open('pacto_access.log', 'wb')
+      @stenographer = Pacto::Observers::Stenographer.new access_log
+      # @middleware.add_observer @stenographer, :log_request
 
       @default_consumer = Pacto::Consumer
       @default_provider = Pacto::Provider

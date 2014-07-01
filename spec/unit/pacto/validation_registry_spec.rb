@@ -1,5 +1,6 @@
 describe Pacto::ValidationRegistry do
   subject(:registry) { described_class.instance }
+  let(:stenographer) { double('stenographer') }
   let(:request_pattern) { Fabricate(:webmock_request_pattern) }
   let(:request_signature) { Fabricate(:webmock_request_signature) }
   let(:different_request_signature) { Fabricate(:webmock_request_signature, uri: 'www.thoughtworks.com') }
@@ -9,6 +10,8 @@ describe Pacto::ValidationRegistry do
 
   before(:each) do
     registry.reset!
+    Pacto.configuration.stenographer = stenographer
+    allow(stenographer).to receive(:log_validation)
   end
 
   describe 'reset!' do
