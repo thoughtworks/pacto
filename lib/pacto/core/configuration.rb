@@ -44,7 +44,7 @@ module Pacto
     def _default_cops
       [
         Pacto::Cops::RequestBodyCop,
-        Pacto::Cops::ResponseStatusValidator,
+        Pacto::Cops::ResponseStatusCop,
         Pacto::Cops::ResponseHeaderCop,
         Pacto::Cops::ResponseBodyCop
       ]

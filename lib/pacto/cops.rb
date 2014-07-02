@@ -31,7 +31,7 @@ module Pacto
       def perform_investigation(request, response, contract)
         results = []
         active_cops.map do | cop |
-          results.concat cop.validate(request, response, contract)
+          results.concat cop.investigate(request, response, contract)
         end
         Validation.new(request, response, contract, results.compact)
       end

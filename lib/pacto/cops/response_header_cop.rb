@@ -1,7 +1,7 @@
 module Pacto
   module Cops
     class ResponseHeaderCop
-      def self.validate(_request, response, contract)
+      def self.investigate(_request, response, contract)
         expected_headers = contract.response.headers
         actual_headers = response.headers
         actual_headers = Pacto::Extensions.normalize_header_keys actual_headers

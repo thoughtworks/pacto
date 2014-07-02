@@ -1,7 +1,7 @@
 module Pacto
   module Cops
-    class ResponseStatusValidator
-      def self.validate(_request, response, contract)
+    class ResponseStatusCop
+      def self.investigate(_request, response, contract)
         expected_status = contract.response.status
         actual_status = response.status
         errors = []

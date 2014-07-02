@@ -10,7 +10,7 @@ module Pacto
         fail 'override to return the proper subschema the contract'
       end
 
-      def self.validate(_request, response, contract)
+      def self.investigate(_request, response, contract)
         schema = subschema(contract)
         if schema && !schema.empty?
           schema['id'] = contract.file unless schema.key? 'id'

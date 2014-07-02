@@ -1,7 +1,7 @@
 module Pacto
   module Cops
     describe BodyCop do
-      subject(:validator)    { ResponseBodyCop }
+      subject(:cop)    { ResponseBodyCop }
       let(:string_required)  { %w(#) }
       let(:contract)         do
         response_clause = Fabricate(:response_clause, schema: schema)
@@ -18,7 +18,7 @@ module Pacto
 
           it 'gives no errors without validating body' do
             expect(JSON::Validator).not_to receive(:fully_validate)
-            expect(validator.validate(request, response, contract)).to be_empty
+            expect(cop.investigate(request, response, contract)).to be_empty
           end
         end
 
@@ -26,18 +26,18 @@ module Pacto
           let(:schema) { { 'type' => 'string', 'required' => string_required } }
 
           it 'does not validate using JSON Schema' do
-            validator.validate(request, response, contract)
+            cop.investigate(request, response, contract)
           end
 
           context 'if required' do
             it 'does not return an error when body is a string' do
               response.body = 'asdf'
-              expect(validator.validate(request, response, contract)).to be_empty
+              expect(cop.investigate(request, response, contract)).to be_empty
             end
 
             it 'returns an error when body is nil' do
               response.body = nil
-              expect(validator.validate(request, response, contract).size).to eq 1
+              expect(cop.investigate(request, response, contract).size).to eq 1
             end
           end
 
@@ -45,12 +45,12 @@ module Pacto
             let(:string_required) { %w() }
 
             it 'does not return an error when body is a string' do
-              expect(validator.validate(request, response, contract)).to be_empty
+              expect(cop.investigate(request, response, contract)).to be_empty
             end
 
             it 'does not return an error when body is empty' do
               response.body = ''
-              expect(validator.validate(request, response, contract)).to be_empty
+              expect(cop.investigate(request, response, contract)).to be_empty
             end
           end
 
@@ -64,14 +64,14 @@ module Pacto
             context 'body matches pattern' do
               it 'does not return an error' do
                 response.body = 'abc'
-                expect(validator.validate(request, response, contract)).to be_empty
+                expect(cop.investigate(request, response, contract)).to be_empty
               end
             end
 
             context 'body does not match pattern' do
               it 'returns an error' do
                 response.body = 'acb' # This does not matches the pattern /a.c/
-                expect(validator.validate(request, response, contract).size).to eq 1
+                expect(cop.investigate(request, response, contract).size).to eq 1
               end
             end
           end
@@ -83,7 +83,7 @@ module Pacto
           context 'when body matches' do
             it 'does not return any errors' do
               expect(JSON::Validator).to receive(:fully_validate).and_return([])
-              expect(validator.validate(request, response, contract)).to be_empty
+              expect(cop.investigate(request, response, contract)).to be_empty
             end
           end
 
@@ -91,7 +91,7 @@ module Pacto
             it 'returns a list of errors' do
               errors = double 'some errors'
               expect(JSON::Validator).to receive(:fully_validate).and_return(errors)
-              expect(validator.validate(request, response, contract)).to eq(errors)
+              expect(cop.investigate(request, response, contract)).to eq(errors)
             end
           end
         end
