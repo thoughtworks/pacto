@@ -1,5 +1,5 @@
 module Pacto
-  describe ValidatorStack do
+  describe Cops do
     let(:validation_errors) { ['some error', 'another error'] }
 
     let(:expected_response) do
@@ -8,14 +8,15 @@ module Pacto
 
     let(:actual_response) do
       # TODO: Replace this with a Fabrication for Pacto::PactoResponse (perhaps backed by WebMock)
-      double(
-        status: 200,
-        headers: { 'Content-Type' => 'application/json', 'Age' => '60' },
-        body: { 'message' => 'response' }
-      )
+      Fabricate(:pacto_response)
+      # double(
+      #   status: 200,
+      #   headers: { 'Content-Type' => 'application/json', 'Age' => '60' },
+      #   body: { 'message' => 'response' }
+      # )
     end
 
-    let(:actual_request) { double :actual_request }
+    let(:actual_request) { Fabricate(:pacto_request) }
 
     let(:expected_request) do
       Fabricate(:request_clause)
@@ -36,7 +37,7 @@ module Pacto
       end
 
       context 'default validator stack' do
-        let(:validation) { subject.validate_contract actual_request, actual_response, contract }
+        let(:validation) { described_class.perform_investigation actual_request, actual_response, contract }
 
         it 'calls the RequestBodyCop' do
           expect(Pacto::Cops::RequestBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
@@ -68,7 +69,7 @@ module Pacto
           expect(Pacto::Cops::ResponseStatusValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
           expect(Pacto::Cops::ResponseHeaderCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
           expect(Pacto::Cops::ResponseBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
-          expect(subject.validate_contract actual_request, actual_response, contract).to be_successful
+          expect(described_class.perform_investigation actual_request, actual_response, contract).to be_successful
         end
       end
     end

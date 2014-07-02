@@ -5,6 +5,10 @@ module Pacto
       @resettables ||= []
     end
 
+    def self.extended(base)
+      resettables << base
+    end
+
     def self.included(base)
       resettables << base
     end

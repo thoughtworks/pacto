@@ -7,7 +7,7 @@ module Pacto
 
     def initialize
       @middleware = Pacto::Core::HTTPMiddleware.new
-      @middleware.add_observer Pacto::ValidatorStack, :validate
+      @middleware.add_observer Pacto::Cops, :investigate
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
       @default_cops = _default_cops

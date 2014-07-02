@@ -24,12 +24,6 @@ module Pacto
       super
     end
 
-    def validator_stack
-      @validator_stack ||= Pacto::ValidatorStack.new
-    end
-
-    attr_writer :validator_stack
-
     def examples?
       examples && !examples.empty?
     end
@@ -46,7 +40,7 @@ module Pacto
 
     # Should this be deprecated?
     def validate_response(request, response)
-      validator_stack.validate_contract request, response, self
+      Pacto::Cops.perform_investigation request, response, self
     end
 
     def matches?(request_signature)

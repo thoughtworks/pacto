@@ -6,10 +6,6 @@ module Pacto
     let(:validation_results) { [] }
     let(:validation_results_with_errors) { ['an error occurred'] }
 
-    before(:each) do
-      allow(contract).to receive(:validate_response)
-    end
-
     it 'stores the request, response, contract and results' do
       validation = Pacto::Validation.new request, response, contract, validation_results
       expect(validation.request).to eq request

@@ -18,7 +18,6 @@ module Pacto
     let(:request_pattern_provider) { double(for: nil) }
     let(:consumer_driver) { double }
     let(:provider_actor) { double }
-    let(:validator_stack) { double }
 
     subject(:contract) do
       described_class.new(
@@ -48,24 +47,13 @@ module Pacto
     context 'validations' do
       let(:request) { Pacto.configuration.default_consumer.build_request contract }
       let(:fake_response) { Fabricate(:pacto_response) } # double('fake response') }
-      let(:validation_result) { double 'validation result' }
-      let(:validation) { Validation.new request, fake_response, contract, validation_result }
+      let(:validator) { double 'validator' }
+      let(:validation_results) { [double('validation result')] }
 
       before do
-        contract.validator_stack = validator_stack
-        allow(validator_stack).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation
-      end
-
-      describe '#validate_response' do
-        it 'returns the result of the validation' do
-          expect(validator_stack).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
-          expect(contract.validate_response request, fake_response).to eq validation
-        end
-
-        it 'does not generate another response' do
-          expect(consumer_driver).not_to receive :execute
-          contract.validate_response request, fake_response
-        end
+        Pacto::Cops.active_cops.clear
+        Pacto::Cops.active_cops << validator
+        allow(validator).to receive(:validate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation_results
       end
 
       describe '#simulate_request' do
@@ -79,8 +67,9 @@ module Pacto
         end
 
         it 'returns the result of the validating the generated response' do
-          expect(validator_stack).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
-          expect(contract.simulate_request).to eq validation
+          expect(validator).to receive(:validate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
+          validation = contract.simulate_request
+          expect(validation.results).to eq validation_results
         end
       end
     end
