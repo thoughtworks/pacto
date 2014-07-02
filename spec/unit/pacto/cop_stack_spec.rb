@@ -31,30 +31,30 @@ module Pacto
 
     describe '#validate_contract' do
       before do
-        allow(Pacto::Validators::RequestBodyValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
-        allow(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
+        allow(Pacto::Cops::RequestBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
+        allow(Pacto::Cops::ResponseBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
       end
 
       context 'default validator stack' do
         let(:validation) { subject.validate_contract actual_request, actual_response, contract }
 
-        it 'calls the RequestBodyValidator' do
-          expect(Pacto::Validators::RequestBodyValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
+        it 'calls the RequestBodyCop' do
+          expect(Pacto::Cops::RequestBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
           expect(validation.results).to eq(validation_errors)
         end
 
         it 'calls the ResponseStatusValidator' do
-          expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
+          expect(Pacto::Cops::ResponseStatusValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
           expect(validation.results).to eq(validation_errors)
         end
 
-        it 'calls the ResponseHeaderValidator' do
-          expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
+        it 'calls the ResponseHeaderCop' do
+          expect(Pacto::Cops::ResponseHeaderCop).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
           expect(validation.results).to eq(validation_errors)
         end
 
-        it 'calls the ResponseBodyValidator' do
-          expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
+        it 'calls the ResponseBodyCop' do
+          expect(Pacto::Cops::ResponseBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return(validation_errors)
           expect(validation.results).to eq(validation_errors)
         end
       end
@@ -64,10 +64,10 @@ module Pacto
           # JSON::Validator.should_receive(:fully_validate).
           #   with(definition['body'], fake_response.body, :version => :draft3).
           #   and_return([])
-          expect(Pacto::Validators::RequestBodyValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
-          expect(Pacto::Validators::ResponseStatusValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
-          expect(Pacto::Validators::ResponseHeaderValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
-          expect(Pacto::Validators::ResponseBodyValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
+          expect(Pacto::Cops::RequestBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
+          expect(Pacto::Cops::ResponseStatusValidator).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
+          expect(Pacto::Cops::ResponseHeaderCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
+          expect(Pacto::Cops::ResponseBodyCop).to receive(:validate).with(actual_request, actual_response, contract).and_return([])
           expect(subject.validate_contract actual_request, actual_response, contract).to be_successful
         end
       end

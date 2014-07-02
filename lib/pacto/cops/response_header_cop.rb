@@ -1,6 +1,6 @@
 module Pacto
-  module Validators
-    class ResponseHeaderValidator
+  module Cops
+    class ResponseHeaderCop
       def self.validate(_request, response, contract)
         expected_headers = contract.response.headers
         actual_headers = response.headers

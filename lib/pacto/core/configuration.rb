@@ -2,7 +2,7 @@ module Pacto
   class Configuration
     attr_accessor :adapter, :strict_matchers,
                   :contracts_path, :logger, :generator_options,
-                  :hide_deprecations, :default_consumer, :default_provider, :default_validators
+                  :hide_deprecations, :default_consumer, :default_provider, :default_cops
     attr_reader :hook
 
     def initialize
@@ -10,7 +10,7 @@ module Pacto
       @middleware.add_observer Pacto::ValidatorStack, :validate
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
-      @default_validators = _default_validators
+      @default_cops = _default_cops
       @default_consumer = Pacto::Consumer
       @default_provider = Pacto::Provider
       @adapter = Stubs::WebMockAdapter.new(@middleware)
@@ -41,12 +41,12 @@ module Pacto
       end
     end
 
-    def _default_validators
+    def _default_cops
       [
-        Pacto::Validators::RequestBodyValidator,
-        Pacto::Validators::ResponseStatusValidator,
-        Pacto::Validators::ResponseHeaderValidator,
-        Pacto::Validators::ResponseBodyValidator
+        Pacto::Cops::RequestBodyCop,
+        Pacto::Cops::ResponseStatusValidator,
+        Pacto::Cops::ResponseHeaderCop,
+        Pacto::Cops::ResponseBodyCop
       ]
     end
   end

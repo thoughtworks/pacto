@@ -1,5 +1,5 @@
 module Pacto
-  module Validators
+  module Cops
     class ResponseStatusValidator
       def self.validate(_request, response, contract)
         expected_status = contract.response.status

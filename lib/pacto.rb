@@ -48,12 +48,12 @@ require 'pacto/contract_files'
 require 'pacto/contract_list'
 require 'pacto/uri'
 
-# Validators
-require 'pacto/validators/body_validator'
-require 'pacto/validators/request_body_validator'
-require 'pacto/validators/response_body_validator'
-require 'pacto/validators/response_status_validator'
-require 'pacto/validators/response_header_validator'
+# Cops
+require 'pacto/cops/body_cop'
+require 'pacto/cops/request_body_cop'
+require 'pacto/cops/response_body_cop'
+require 'pacto/cops/response_status_cop'
+require 'pacto/cops/response_header_cop'
 
 module Pacto
   class << self

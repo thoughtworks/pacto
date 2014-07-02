@@ -1,5 +1,5 @@
 module Pacto
-  module Validators
+  module Cops
     describe ResponseStatusValidator do
       subject(:validator) { described_class }
       let(:contract) { Fabricate(:contract) }

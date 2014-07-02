@@ -1,7 +1,7 @@
 module Pacto
-  module Validators
-    describe BodyValidator do
-      subject(:validator)    { ResponseBodyValidator }
+  module Cops
+    describe BodyCop do
+      subject(:validator)    { ResponseBodyCop }
       let(:string_required)  { %w(#) }
       let(:contract)         do
         response_clause = Fabricate(:response_clause, schema: schema)

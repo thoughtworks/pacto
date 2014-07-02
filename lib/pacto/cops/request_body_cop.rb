@@ -1,6 +1,6 @@
 module Pacto
-  module Validators
-    class RequestBodyValidator < BodyValidator
+  module Cops
+    class RequestBodyCop < BodyCop
       def self.section_name
         'request'
       end

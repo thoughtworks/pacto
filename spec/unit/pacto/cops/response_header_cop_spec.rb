@@ -1,6 +1,6 @@
 module Pacto
-  module Validators
-    describe ResponseHeaderValidator do
+  module Cops
+    describe ResponseHeaderCop do
       subject(:validator) { described_class }
       let(:contract)         do
         response_clause = Fabricate(:response_clause, headers: expected_headers)

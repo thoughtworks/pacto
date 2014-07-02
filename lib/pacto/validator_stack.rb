@@ -18,7 +18,7 @@ module Pacto
     end
 
     def validators
-      @validators ||= Pacto.configuration.default_validators
+      @validators ||= Pacto.configuration.default_cops
     end
 
     def validate_contract(request, response, contract)

@@ -1,7 +1,7 @@
 
 module Pacto
-  module Validators
-    class BodyValidator
+  module Cops
+    class BodyCop
       def self.section_name
         fail 'section name should be provided by subclass'
       end
