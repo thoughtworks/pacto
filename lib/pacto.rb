@@ -26,7 +26,7 @@ require 'pacto/actors/from_examples'
 require 'pacto/core/pacto_request'
 require 'pacto/core/pacto_response'
 require 'pacto/core/contract_registry'
-require 'pacto/core/validation_registry'
+require 'pacto/core/investigation_registry'
 require 'pacto/core/configuration'
 require 'pacto/core/modes'
 require 'pacto/core/hook'
@@ -39,7 +39,7 @@ require 'pacto/stubs/uri_pattern'
 require 'pacto/contract'
 require 'pacto/cops'
 require 'pacto/contract_factory'
-require 'pacto/validation'
+require 'pacto/investigation'
 require 'pacto/meta_schema'
 require 'pacto/hooks/erb_hook'
 require 'pacto/generator'
@@ -89,7 +89,7 @@ module Pacto
       puts "Validating #{contract}"
       true
     rescue InvalidContract => exception
-      puts 'Validation errors detected'
+      puts 'Investigation errors detected'
       exception.errors.each do |error|
         puts "  Error: #{error}"
       end

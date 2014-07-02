@@ -1,5 +1,5 @@
 module Pacto
-  class Validation
+  class Investigation
     include Logger
     attr_reader :request, :response, :contract, :citations
 
@@ -28,7 +28,7 @@ module Pacto
     def to_s
       contract_name = @contract.nil? ? 'nil' : contract.name
       ''"
-      Validation:
+      Investigation:
       \tRequest: #{@request}
       \tContract: #{contract_name}
       \tCitations: \n\t\t#{@citations.join "\n\t\t"}
@@ -40,7 +40,7 @@ module Pacto
         "Missing contract for services provided by #{@request.uri.host}"
       else
         status = successful? ? 'successful' : 'unsuccessful'
-        "#{status} validation of #{@contract.name}"
+        "#{status} investigation of #{@contract.name}"
       end
     end
   end

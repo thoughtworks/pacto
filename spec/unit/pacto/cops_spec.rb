@@ -1,6 +1,6 @@
 module Pacto
   describe Cops do
-    let(:validation_errors) { ['some error', 'another error'] }
+    let(:investigation_errors) { ['some error', 'another error'] }
 
     let(:expected_response) do
       Fabricate(:response_clause)
@@ -37,26 +37,26 @@ module Pacto
       end
 
       context 'default cops' do
-        let(:validation) { described_class.perform_investigation actual_request, actual_response, contract }
+        let(:investigation) { described_class.perform_investigation actual_request, actual_response, contract }
 
         it 'calls the RequestBodyCop' do
-          expect(Pacto::Cops::RequestBodyCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.citations).to eq(validation_errors)
+          expect(Pacto::Cops::RequestBodyCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(investigation_errors)
+          expect(investigation.citations).to eq(investigation_errors)
         end
 
         it 'calls the ResponseStatusCop' do
-          expect(Pacto::Cops::ResponseStatusCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.citations).to eq(validation_errors)
+          expect(Pacto::Cops::ResponseStatusCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(investigation_errors)
+          expect(investigation.citations).to eq(investigation_errors)
         end
 
         it 'calls the ResponseHeaderCop' do
-          expect(Pacto::Cops::ResponseHeaderCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.citations).to eq(validation_errors)
+          expect(Pacto::Cops::ResponseHeaderCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(investigation_errors)
+          expect(investigation.citations).to eq(investigation_errors)
         end
 
         it 'calls the ResponseBodyCop' do
-          expect(Pacto::Cops::ResponseBodyCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.citations).to eq(validation_errors)
+          expect(Pacto::Cops::ResponseBodyCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(investigation_errors)
+          expect(investigation.citations).to eq(investigation_errors)
         end
       end
 

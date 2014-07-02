@@ -9,8 +9,8 @@ end
 
 RSpec::Matchers.define :have_unmatched_requests do |_method, _uri|
   match do
-    @unmatched_validations = Pacto::ValidationRegistry.instance.unmatched_validations
-    !@unmatched_validations.empty?
+    @unmatched_investigations = Pacto::InvestigationRegistry.instance.unmatched_investigations
+    !@unmatched_investigations.empty?
   end
 
   failure_message_for_should do
@@ -18,23 +18,23 @@ RSpec::Matchers.define :have_unmatched_requests do |_method, _uri|
   end
 
   failure_message_for_should_not do
-    unmatched_requests = @unmatched_validations.map(&:request).join("\n  ")
+    unmatched_requests = @unmatched_investigations.map(&:request).join("\n  ")
     "Expected Pacto to have matched all requests to a Contract, but the following requests were not matched: \n  #{unmatched_requests}"
   end
 end
 
-RSpec::Matchers.define :have_failed_validations do |_method, _uri|
+RSpec::Matchers.define :have_failed_investigations do |_method, _uri|
   match do
-    @failed_validations = Pacto::ValidationRegistry.instance.failed_validations
-    !@failed_validations.empty?
+    @failed_investigations = Pacto::InvestigationRegistry.instance.failed_investigations
+    !@failed_investigations.empty?
   end
 
   failure_message_for_should do
-    'Expected Pacto to have found validation problems, but none were found.'
+    'Expected Pacto to have found investigation problems, but none were found.'
   end
 
   failure_message_for_should_not do
-    "Expected Pacto to have successfully validated all requests, but the following issues were found: #{@failed_validations}"
+    "Expected Pacto to have successfully validated all requests, but the following issues were found: #{@failed_investigations}"
   end
 end
 
@@ -54,22 +54,22 @@ RSpec::Matchers.define :have_validated do |method, uri|
   end
 
   def validated?(_request_pattern)
-    @matching_validations = Pacto::ValidationRegistry.instance.validated? @request_pattern
-    validated = !@matching_validations.nil?
+    @matching_investigations = Pacto::InvestigationRegistry.instance.validated? @request_pattern
+    validated = !@matching_investigations.nil?
     validated && successfully? && contract_matches?
   end
 
-  def validation_citations
-    @validation_citations ||= @matching_validations.map(&:citations).flatten.compact
+  def investigation_citations
+    @investigation_citations ||= @matching_investigations.map(&:citations).flatten.compact
   end
 
   def successfully?
-    @matching_validations.map(&:successful?).uniq.eql? [true]
+    @matching_investigations.map(&:successful?).uniq.eql? [true]
   end
 
   def contract_matches?
     if @contract
-      validated_contracts = @matching_validations.map(&:contract)
+      validated_contracts = @matching_investigations.map(&:contract)
       # Is there a better option than case equality for string & regex support?
       validated_contracts.map(&:file).index { |file| @contract === file } # rubocop:disable CaseEquality
     else
@@ -80,21 +80,21 @@ RSpec::Matchers.define :have_validated do |method, uri|
   failure_message_for_should do
     buffer = StringIO.new
     buffer.puts "expected Pacto to have validated #{@request_pattern}"
-    if @matching_validations.nil? || @matching_validations.empty?
+    if @matching_investigations.nil? || @matching_investigations.empty?
       buffer.puts '  but no matching request was received'
       buffer.puts '    received:'
       buffer.puts "#{WebMock::RequestRegistry.instance}"
-    elsif @matching_validations.map(&:contract).compact.empty?
+    elsif @matching_investigations.map(&:contract).compact.empty?
       buffer.puts '  but a matching Contract was not found'
     elsif !successfully?
-      buffer.puts '  but validation errors were found:'
+      buffer.puts '  but investigation errors were found:'
       buffer.print '    '
-      buffer.puts validation_citations.join "\n    "
-      # validation_citations.each do |validation_result|
-      #   buffer.puts "    #{validation_result}"
+      buffer.puts investigation_citations.join "\n    "
+      # investigation_citations.each do |investigation_result|
+      #   buffer.puts "    #{investigation_result}"
       # end
     elsif @contract
-      validated_against = @matching_validations.map { |v| v.against_contract? @contract }.compact.join ','
+      validated_against = @matching_investigations.map { |v| v.against_contract? @contract }.compact.join ','
       buffer.puts "  against Contract #{@contract}"
       buffer.puts "    but it was validated against #{validated_against}"
     end

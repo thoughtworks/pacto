@@ -63,7 +63,7 @@ module Pacto
               }
             end
 
-            it 'returns a validation error' do
+            it 'returns a investigation error' do
               response.headers = actual_headers
               expect(cop.investigate(request, response, contract)).to eq ["Invalid response header Location: expected URI #{actual_headers['Location']} to match URI Template #{expected_headers['Location']}"]
             end

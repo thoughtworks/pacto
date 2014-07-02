@@ -8,7 +8,7 @@ module Pacto
       end
 
       def register_cop(cop)
-        raise TypeError "#{cop} does not respond to investigate" unless cop.respond_to? :investigate
+        fail TypeError "#{cop} does not respond to investigate" unless cop.respond_to? :investigate
         registered_cops << cop
       end
 
@@ -25,12 +25,12 @@ module Pacto
 
         contract = Pacto.contracts_for(request_signature).first
         if contract
-          validation = perform_investigation request_signature, pacto_response, contract
+          investigation = perform_investigation request_signature, pacto_response, contract
         else
-          validation = Validation.new request_signature, pacto_response
+          investigation = Investigation.new request_signature, pacto_response
         end
 
-        Pacto::ValidationRegistry.instance.register_validation validation
+        Pacto::InvestigationRegistry.instance.register_investigation investigation
       end
 
       def perform_investigation(request, response, contract)
@@ -38,7 +38,7 @@ module Pacto
         active_cops.map do | cop |
           citations.concat cop.investigate(request, response, contract)
         end
-        Validation.new(request, response, contract, citations.compact)
+        Investigation.new(request, response, contract, citations.compact)
       end
     end
   end
