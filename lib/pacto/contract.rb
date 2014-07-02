@@ -33,14 +33,14 @@ module Pacto
       adapter.stub_request!(self)
     end
 
-    def simulate_request(opts = {})
+    def simulate_request
       pacto_request, pacto_response = execute
-      validate_response pacto_request, pacto_response, opts
+      validate_response pacto_request, pacto_response
     end
 
     # Should this be deprecated?
-    def validate_response(request, response, opts = {})
-      Pacto::ContractValidator.validate_contract request, response, self, opts
+    def validate_response(request, response)
+      Pacto::ContractValidator.validate_contract request, response, self
     end
 
     def matches?(request_signature)

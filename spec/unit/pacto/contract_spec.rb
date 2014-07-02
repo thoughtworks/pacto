@@ -51,12 +51,12 @@ module Pacto
       let(:validation) { Validation.new request, fake_response, contract, validation_result }
 
       before do
-        allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {}).and_return validation
+        allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation
       end
 
       describe '#validate_response' do
         it 'returns the result of the validation' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
+          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
           expect(contract.validate_response request, fake_response).to eq validation
         end
 
@@ -77,7 +77,7 @@ module Pacto
         end
 
         it 'returns the result of the validating the generated response' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
+          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
           expect(contract.simulate_request).to eq validation
         end
       end

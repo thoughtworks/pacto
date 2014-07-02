@@ -16,14 +16,14 @@ module Pacto
         end
       end
 
-      def validate_contract(request, response, contract, opts = {})
+      def validate_contract(request, response, contract)
         env = {
           contract: contract,
           actual_request: request,
           actual_response: response,
           validation_results: []
         }
-        validation_stack(opts).call env
+        validation_stack.call env
         results = env[:validation_results].compact
 
         Validation.new request, response, contract, results
@@ -31,13 +31,11 @@ module Pacto
 
       private
 
-      def validation_stack(opts)
+      def validation_stack
         Middleware::Builder.new do
           use Pacto::Validators::RequestBodyValidator
-          unless opts[:body_only]
-            use Pacto::Validators::ResponseStatusValidator
-            use Pacto::Validators::ResponseHeaderValidator
-          end
+          use Pacto::Validators::ResponseStatusValidator
+          use Pacto::Validators::ResponseHeaderValidator
           use Pacto::Validators::ResponseBodyValidator
         end
       end
