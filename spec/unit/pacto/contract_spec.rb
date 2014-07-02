@@ -18,6 +18,7 @@ module Pacto
     let(:request_pattern_provider) { double(for: nil) }
     let(:consumer_driver) { double }
     let(:provider_actor) { double }
+    let(:validator_stack) { double }
 
     subject(:contract) do
       described_class.new(
@@ -46,17 +47,18 @@ module Pacto
 
     context 'validations' do
       let(:request) { Pacto.configuration.default_consumer.build_request contract }
-      let(:fake_response) { double('fake response') }
+      let(:fake_response) { Fabricate(:pacto_response) } # double('fake response') }
       let(:validation_result) { double 'validation result' }
       let(:validation) { Validation.new request, fake_response, contract, validation_result }
 
       before do
-        allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation
+        contract.validator_stack = validator_stack
+        allow(validator_stack).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation
       end
 
       describe '#validate_response' do
         it 'returns the result of the validation' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
+          expect(validator_stack).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
           expect(contract.validate_response request, fake_response).to eq validation
         end
 
@@ -77,7 +79,7 @@ module Pacto
         end
 
         it 'returns the result of the validating the generated response' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
+          expect(validator_stack).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
           expect(contract.simulate_request).to eq validation
         end
       end

@@ -19,10 +19,16 @@ module Pacto
     property :provider, default: proc { Pacto.configuration.default_provider }
 
     def initialize(opts)
-      opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
+      opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
       opts[:name] ||= opts[:file]
       super
     end
+
+    def validator_stack
+      @validator_stack ||= Pacto::ValidatorStack.new
+    end
+
+    attr_writer :validator_stack
 
     def examples?
       examples && !examples.empty?
@@ -40,7 +46,7 @@ module Pacto
 
     # Should this be deprecated?
     def validate_response(request, response)
-      Pacto::ContractValidator.validate_contract request, response, self
+      validator_stack.validate_contract request, response, self
     end
 
     def matches?(request_signature)

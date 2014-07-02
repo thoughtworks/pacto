@@ -2,15 +2,15 @@ module Pacto
   class Configuration
     attr_accessor :adapter, :strict_matchers,
                   :contracts_path, :logger, :generator_options,
-                  :hide_deprecations, :default_consumer, :default_provider
+                  :hide_deprecations, :default_consumer, :default_provider, :default_validators
     attr_reader :hook
 
     def initialize
       @middleware = Pacto::Core::HTTPMiddleware.new
-      @middleware.add_observer Pacto::ContractValidator, :validate
+      @middleware.add_observer Pacto::ValidatorStack, :validate
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
-
+      @default_validators = _default_validators
       @default_consumer = Pacto::Consumer
       @default_provider = Pacto::Provider
       @adapter = Stubs::WebMockAdapter.new(@middleware)
@@ -39,6 +39,15 @@ module Pacto
       else
         @logger.level = :default
       end
+    end
+
+    def _default_validators
+      [
+        Pacto::Validators::RequestBodyValidator,
+        Pacto::Validators::ResponseStatusValidator,
+        Pacto::Validators::ResponseHeaderValidator,
+        Pacto::Validators::ResponseBodyValidator
+      ]
     end
   end
 end

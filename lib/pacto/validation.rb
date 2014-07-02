@@ -3,15 +3,15 @@ module Pacto
     include Logger
     attr_reader :request, :response, :contract, :results
 
-    def initialize(request, response, contract, results)
+    def initialize(request, response, contract = nil, results = nil)
       @request = request
       @response = response
       @contract = contract
-      @results = results
+      @results = results || []
     end
 
     def successful?
-      @results.nil? || @results.empty?
+      @results.empty?
     end
 
     def against_contract?(contract_pattern)

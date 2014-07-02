@@ -1,29 +1,16 @@
 module Pacto
   module Validators
     describe BodyValidator do
-      class MyBodyValidator < BodyValidator
-        class << self
-          attr_writer :subschema
-
-          def section_name
-            'my_section'
-          end
-
-          def subschema(_contract)
-            @subschema # rubocop:disable RSpec/InstanceVariable
-          end
-        end
-      end
-
-      subject(:validator)    { MyBodyValidator }
+      subject(:validator)    { ResponseBodyValidator }
       let(:string_required)  { %w(#) }
-      let(:contract)         { Fabricate(:contract, file: 'file:///a.json') }
+      let(:contract)         do
+        response_clause = Fabricate(:response_clause, schema: schema)
+        Fabricate(:contract, file: 'file:///a.json', response: response_clause)
+      end
       let(:body)             { 'a simple string' }
       let(:fake_interaction) { double(:fake_interaction, body: body) }
-
-      before(:each) do
-        MyBodyValidator.subschema = schema
-      end
+      let(:request)          { Fabricate(:pacto_request) }
+      let(:response)         { Fabricate(:pacto_response) }
 
       describe '#validate' do
         context 'when schema is not specified' do
@@ -31,7 +18,7 @@ module Pacto
 
           it 'gives no errors without validating body' do
             expect(JSON::Validator).not_to receive(:fully_validate)
-            expect(validator.validate(contract, fake_interaction)).to be_empty
+            expect(validator.validate(request, response, contract)).to be_empty
           end
         end
 
@@ -39,17 +26,18 @@ module Pacto
           let(:schema) { { 'type' => 'string', 'required' => string_required } }
 
           it 'does not validate using JSON Schema' do
-            validator.validate(contract, fake_interaction)
+            validator.validate(request, response, contract)
           end
 
           context 'if required' do
             it 'does not return an error when body is a string' do
-              expect(validator.validate(contract, fake_interaction)).to be_empty
+              response.body = 'asdf'
+              expect(validator.validate(request, response, contract)).to be_empty
             end
 
             it 'returns an error when body is nil' do
-              expect(fake_interaction).to receive(:body).and_return nil
-              expect(validator.validate(contract, fake_interaction).size).to eq 1
+              response.body = nil
+              expect(validator.validate(request, response, contract).size).to eq 1
             end
           end
 
@@ -57,33 +45,33 @@ module Pacto
             let(:string_required) { %w() }
 
             it 'does not return an error when body is a string' do
-              expect(validator.validate(contract, fake_interaction)).to be_empty
+              expect(validator.validate(request, response, contract)).to be_empty
             end
 
             it 'does not return an error when body is empty' do
-              expect(fake_interaction).to receive(:body).and_return ''
-              expect(validator.validate(contract, fake_interaction)).to be_empty
+              response.body = ''
+              expect(validator.validate(request, response, contract)).to be_empty
             end
           end
 
           context 'if contains pattern' do
-            let(:schema) do
-              { type: 'string', required: string_required, pattern: 'a.c' }
+            let(:contract) do
+              schema = { type: 'string', required: string_required, pattern: 'a.c' }
+              response_clause = Fabricate(:response_clause, schema: schema)
+              Fabricate(:contract, response: response_clause)
             end
 
             context 'body matches pattern' do
-              let(:body) { 'abc' } # This matches the pattern /a.c/
-
               it 'does not return an error' do
-                expect(validator.validate(contract, fake_interaction)).to be_empty
+                response.body = 'abc'
+                expect(validator.validate(request, response, contract)).to be_empty
               end
             end
 
             context 'body does not match pattern' do
-              let(:body) { 'acb' } # This does not matches the pattern /a.c/
-
               it 'returns an error' do
-                expect(validator.validate(contract, fake_interaction).size).to eq 1
+                response.body = 'acb' # This does not matches the pattern /a.c/
+                expect(validator.validate(request, response, contract).size).to eq 1
               end
             end
           end
@@ -95,7 +83,7 @@ module Pacto
           context 'when body matches' do
             it 'does not return any errors' do
               expect(JSON::Validator).to receive(:fully_validate).and_return([])
-              expect(validator.validate(contract, fake_interaction)).to be_empty
+              expect(validator.validate(request, response, contract)).to be_empty
             end
           end
 
@@ -103,7 +91,7 @@ module Pacto
             it 'returns a list of errors' do
               errors = double 'some errors'
               expect(JSON::Validator).to receive(:fully_validate).and_return(errors)
-              expect(validator.validate(contract, fake_interaction)).to eq(errors)
+              expect(validator.validate(request, response, contract)).to eq(errors)
             end
           end
         end
