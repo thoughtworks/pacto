@@ -36,18 +36,7 @@ end
 desc 'Run the samples'
 task :samples do
   FileUtils.rm_rf('samples/tmp')
-  Dir.chdir('samples') do
-    Bundler.with_clean_env do
-      system 'bundle install'
-      Dir['**/*.rb'].each do | sample_code_file |
-        next if sample_code_file =~ /sample_api/
-        sh "bundle exec ruby -rbundler/setup -rrspec/autorun #{sample_code_file}"
-      end
-      Dir['**/*.sh'].each do | sample_script |
-        sh "./#{sample_script}"
-      end
-    end
-  end
+  sh 'bundle exec polytrix exec --code2doc samples/*.rb samples/*.sh'
 end
 
 desc 'Build the documentation from the samples'

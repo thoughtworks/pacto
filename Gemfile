@@ -23,3 +23,5 @@ group :samples do
   gem 'pry'
   gem 'rack'
 end
+
+gem 'polytrix', git: 'https://github.com/rackerlabs/polytrix'

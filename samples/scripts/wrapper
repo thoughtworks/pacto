@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Polytrix should probably support different wrappers for different langauges
+extension="${1##*.}"
+if [ $extension = "rb" ];
+then
+  bundle exec ruby "$@"
+elif [ $extension = "sh" ];
+then
+  bash "$@"
+fi
