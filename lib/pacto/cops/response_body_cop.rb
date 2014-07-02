@@ -11,3 +11,5 @@ module Pacto
     end
   end
 end
+
+Pacto::Cops.register_cop Pacto::Cops::ResponseBodyCop

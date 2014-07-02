@@ -1,4 +1,3 @@
-
 module Pacto
   module Cops
     class BodyCop

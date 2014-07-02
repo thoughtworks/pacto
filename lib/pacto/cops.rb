@@ -7,8 +7,13 @@ module Pacto
         @active_cops = nil
       end
 
+      def register_cop(cop)
+        raise TypeError "#{cop} does not respond to investigate" unless cop.respond_to? :investigate
+        registered_cops << cop
+      end
+
       def registered_cops
-        @cops ||= Pacto.configuration.default_cops
+        @registered_cops ||= Set.new
       end
 
       def active_cops
