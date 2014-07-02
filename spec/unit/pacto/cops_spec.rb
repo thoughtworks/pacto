@@ -41,22 +41,22 @@ module Pacto
 
         it 'calls the RequestBodyCop' do
           expect(Pacto::Cops::RequestBodyCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.results).to eq(validation_errors)
+          expect(validation.citations).to eq(validation_errors)
         end
 
         it 'calls the ResponseStatusCop' do
           expect(Pacto::Cops::ResponseStatusCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.results).to eq(validation_errors)
+          expect(validation.citations).to eq(validation_errors)
         end
 
         it 'calls the ResponseHeaderCop' do
           expect(Pacto::Cops::ResponseHeaderCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.results).to eq(validation_errors)
+          expect(validation.citations).to eq(validation_errors)
         end
 
         it 'calls the ResponseBodyCop' do
           expect(Pacto::Cops::ResponseBodyCop).to receive(:investigate).with(actual_request, actual_response, contract).and_return(validation_errors)
-          expect(validation.results).to eq(validation_errors)
+          expect(validation.citations).to eq(validation_errors)
         end
       end
 

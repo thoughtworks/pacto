@@ -48,12 +48,12 @@ module Pacto
       let(:request) { Pacto.configuration.default_consumer.build_request contract }
       let(:fake_response) { Fabricate(:pacto_response) } # double('fake response') }
       let(:cop) { double 'cop' }
-      let(:validation_results) { [double('validation result')] }
+      let(:validation_citations) { [double('validation result')] }
 
       before do
         Pacto::Cops.active_cops.clear
         Pacto::Cops.active_cops << cop
-        allow(cop).to receive(:investigate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation_results
+        allow(cop).to receive(:investigate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return validation_citations
       end
 
       describe '#simulate_request' do
@@ -69,7 +69,7 @@ module Pacto
         it 'returns the result of the validating the generated response' do
           expect(cop).to receive(:investigate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
           validation = contract.simulate_request
-          expect(validation.results).to eq validation_results
+          expect(validation.citations).to eq validation_citations
         end
       end
     end

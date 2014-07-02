@@ -34,11 +34,11 @@ module Pacto
       end
 
       def perform_investigation(request, response, contract)
-        results = []
+        citations = []
         active_cops.map do | cop |
-          results.concat cop.investigate(request, response, contract)
+          citations.concat cop.investigate(request, response, contract)
         end
-        Validation.new(request, response, contract, results.compact)
+        Validation.new(request, response, contract, citations.compact)
       end
     end
   end

@@ -42,11 +42,11 @@ describe Pacto::ValidationRegistry do
     let(:contract) { Fabricate(:contract) }
 
     it 'returns validations with no contract' do
-      validation_with_results = Pacto::Validation.new(different_request_signature, double, contract, [])
+      validation_with_citations = Pacto::Validation.new(different_request_signature, double, contract, [])
       registry.register_validation(validation)
       registry.register_validation(validation_for_a_similar_request)
       registry.register_validation(validation_for_a_different_request)
-      registry.register_validation(validation_with_results)
+      registry.register_validation(validation_with_citations)
 
       expect(registry.unmatched_validations).to match_array([validation, validation_for_a_similar_request, validation_for_a_different_request])
     end
@@ -54,21 +54,21 @@ describe Pacto::ValidationRegistry do
 
   describe '.failed_validations' do
     let(:contract) { Fabricate(:contract) }
-    let(:results2) { double('results2', :empty? => false, :join => 'wtf') }
+    let(:citations2) { double('citations2', :empty? => false, :join => 'wtf') }
 
-    it 'returns validations with unsuccessful results' do
+    it 'returns validations with unsuccessful citations' do
       allow(contract).to receive(:name).and_return 'test'
-      validation_with_successful_results = Pacto::Validation.new(request_signature, double, nil, ['error'])
-      validation_with_unsuccessful_results = Pacto::Validation.new(request_signature, double, nil, %w(error2 error3))
+      validation_with_successful_citations = Pacto::Validation.new(request_signature, double, nil, ['error'])
+      validation_with_unsuccessful_citations = Pacto::Validation.new(request_signature, double, nil, %w(error2 error3))
 
-      expect(validation_with_successful_results).to receive(:successful?).and_return true
-      expect(validation_with_unsuccessful_results).to receive(:successful?).and_return false
+      expect(validation_with_successful_citations).to receive(:successful?).and_return true
+      expect(validation_with_unsuccessful_citations).to receive(:successful?).and_return false
 
       registry.register_validation(validation)
-      registry.register_validation(validation_with_successful_results)
-      registry.register_validation(validation_with_unsuccessful_results)
+      registry.register_validation(validation_with_successful_citations)
+      registry.register_validation(validation_with_unsuccessful_citations)
 
-      expect(registry.failed_validations).to match_array([validation_with_unsuccessful_results])
+      expect(registry.failed_validations).to match_array([validation_with_unsuccessful_citations])
     end
   end
 end

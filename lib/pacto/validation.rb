@@ -1,17 +1,17 @@
 module Pacto
   class Validation
     include Logger
-    attr_reader :request, :response, :contract, :results
+    attr_reader :request, :response, :contract, :citations
 
-    def initialize(request, response, contract = nil, results = nil)
+    def initialize(request, response, contract = nil, citations = nil)
       @request = request
       @response = response
       @contract = contract
-      @results = results || []
+      @citations = citations || []
     end
 
     def successful?
-      @results.empty?
+      @citations.empty?
     end
 
     def against_contract?(contract_pattern)
@@ -31,7 +31,7 @@ module Pacto
       Validation:
       \tRequest: #{@request}
       \tContract: #{contract_name}
-      \tResults: \n\t\t#{@results.join "\n\t\t"}
+      \tCitations: \n\t\t#{@citations.join "\n\t\t"}
       "''
     end
 

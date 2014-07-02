@@ -59,8 +59,8 @@ RSpec::Matchers.define :have_validated do |method, uri|
     validated && successfully? && contract_matches?
   end
 
-  def validation_results
-    @validation_results ||= @matching_validations.map(&:results).flatten.compact
+  def validation_citations
+    @validation_citations ||= @matching_validations.map(&:citations).flatten.compact
   end
 
   def successfully?
@@ -89,8 +89,8 @@ RSpec::Matchers.define :have_validated do |method, uri|
     elsif !successfully?
       buffer.puts '  but validation errors were found:'
       buffer.print '    '
-      buffer.puts validation_results.join "\n    "
-      # validation_results.each do |validation_result|
+      buffer.puts validation_citations.join "\n    "
+      # validation_citations.each do |validation_result|
       #   buffer.puts "    #{validation_result}"
       # end
     elsif @contract
