@@ -12,7 +12,7 @@ module Pacto
 
       def self.validate(_request, response, contract)
         schema = subschema(contract)
-        if schema
+        if schema && !schema.empty?
           schema['id'] = contract.file unless schema.key? 'id'
           validate_as_json(schema, response.body)
         end || []
