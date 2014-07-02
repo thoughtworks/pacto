@@ -1,17 +1,6 @@
 module Pacto
   module Validators
     class ResponseStatusValidator
-      def initialize(app)
-        @app = app
-      end
-
-      def call(env)
-        expected_status = env[:contract].response.status
-        actual_status = env[:actual_response].status
-        env[:validation_results].concat self.class.validate(expected_status, actual_status)
-        @app.call env
-      end
-
       def self.validate(_request, response, contract)
         expected_status = contract.response.status
         actual_status = response.status

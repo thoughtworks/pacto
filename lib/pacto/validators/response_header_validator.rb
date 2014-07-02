@@ -1,17 +1,6 @@
 module Pacto
   module Validators
     class ResponseHeaderValidator
-      def initialize(app)
-        @app = app
-      end
-
-      def call(env)
-        expected_headers = env[:contract].response.headers
-        actual_headers = env[:actual_response].headers
-        env[:validation_results].concat self.class.validate(expected_headers, actual_headers)
-        @app.call env
-      end
-
       def self.validate(_request, response, contract)
         expected_headers = contract.response.headers
         actual_headers = response.headers
