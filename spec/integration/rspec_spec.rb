@@ -28,7 +28,7 @@ describe 'pacto/rspec' do
     end
   end
 
-  context 'successful validations' do
+  context 'successful investigations' do
     let(:contracts) do
       Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
     end
@@ -50,7 +50,7 @@ describe 'pacto/rspec' do
     it 'performs successful assertions' do
       # High level assertions
       expect(Pacto).to_not have_unmatched_requests
-      expect(Pacto).to_not have_failed_validations
+      expect(Pacto).to_not have_failed_investigations
 
       # Increasingly strict assertions
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello')
@@ -69,7 +69,7 @@ describe 'pacto/rspec' do
     it 'raises useful error messages' do
       # High level error messages
       expect_to_raise(/Expected Pacto to have not matched all requests to a Contract, but all requests were matched/) { expect(Pacto).to have_unmatched_requests }
-      expect_to_raise(/Expected Pacto to have found validation problems, but none were found/) { expect(Pacto).to have_failed_validations }
+      expect_to_raise(/Expected Pacto to have found investigation problems, but none were found/) { expect(Pacto).to have_failed_investigations }
 
       unmatched_url = 'http://localhost:8000/404'
       Faraday.get unmatched_url
@@ -84,10 +84,10 @@ describe 'pacto/rspec' do
       expect_to_raise(/but no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
     end
 
-    it 'displays Contract validation problems' do
+    it 'displays Contract investigation problems' do
       play_bad_response
-      expect_to_raise(/validation errors were found:/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
-      expect_to_raise(/but the following issues were found:/) { expect(Pacto).to_not have_failed_validations }
+      expect_to_raise(/investigation errors were found:/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
+      expect_to_raise(/but the following issues were found:/) { expect(Pacto).to_not have_failed_investigations }
     end
 
     it 'displays the Contract file' do

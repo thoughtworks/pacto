@@ -6,7 +6,7 @@ describe Pacto do
     WebMock.allow_net_connect!
   end
 
-  context 'Contract validation' do
+  context 'Contract investigation' do
     around :each do |example|
       run_pacto do
         example.run

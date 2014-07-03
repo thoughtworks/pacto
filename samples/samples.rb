@@ -52,7 +52,7 @@ puts response.body
 # We can load the contract and validate it, by sending a new request and making sure
 # the response matches the JSON schema.  Obviously it will pass since we just recorded it,
 # but if the service has made a change, or if you alter the contract with new expectations,
-# then you will see a contract validation message.
+# then you will see a contract investigation message.
 contracts = Pacto.load_contracts('contracts', 'http://localhost:5000')
 contracts.simulate_consumers
 
@@ -78,7 +78,7 @@ end
 
 # Load your contracts, and stub them if you'd like.
 Pacto.load_contracts('contracts', 'http://localhost:5000').stub_providers
-# You can turn on validation mode so Pacto will detect and validate HTTP requests.
+# You can turn on investigation mode so Pacto will detect and validate HTTP requests.
 Pacto.validate!
 
 describe 'my_code' do

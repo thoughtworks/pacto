@@ -1,24 +1,33 @@
 module Pacto
-  module Validators
-    describe ResponseHeaderValidator do
-      subject(:validator) { described_class }
+  module Cops
+    describe ResponseHeaderCop do
+      subject(:cop) { described_class }
+      let(:contract)         do
+        response_clause = Fabricate(:response_clause, headers: expected_headers)
+        Fabricate(:contract, response: response_clause)
+      end
+      let(:request)          { Fabricate(:pacto_request) }
+      let(:response)         { Fabricate(:pacto_response, headers: actual_headers) }
       let(:expected_headers) do
         {
           'Content-Type' => 'application/json'
         }
       end
-      describe '#validate' do
+      describe '#investigate' do
         context 'when headers do not match' do
-          let(:actual_headers) { { 'Content-Type' => 'text/html' } }
-
+          let(:actual_headers) do
+            { 'Content-Type' => 'text/html' }
+          end
           it 'indicates the exact mismatches' do
-            expect(validator.validate(expected_headers, actual_headers)).
+            expect(cop.investigate(request, response, contract)).
               to eq ['Invalid response header Content-Type: expected "application/json" but received "text/html"']
           end
         end
 
         context 'when headers are missing' do
-          let(:actual_headers) { {} }
+          let(:actual_headers) do
+            {}
+          end
           let(:expected_headers) do
             {
               'Content-Type' => 'application/json',
@@ -26,7 +35,7 @@ module Pacto
             }
           end
           it 'lists the missing headers' do
-            expect(validator.validate(expected_headers, actual_headers)).
+            expect(cop.investigate(request, response, contract)).
               to eq [
                 'Missing expected response header: Content-Type',
                 'Missing expected response header: My-Cool-Header'
@@ -42,7 +51,7 @@ module Pacto
           context 'and no Location header is sent' do
             let(:actual_headers) { { 'Content-Type' => 'application/json' } }
             it 'returns a header error when no Location header is sent' do
-              expect(validator.validate(expected_headers, actual_headers)).to eq ['Missing expected response header: Location']
+              expect(cop.investigate(request, response, contract)).to eq ['Missing expected response header: Location']
             end
           end
 
@@ -54,8 +63,9 @@ module Pacto
               }
             end
 
-            it 'returns a validation error' do
-              expect(validator.validate(expected_headers, actual_headers)).to eq ["Invalid response header Location: expected URI #{actual_headers['Location']} to match URI Template #{expected_headers['Location']}"]
+            it 'returns a investigation error' do
+              response.headers = actual_headers
+              expect(cop.investigate(request, response, contract)).to eq ["Invalid response header Location: expected URI #{actual_headers['Location']} to match URI Template #{expected_headers['Location']}"]
             end
           end
 
@@ -67,8 +77,8 @@ module Pacto
               }
             end
 
-            it 'validates successfully' do
-              expect(validator.validate(expected_headers, actual_headers)).to be_empty
+            it 'investigates successfully' do
+              expect(cop.investigate(request, response, contract)).to be_empty
             end
           end
         end
@@ -77,7 +87,7 @@ module Pacto
           let(:actual_headers) { { 'Content-Type' => 'application/json' } }
 
           it 'does not return any errors' do
-            expect(validator.validate(expected_headers, actual_headers)).to be_empty
+            expect(cop.investigate(request, response, contract)).to be_empty
           end
         end
 
@@ -85,7 +95,7 @@ module Pacto
           let(:actual_headers) { { 'content-type' => 'application/json' } }
 
           it 'does not return any errors' do
-            expect(validator.validate(expected_headers, actual_headers)).to be_empty
+            expect(cop.investigate(request, response, contract)).to be_empty
           end
         end
       end

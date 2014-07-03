@@ -7,10 +7,9 @@ module Pacto
 
     def initialize
       @middleware = Pacto::Core::HTTPMiddleware.new
-      @middleware.add_observer Pacto::ContractValidator, :validate
+      @middleware.add_observer Pacto::Cops, :investigate
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
-
       @default_consumer = Pacto::Consumer
       @default_provider = Pacto::Provider
       @adapter = Stubs::WebMockAdapter.new(@middleware)

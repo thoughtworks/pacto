@@ -19,7 +19,7 @@ module Pacto
     property :provider, default: proc { Pacto.configuration.default_provider }
 
     def initialize(opts)
-      opts[:file] = Addressable::URI.convert_path(opts[:file].to_s).to_s
+      opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
       opts[:name] ||= opts[:file]
       super
     end
@@ -33,14 +33,14 @@ module Pacto
       adapter.stub_request!(self)
     end
 
-    def simulate_request(opts = {})
+    def simulate_request
       pacto_request, pacto_response = execute
-      validate_response pacto_request, pacto_response, opts
+      validate_response pacto_request, pacto_response
     end
 
     # Should this be deprecated?
-    def validate_response(request, response, opts = {})
-      Pacto::ContractValidator.validate_contract request, response, self, opts
+    def validate_response(request, response)
+      Pacto::Cops.perform_investigation request, response, self
     end
 
     def matches?(request_signature)
