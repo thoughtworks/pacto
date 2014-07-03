@@ -15,6 +15,7 @@ module Pacto
 
     def reset!
       @investigations.clear
+      @stenographer = nil
     end
 
     def validated?(request_pattern)

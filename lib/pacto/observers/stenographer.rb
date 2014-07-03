@@ -14,6 +14,7 @@ module Pacto
 
         msg = "request #{name.inspect}, values: #{values.inspect}, response: {status: #{response.status}} # #{number_of_citations(investigation)} contract violations"
         @output.puts msg
+        @output.flush
       end
 
       protected
