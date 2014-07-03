@@ -7,40 +7,48 @@ module Pacto
         Pacto.configuration.strict_matchers = false
       end
 
-      it 'returns a regex containing the host and path' do
-        request = double(host: 'myhost.com', path: '/stuff')
-        expect(UriPattern.for(request).to_s).to include('myhost\.com')
-        expect(UriPattern.for(request).to_s).to include('\/stuff')
+      it 'appends host if path is an Addressable::Template' do
+        path_pattern = '/{account}/data{.format}{?page,per_page}'
+        path = Addressable::Template.new path_pattern
+        request = Fabricate(:request_clause, host: 'https://www.example.com', path: path)
+        expect(UriPattern.for(request).pattern).to include(Addressable::Template.new("https://www.example.com#{path_pattern}").pattern)
       end
 
-      it 'turns segments preceded by : into wildcards' do
-        request = double(host: 'myhost.com', path: '/:id')
-        wildcard = '[^\/\?#]+'
-        expect(UriPattern.for(request).to_s).to include(wildcard)
-        expect(UriPattern.for(request).to_s).to_not include(':id')
+      it 'returns a URITemplate containing the host and path and wildcard vars' do
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/stuff')
+        uri_pattern = UriPattern.for(request)
+        expect(uri_pattern.pattern).to eql('myhost.com/stuff{?anyvars*}')
+      end
+
+      it 'convers segments preceded by : into variables', :deprecated do
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
+        uri_pattern = UriPattern.for(request)
+        expect(uri_pattern.keys).to include('id')
+        expect(uri_pattern.pattern).to_not include(':id')
       end
 
       it 'creates a regex that does not allow additional path elements' do
-        request = double(host: 'myhost.com', path: '/:id')
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         pattern = UriPattern.for(request)
         expect(pattern).to match('myhost.com/foo')
         expect(pattern).to_not match('myhost.com/foo/bar')
       end
 
-      it 'creates a regex that does allow query parameters' do
-        request = double(host: 'myhost.com', path: '/:id')
+      it 'creates a regex that does allow query parameters', :deprecated do
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         pattern = UriPattern.for(request)
-        expect(pattern).to match('myhost.com/foo?a')
-        expect(pattern).to match('myhost.com/foo?a=b')
-        expect(pattern).to match('myhost.com/foo?a=b&c=d')
+        expect(pattern.match('myhost.com/foo?a=b')). to be_truthy
+        expect(pattern.match('myhost.com/foo?a=b&c=d')).to be_truthy
       end
     end
 
-    context 'with strict matchers' do
+    # Strict/relaxed matching should be done against the full URI or path only
+    context 'with strict matchers', :deprecated do
       it 'returns a string with the host and path' do
         Pacto.configuration.strict_matchers = true
-        request = double(host: 'myhost.com', path: '/stuff')
-        expect(UriPattern.for(request)).to eq('myhost.com/stuff')
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/stuff')
+        uri_pattern = UriPattern.for(request)
+        expect(uri_pattern.pattern).to eq('myhost.com/stuff')
       end
     end
   end
