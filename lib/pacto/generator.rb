@@ -7,11 +7,13 @@ module Pacto
     def initialize(schema_version = 'draft3',
       schema_generator = JSON::SchemaGenerator,
       validator = Pacto::MetaSchema.new,
-      filters = Pacto::Generator::Filters.new)
+      filters = Pacto::Generator::Filters.new,
+      consumer = Pacto::Consumer.new)
       @schema_version = schema_version
       @validator = validator
       @schema_generator = schema_generator
       @filters = filters
+      @consumer = consumer
     end
 
     def generate(pacto_request, pacto_response)
@@ -36,7 +38,7 @@ module Pacto
 
     def generate_from_partial_contract(request_file, host)
       contract = Pacto.load_contract request_file, host
-      request, response = contract.execute
+      request, response = @consumer.request(contract)
       save(request_file, request, response)
     end
 

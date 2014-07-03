@@ -23,8 +23,9 @@ module Pacto
     let(:schema_generator) { double('schema_generator') }
     let(:validator) { double('validator') }
     let(:filters) { double :filters }
+    let(:consumer) { double 'consumer' }
     let(:request_file) { 'request.json' }
-    let(:generator) { described_class.new version, schema_generator, validator, filters }
+    let(:generator) { described_class.new version, schema_generator, validator, filters, consumer }
     let(:request_contract) do
       Fabricate(:partial_contract, request: request_clause, file: request_file)
     end
@@ -41,7 +42,7 @@ module Pacto
       let(:generated_contract) { Fabricate(:contract) }
       before do
         expect(Pacto).to receive(:load_contract).with(request_file, record_host).and_return request_contract
-        expect(request_contract).to receive(:execute).and_return([request, response_adapter])
+        expect(consumer).to receive(:request).with(request_contract).and_return([request, response_adapter])
       end
 
       it 'parses the request' do

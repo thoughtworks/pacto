@@ -2,10 +2,11 @@ describe Pacto::InvestigationRegistry do
   subject(:registry) { described_class.instance }
   let(:request_pattern) { Fabricate(:webmock_request_pattern) }
   let(:request_signature) { Fabricate(:webmock_request_signature) }
+  let(:pacto_response) { Fabricate(:pacto_response) }
   let(:different_request_signature) { Fabricate(:webmock_request_signature, uri: 'www.thoughtworks.com') }
-  let(:investigation) { Pacto::Investigation.new(request_signature, double, nil, []) }
-  let(:investigation_for_a_similar_request) { Pacto::Investigation.new(request_signature, double, nil, []) }
-  let(:investigation_for_a_different_request) { Pacto::Investigation.new(different_request_signature, double, nil, []) }
+  let(:investigation) { Pacto::Investigation.new(request_signature, pacto_response, nil, []) }
+  let(:investigation_for_a_similar_request) { Pacto::Investigation.new(request_signature, pacto_response, nil, []) }
+  let(:investigation_for_a_different_request) { Pacto::Investigation.new(different_request_signature, pacto_response, nil, []) }
 
   before(:each) do
     registry.reset!
@@ -42,7 +43,7 @@ describe Pacto::InvestigationRegistry do
     let(:contract) { Fabricate(:contract) }
 
     it 'returns investigations with no contract' do
-      investigation_with_citations = Pacto::Investigation.new(different_request_signature, double, contract, [])
+      investigation_with_citations = Pacto::Investigation.new(different_request_signature, pacto_response, contract, [])
       registry.register_investigation(investigation)
       registry.register_investigation(investigation_for_a_similar_request)
       registry.register_investigation(investigation_for_a_different_request)
@@ -54,12 +55,12 @@ describe Pacto::InvestigationRegistry do
 
   describe '.failed_investigations' do
     let(:contract) { Fabricate(:contract) }
-    let(:citations2) { double('citations2', :empty? => false, :join => 'wtf') }
+    let(:citations2) { ['a sample citation'] }
 
     it 'returns investigations with unsuccessful citations' do
       allow(contract).to receive(:name).and_return 'test'
-      investigation_with_successful_citations = Pacto::Investigation.new(request_signature, double, nil, ['error'])
-      investigation_with_unsuccessful_citations = Pacto::Investigation.new(request_signature, double, nil, %w(error2 error3))
+      investigation_with_successful_citations = Pacto::Investigation.new(request_signature, pacto_response, nil, ['error'])
+      investigation_with_unsuccessful_citations = Pacto::Investigation.new(request_signature, pacto_response, nil, %w(error2 error3))
 
       expect(investigation_with_successful_citations).to receive(:successful?).and_return true
       expect(investigation_with_unsuccessful_citations).to receive(:successful?).and_return false
