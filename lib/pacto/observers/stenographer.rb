@@ -6,6 +6,8 @@ module Pacto
       end
 
       def log_investigation(investigation)
+        return if @output.nil?
+
         contract = investigation.contract
         request = investigation.request
         response = investigation.response
