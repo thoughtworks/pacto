@@ -11,14 +11,14 @@ describe Pacto do
     $stdout.string.strip
   end
 
-  def mock_validation(errors)
+  def mock_investigation(errors)
     expect(JSON::Validator).to receive(:fully_validate).with(any_args).and_return errors
   end
 
   describe '.validate_contract' do
     context 'valid' do
       it 'displays a success message and return true' do
-        mock_validation []
+        mock_investigation []
         success = described_class.validate_contract 'my_contract.json'
         expect(output).to eq 'Validating my_contract.json'
         expect(success).to be true
@@ -27,14 +27,14 @@ describe Pacto do
 
     context 'invalid' do
       it 'displays one error messages and return false' do
-        mock_validation ['Error 1']
+        mock_investigation ['Error 1']
         success = described_class.validate_contract 'my_contract.json'
         expect(output).to match(/error/)
         expect(success).to be_falsey
       end
 
       it 'displays several error messages and return false' do
-        mock_validation ['Error 1', 'Error 2']
+        mock_investigation ['Error 1', 'Error 2']
         success = described_class.validate_contract 'my_contract.json'
         expect(success).to be_falsey
       end

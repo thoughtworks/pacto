@@ -1,17 +1,17 @@
 module Pacto
-  class Validation
+  class Investigation
     include Logger
-    attr_reader :request, :response, :contract, :results
+    attr_reader :request, :response, :contract, :citations
 
-    def initialize(request, response, contract, results)
+    def initialize(request, response, contract = nil, citations = nil)
       @request = request
       @response = response
       @contract = contract
-      @results = results
+      @citations = citations || []
     end
 
     def successful?
-      @results.nil? || @results.empty?
+      @citations.empty?
     end
 
     def against_contract?(contract_pattern)
@@ -28,10 +28,10 @@ module Pacto
     def to_s
       contract_name = @contract.nil? ? 'nil' : contract.name
       ''"
-      Validation:
+      Investigation:
       \tRequest: #{@request}
       \tContract: #{contract_name}
-      \tResults: \n\t\t#{@results.join "\n\t\t"}
+      \tCitations: \n\t\t#{@citations.join "\n\t\t"}
       "''
     end
 
@@ -40,7 +40,7 @@ module Pacto
         "Missing contract for services provided by #{@request.uri.host}"
       else
         status = successful? ? 'successful' : 'unsuccessful'
-        "#{status} validation of #{@contract.name}"
+        "#{status} investigation of #{@contract.name}"
       end
     end
   end

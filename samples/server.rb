@@ -17,7 +17,7 @@ describe 'ping service' do
       system "curl #{pacto_endpoint}/api/ping"
     end
 
-    # check results
+    # check citations
     expect(Pacto).to have_validated(:get, 'http://localhost:5000/api/ping')
   end
 end

@@ -7,7 +7,7 @@ Fabricator(:contract, from: Pacto::Contract) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   transient example_count: 0
   name { 'Dummy Contract' }
-  file { '/does/not/exist/dummy_contract.json' }
+  file { 'file:///does/not/exist/dummy_contract.json' }
   request { Fabricate(:request_clause).to_hash }
   response { Fabricate(:response_clause).to_hash }
   examples do |attr|
@@ -27,7 +27,7 @@ end
 Fabricator(:partial_contract, from: Pacto::Contract) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   name { 'Dummy Contract' }
-  file { '/does/not/exist/dummy_contract.json' }
+  file { 'file:///does/not/exist/dummy_contract.json' }
   request { Fabricate(:request_clause).to_hash }
 end
 
@@ -64,7 +64,7 @@ Fabricator(:schema, from: Hashie::Mash) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   type { 'object' }
   required do |attrs|
-    attrs[:version] == :draft3 ? 'true' : []
+    attrs[:version] == :draft3 ? true : []
   end
   properties do
     {

@@ -44,26 +44,16 @@ module Pacto
       end
     end
 
-    context 'validations' do
+    context 'investigations' do
       let(:request) { Pacto.configuration.default_consumer.build_request contract }
-      let(:fake_response) { double('fake response') }
-      let(:validation_result) { double 'validation result' }
-      let(:validation) { Validation.new request, fake_response, contract, validation_result }
+      let(:fake_response) { Fabricate(:pacto_response) } # double('fake response') }
+      let(:cop) { double 'cop' }
+      let(:investigation_citations) { [double('investigation result')] }
 
       before do
-        allow(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {}).and_return validation
-      end
-
-      describe '#validate_response' do
-        it 'returns the result of the validation' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
-          expect(contract.validate_response request, fake_response).to eq validation
-        end
-
-        it 'does not generate another response' do
-          expect(consumer_driver).not_to receive :execute
-          contract.validate_response request, fake_response
-        end
+        Pacto::Cops.active_cops.clear
+        Pacto::Cops.active_cops << cop
+        allow(cop).to receive(:investigate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract).and_return investigation_citations
       end
 
       describe '#simulate_request' do
@@ -77,8 +67,9 @@ module Pacto
         end
 
         it 'returns the result of the validating the generated response' do
-          expect(Pacto::ContractValidator).to receive(:validate_contract).with(an_instance_of(Pacto::PactoRequest), fake_response, contract, {})
-          expect(contract.simulate_request).to eq validation
+          expect(cop).to receive(:investigate).with(an_instance_of(Pacto::PactoRequest), fake_response, contract)
+          investigation = contract.simulate_request
+          expect(investigation.citations).to eq investigation_citations
         end
       end
     end

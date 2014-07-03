@@ -67,15 +67,15 @@ module Pacto
         contracts << contract_file
         print "#{contract_file.split('/').last}:"
         contract = Pacto.load_contract(contract_file, host)
-        validation = contract.simulate_request
+        investigation = contract.simulate_request
 
-        if validation.successful?
+        if investigation.successful?
           puts Pacto::UI.green(' OK!')
         else
           @exit_with_error = true
           total_failed += 1
           puts Pacto::UI.red(' FAILED!')
-          puts Pacto::UI.red(validation.summary)
+          puts Pacto::UI.red(investigation.summary)
         end
       end
 
