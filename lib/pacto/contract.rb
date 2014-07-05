@@ -1,7 +1,7 @@
 module Pacto
   class Contract < Hashie::Dash
     include Hashie::Extensions::Coercion
-    property :file, required: true
+    property :file
     property :request,  required: true
     # Although I'd like response to be required, it complicates
     # the partial contracts used the rake generation task...
@@ -12,15 +12,17 @@ module Pacto
     coerce_key :request,  RequestClause
     coerce_key :response, ResponseClause
     property :examples
-    property :name
+    property :name, required: true
     property :request_pattern_provider, default: Pacto::RequestPattern
     property :adapter, default: proc { Pacto.configuration.adapter }
     property :consumer, default: proc { Pacto.configuration.default_consumer }
     property :provider, default: proc { Pacto.configuration.default_provider }
 
     def initialize(opts)
-      opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
-      opts[:name] ||= opts[:file]
+      if opts[:file]
+        opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
+        opts[:name] ||= opts[:file]
+      end
       super
     end
 
