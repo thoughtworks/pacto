@@ -23,6 +23,7 @@ Pacto.configure do |pacto_config|
     schema_version: :draft3,
     token_map: token_map
   }
+  pacto_config.stenographer_log_file = options[:stenographer_log_file]
 end
 
 if options[:generate]

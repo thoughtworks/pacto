@@ -15,6 +15,7 @@ module Pacto
 
     def reset!
       @investigations.clear
+      @stenographer = nil
     end
 
     def validated?(request_pattern)
@@ -26,6 +27,7 @@ module Pacto
 
     def register_investigation(investigation)
       @investigations << investigation
+      stenographer.log_investigation investigation
       logger.info "Detected #{investigation.summary}"
       investigation
     end
@@ -40,6 +42,17 @@ module Pacto
       @investigations.select do |investigation|
         !investigation.successful?
       end
+    end
+
+    protected
+
+    def stenographer
+      @stenographer ||= create_stenographer
+    end
+
+    def create_stenographer
+      stenographer_log = File.open(Pacto.configuration.stenographer_log_file, 'a+')
+      Pacto::Observers::Stenographer.new stenographer_log
     end
   end
 end

@@ -21,6 +21,7 @@ module Pacto
         options[:strict] ||= false
         options[:directory] ||= File.expand_path('contracts', @original_pwd)
         options[:config] ||= File.expand_path('../config.rb', __FILE__)
+        options[:stenographer_log_file] ||= File.expand_path('pacto_stenographer.log', @original_pwd)
         options[:strip_port] ||= true
 
         opts.on('-l', '--live', 'Send requests to live services (instead of stubs)') { |_val| options[:live] = true }
@@ -33,6 +34,7 @@ module Pacto
         opts.on('-r', '--recursive-loading', 'Load contracts from folders named after the host to be stubbed') { |_val| options[:recursive_loading] = true }
         opts.on('--strip-port', 'Strip the port from the request URI to build the proxied URI') { |_val| options[:strip_port] = true }
         opts.on('--strip-dev', 'Strip .dev from the request domain to build the proxied URI') { |_val| options[:strip_dev] = true }
+        opts.on('--stenographer-log-file', 'Location for the stenographer log file') { |val| options[:stenographer_log_file] = val }
       end
 
       def response(env)
