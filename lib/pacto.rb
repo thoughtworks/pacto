@@ -45,7 +45,7 @@ require 'pacto/hooks/erb_hook'
 require 'pacto/generator'
 require 'pacto/generator/filters'
 require 'pacto/contract_files'
-require 'pacto/contract_list'
+require 'pacto/contract_set'
 require 'pacto/uri'
 
 # Cops
@@ -97,7 +97,7 @@ module Pacto
     end
 
     def load_contract(contract_path, host, format = :default)
-      load_contracts(contract_path, host, format).contracts.first
+      load_contracts(contract_path, host, format).first
     end
 
     def load_contracts(contracts_path, host, format = :default)
@@ -106,7 +106,7 @@ module Pacto
       contracts.each do |contract|
         contract_registry.register(contract)
       end
-      ContractList.new(contracts)
+      ContractSet.new(contracts)
     end
   end
 end

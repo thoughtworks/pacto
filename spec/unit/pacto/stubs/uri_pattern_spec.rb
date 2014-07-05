@@ -43,7 +43,7 @@ module Pacto
     end
 
     # Strict/relaxed matching should be done against the full URI or path only
-    context 'with strict matchers', :deprecated do
+    context 'with strict matchers', deprecated: true do
       it 'returns a string with the host and path' do
         Pacto.configuration.strict_matchers = true
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/stuff')

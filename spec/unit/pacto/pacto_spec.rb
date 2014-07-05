@@ -46,7 +46,7 @@ describe Pacto do
     let(:host) { 'localhost' }
 
     it 'instantiates a contract list' do
-      expect(Pacto::ContractList).to receive(:new) do |contracts|
+      expect(Pacto::ContractSet).to receive(:new) do |contracts|
         contracts.each { |contract| expect(contract).to be_a_kind_of(Pacto::Contract) }
       end
       described_class.load_contracts('spec/fixtures/contracts/', host)

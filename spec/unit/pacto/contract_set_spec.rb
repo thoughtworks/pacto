@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 module Pacto
-  describe ContractList do
+  describe ContractSet do
     let(:contract1) { Fabricate(:contract) }
     let(:contract2) { Fabricate(:contract, request: Fabricate(:request_clause, host: 'www2.example.com')) }
 
     it 'holds a list of contracts' do
-      list = ContractList.new([contract1, contract2])
-      expect(list.contracts).to eq([contract1, contract2])
+      list = ContractSet.new([contract1, contract2])
+      expect(list).to eq(Set.new([contract1, contract2]))
     end
 
     context 'when validating' do
@@ -15,7 +15,7 @@ module Pacto
         expect(contract1).to receive(:simulate_request)
         expect(contract2).to receive(:simulate_request)
 
-        list = ContractList.new([contract1, contract2])
+        list = ContractSet.new([contract1, contract2])
         list.simulate_consumers
       end
     end
@@ -27,7 +27,7 @@ module Pacto
         expect(contract1).to receive(:stub_contract!).with(values)
         expect(contract2).to receive(:stub_contract!).with(values)
 
-        list = ContractList.new([contract1, contract2])
+        list = ContractSet.new([contract1, contract2])
         list.stub_providers(values)
       end
     end
