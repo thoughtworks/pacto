@@ -1,0 +1,33 @@
+services:
+  List Servers:
+    request:
+      http_method: get
+      path: /v2/{tenant_id}/servers/detail{?limit}
+  Create Server:
+    request:
+      http_method: post
+      path: /v2/{tenant_id}/servers{?limit}
+    response:
+      status: 202
+  Get Server Details:
+    request:
+      http_method: get
+      path: /v2/{tenant_id}/servers/{id}
+  Attach Volume:
+    request:
+      http_method: post
+      path: /v2/{tenant_id}/servers/{server_id}/os-volume_attachments{?limit}
+    response:
+      status: 200
+  List Extensions:
+    request:
+      http_method: get
+      path: /v2/{tenant_id}/extensions{?limit}
+  Get Image Details:
+    request:
+      http_method: get
+      path: /v2/{tenant_id}/images/{image_id}
+  Get Flavor Details:
+    request:
+      http_method: get
+      path: /v2/{tenant_id}/flavors/{flavor_id}
