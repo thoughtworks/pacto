@@ -63,10 +63,7 @@ the analyzer just run:
 
 Pacto unit tests and integration test are written in RSpec and the user journey
 tests are written in Cucumber. For the RSpec tests we suggest to follow the
-[Better Specs](http://betterspecs.org/) guideline. For Cucumber test keep in
-mind that those will be published on
-[Relish](https://www.relishapp.com/maxlinc/pacto/docs), so try to make them
-Relish friendly ;).
+[Better Specs](http://betterspecs.org/) guideline.
 
 ## <a name="run-tests"></a>Running tests
 
@@ -110,7 +107,7 @@ details what Pacto is doing behind the scenes.
 ### Gemfile.lock
 
 Because Pacto is a gem we don't include the Gemfile.lock into the repository
-([here is the reason])(http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/).
+([here is the reason](http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/)).
 This could lead to some problems in your daily job as contributor specially
 when there is an upgrade in any of the gems that Pacto depends upon. That is
 why we recomend you to remove the Gemfile.lock and generate it
