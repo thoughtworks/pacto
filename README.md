@@ -22,9 +22,9 @@ Pacto helps settle disputes between **service providers** and **service consumer
 
 Someone needs to accuse the **providers** or **consumers** of wrongdoing! Pacto integrates with a few different test frameworks to give you options:
 
-- Pacto easily integrates with [RSpec](http://rspec.info/), including some [custom matchers](asdf).
-- Pacto provides some [simple rake tasks](samples/rake_task/) to run some basic tests from the command line.
-- If you're testing non-Ruby projects, you can use the [Pacto Server](samples/server) as a proxy to intercept and validate requests. You can also use it in conjunction with [Polytrix](https://github.com/rackerlabs/polytrix).
+- Pacto easily integrates with [RSpec](http://rspec.info/), including some [custom matchers](rspec/).
+- Pacto provides some [simple rake tasks](rake_tasks/) to run some basic tests from the command line.
+- If you're testing non-Ruby projects, you can use the [Pacto Server](server) as a proxy to intercept and validate requests. You can also use it in conjunction with [Polytrix](https://github.com/rackerlabs/polytrix).
 
 ## Contracts
 
@@ -34,7 +34,7 @@ The **request clause** defines what information must be sent by the **consumer**
 
 The **response clause** defines what information must be returned by the **provider** to the **consumer** in order to successfully complete the transaction.  This commonly includes HTTP response headers like `Location` as well as the required response body (also defined in [json-schema](http://json-schema.org/)).
 
-See the [Contracts documentation](samples/contracts) for more details.
+See the [Contracts documentation](contracts/) for more details.
 
 
 
@@ -53,7 +53,7 @@ Pacto has a few built-in cops that are on-duty by default. These cops will:
 
 Sometimes it looks like you're following a contract, but digital forensics reveals there's some fraud going on. Pacto provides RSpec matchers to help you catch these patterns that let you do the [collaboration tests](http://programmers.stackexchange.com/questions/135011/removing-the-integration-test-scam-understanding-collaboration-and-contract) that integration contract testing alone would not catch.
 
-See the [forensics documetation](samples/forensics) for more details.
+See the [forensics documetation](forensics/) for more details.
 
 ### Sting operations
 
@@ -65,7 +65,7 @@ For example, HTTP header field names are supposed to be case-insensitive [accord
 
 Another possible sting operation is to introduce network lag, dropped connections, simulate HTTP rate limiting errors, or other issues that a robust consumer are expected to handle.
 
-You can also add your own custom cops to extend Pacto's abilities or to ensure services are standards that are specific to your organization. See the [Cops documentation](samples/contracts) for more details.
+You can also add your own custom cops to extend Pacto's abilities or to ensure services are standards that are specific to your organization. See the [Cops documentation](cops/) for more details.
 
 ## Inside the courtroom
 
@@ -73,7 +73,7 @@ You can also add your own custom cops to extend Pacto's abilities or to ensure s
 
 It's not always practical to test using a **real consumer** and or a **real provider**. Pacto can both **stub providers** and **simulate consumers** so you can test their counterpart in isolation. This makes [Consumer-Driven Contracts](http://thoughtworks.github.io/pacto/patterns/cdc/) easier. You can start testing a consumer against a stubbed provider before the real provider is available, and then hand your contracts and tests over to the team that is going to implement the provider so they can ensure it matches your assumptions.
 
-See the [Actors documentation](samples/actors) for more details.
+See the [Actors documentation](actors/) for more details.
 
 ### The courtroom reporter
 
@@ -130,9 +130,8 @@ In the future, we plan for clerks to provide more complete support for:
 - Converting from or loading other similar contract formats (e.g. [Swagger](https://github.com/wordnik/swagger-spec), [apiblueprint](http://apiblueprint.org/), or [RAML](http://raml.org/).
 - Upgrading contracts from older Pacto versions
 
-See the [contract generation](samples/generations) and [clerks](samples/clerks) documentation for more info.
+See the [contract generation](generation/) and [clerks](clerks/) documentation for more info.
 
-# OLD CONTENT
 # Implied Terms
 
 - Pacto only arbitrates contracts for JSON services.
@@ -144,6 +143,4 @@ See the [Pacto Roadmap](https://github.com/thoughtworks/pacto/wiki/Pacto-Roadmap
 
 # Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
-
-Read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+See [CONTRIBUTING.md](https://github.com/thoughtworks/pacto/blob/master/CONTRIBUTING.md)
