@@ -1,11 +1,6 @@
-require 'pacto'
-Pacto.configure do |c|
-  c.contracts_path = 'contracts'
-end
-Pacto.validate!
-
 # You can create a custom cop that investigates the request/response and sees if it complies with a
 # contract. The cop should return a list of citations if it finds any problems.
+require 'pacto'
 class MyCustomCop
   def investigate(_request, _response, contract)
     citations = []
@@ -15,13 +10,23 @@ class MyCustomCop
   end
 end
 
+# You can activate the cop by adding it to the active_cops. The active_cops are reset
+# by `Pacto.clear!`
 Pacto::Cops.active_cops << MyCustomCop.new
 
+# Or you could add it as a registered cop. These cops are not cleared - they form the
+# default set of Cops used by Pacto:
+Pacto::Cops.register_cop MyCustomCop.new
+
+# The cops will be used to validate any service requests/responses detected by Pacto,
+# including when we simulate consumers:
+Pacto.validate!
 contracts = Pacto.load_contracts('contracts', 'http://localhost:5000')
 contracts.stub_providers
 puts contracts.simulate_consumers
 
-# Or you can completely replace the default set of validators
+# You could also completely reset the registered cops if you don't want to use
+# all of Pacto's built-in cops:
 Pacto::Cops.registered_cops.clear
 Pacto::Cops.register_cop Pacto::Cops::ResponseBodyCop
 
