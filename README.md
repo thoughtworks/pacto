@@ -22,7 +22,7 @@ Pacto helps settle disputes between **service providers** and **service consumer
 
 Someone needs to accuse the **providers** or **consumers** of wrongdoing! Pacto integrates with a few different test frameworks to give you options:
 
-- Pacto easily integrates with [RSpec](http://rspec.info/), including some [custom matchers](rspec/).
+- Pacto easily integrates with [RSpec](http://rspec.info/), including some [custom matchers](#forensics).
 - Pacto provides some [simple rake tasks](rake_tasks/) to run some basic tests from the command line.
 - If you're testing non-Ruby projects, you can use the [Pacto Server](server) as a proxy to intercept and validate requests. You can also use it in conjunction with [Polytrix](https://github.com/rackerlabs/polytrix).
 
