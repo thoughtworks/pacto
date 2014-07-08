@@ -2,7 +2,7 @@
 # It also illustrates having two services w/ the same endpoint (just different HTTP methods)
 module DummyServices
   class Echo < Grape::API
-    format :json
+    format :txt
 
     helpers do
       def echo(message)
@@ -16,7 +16,7 @@ module DummyServices
       echo params[:msg]
     end
 
-    # curl localhost:5000/api/echo -H 'Content-Type: application/json' -d '{"red fish": "blue fish"}' -vv
+    # curl localhost:5000/api/echo -H 'Content-Type: text/plain' -d '{"red fish": "blue fish"}' -vv
     post '/echo' do
       echo env['api.request.body']
     end
