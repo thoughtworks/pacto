@@ -18,7 +18,10 @@ module Pacto
       end
 
       def self.validate_as_json(schema, body)
-        body = body.body if body.respond_to? :body
+        if schema['type'] == 'string'
+          # Is it better to check body is not nil, or body is a string?
+          body = body.inspect unless body.nil?
+        end
         JSON::Validator.fully_validate(schema, body, version: :draft3)
       end
     end
