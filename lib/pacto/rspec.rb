@@ -7,6 +7,8 @@ rescue LoadError
   raise 'pacto/rspec requires rspec 2 or later'
 end
 
+require 'pacto/forensics/investigation_matcher'
+
 RSpec::Matchers.define :have_unmatched_requests do |_method, _uri|
   match do
     @unmatched_investigations = Pacto::InvestigationRegistry.instance.unmatched_investigations
@@ -69,9 +71,11 @@ RSpec::Matchers.define :have_validated do |method, uri|
 
   def contract_matches?
     if @contract
-      validated_contracts = @matching_investigations.map(&:contract)
+      validated_contracts = @matching_investigations.map(&:contract).compact
       # Is there a better option than case equality for string & regex support?
-      validated_contracts.map(&:file).index { |file| @contract === file } # rubocop:disable CaseEquality
+      validated_contracts.any? do |contract|
+        @contract === contract.file || @contract === contract.name # rubocop:disable CaseEquality
+      end
     else
       true
     end

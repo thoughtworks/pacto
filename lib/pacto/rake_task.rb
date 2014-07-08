@@ -76,6 +76,7 @@ module Pacto
           total_failed += 1
           puts Pacto::UI.red(' FAILED!')
           puts Pacto::UI.red(investigation.summary)
+          puts Pacto::UI.red(investigation.to_s)
         end
       end
 
