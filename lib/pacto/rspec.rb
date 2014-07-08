@@ -7,6 +7,7 @@ rescue LoadError
   raise 'pacto/rspec requires rspec 2 or later'
 end
 
+require 'pacto/forensics/investigation_filter'
 require 'pacto/forensics/investigation_matcher'
 
 RSpec::Matchers.define :have_unmatched_requests do |_method, _uri|

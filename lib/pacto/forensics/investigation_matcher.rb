@@ -1,8 +1,45 @@
 RSpec::Matchers.define :have_investigated do |service_name|
   match do
+    investigations = Pacto::InvestigationRegistry.instance.investigations
     @service_name = service_name
-    @contract = Pacto.contract_registry.find_by_name service_name
-    investigated?
+
+    begin
+      @investigation_filter = Pacto::Forensics::InvestigationFilter.new(investigations)
+      @investigation_filter.with_name(@service_name)
+        .with_request(@request_constraints)
+        .with_response(@response_constraints)
+
+      @matched_investigations = @investigation_filter.filtered_investigations
+      @unsuccessful_investigations = @investigation_filter.unsuccessful_investigations
+
+      !@matched_investigations.empty? && (@allow_citations || @unsuccessful_investigations.empty?)
+    rescue Pacto::Forensics::FilterExhaustedError => e
+      @filter_error = e
+      false
+    end
+  end
+
+  def describe(obj)
+    obj.respond_to?(:description) ? obj.description : obj.to_s
+  end
+
+  description do
+    buffer = StringIO.new
+    buffer.puts "to have investigated #{@service_name}"
+    if @request_constraints
+      buffer.puts '  with request matching'
+      @request_constraints.each do |k, v|
+        buffer.puts "    #{k}: #{describe(v)}"
+      end
+    end
+    buffer.puts '  and' if @request_constraints && @response_constraints
+    if @response_constraint
+      buffer.puts '  with response matching'
+      @request_constraints.each do |k, v|
+        buffer.puts "    #{k}: #{describe(v)}"
+      end
+    end
+    buffer.string
   end
 
   chain :with_request do |request_constraints|
@@ -13,56 +50,28 @@ RSpec::Matchers.define :have_investigated do |service_name|
     @response_constraints = response_constraints
   end
 
-  def investigated?
-    @investigations = Pacto::InvestigationRegistry.instance.investigations
-    @matching_investigations = @investigations.select { |i| i.contract == @contract }
-    return false if @matching_investigations.nil?
-
-    if @request_constraints
-      # ...
-    end
-    if @response_constraints
-      # ...
-    end
-    @investigations.all? { |i| i.successful? }
+  chain :allow_citations do
+    @allow_citations = true
   end
 
-  def investigation_citations
-    @investigation_citations ||= @matching_investigations.map(&:citations).flatten.compact
-  end
-
-  def unsuccessful_investigations
-    @matching_investigations.select { |i| !i.successful? }
-  end
-
-  def successfully?
-    unsuccessful_investigations.empty?
-  end
-
-  def contract_matches?
-    if @contract
-      validated_contracts = @matching_investigations.map(&:contract).compact
-      # Is there a better option than case equality for string & regex support?
-      validated_contracts.map(&:name).index { |name| @contract === name } # rubocop:disable CaseEquality
-    else
-      true
-    end
-  end
-
-  failure_message_for_should do
+  failure_message_for_should do | group |
     buffer = StringIO.new
-    buffer.puts "expected Pacto to have investigated #{@service_name}"
-    buffer.puts "  with request matching #{@request_constraints}" if @request_constraints
-    buffer.puts '  and' if @request_constraints && @response_constraints
-    buffer.puts "  with response matching #{@response_constraints}" if @response_constraints
-    if @matching_investigations.nil? || @matching_investigations.empty?
-      buffer.puts '  but it was not investigated'
-      buffer.puts '    investigated:'
-      buffer.puts "#{@investigations.map(&:contract).compact.map(&:name).uniq}"
-    elsif !successfully?
-      buffer.puts '  but investigation errors were found:'
-      unsuccessful_investigations.each do |investigation|
-        buffer.puts "    #{investigation}"
+    buffer.puts "expected #{group} " + description
+    if @filter_error
+      buffer.puts "but #{@filter_error.message}"
+      unless @filter_error.suspects.empty?
+        buffer.puts '  suspects:'
+        @filter_error.suspects.each do |suspect|
+          buffer.puts "    #{suspect}"
+        end
+      end
+    elsif @matched_investigations.empty?
+      investigated_services = @investigation_filter.investigations.map(&:contract).compact.map(&:name).uniq
+      buffer.puts "but it was not among the services investigated: #{investigated_services}"
+    elsif @unsuccessful_investigations
+      buffer.puts 'but investigation errors were found:'
+      @unsuccessful_investigations.each do |investigation|
+        buffer.puts "  #{investigation}"
       end
     end
     buffer.string
