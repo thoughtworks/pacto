@@ -13,15 +13,14 @@ RSpec.configure do |c|
   c.after(:each)  { Pacto.reset }
 end
 
-
 # Pacto provides some RSpec matchers related to contract testing, like making sure
 # Pacto didn't received any unrecognized requests (`have_unmatched_requests`) and that
 # the HTTP requests matched up with the terms of the contract (`have_failed_investigations`).
 describe Faraday do
-  let(:connection) { Faraday.new(url: 'http://localhost:5000') }
+  let(:connection) { described_class.new(url: 'http://localhost:5000') }
 
   it 'passes contract tests' do
-    response = connection.get '/api/ping'
+    connection.get '/api/ping'
     expect(Pacto).to_not have_failed_investigations
     expect(Pacto).to_not have_unmatched_requests
   end
@@ -30,9 +29,9 @@ end
 # There are also some matchers for collaboration testing, so you can make sure each scenario is
 # calling the expected services and sending the right type of data.
 describe Faraday do
-  let(:connection) { Faraday.new(url: 'http://localhost:5000') }
+  let(:connection) { described_class.new(url: 'http://localhost:5000') }
   before(:each) do
-    response = connection.get '/api/ping'
+    connection.get '/api/ping'
 
     connection.post do |req|
       req.url '/api/echo'
