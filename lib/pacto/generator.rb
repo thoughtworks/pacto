@@ -1,4 +1,5 @@
 require 'json/schema_generator'
+require 'pacto/contract_builder'
 
 module Pacto
   class Generator
@@ -9,11 +10,9 @@ module Pacto
       validator = Pacto::MetaSchema.new,
       filters = Pacto::Generator::Filters.new,
       consumer = Pacto::Consumer.new)
-      @schema_version = schema_version
-      @validator = validator
-      @schema_generator = schema_generator
-      @filters = filters
+      @contract_builder = ContractBuilder.new(schema_generator: schema_generator, filters: filters)
       @consumer = consumer
+      @validator = validator
     end
 
     def generate(pacto_request, pacto_response)
@@ -43,7 +42,9 @@ module Pacto
     end
 
     def save(source, request, response)
-      contract = generate_contract source, request, response
+      @contract_builder.source = source
+      @contract_builder.generate_contract request, response
+      contract = @contract_builder.build_hash
       pretty_contract = MultiJson.encode(contract, pretty: true)
       # This is because of a discrepency w/ jruby vs MRI pretty json
       pretty_contract.gsub!(/^$\n/, '')
@@ -52,38 +53,6 @@ module Pacto
     end
 
     private
-
-    def generate_contract(source, request, response)
-      {
-        request: generate_request(request, response, source),
-        response: generate_response(request, response, source)
-      }
-    end
-
-    def generate_request(request, response, source)
-      {
-        headers: @filters.filter_request_headers(request, response),
-        http_method: request.method,
-        params: request.uri.query_values,
-        path: request.uri.path,
-        schema: generate_schema(source, request.body)
-      }.delete_if { |_k, v| v.nil? }
-    end
-
-    def generate_response(request, response, source)
-      {
-        headers: @filters.filter_response_headers(request, response),
-        status: response.status,
-        schema: generate_schema(source, response.body)
-      }.delete_if { |_k, v| v.nil? }
-    end
-
-    def generate_schema(source, body, generator_options = Pacto.configuration.generator_options)
-      return if body.nil? || body.empty?
-
-      body_schema = JSON::SchemaGenerator.generate source, body, generator_options
-      MultiJson.load(body_schema)
-    end
 
     def load_contract_file(pacto_request)
       uri = URI(pacto_request.uri)

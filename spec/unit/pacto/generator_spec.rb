@@ -68,12 +68,12 @@ module Pacto
       end
       context 'invalid schema' do
         it 'raises an error if schema generation fails' do
-          expect(JSON::SchemaGenerator).to receive(:generate).and_raise ArgumentError.new('Could not generate schema')
+          expect(schema_generator).to receive(:generate).and_raise ArgumentError.new('Could not generate schema')
           expect { generator.save request_file, request, response_adapter }.to raise_error
         end
 
         it 'raises an error if the generated contract is invalid' do
-          expect(JSON::SchemaGenerator).to receive(:generate).and_return response_body_schema
+          expect(schema_generator).to receive(:generate).and_return response_body_schema
           expect(validator).to receive(:validate).and_raise InvalidContract.new('dummy error')
           expect { generator.save request_file, request, response_adapter }.to raise_error
         end
@@ -81,7 +81,7 @@ module Pacto
 
       context 'valid schema' do
         let(:raw_contract) do
-          expect(JSON::SchemaGenerator).to receive(:generate).with(request_file, response_adapter.body, Pacto.configuration.generator_options).and_return response_body_schema
+          expect(schema_generator).to receive(:generate).with(request_file, response_adapter.body, Pacto.configuration.generator_options).and_return response_body_schema
           expect(validator).to receive(:validate).and_return true
           generator.save request_file, request, response_adapter
         end
@@ -114,6 +114,25 @@ module Pacto
 
         it 'generates pretty JSON' do
           expect(raw_contract).to eq(pretty(subject))
+        end
+      end
+
+      context 'with hints' do
+        let(:raw_contract) do
+          expect(schema_generator).to receive(:generate).with(request_file, response_adapter.body, Pacto.configuration.generator_options).and_return response_body_schema
+          expect(validator).to receive(:validate).and_return true
+          generator.save request_file, request, response_adapter
+        end
+        subject(:generated_contract) { Pacto::Contract.new(JSON.parse raw_contract) }
+
+        before(:each) do
+          # Pacto::Generator.hints do
+          #   hint name: 'Foo', method: :get, uri: 'example.com/{asdf}', target_file: '/a/b/c/d/get_foo.json'
+          # end
+        end
+
+        xit 'names the contract based on the hint' do
+          expect(generated_contract.name).to eq('Foo')
         end
       end
     end

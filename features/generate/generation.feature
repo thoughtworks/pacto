@@ -46,6 +46,7 @@ Feature: Contract Generation
     Then the stdout should match this contract:
     """json
     {
+      "name": "/hello",
       "request": {
         "headers": {
           "Accept": "application/json"
