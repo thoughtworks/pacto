@@ -13,6 +13,15 @@ module Pacto
       @uri     = mash.uri
     end
 
+    def to_hash
+      {
+        method: method,
+        uri: uri,
+        headers: headers,
+        body: body
+      }
+    end
+
     def parsed_body
       if body.is_a?(String) && content_type == 'application/json'
         JSON.parse(body)

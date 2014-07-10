@@ -36,6 +36,7 @@ Feature: Contract Generation
     Given a file named "generate.rb" with:
     """ruby
     require 'pacto'
+    Pacto.configuration.generator_options[:no_examples] = true
 
     WebMock.allow_net_connect!
     generator = Pacto::Generator.new

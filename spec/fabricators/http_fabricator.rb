@@ -30,7 +30,7 @@ Fabricator(:pacto_request, from: Pacto::PactoRequest) do
     when :get, :head, :options
       nil
     else
-      'some data'
+      '{"data": "something"}'
     end
   end
 end

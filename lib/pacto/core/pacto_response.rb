@@ -11,6 +11,14 @@ module Pacto
       @status  = mash.status.to_i
     end
 
+    def to_hash
+      {
+        status: status,
+        headers: headers,
+        body: body
+      }
+    end
+
     def parsed_body
       if body.is_a?(String) && content_type == 'application/json'
         JSON.parse(body)

@@ -5,7 +5,7 @@ module Pacto
   class Generator
     include Logger
 
-    def initialize(schema_version = 'draft3',
+    def initialize(_schema_version = 'draft3',
       schema_generator = JSON::SchemaGenerator,
       validator = Pacto::MetaSchema.new,
       filters = Pacto::Generator::Filters.new,
@@ -43,7 +43,10 @@ module Pacto
 
     def save(source, request, response)
       @contract_builder.source = source
+      @contract_builder.add_example('default', request, response)
+      @contract_builder.infer_schemas
       @contract_builder.generate_contract request, response
+      @contract_builder.without_examples if Pacto.configuration.generator_options[:no_examples]
       contract = @contract_builder.build_hash
       pretty_contract = MultiJson.encode(contract, pretty: true)
       # This is because of a discrepency w/ jruby vs MRI pretty json
