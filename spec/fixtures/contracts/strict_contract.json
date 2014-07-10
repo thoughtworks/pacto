@@ -1,4 +1,5 @@
 {
+  "name": "Strict Contract",
   "request": {
     "http_method": "GET",
     "path": "/strict",

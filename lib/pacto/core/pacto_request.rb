@@ -12,5 +12,19 @@ module Pacto
       @method  = mash[:method]
       @uri     = mash.uri
     end
+
+    def parsed_body
+      if body.is_a?(String) && content_type == 'application/json'
+        JSON.parse(body)
+      else
+        body
+      end
+    rescue
+      body
+    end
+
+    def content_type
+      headers['Content-Type']
+    end
   end
 end

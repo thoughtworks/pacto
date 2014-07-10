@@ -2,26 +2,25 @@
   "name": "Echo",
   "request": {
     "headers": {
+      "Content-Type": "text/plain"
     },
-    "http_method": "get",
-    "path": "/api/echo"
+    "http_method": "post",
+    "path": "/api/echo",
+    "schema": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "type": "string",
+      "required": true
+    }
   },
   "response": {
     "headers": {
-      "Content-Type": "application/json"
+      "Content-Type": "text/plain"
     },
-    "status": 400,
+    "status": 201,
     "schema": {
       "$schema": "http://json-schema.org/draft-03/schema#",
-      "description": "Generated from http://localhost:9292/api/echo with shasum 8b6da9e052fa786f6c658cc81429bfc6fcbfa473",
-      "type": "object",
-      "required": true,
-      "properties": {
-        "error": {
-          "type": "string",
-          "required": true
-        }
-      }
+      "type": "string",
+      "required": true
     }
   }
 }

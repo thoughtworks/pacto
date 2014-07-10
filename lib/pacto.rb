@@ -70,6 +70,13 @@ module Pacto
       @registry ||= ContractRegistry.new
     end
 
+    # Resets data and metrics only. It usually makes sense to call this between test scenarios.
+    def reset
+      Pacto::InvestigationRegistry.instance.reset!
+      # Pacto::Resettable.reset_all
+    end
+
+    # Resets but also clears configuration, loaded contracts, and plugins.
     def clear!
       Pacto::Resettable.reset_all
       @modes = nil

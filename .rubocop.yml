@@ -27,3 +27,6 @@ RSpec/DescribeClass:
   Exclude:
     - samples/**/*
     - spec/integration/**/*
+RSpec/MultipleDescribes:
+  Exclude:
+    - samples/**/*
