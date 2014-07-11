@@ -64,8 +64,8 @@ module Pacto
 
       describe '#save' do
         before do
-          expect(filters).to receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
-          expect(filters).to receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
+          allow(filters).to receive(:filter_request_headers).with(request, response_adapter).and_return filtered_request_headers
+          allow(filters).to receive(:filter_response_headers).with(request, response_adapter).and_return filtered_response_headers
         end
         context 'invalid schema' do
           it 'raises an error if schema generation fails' do
@@ -118,24 +118,47 @@ module Pacto
           end
         end
 
-        # context 'with hints' do
-        #   let(:raw_contract) do
-        #     expect(schema_generator).to receive(:generate).with(request_file, response_adapter.body, Pacto.configuration.generator_options).and_return response_body_schema
-        #     expect(validator).to receive(:validate).and_return true
-        #     generator.save request_file, request, response_adapter
-        #   end
-        #   subject(:generated_contract) { Pacto::Contract.new(JSON.parse raw_contract) }
+        context 'with hints' do
+          let(:request1) { Fabricate(:pacto_request, host: 'example.com', path: '/album/5/cover') }
+          let(:request2) { Fabricate(:pacto_request, host: 'example.com', path: '/album/7/cover') }
+          let(:response1) { Fabricate(:pacto_response) }
+          let(:response2) { Fabricate(:pacto_response) }
+          let(:contracts_path) { Dir.mktmpdir }
 
-        #   before(:each) do
-        #     Pacto::Generator.configure do |c|
-        #       c.hint 'Foo', http_method: :get, uri_template: 'example.com/{asdf}', target_file: '/a/b/c/d/get_foo.json'
-        #     end
-        #   end
+          before(:each) do
+            allow(filters).to receive(:filter_request_headers).with(request1, response1).and_return request1.headers
+            allow(filters).to receive(:filter_response_headers).with(request1, response1).and_return response1.headers
+            allow(filters).to receive(:filter_request_headers).with(request2, response2).and_return request2.headers
+            allow(filters).to receive(:filter_response_headers).with(request2, response2).and_return response2.headers
+            allow(schema_generator).to receive(:generate).with(request_file, response1.body, Pacto.configuration.generator_options).and_return response_body_schema
+            allow(schema_generator).to receive(:generate).with(request_file, response2.body, Pacto.configuration.generator_options).and_return response_body_schema
+            allow(validator).to receive(:validate).twice.and_return true
+            Pacto.configuration.contracts_path = contracts_path
+            Pacto::Generator.configure do |c|
+              c.hint 'Get Album Cover', http_method: :get, host: 'http://example.com', path: '/album/{id}/cover', target_file: 'album_services/get_album_cover.json'
+            end
+            Pacto.generate!
+          end
 
-        #   xit 'names the contract based on the hint' do
-        #     expect(generated_contract.name).to eq('Foo')
-        #   end
-        # end
+          it 'names the contract based on the hint' do
+            contract1 = generator.generate request1, response1
+            expect(contract1.name).to eq('Get Album Cover')
+          end
+
+          it 'sets the target file based on the hint' do
+            contract1 = generator.generate request1, response1
+            expected_path = File.expand_path('album_services/get_album_cover.json', contracts_path)
+            real_expected_path =  Pathname.new(expected_path).realpath.to_s
+            expected_file_uri = Addressable::URI.convert_path(real_expected_path).to_s
+            expect(contract1.file).to eq(expected_file_uri)
+          end
+
+          xit 'does not create duplicate contracts' do
+            contract1 = generator.generate request1, response1
+            contract2 = generator.generate request2, response2
+            expect(contract1).to eq(contract2)
+          end
+        end
       end
     end
   end

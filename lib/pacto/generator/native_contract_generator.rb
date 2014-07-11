@@ -25,14 +25,14 @@ module Pacto
           unless File.exist? contract_file
             uri = URI(pacto_request.uri)
             FileUtils.mkdir_p(File.dirname contract_file)
-            File.write(contract_file, save(uri, pacto_request, pacto_response))
+            raw_contract = save(uri, pacto_request, pacto_response)
+            File.write(contract_file, raw_contract)
             logger.debug("Generating #{contract_file}")
 
             Pacto.load_contract contract_file, uri.host
           end
         rescue => e
-          logger.error("Error while generating Contract #{contract_file}: #{e.message}")
-          logger.error("Backtrace: #{e.backtrace}")
+          raise StandardError, "Error while generating Contract #{contract_file}: #{e.message}", e.backtrace
         end
       end
 
@@ -44,9 +44,8 @@ module Pacto
 
       def save(source, request, response)
         @contract_builder.source = source
-        @contract_builder.add_example('default', request, response)
-        @contract_builder.generate_contract request, response
-        @contract_builder.infer_schemas
+        # TODO: Get rid of the generate_contract call, just use add_example/infer_all
+        @contract_builder.add_example('default', request, response).generate_contract(request, response) # .infer_all
         @contract_builder.without_examples if Pacto.configuration.generator_options[:no_examples]
         contract = @contract_builder.build_hash
         pretty_contract = MultiJson.encode(contract, pretty: true)
@@ -59,10 +58,15 @@ module Pacto
       private
 
       def load_contract_file(pacto_request)
-        uri = URI(pacto_request.uri)
-        path = uri.path
-        basename = File.basename(path, '.json') + '.json'
-        File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(path), basename)
+        hint = Pacto::Generator.hint_for(pacto_request)
+        if hint.nil?
+          uri = URI(pacto_request.uri)
+          path = uri.path
+          basename = File.basename(path, '.json') + '.json'
+          File.join(Pacto.configuration.contracts_path, uri.host, File.dirname(path), basename)
+        else
+          File.expand_path(hint.target_file, Pacto.configuration.contracts_path)
+        end
       end
     end
   end

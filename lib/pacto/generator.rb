@@ -23,9 +23,15 @@ module Pacto
       def configure
         yield(configuration)
       end
+
+      def hint_for(pacto_request)
+        configuration.hints.find { |hint| hint.matches? pacto_request }
+      end
     end
 
     class Configuration
+      attr_reader :hints
+
       def initialize
         @hints = Set.new
       end

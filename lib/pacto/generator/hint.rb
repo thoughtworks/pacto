@@ -1,11 +1,13 @@
 module Pacto
   module Generator
-    class Hint < Hashie::Dash
+    class Hint < Pacto::RequestClause
       property :service_name, required: true
-      # property :uri_template, required: true
       property :target_file
-      property :http_method
-      property :uri_template
+
+      def matches?(pacto_request)
+        return false if pacto_request.nil?
+        Pacto::RequestPattern.for(self).matches?(pacto_request)
+      end
     end
   end
 end

@@ -15,7 +15,7 @@ module Pacto
       @default_provider = Pacto::Provider
       @adapter = Stubs::WebMockAdapter.new(@middleware)
       @strict_matchers = true
-      @contracts_path = nil
+      @contracts_path = '.'
       @logger = Logger::SimpleLogger.instance
       define_logger_level
       @hook = Hook.new {}

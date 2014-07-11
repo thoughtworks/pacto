@@ -11,7 +11,11 @@ module Pacto
         Pacto.configuration.hook.process contracts, request, response
 
         changed
-        notify_observers request, response
+        begin
+          notify_observers request, response
+        rescue StandardError => e
+          logger.error(e)
+        end
       end
     end
   end

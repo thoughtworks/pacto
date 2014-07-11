@@ -1,5 +1,6 @@
 module Pacto
-  class ContractBuilder < Hashie::Dash
+  class ContractBuilder < Hashie::Dash # rubocop:disable Style/ClassLength
+    extend Forwardable
     attr_accessor :source
 
     def initialize(options = {})
@@ -9,25 +10,51 @@ module Pacto
       @source = 'Pacto' # Currently used by JSONSchemaGeneator, but not really useful
     end
 
-    def name=(service_name)
-      @data[:name] = service_name
+    def name=(name)
+      @data[:name] = name
     end
 
     def add_example(name, pacto_request, pacto_response)
       @data[:examples][name] ||= {}
       @data[:examples][name][:request] = clean(pacto_request.to_hash)
       @data[:examples][name][:response] = clean(pacto_response.to_hash)
+      self
+    end
+
+    def infer_all
+      infer_name
+      infer_file
+      infer_schemas
+    end
+
+    def infer_name
+      if @data[:examples].empty?
+        @data[:name] = @data[:request][:path] if @data[:request]
+        return self
+      end
+
+      example, hint = example_and_hint
+      @data[:name] = hint.nil? ? PactoRequest.new(example[:request]).uri.path : hint.service_name
+      self
+    end
+
+    def infer_file
+      return self if @data[:examples].empty?
+
+      _example, hint = example_and_hint
+      @data[:file] = hint.target_file unless hint.nil?
+      self
     end
 
     def infer_schemas
-      # TODO: It'd be awesome if we could infer across all examples
       return self if @data[:examples].empty?
 
-      example = @data[:examples].values.first
+      # TODO: It'd be awesome if we could infer across all examples
+      example, _hint = example_and_hint
       sample_request_body = example[:request][:body]
       sample_response_body = example[:response][:body]
-      @data[:request][:schema] = generate_schema(sample_request_body) if sample_request_body
-      @data[:response][:schema] = generate_schema(sample_response_body) if sample_response_body
+      @data[:request][:schema] = generate_schema(sample_request_body) if sample_request_body && !sample_request_body.empty?
+      @data[:response][:schema] = generate_schema(sample_response_body) if sample_response_body && !sample_response_body.empty?
       self
     end
 
@@ -37,13 +64,9 @@ module Pacto
     end
 
     def generate_contract(request, response)
-      # if hint
-      #   @data[:name] = hint.service_name
-      # else
-      @data[:name] = request.uri.path
-      # end
       generate_request(request, response)
       generate_response(request, response)
+      infer_all
       self
     end
 
@@ -80,6 +103,12 @@ module Pacto
 
     protected
 
+    def example_and_hint
+      example = @data[:examples].values.first
+      example_request = PactoRequest.new example[:request]
+      [example, Pacto::Generator.hint_for(example_request)]
+    end
+
     def exclude_examples?
       @export_examples == false
     end
@@ -93,6 +122,10 @@ module Pacto
 
     def clean(data)
       data.delete_if { |_k, v| v.nil? }
+    end
+
+    def hint_for(pacto_request)
+      Pacto::Generator.hint_for(pacto_request)
     end
   end
 end
