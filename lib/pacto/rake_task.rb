@@ -92,7 +92,7 @@ module Pacto
     # rubocop:disable MethodLength
     def generate_contracts(input_dir, output_dir, host)
       WebMock.allow_net_connect!
-      generator = Pacto::Generator.new
+      generator = Pacto::Generator.contract_generator
       puts "Generating contracts from partial contracts in #{input_dir} and recording to #{output_dir}\n\n"
 
       failed_contracts = []

@@ -1,5 +1,5 @@
 module Pacto
-  class Generator
+  module Generator
     describe Filters do
       let(:record_host) do
         'http://example.com'

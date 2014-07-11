@@ -8,7 +8,7 @@ module Pacto
     def initialize
       @middleware = Pacto::Core::HTTPMiddleware.new
       @middleware.add_observer Pacto::Cops, :investigate
-      @generator = Pacto::Generator.new
+      @generator = Pacto::Generator.contract_generator
       @middleware.add_observer @generator, :generate
       @stenographer_log_file ||= File.expand_path('pacto_stenographer.log')
       @default_consumer = Pacto::Consumer

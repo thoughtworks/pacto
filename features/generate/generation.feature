@@ -39,7 +39,7 @@ Feature: Contract Generation
     Pacto.configuration.generator_options[:no_examples] = true
 
     WebMock.allow_net_connect!
-    generator = Pacto::Generator.new
+    generator = Pacto::Generator.contract_generator
     contract = generator.generate_from_partial_contract('requests/my_contract.json', 'http://localhost:8000')
     puts contract
     """

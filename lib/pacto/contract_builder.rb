@@ -27,7 +27,7 @@ module Pacto
       sample_request_body = example[:request][:body]
       sample_response_body = example[:response][:body]
       @data[:request][:schema] = generate_schema(sample_request_body) if sample_request_body
-      @data[:response][:schema] = generate_schema(sample_response_body) if sample_request_body
+      @data[:response][:schema] = generate_schema(sample_response_body) if sample_response_body
       self
     end
 
@@ -52,8 +52,7 @@ module Pacto
                         headers: @filters.filter_request_headers(request, response),
                         http_method: request.method,
                         params: request.uri.query_values,
-                        path: request.uri.path,
-                        schema: generate_schema(request.body)
+                        path: request.uri.path
                       )
       @data[:request] = request
       self
@@ -62,8 +61,7 @@ module Pacto
     def generate_response(request, response)
       response = clean(
                          headers: @filters.filter_response_headers(request, response),
-                         status: response.status,
-                         schema: generate_schema(response.body)
+                         status: response.status
                        )
       @data[:response] = response
       self
