@@ -42,7 +42,7 @@ module Pacto
       return self if @data[:examples].empty?
 
       _example, hint = example_and_hint
-      @data[:file] = hint.target_file unless hint.nil?
+      @data[:file] = File.expand_path(hint.target_file, Pacto.configuration.contracts_path) unless hint.nil?
       self
     end
 
