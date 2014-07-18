@@ -9,15 +9,15 @@ module Pacto
         fail 'override to return the proper subschema of the contract'
       end
 
-      def self.body(request, response)
+      def self.body(_request, _response)
         fail 'override to return the proper body from the request or response'
       end
 
-      def self.investigate(_request, response, contract)
+      def self.investigate(request, response, contract)
         schema = subschema(contract)
         if schema && !schema.empty?
           schema['id'] = contract.file unless schema.key? 'id'
-          validate_as_json(schema, body(_request, response))
+          validate_as_json(schema, body(request, response))
         end || []
       end
 

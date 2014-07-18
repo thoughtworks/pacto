@@ -9,7 +9,7 @@ module Pacto
         contract.request.schema
       end
 
-      def self.body(request, response)
+      def self.body(request, _response)
         request.body
       end
     end
