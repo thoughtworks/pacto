@@ -9,7 +9,7 @@ Fabricator(:pacto_request, from: Pacto::PactoRequest) do
   transient host: 'example.com'
   transient path: '/abcd'
   transient params: {}
-  method { 'GET' }
+  method { :get }
   uri do |attr|
     Addressable::URI.heuristic_parse(attr[:host]).tap do |uri|
       uri.path = attr[:path]

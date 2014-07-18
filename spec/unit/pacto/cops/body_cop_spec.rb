@@ -25,10 +25,6 @@ module Pacto
         context 'when the body is a string' do
           let(:schema) { { 'type' => 'string', 'required' => string_required } }
 
-          it 'does not validate using JSON Schema' do
-            cop.investigate(request, response, contract)
-          end
-
           context 'if required' do
             it 'does not return an error when body is a string' do
               response.body = 'asdf'
@@ -45,6 +41,7 @@ module Pacto
             let(:string_required) { %w() }
 
             it 'does not return an error when body is a string' do
+              response.body = 'asdf'
               expect(cop.investigate(request, response, contract)).to be_empty
             end
 

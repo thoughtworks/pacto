@@ -22,6 +22,8 @@ group :samples do
   gem 'rake'
   gem 'pry'
   gem 'rack'
+  gem 'foreman'
+  gem 'psych'
 end
 
 gem 'polytrix', git: 'https://github.com/rackerlabs/polytrix'
