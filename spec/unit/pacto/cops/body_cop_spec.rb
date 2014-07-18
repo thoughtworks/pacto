@@ -27,7 +27,7 @@ RSpec.shared_examples 'a body cop' do | section_to_validate |
       context 'if required' do
         it 'does not return an error when body is a string' do
           object_to_validate.body = 'asdf'
-          expect(cop.investigate(request, response, contract)).to be_empty
+          expect(cop.investigate(request, response, contract)).to eq([])
         end
 
         it 'returns an error when body is nil' do
