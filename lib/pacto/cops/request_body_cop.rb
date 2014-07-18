@@ -8,6 +8,10 @@ module Pacto
       def self.subschema(contract)
         contract.request.schema
       end
+
+      def self.body(request, _response)
+        request.body
+      end
     end
   end
 end
