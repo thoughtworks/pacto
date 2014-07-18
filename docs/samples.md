@@ -37,11 +37,7 @@ end
 
 # Generating a Contract
 Calling `Pacto.generate!` enables contract generation.
-
-```rb
 Pacto.generate!
-```
-
 Now, if we run any code that makes an HTTP call (using an
 [HTTP library supported by WebMock](https://github.com/bblimke/webmock#supported-http-libraries))
 then Pacto will generate a Contract based on the HTTP request/response.

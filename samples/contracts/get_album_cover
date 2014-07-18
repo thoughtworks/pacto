@@ -1,0 +1,49 @@
+{
+  "request": {
+    "headers": {
+    },
+    "http_method": "get",
+    "path": "/api/album/{id}/cover"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "schema": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from http://localhost:5000/api/album/1/cover with shasum db640385d2b346db760dbfd78058101663197bcf",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "cover": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  "examples": {
+    "default": {
+      "request": {
+        "method": "get",
+        "uri": "http://localhost:5000/api/album/1/cover",
+        "headers": {
+          "User-Agent": "Faraday v0.9.0",
+          "Accept-Encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "Accept": "*/*"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Content-Length": "17"
+        },
+        "body": "{\"cover\":\"image\"}"
+      }
+    }
+  },
+  "name": "Get Album Cover",
+  "file": "/Users/Thoughtworker/repos/opensource/pacto/samples/contracts/get_album_cover"
+}
