@@ -145,6 +145,11 @@ module Pacto
             expect(contract1.name).to eq('Get Album Cover')
           end
 
+          it 'sets the path to match the hint' do
+            contract1 = generator.generate request1, response1
+            expect(contract1.request.path).to eq('/album/{id}/cover')
+          end
+
           it 'sets the target file based on the hint' do
             contract1 = generator.generate request1, response1
             expected_path = File.expand_path('album_services/get_album_cover.json', contracts_path)

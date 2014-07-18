@@ -22,8 +22,8 @@ module Pacto
     end
 
     def infer_all
+      # infer_file # The target file is being chosen inferred by the Generator
       infer_name
-      infer_file
       infer_schemas
     end
 
@@ -35,14 +35,6 @@ module Pacto
 
       example, hint = example_and_hint
       @data[:name] = hint.nil? ? PactoRequest.new(example[:request]).uri.path : hint.service_name
-      self
-    end
-
-    def infer_file
-      return self if @data[:examples].empty?
-
-      _example, hint = example_and_hint
-      @data[:file] = File.expand_path(hint.target_file, Pacto.configuration.contracts_path) unless hint.nil?
       self
     end
 
@@ -71,11 +63,12 @@ module Pacto
     end
 
     def generate_request(request, response)
+      hint = hint_for(request)
       request = clean(
                         headers: @filters.filter_request_headers(request, response),
                         http_method: request.method,
                         params: request.uri.query_values,
-                        path: request.uri.path
+                        path: hint.nil? ? request.uri.path : hint.path
                       )
       @data[:request] = request
       self
