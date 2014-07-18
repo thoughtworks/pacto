@@ -1,13 +1,7 @@
 module Pacto
   module Cops
     class ResponseBodyCop < BodyCop
-      def self.section_name
-        'response'
-      end
-
-      def self.subschema(contract)
-        contract.response.schema
-      end
+      validates :response
     end
   end
 end

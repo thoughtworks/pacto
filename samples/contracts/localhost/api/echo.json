@@ -8,19 +8,30 @@
     "path": "/api/echo",
     "schema": {
       "$schema": "http://json-schema.org/draft-03/schema#",
-      "type": "string",
-      "required": true
+      "oneOf": [
+        { "type": "string", "required": true },
+        { "type": "object", "required": true }
+      ]
     }
   },
   "response": {
-    "headers": {
-      "Content-Type": "text/plain"
-    },
     "status": 201,
     "schema": {
       "$schema": "http://json-schema.org/draft-03/schema#",
-      "type": "string",
-      "required": true
+      "oneOf": [
+        { "type": "string", "required": true },
+        { "type": "object", "required": true }
+      ]
+    }
+  },
+  "examples": {
+    "foo": {
+      "request": {
+        "body": "foo"
+      },
+      "response": {
+        "body": "foo"
+      }
     }
   }
 }

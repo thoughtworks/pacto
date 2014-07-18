@@ -2,7 +2,8 @@
 # It also illustrates having two services w/ the same endpoint (just different HTTP methods)
 module DummyServices
   class Echo < Grape::API
-    format :txt
+    format :json
+    content_type :txt, 'text/plain'
 
     helpers do
       def echo(message)

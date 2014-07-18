@@ -1,28 +1,21 @@
 module Pacto
   module Cops
     class BodyCop
-      def self.section_name
-        fail 'section name should be provided by subclass'
+      KNOWN_CLAUSES = [:request, :response]
+
+      def self.validates(clause)
+        fail ArgumentError, "Unknown clause: #{clause}" unless KNOWN_CLAUSES.include? clause
+        @clause = clause
       end
 
-      def self.subschema(_contract)
-        fail 'override to return the proper subschema the contract'
-      end
-
-      def self.investigate(_request, response, contract)
-        schema = subschema(contract)
+      def self.investigate(request, response, contract)
+        # eval "is a security risk" and local_variable_get is ruby 2.1+ only, so...
+        body = { request: request, response: response }[@clause].body
+        schema = contract.send(@clause).schema
         if schema && !schema.empty?
           schema['id'] = contract.file unless schema.key? 'id'
-          validate_as_json(schema, response.body)
+          JSON::Validator.fully_validate(schema, body, version: :draft3)
         end || []
-      end
-
-      def self.validate_as_json(schema, body)
-        if schema['type'] == 'string'
-          # Is it better to check body is not nil, or body is a string?
-          body = body.inspect unless body.nil?
-        end
-        JSON::Validator.fully_validate(schema, body, version: :draft3)
       end
     end
   end
