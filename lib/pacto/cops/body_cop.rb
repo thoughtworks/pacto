@@ -9,19 +9,16 @@ module Pacto
         fail 'override to return the proper subschema the contract'
       end
 
-      def self.investigate(_request, response, contract)
+      def self.investigate(request, response, contract)
         schema = subschema(contract)
         if schema && !schema.empty?
           schema['id'] = contract.file unless schema.key? 'id'
-          validate_as_json(schema, response.body)
+          body_to_validate = instance_eval(section_name).body
+          validate_as_json(schema, body_to_validate)
         end || []
       end
 
       def self.validate_as_json(schema, body)
-        if schema['type'] == 'string'
-          # Is it better to check body is not nil, or body is a string?
-          body = body.inspect unless body.nil?
-        end
         JSON::Validator.fully_validate(schema, body, version: :draft3)
       end
     end
