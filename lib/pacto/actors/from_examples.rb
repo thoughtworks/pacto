@@ -20,8 +20,8 @@ module Pacto
         end
       end
     end
-    class FromExamples
-      def initialize(fallback_actor = JSONGenerator, selector = Pacto::Actors::FirstExampleSelector)
+    class FromExamples < Actor
+      def initialize(fallback_actor = JSONGenerator.new, selector = Pacto::Actors::FirstExampleSelector)
         @fallback_actor = fallback_actor
         @selector = selector
       end

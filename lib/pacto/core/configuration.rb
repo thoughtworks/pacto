@@ -11,8 +11,8 @@ module Pacto
       @generator = Pacto::Generator.new
       @middleware.add_observer @generator, :generate
       @stenographer_log_file ||= File.expand_path('pacto_stenographer.log')
-      @default_consumer = Pacto::Consumer
-      @default_provider = Pacto::Provider
+      @default_consumer = Pacto::Consumer.new
+      @default_provider = Pacto::Provider.new
       @adapter = Stubs::WebMockAdapter.new(@middleware)
       @strict_matchers = true
       @contracts_path = nil

@@ -7,6 +7,9 @@ require 'fabrication'
 require 'stringio'
 require 'rspec'
 
+# Pre-load shared examples
+require_relative 'unit/pacto/actor_spec.rb'
+
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   config.include Pacto::TestHelper

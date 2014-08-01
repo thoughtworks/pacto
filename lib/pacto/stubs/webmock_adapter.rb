@@ -3,7 +3,7 @@ module Pacto
     module WebMock
       class PactoRequest < Pacto::PactoRequest
         extend Forwardable
-        def_delegators :@webmock_request_signature, :headers, :method, :body, :uri, :to_s
+        def_delegators :@webmock_request_signature, :headers, :method, :body, :uri, :to_s, :inspect
 
         def initialize(webmock_request_signature)
           @webmock_request_signature = webmock_request_signature
@@ -20,7 +20,7 @@ module Pacto
 
       class PactoResponse < Pacto::PactoResponse
         extend Forwardable
-        def_delegators :@webmock_response, :body, :body=, :headers=, :status=, :to_s
+        def_delegators :@webmock_response, :body, :body=, :headers=, :status=, :to_s, :inspect
 
         def initialize(webmock_response)
           @webmock_response = webmock_response

@@ -23,7 +23,7 @@ end
 module Pacto
   module Actors
     describe JSONGenerator do
-      subject(:generator) { described_class }
+      subject(:generator) { described_class.new }
       let(:request_clause) { Fabricate(:request_clause, schema: schema) }
       let(:response_clause) { Fabricate(:response_clause, schema: schema) }
       let(:contract) { Fabricate(:contract, request: request_clause, response: response_clause) }

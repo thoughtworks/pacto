@@ -1,11 +1,20 @@
 module Pacto
   module Actors
     describe FromExamples do
+
       let(:fallback) { double('fallback') }
       subject(:generator) { described_class.new fallback }
 
       context 'a contract without examples' do
         let(:contract) { Fabricate(:contract) }
+
+        it_behaves_like 'an actor' do
+          before(:each) do
+            allow(fallback).to receive(:build_request).with(contract, {}).and_return(Fabricate(:pacto_request))
+            allow(fallback).to receive(:build_response).with(contract, {}).and_return(Fabricate(:pacto_response))
+          end
+          let(:contract) { Fabricate(:contract) }
+        end
 
         it 'uses the fallback actor' do
           expect(fallback).to receive(:build_request).with(contract, {})
@@ -19,6 +28,10 @@ module Pacto
         let(:contract) { Fabricate(:contract, example_count: 3) }
         let(:request) { generator.build_request contract }
         let(:response) { generator.build_response contract }
+
+        it_behaves_like 'an actor' do
+          let(:contract) { Fabricate(:contract, example_count: 3) }
+        end
 
         context 'no example specified' do
           it 'uses the first example' do

@@ -1,6 +1,11 @@
 module Pacto
+  def self.consumers
+    @consumers ||= {}
+  end
+
   def self.simulate_consumer(consumer_name = :consumer, &block)
-    Consumer.new(consumer_name).simulate(&block)
+    consumers[consumer_name] ||= Consumer.new(consumer_name)
+    consumers[consumer_name].simulate(&block)
   end
 
   class Consumer
@@ -21,49 +26,54 @@ module Pacto
     end
 
     def self.reset!
-      @actor  = nil
-      @driver = nil
+      Pacto.consumers.clear
     end
 
-    def self.actor
+    def actor
       @actor ||= Pacto::Actors::FromExamples.new
     end
 
-    def self.actor=(actor)
+    def actor=(actor)
       fail ArgumentError, 'The actor must respond to :build_request' unless actor.respond_to? :build_request
       @actor = actor
     end
 
     def request(contract, data = {})
       contract = Pacto.contract_registry.find_by_name(contract) if contract.is_a? String
-      values = data[:values]
-      # response = data[:response]
       logger.info "Sending request to #{contract.name.inspect}"
-      logger.info "  with #{values.inspect} values"
-      self.class.reenact(contract, values)
+      logger.info "  with #{data.inspect}"
+      reenact(contract, data)
     rescue ContractNotFound => e
       logger.warn "Ignoring request: #{e.message}"
     end
 
-    def self.build_request(contract, data = {})
-      actor.build_request contract, data
-    end
-
-    def self.reenact(contract, data = {})
+    def reenact(contract, data = {})
       request = build_request contract, data
       response = driver.execute request
       [request, response]
     end
 
     # Returns the current driver
-    def self.driver
+    def driver
       @driver ||= Pacto::Consumer::FaradayDriver.new
     end
 
     # Changes the driver
-    def self.driver=(driver)
+    def driver=(driver)
       fail ArgumentError, 'The driver must respond to :execute' unless driver.respond_to? :execute
       @driver = driver
+    end
+
+    # @api private
+    def build_request(contract, data = {})
+      actor.build_request(contract, data[:values]).tap do |request|
+        if data[:headers] && data[:headers].respond_to?(:call)
+          request.headers = data[:headers].call(request.headers)
+        end
+        if data[:body] && data[:body].respond_to?(:call)
+          request.body = data[:body].call(request.body)
+        end
+      end
     end
   end
 end
