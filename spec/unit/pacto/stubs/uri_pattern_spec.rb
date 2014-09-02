@@ -28,10 +28,21 @@ module Pacto
       end
 
       it 'creates a regex that does not allow additional path elements' do
+        $enable_tracing = false
+        $trace_out = open('trace.txt', 'w')
+
+        set_trace_func proc { |event, file, line, id, binding, classname|
+          if $enable_tracing && event == 'call'
+            $trace_out.puts "#{file}:#{line} #{classname}##{id}"
+          end
+        }
+
+        $enable_tracing = true
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         pattern = UriPattern.for(request)
         expect(pattern).to match('myhost.com/foo')
         expect(pattern).to_not match('myhost.com/foo/bar')
+        $enable_tracing = false
       end
 
       it 'creates a regex that does allow query parameters', :deprecated do

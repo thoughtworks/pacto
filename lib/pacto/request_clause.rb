@@ -1,7 +1,5 @@
 module Pacto
-  class RequestClause < Hashie::Dash
-    include Hashie::Extensions::Coercion
-    include Hashie::Extensions::IndifferentAccess # remove this if we cleanup string vs symbol
+  class RequestClause < Pacto::Dash
     property :host # required?
     property :http_method, required: true
     property :schema, default: {}

@@ -1,6 +1,5 @@
 module Pacto
-  class ResponseClause < Hashie::Dash
-    include Hashie::Extensions::IndifferentAccess
+  class ResponseClause < Pacto::Dash
     property :status
     property :headers, default: {}
     property :schema, default: {}

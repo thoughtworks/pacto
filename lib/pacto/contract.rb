@@ -1,6 +1,5 @@
 module Pacto
-  class Contract < Hashie::Dash
-    include Hashie::Extensions::Coercion
+  class Contract < Pacto::Dash
     property :file
     property :request,  required: true
     # Although I'd like response to be required, it complicates
