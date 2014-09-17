@@ -1,0 +1,38 @@
+{
+  "request": {
+    "http_method": "GET",
+    "path": "/hello_world",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "params": {}
+  },
+
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "schema": {
+      "description": "A simple response",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+
+  "examples": {
+    "default": {
+      "request": {},
+      "response": {
+        "body": {
+          "message": "<%= "foo#{2+2}" %>",
+          "count": <%= 2+2 %>
+        }
+      }
+    }
+  }
+}
