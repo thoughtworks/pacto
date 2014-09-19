@@ -24,4 +24,4 @@ group :samples do
   gem 'rack'
 end
 
-gem 'polytrix', git: 'https://github.com/rackerlabs/polytrix'
+gem 'polytrix', '~> 0.1.0'

@@ -1,5 +1,5 @@
 Given(/^Pacto is configured with:$/) do |string|
-  steps %Q(
+  steps %(
     Given a file named "pacto_config.rb" with:
     """ruby
     #{string}
@@ -8,7 +8,7 @@ Given(/^Pacto is configured with:$/) do |string|
 end
 
 Given(/^I have a Rakefile$/) do
-  steps %Q(
+  steps %(
     Given a file named "Rakefile" with:
     """ruby
     require 'pacto/rake_task'
@@ -17,7 +17,7 @@ Given(/^I have a Rakefile$/) do
 end
 
 When(/^I request "(.*?)"$/) do |url|
-  steps %Q{
+  steps %{
     Given a file named "request.rb" with:
     """ruby
     require 'pacto'

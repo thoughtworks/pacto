@@ -24,3 +24,4 @@ tmp
 .sublime*
 tags
 pacto.log
+.polytrix/

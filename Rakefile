@@ -36,7 +36,8 @@ end
 desc 'Run the samples'
 task :samples do
   FileUtils.rm_rf('samples/tmp')
-  sh 'bundle exec polytrix exec --code2doc samples/*.rb samples/*.sh'
+  sh 'bundle exec polytrix exec --solo=samples --solo-glob="*.{rb,sh}"'
+  sh 'bundle exec polytrix code2doc --solo=samples --solo-glob="*.{rb,sh}"'
 end
 
 desc 'Build the documentation from the samples'
