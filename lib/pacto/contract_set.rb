@@ -5,7 +5,7 @@ module Pacto
     end
 
     def simulate_consumers
-      map { |contract| contract.simulate_request }
+      map(&:simulate_request)
     end
   end
 end

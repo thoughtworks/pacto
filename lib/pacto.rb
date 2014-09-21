@@ -1,6 +1,7 @@
 require 'pacto/version'
 
 require 'addressable/template'
+require 'swagger'
 require 'middleware'
 require 'faraday'
 require 'multi_json'

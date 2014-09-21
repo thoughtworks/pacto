@@ -4,7 +4,7 @@ module Pacto
     HeaderKeyMap = Hash.new do |map, key|
       split_char = key.to_s.include?('-') ? '-' : '_'
       map[key] = key.to_s.split(split_char).     # :user_agent => %w(user agent)
-          each { |w| w.capitalize! }.   # => %w(User Agent)
+          each(&:capitalize!).   # => %w(User Agent)
           join('-')                     # => "User-Agent"
     end
     HeaderKeyMap[:etag] = 'ETag'

@@ -1,4 +1,5 @@
 require 'pacto/native_contract_factory'
+require 'pacto/swagger_contract_factory'
 
 module Pacto
   class ContractFactory

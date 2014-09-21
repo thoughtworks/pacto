@@ -100,7 +100,7 @@ module Pacto
           key = elem.first.dup
           value = elem.last
           key.gsub!('_', '-')
-          key = key.split('-').map { |w| w.capitalize }.join '-'
+          key = key.split('-').map(&:capitalize).join '-'
           res[key] = value
         end
       end

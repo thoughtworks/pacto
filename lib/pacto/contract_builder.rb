@@ -1,5 +1,5 @@
 module Pacto
-  class ContractBuilder < Hashie::Dash # rubocop:disable Style/ClassLength
+  class ContractBuilder < Hashie::Dash # rubocop:disable Metrics/ClassLength
     extend Forwardable
     attr_accessor :source
 

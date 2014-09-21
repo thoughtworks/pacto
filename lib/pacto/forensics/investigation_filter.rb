@@ -52,7 +52,7 @@ module Pacto
       end
 
       def successful_investigations
-        @filtered_investigations.select { |i| i.successful? }
+        @filtered_investigations.select(&:successful?)
       end
 
       def unsuccessful_investigations

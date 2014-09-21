@@ -14,9 +14,7 @@ module Pacto
     end
 
     def self.reset_all
-      resettables.each do |resettable|
-        resettable.reset!
-      end
+      resettables.each(&:reset!)
       true
     end
   end
