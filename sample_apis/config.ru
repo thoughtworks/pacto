@@ -1,7 +1,7 @@
 require 'grape'
 require 'grape-swagger'
 require 'json'
-Dir[File.expand_path('../*_api.rb', __FILE__)].each do |f|
+Dir[File.expand_path('../**/*_api.rb', __FILE__)].each do |f|
     puts "Requiring #{f}"
   require f
 end
@@ -15,15 +15,7 @@ module DummyServices
     mount DummyServices::Echo
     mount DummyServices::Files
     mount DummyServices::Reverse
-    # mount RescueFrom
-    # mount PathVersioning
-    # mount HeaderVersioning
-    # mount PostPut
-    # mount WrapResponse
-    # mount PostJson
-    # mount ContentType
-    # mount UploadFile
-    # mount Entities::API
+    mount AlbumServices::Cover
     add_swagger_documentation # api_version: 'v1'
   end
 end

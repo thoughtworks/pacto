@@ -3,7 +3,7 @@ describe Pacto do
     let(:contracts_path) { 'path_to_contracts' }
 
     it 'allows contracts_path manual configuration' do
-      expect(described_class.configuration.contracts_path).to be_nil
+      expect(described_class.configuration.contracts_path).to eq('.')
       described_class.configure do |c|
         c.contracts_path = contracts_path
       end

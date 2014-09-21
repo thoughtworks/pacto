@@ -5,6 +5,12 @@ module Pacto
       let(:request) { double }
       let(:response) { double }
 
+      class FailingObserver
+        def raise_error(_pacto_request, _pacto_response)
+          fail InvalidContract, ['The contract was missing things', 'and stuff']
+        end
+      end
+
       describe '#process' do
         it 'calls registered HTTP observers' do
           observer1, observer2 = double, double
@@ -15,6 +21,13 @@ module Pacto
           expect(observer1).to receive(:do_something).with(request, response)
           expect(observer2).to receive(:do_something_else).with(request, response)
           middleware.process request, response
+        end
+
+        it 'logs rescues and logs failures' do
+          middleware.add_observer FailingObserver.new, :raise_error
+          middleware.process request, response
+          # FIXME: Add this assertion after switching to the Logging gem.
+          # expect(@log_output).to include 'InvalidContract'
         end
 
         it 'calls the HTTP middleware' do

@@ -50,8 +50,8 @@ Feature: Existing services journey
     When I successfully run `bundle exec ruby test.rb`
     Then the stdout should contain exactly:
     """
-    {"thoughtworks":"bar"}
-    {"service2":["bar"]}
+    {"thoughtworks":"pacto"}
+    {"service2":["thoughtworks","pacto"]}
 
     """
 
@@ -78,5 +78,5 @@ Feature: Existing services journey
     """
     Then the stdout should contain exactly:
     """
-    
+
     """

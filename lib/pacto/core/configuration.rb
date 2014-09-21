@@ -8,14 +8,14 @@ module Pacto
     def initialize
       @middleware = Pacto::Core::HTTPMiddleware.new
       @middleware.add_observer Pacto::Cops, :investigate
-      @generator = Pacto::Generator.new
+      @generator = Pacto::Generator.contract_generator
       @middleware.add_observer @generator, :generate
       @stenographer_log_file ||= File.expand_path('pacto_stenographer.log')
       @default_consumer = Pacto::Consumer.new
       @default_provider = Pacto::Provider.new
       @adapter = Stubs::WebMockAdapter.new(@middleware)
       @strict_matchers = true
-      @contracts_path = nil
+      @contracts_path = '.'
       @logger = Logger::SimpleLogger.instance
       define_logger_level
       @hook = Hook.new {}

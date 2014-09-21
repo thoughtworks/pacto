@@ -36,7 +36,7 @@ end
 Given(/^an existing set of services$/) do
   WebMock.stub_request(:get, 'www.example.com/service1').to_return(body: { 'thoughtworks' => 'pacto' }.to_json)
   WebMock.stub_request(:post, 'www.example.com/service1').with(body: 'thoughtworks').to_return(body: 'pacto')
-  WebMock.stub_request(:get, 'www.example.com/service2').to_return(body: { 'service2' => %w('thoughtworks', 'pacto') }.to_json)
+  WebMock.stub_request(:get, 'www.example.com/service2').to_return(body: { 'service2' => %w(thoughtworks pacto) }.to_json)
   WebMock.stub_request(:post, 'www.example.com/service2').with(body: 'thoughtworks').to_return(body: 'pacto')
 end
 

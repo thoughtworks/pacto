@@ -30,7 +30,7 @@ module Pacto
         if contract.examples?
           example = @selector.select(contract.examples, values)
           data = contract.request.to_hash
-          data['uri'] = contract.request.uri
+          data['uri'] = build_uri(contract, values)
           data['body'] = example.request.body
           data['method'] = contract.request.http_method
           Pacto::PactoRequest.new(data)
@@ -48,6 +48,19 @@ module Pacto
         else
           @fallback_actor.build_response contract, values
         end
+      end
+
+      def build_uri(contract, values)
+        values ||= {}
+        uri_template = Addressable::Template.new(contract.request.uri)
+        if contract.examples && contract.examples.values.first[:request][:uri]
+          example_uri = contract.examples.values.first[:request][:uri]
+          example_values = uri_template.extract example_uri
+          values = example_values.merge values
+        end
+        missing_keys = uri_template.keys - values.keys
+        logger.warn "Missing keys for building a complete URL: #{missing_keys.inspect}" unless missing_keys.empty?
+        uri_template.expand values
       end
     end
   end

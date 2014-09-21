@@ -1,5 +1,5 @@
 module Pacto
-  class Generator
+  module Generator
     class Filters
       CONNECTION_CONTROL_HEADERS = %w(
         Via

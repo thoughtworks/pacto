@@ -11,8 +11,8 @@ module Pacto
       expect(configuration.strict_matchers).to be true
     end
 
-    it 'sets contracts path by default to nil' do
-      expect(configuration.contracts_path).to be_nil
+    it 'sets contracts path by default to .' do
+      expect(configuration.contracts_path).to eq('.')
     end
 
     it 'sets logger by default to Logger' do

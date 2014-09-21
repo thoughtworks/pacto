@@ -36,9 +36,10 @@ Feature: Contract Generation
     Given a file named "generate.rb" with:
     """ruby
     require 'pacto'
+    Pacto.configuration.generator_options[:no_examples] = true
 
     WebMock.allow_net_connect!
-    generator = Pacto::Generator.new
+    generator = Pacto::Generator.contract_generator
     contract = generator.generate_from_partial_contract('requests/my_contract.json', 'http://localhost:8000')
     puts contract
     """
@@ -46,6 +47,7 @@ Feature: Contract Generation
     Then the stdout should match this contract:
     """json
     {
+      "name": "/hello",
       "request": {
         "headers": {
           "Accept": "application/json"
