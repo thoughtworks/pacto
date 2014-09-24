@@ -16,11 +16,11 @@ RSpec::Matchers.define :have_unmatched_requests do |_method, _uri|
     !@unmatched_investigations.empty?
   end
 
-  failure_message_for_should do
+  failure_message do
     'Expected Pacto to have not matched all requests to a Contract, but all requests were matched.'
   end
 
-  failure_message_for_should_not do
+  failure_message_when_negated do
     unmatched_requests = @unmatched_investigations.map(&:request).join("\n  ")
     "Expected Pacto to have matched all requests to a Contract, but the following requests were not matched: \n  #{unmatched_requests}"
   end
@@ -32,11 +32,11 @@ RSpec::Matchers.define :have_failed_investigations do |_method, _uri|
     !@failed_investigations.empty?
   end
 
-  failure_message_for_should do
+  failure_message do
     'Expected Pacto to have found investigation problems, but none were found.'
   end
 
-  failure_message_for_should_not do
+  failure_message_when_negated do
     "Expected Pacto to have successfully validated all requests, but the following issues were found: #{@failed_investigations}"
   end
 end
@@ -82,7 +82,7 @@ RSpec::Matchers.define :have_validated do |method, uri|
     end
   end
 
-  failure_message_for_should do
+  failure_message do
     buffer = StringIO.new
     buffer.puts "expected Pacto to have validated #{@request_pattern}"
     if @matching_investigations.nil? || @matching_investigations.empty?

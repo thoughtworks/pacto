@@ -38,7 +38,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'fabrication', '~> 2.11'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'rake-notes', '~> 0'
-  gem.add_development_dependency 'rspec', '~> 2.99'
+  gem.add_development_dependency 'rspec', '~> 3.0'
   gem.add_development_dependency 'aruba', '~> 0'
   gem.add_development_dependency 'json_spec', '~> 1.0'
   # Only required to push documentation, and not easily installed on Windows

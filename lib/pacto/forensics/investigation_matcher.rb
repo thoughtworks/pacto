@@ -54,7 +54,7 @@ RSpec::Matchers.define :have_investigated do |service_name|
     @allow_citations = true
   end
 
-  failure_message_for_should do | group |
+  failure_message do | group |
     buffer = StringIO.new
     buffer.puts "expected #{group} " + description
     if @filter_error
