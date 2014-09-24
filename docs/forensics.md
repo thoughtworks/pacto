@@ -58,7 +58,8 @@ describe Faraday do
   it 'sends data to the echo service' do
     expect(Pacto).to have_investigated('Ping').with_response(body: hash_including('ping' => 'pong - from the example!'))
     expect(Pacto).to have_investigated('Echo').with_request(body: hash_including('foo' => 'bar'))
-    expect(Pacto).to have_investigated('Echo').with_response(body: /foo.*bar/)
+    echoed_body = { 'foo' => 'bar' }
+    expect(Pacto).to have_investigated('Echo').with_request(body: echoed_body).with_response(body: echoed_body)
   end
 end
 ```
