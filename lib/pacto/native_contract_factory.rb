@@ -20,6 +20,19 @@ module Pacto
       Contract.new(request: request, response: response, file: contract_path, name: definition['name'], examples: definition['examples'])
     end
 
+    def files_for(contracts_dir)
+      full_path = Pathname.new(contracts_dir).realpath
+
+      if  full_path.directory?
+        all_json_files = "#{full_path}/**/*.json"
+        Dir.glob(all_json_files).map do |f|
+          Pathname.new(f)
+        end
+      else
+        [full_path]
+      end
+    end
+
     private
 
     def body_to_schema(definition, section, file)
@@ -39,3 +52,8 @@ module Pacto
     end
   end
 end
+
+factory = Pacto::NativeContractFactory.new
+
+Pacto::ContractFactory.add_factory(:native, factory)
+Pacto::ContractFactory.add_factory(:default, factory)

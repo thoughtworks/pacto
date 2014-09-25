@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'webmock', '~> 1.18'
-  gem.add_dependency 'swagger', '~> 0.0.1'
+  gem.add_dependency 'swagger-core', '~> 0.0.1'
   gem.add_dependency 'middleware', '~> 0.1'
   gem.add_dependency 'multi_json', '~> 1.8'
   gem.add_dependency 'json-schema', '~> 2.0'
@@ -33,7 +33,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'json-schema-generator', '~> 0.0', '>= 0.0.7'
   gem.add_dependency 'term-ansicolor', '~> 1.3'
 
-  gem.add_development_dependency 'polytrix', '~> 0.1.0.pre'
+  gem.add_development_dependency 'polytrix', '~> 0.1'
   gem.add_development_dependency 'coveralls', '~> 0'
   gem.add_development_dependency 'fabrication', '~> 2.11'
   gem.add_development_dependency 'rake', '~> 10.0'

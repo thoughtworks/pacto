@@ -23,6 +23,3 @@ group :samples do
   gem 'pry'
   gem 'rack'
 end
-
-gem 'polytrix', '~> 0.1.0', git: 'https://github.com/rackerlabs/polytrix'
-gem 'swagger', git: 'https://github.com/maxlinc/swagger.rb'

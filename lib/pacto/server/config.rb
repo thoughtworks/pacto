@@ -34,10 +34,10 @@ end
 if options[:recursive_loading]
   Dir["#{contracts_path}/*"].each do |host_dir|
     host = File.basename host_dir
-    prepare_contracts Pacto.load_contracts(host_dir, "https://#{host}")
+    prepare_contracts Pacto.load_contracts(host_dir, "https://#{host}", options[:format])
   end
 else
-  prepare_contracts Pacto.load_contracts contracts_path, options[:backend_host]
+  prepare_contracts Pacto.load_contracts(contracts_path, options[:backend_host], options[:format])
 end
 
 Pacto.validate! if options[:validate]

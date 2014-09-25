@@ -1,18 +1,14 @@
-require 'pacto/native_contract_factory'
-require 'pacto/swagger_contract_factory'
-
 module Pacto
   class ContractFactory
+    include Singleton
     include Logger
 
     def initialize
-      @factories = {
-        default: NativeContractFactory.new
-      }
+      @factories = {}
     end
 
     def add_factory(format, factory)
-      @factories[format] = factory
+      @factories[format.to_sym] = factory
     end
 
     def remove_factory(format)
@@ -20,10 +16,25 @@ module Pacto
     end
 
     def build(contract_files, host, format = :default)
-      factory = @factories[format]
+      factory = @factories[format.to_sym]
       fail "No Contract factory registered for #{format}" if factory.nil?
 
       contract_files.map { |file| factory.build_from_file(file, host) }.flatten
     end
+
+    def load_contracts(contracts_path, host, format = :default)
+      factory = @factories[format.to_sym]
+      files = factory.files_for(contracts_path)
+      contracts = ContractFactory.build(files, host, format)
+      contracts
+    end
+
+    class << self
+      extend Forwardable
+      def_delegators :instance, *ContractFactory.instance_methods(false)
+    end
   end
 end
+
+require 'pacto/native_contract_factory'
+require 'pacto/swagger_contract_factory'

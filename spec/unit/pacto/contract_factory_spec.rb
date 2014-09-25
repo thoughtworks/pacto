@@ -7,7 +7,7 @@ module Pacto
     let(:contracts_path)       { %w(spec fixtures contracts) }
     let(:contract_path)        { File.join(contracts_path, "#{contract_name}.json") }
     let(:contract_files)       { [contract_path, contract_path] }
-    subject(:contract_factory) { ContractFactory.new }
+    subject(:contract_factory) { described_class }
 
     describe '#build' do
       context 'default contract format' do

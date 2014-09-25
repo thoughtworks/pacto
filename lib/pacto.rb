@@ -39,9 +39,9 @@ require 'pacto/stubs/webmock_adapter'
 require 'pacto/stubs/uri_pattern'
 require 'pacto/contract'
 require 'pacto/cops'
+require 'pacto/meta_schema'
 require 'pacto/contract_factory'
 require 'pacto/investigation'
-require 'pacto/meta_schema'
 require 'pacto/hooks/erb_hook'
 require 'pacto/observers/stenographer'
 require 'pacto/generator'
@@ -59,10 +59,6 @@ require 'pacto/cops/response_header_cop'
 
 module Pacto
   class << self
-    def contract_factory
-      @factory ||= ContractFactory.new
-    end
-
     def configuration
       @configuration ||= Configuration.new
     end
@@ -110,8 +106,7 @@ module Pacto
     end
 
     def load_contracts(contracts_path, host, format = :default)
-      files = ContractFiles.for(contracts_path)
-      contracts = contract_factory.build(files, host, format)
+      contracts = ContractFactory.load_contracts(contracts_path, host, format)
       contracts.each do |contract|
         contract_registry.register(contract)
       end
