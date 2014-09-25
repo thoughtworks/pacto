@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'webmock', '~> 1.18'
-  gem.add_dependency 'swagger-core', '~> 0.0.1'
+  gem.add_dependency 'swagger-core', '~> 0.2'
   gem.add_dependency 'middleware', '~> 0.1'
   gem.add_dependency 'multi_json', '~> 1.8'
   gem.add_dependency 'json-schema', '~> 2.0'
