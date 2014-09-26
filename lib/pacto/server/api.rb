@@ -42,7 +42,7 @@ module Pacto
         PactoRequest.new(
           body: env['async-body'],
           headers: filter_request_headers(env),
-          method: :get,
+          method: env['REQUEST_METHOD'].downcase.to_sym,
           uri: determine_proxy_uri(env)
         )
       end
