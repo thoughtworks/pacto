@@ -9,7 +9,7 @@ module Pacto
       app = Swagger.load(contract_path)
       app.apis.map do |api|
         Pacto::Generator::Hint.new(request_clause_hash(api, host).merge(
-          service_name: api.fetch(:operationId)
+          service_name: api.fetch(:summary)
         ))
       end
     end
@@ -20,7 +20,7 @@ module Pacto
         request = Pacto::RequestClause.new(request_clause_hash(api, host))
         response = Pacto::ResponseClause.new(response_clause_hash(api, host))
         Contract.new(
-          name: api.operationId,
+          name: "#{api.root.info.title} :: #{api.summary}",
           file: contract_path,
           request: request, response: response,
           examples: build_examples(api)
