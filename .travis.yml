@@ -5,7 +5,11 @@ rvm:
   - 1.9.3
   # There is a bug in jruby-1.7.15
   # that is blocking testing
-  - jruby-head
+  - jruby
 before_script:
   - gem install foreman
   - foreman start &
+matrix:
+  allow_failures:
+    - rvm: jruby
+
