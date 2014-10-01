@@ -22,6 +22,19 @@ module Pacto
       }
     end
 
+    def to_s
+      string = "#{method.to_s.upcase}"
+      string << " #{relative_uri}"
+      string << " with body (#{body.bytesize} bytes)" if body
+      string
+    end
+
+    def relative_uri
+      uri.to_s.tap do |s|
+        s.slice!(uri.normalized_site)
+      end
+    end
+
     def parsed_body
       if body.is_a?(String) && content_type == 'application/json'
         JSON.parse(body)

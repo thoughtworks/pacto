@@ -19,6 +19,12 @@ module Pacto
       }
     end
 
+    def to_s
+      string = "STATUS: #{status}"
+      string << " with body (#{body.bytesize} bytes)" if body
+      string
+    end
+
     def parsed_body
       if body.is_a?(String) && content_type == 'application/json'
         JSON.parse(body)

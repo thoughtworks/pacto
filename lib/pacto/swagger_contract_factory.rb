@@ -7,25 +7,25 @@ module Pacto
 
     def load_hints(contract_path, host = nil)
       app = Swagger.load(contract_path)
-      app.apis.map do |api|
-        Pacto::Generator::Hint.new(request_clause_hash(api, host).merge(
-          service_name: api.fetch(:summary)
+      app.operations.map do |op|
+        Pacto::Generator::Hint.new(request_clause_hash(op, host).merge(
+          service_name: op.fetch(:summary)
         ))
       end
     end
 
     def build_from_file(contract_path, host = nil)
       app = Swagger.load(contract_path)
-      app.apis.map do |api|
-        request = Pacto::RequestClause.new(request_clause_hash(api, host))
-        response = Pacto::ResponseClause.new(response_clause_hash(api, host))
+      app.operations.map do |op|
+        default_response = op.default_response
+        request = Pacto::RequestClause.new(request_clause_hash(op, host))
+        response = Pacto::ResponseClause.new(response_clause_hash(op, default_response, host))
         Contract.new(
-          name: "#{api.root.info.title} :: #{api.summary}",
+          name: op.full_name,
           file: contract_path,
           request: request, response: response,
-          examples: build_examples(api)
+          examples: build_examples(op, default_response)
         )
-        # , name: definition['name'], examples: definition['examples'])
       end
     end
 
@@ -44,40 +44,39 @@ module Pacto
 
     private
 
-    def request_clause_hash(api, host)
+    def request_clause_hash(op, host)
       {
-        host: api.host || host,
-        http_method: api.verb,
-        path: api.path
+        host: op.host || host,
+        http_method: op.verb,
+        path: op.path
       }
     end
 
-    def response_clause_hash(api, _host)
-      response = api.default_response
+    def response_clause_hash(op, response, _host)
+      if response.nil?
+        logger.warn("No response defined for #{op.full_name}")
+        return Pacto::ResponseClause.new(status: 200)
+      end
+
       {}.tap do | response_clause |
-        if response.nil?
-          logger.warn("No response defined for #{api.operationId}")
-          response_clause[:status] = 200
-        else
-          response_clause[:status] = response.status_code || 200
-          response_clause[:schema] = response.schema.parse unless response.schema.nil?
-        end
+        response_clause[:status] = response.status_code || 200
+        response_clause[:schema] = response.schema.parse unless response.schema.nil?
       end
     end
 
-    def build_examples(api)
-      examples = api.default_response.examples
-      return nil if examples.nil? || examples.empty?
+    def build_examples(op, response)
+      return nil if response.nil? || response.examples.nil? || response.examples.empty?
+
       {
         default: {
           request: {}, # Swagger doesn't have a clear way to capture request examples
           response: {
-            body: api.default_response.examples.values.first.parse
+            body: response.examples.values.first.parse
           }
         }
       }
-    rescue => e
-      logger.warn("Error while trying to parse response example: #{e.inspect}")
+    rescue => e # FIXME: Only parsing errors?
+      logger.warn("Error while trying to parse response example for #{op.full_name}: #{e.inspect}")
       nil
     end
   end

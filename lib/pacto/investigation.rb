@@ -29,8 +29,8 @@ module Pacto
       contract_name = @contract.nil? ? 'nil' : contract.name
       ''"
       Investigation:
-      \tRequest: #{@request}
       \tContract: #{contract_name}
+      \tRequest: #{@request}
       \tCitations: \n\t\t#{@citations.join "\n\t\t"}
       "''
     end
