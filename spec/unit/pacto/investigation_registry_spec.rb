@@ -62,8 +62,9 @@ describe Pacto::InvestigationRegistry do
       investigation_with_successful_citations = Pacto::Investigation.new(request_signature, pacto_response, nil, ['error'])
       investigation_with_unsuccessful_citations = Pacto::Investigation.new(request_signature, pacto_response, nil, %w(error2 error3))
 
-      expect(investigation_with_successful_citations).to receive(:successful?).and_return true
-      expect(investigation_with_unsuccessful_citations).to receive(:successful?).and_return false
+      # Twice because of debug statement...
+      expect(investigation_with_successful_citations).to receive(:successful?).twice.and_return true
+      expect(investigation_with_unsuccessful_citations).to receive(:successful?).twice.and_return false
 
       registry.register_investigation(investigation)
       registry.register_investigation(investigation_with_successful_citations)

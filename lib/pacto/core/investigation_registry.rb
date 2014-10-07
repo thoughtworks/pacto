@@ -29,6 +29,7 @@ module Pacto
       @investigations << investigation
       stenographer.log_investigation investigation
       logger.info "Detected #{investigation.summary}"
+      logger.debug(investigation.to_s) unless investigation.successful?
       investigation
     end
 
