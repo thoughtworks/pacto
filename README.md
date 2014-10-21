@@ -77,7 +77,7 @@ We know we cannot generate perfect Contracts, especially if we only have one sam
 
 ### Contract Lists
 
-In order to stub or validate or stub a group of contracts you need to create a ContractList.
+In order to stub or validate a group of contracts you need to create a ContractList.
 A ContractList represent a collection of endpoints attached to the same host.
 
 ```ruby
