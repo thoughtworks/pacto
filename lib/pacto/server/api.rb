@@ -6,8 +6,9 @@ module Pacto
       include Pacto::Server::Settings
       use ::Rack::ContentLength
 
-      def initialize(_opts = {})
+      def initialize(*args)
         @original_pwd = Dir.pwd
+        super
       end
 
       def on_headers(env, headers)
@@ -23,6 +24,7 @@ module Pacto
       def response(env)
         log_request(env)
         req = prepare_pacto_request(env)
+        env.logger.info "sending: #{req.inspect}"
         resp = Pacto::Consumer::FaradayDriver.new.execute(req)
         process_pacto_response resp, env
       rescue => e
@@ -51,6 +53,8 @@ module Pacto
         code = resp.status
         safe_response_headers = normalize_headers(resp.headers).reject { |k, _v| %w(connection content-encoding content-length transfer-encoding).include? k.downcase }
         body = proxy_rewrite(resp.body)
+        env.logger.info "received response: #{resp.inspect}"
+        env.logger.debug "response body: #{body}"
         [code, safe_response_headers, body]
       end
 
@@ -60,12 +64,11 @@ module Pacto
           uri = Addressable::URI.parse("#{env.config[:backend_host]}#{path}")
         else
           host = env['HTTP_HOST']
-          # FIXME: These options are hacky, but cover the way I use in Pacto specs vs Polytrix
-          host.gsub!(".dev:#{port}", '.com') if env.config[:strip_dev]
+          host.gsub!('.dev', '.com') if env.config[:strip_dev]
           uri = Addressable::URI.parse("https://#{host}#{path}")
           uri.port = nil if env.config[:strip_port]
         end
-        uri.to_s
+        uri
       end
 
       def filter_request_headers(env)

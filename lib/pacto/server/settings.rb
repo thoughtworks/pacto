@@ -21,6 +21,7 @@ module Pacto
         opts.on('--strip-port', 'Strip the port from the request URI to build the proxied URI') { |_val| options[:strip_port] = true }
         opts.on('--strip-dev', 'Strip .dev from the request domain to build the proxied URI') { |_val| options[:strip_dev] = true }
         opts.on('--stenographer-log-file', 'Location for the stenographer log file') { |val| options[:stenographer_log_file] = val }
+        opts.on('--log-level [LEVEL]', [:debug, :info, :warn, :error, :fatal], 'Pacto log level ( debug, info, warn, error or fatal)') { |val| options[:pacto_log_level] = val }
       end
     end
   end

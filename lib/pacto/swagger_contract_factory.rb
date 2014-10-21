@@ -76,7 +76,8 @@ module Pacto
         }
       }
     rescue => e # FIXME: Only parsing errors?
-      logger.warn("Error while trying to parse response example for #{op.full_name}: #{e.inspect}")
+      logger.warn("Error while trying to parse response example for #{op.full_name}")
+      logger.debug("  Error details: #{e.inspect}")
       nil
     end
   end
