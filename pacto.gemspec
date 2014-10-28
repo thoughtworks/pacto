@@ -31,7 +31,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'faraday', '~> 0.9'
   gem.add_dependency 'addressable', '~> 2.3'
   gem.add_dependency 'json-schema-generator', '~> 0.0', '>= 0.0.7'
-  gem.add_dependency 'term-ansicolor', '~> 1.3'
+  gem.add_dependency 'thor', '~> 0.19'
 
   gem.add_development_dependency 'polytrix', '~> 0.1', '>= 0.1.3'
   gem.add_development_dependency 'coveralls', '~> 0'

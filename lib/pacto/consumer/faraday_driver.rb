@@ -3,13 +3,13 @@ module Pacto
     class FaradayDriver
       # Sends a Pacto::PactoRequest
       def execute(req)
-        conn = Faraday.new(url: req.uri.to_s) do |faraday|
+        conn = Faraday.new(url: req.uri.site) do |faraday|
           faraday.response :logger if Pacto.configuration.logger.level == :debug
           faraday.adapter Faraday.default_adapter
         end
 
         response = conn.send(req.method) do |faraday_request|
-          # faraday_request.url = req.uri
+          faraday_request.url(req.uri.path, req.uri.query_values)
           faraday_request.headers = req.headers
           faraday_request.body = req.body
         end

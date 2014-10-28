@@ -27,11 +27,12 @@ module Pacto
 
     def to_s
       contract_name = @contract.nil? ? 'nil' : contract.name
+      citation_string = Pacto::UI.colorize(@citations.join("\n\t\t"), :red)
       ''"
       Investigation:
       \tContract: #{contract_name}
       \tRequest: #{@request}
-      \tCitations: \n\t\t#{@citations.join "\n\t\t"}
+      \tCitations: \n\t\t#{citation_string}
       "''
     end
 

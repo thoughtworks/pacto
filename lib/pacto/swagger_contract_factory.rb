@@ -27,6 +27,8 @@ module Pacto
           examples: build_examples(op, default_response)
         )
       end
+    rescue ArgumentError => e
+      raise "Could not load #{contract_path}: #{e.message}"
     end
 
     def files_for(contracts_dir)

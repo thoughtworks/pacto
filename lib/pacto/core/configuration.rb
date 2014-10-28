@@ -2,7 +2,8 @@ module Pacto
   class Configuration
     attr_accessor :adapter, :strict_matchers,
                   :contracts_path, :logger, :generator_options,
-                  :hide_deprecations, :default_consumer, :default_provider, :stenographer_log_file
+                  :hide_deprecations, :default_consumer, :default_provider,
+                  :stenographer_log_file, :color
     attr_reader :hook
 
     def initialize
@@ -20,6 +21,7 @@ module Pacto
       define_logger_level
       @hook = Hook.new {}
       @generator_options = { schema_version: 'draft3' }
+      @color = $stdout.tty?
     end
 
     def register_hook(hook = nil, &block)
