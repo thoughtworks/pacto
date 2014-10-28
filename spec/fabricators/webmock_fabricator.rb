@@ -11,12 +11,12 @@ Fabricator(:webmock_request_signature, from: WebMock::RequestSignature) do
   transient uri: 'www.example.com'
 end
 
-Fabricator(:webmock_request_pattern, from: WebMock::RequestPattern) do
+Fabricator(:webmock_request_pattern, from: Pacto::RequestPattern) do
   initialize_with do
     uri = _transient_attributes[:uri]
     method = _transient_attributes[:method]
     uri = Addressable::URI.heuristic_parse(uri) unless uri.is_a? Addressable::URI
-    WebMock::RequestPattern.new method, uri
+    Pacto::RequestPattern.new method, uri
   end
   transient method: :get
   transient uri: 'www.example.com'

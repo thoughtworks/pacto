@@ -24,7 +24,7 @@ module Pacto
       def response(env)
         log_request(env)
         req = prepare_pacto_request(env)
-        env.logger.info "sending: #{req.inspect}"
+        env.logger.info "sending: #{req}"
         resp = Pacto::Consumer::FaradayDriver.new.execute(req)
         process_pacto_response resp, env
       rescue => e
@@ -61,11 +61,11 @@ module Pacto
       def determine_proxy_uri(env)
         path = env[Goliath::Request::REQUEST_PATH]
         if env.config[:backend_host]
-          uri = Addressable::URI.parse("#{env.config[:backend_host]}#{path}")
+          uri = Addressable::URI.heuristic_parse("#{env.config[:backend_host]}#{path}")
         else
           host = env['HTTP_HOST']
           host.gsub!('.dev', '.com') if env.config[:strip_dev]
-          uri = Addressable::URI.parse("https://#{host}#{path}")
+          uri = Addressable::URI.heuristic_parse("https://#{host}#{path}")
           uri.port = nil if env.config[:strip_port]
         end
         uri

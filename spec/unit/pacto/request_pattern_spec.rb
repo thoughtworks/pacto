@@ -12,7 +12,7 @@ module Pacto
         with(request).
         and_return(uri_pattern)
 
-      expect(WebMock::RequestPattern).to receive(:new).
+      expect(Pacto::RequestPattern).to receive(:new).
         with(http_method, uri_pattern).
         and_return(request_pattern)
 

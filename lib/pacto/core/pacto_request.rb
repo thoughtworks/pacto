@@ -23,7 +23,7 @@ module Pacto
     end
 
     def to_s
-      string = "#{method.to_s.upcase}"
+      string = Pacto::UI.colorize_method(method)
       string << " #{relative_uri}"
       string << " with body (#{body.bytesize} bytes)" if body
       string

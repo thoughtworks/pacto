@@ -23,7 +23,7 @@ module Pacto
       desc 'Validates all contracts in a given directory against a given host'
       task :validate, :host, :dir do |_t, args|
         if args.to_a.size < 2
-          fail Pacto::UI.yellow('USAGE: rake pacto:validate[<host>, <contract_dir>]')
+          fail Pacto::UI.colorize('USAGE: rake pacto:validate[<host>, <contract_dir>]', :yellow)
         end
 
         validate_contracts(args[:host], args[:dir])
@@ -34,7 +34,7 @@ module Pacto
       desc 'Generates contracts from partial contracts'
       task :generate, :input_dir, :output_dir, :host do |_t, args|
         if args.to_a.size < 3
-          fail Pacto::UI.yellow('USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]')
+          fail Pacto::UI.colorize('USAGE: rake pacto:generate[<request_contract_dir>, <output_dir>, <record_host>]', :yellow)
         end
 
         generate_contracts(args[:input_dir], args[:output_dir], args[:host])
@@ -47,7 +47,7 @@ module Pacto
       desc 'Validates a directory of contract definitions'
       task :meta_validate, :dir do |_t, args|
         if args.to_a.size < 1
-          fail Pacto::UI.yellow('USAGE: rake pacto:meta_validate[<contract_dir>]')
+          fail Pacto::UI.colorize('USAGE: rake pacto:meta_validate[<contract_dir>]', :yellow)
         end
 
         each_contract(args[:dir]) do |contract_file|
@@ -70,20 +70,20 @@ module Pacto
         investigation = contract.simulate_request
 
         if investigation.successful?
-          puts Pacto::UI.green(' OK!')
+          puts Pacto::UI.colorize(' OK!', :green)
         else
           @exit_with_error = true
           total_failed += 1
-          puts Pacto::UI.red(' FAILED!')
-          puts Pacto::UI.red(investigation.summary)
-          puts Pacto::UI.red(investigation.to_s)
+          puts Pacto::UI.colorize(' FAILED!', :red)
+          puts Pacto::UI.colorize(investigation.summary, :red)
+          puts Pacto::UI.colorize(investigation.to_s, :red)
         end
       end
 
       if @exit_with_error
-        fail Pacto::UI.red("#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.")
+        fail Pacto::UI.colorize("#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.", :red)
       else
-        puts Pacto::UI.green("#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}")
+        puts Pacto::UI.colorize("#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}", :green)
       end
     end
     # rubocop:enable MethodLength
@@ -106,14 +106,14 @@ module Pacto
           output_file.close
         rescue InvalidContract => e
           failed_contracts << contract_file
-          puts Pacto::UI.red(e.message)
+          puts Pacto::UI.colorize(e.message, :red)
         end
       end
 
       if failed_contracts.empty?
-        puts Pacto::UI.green('Successfully generated all contracts')
+        puts Pacto::UI.colorize('Successfully generated all contracts', :green)
       else
-        fail Pacto::UI.red("The following contracts could not be generated: #{failed_contracts.join ','}")
+        fail Pacto::UI.colorize("The following contracts could not be generated: #{failed_contracts.join ','}", :red)
       end
     end
     # rubocop:enable MethodLength
@@ -125,7 +125,7 @@ module Pacto
         yield dir
       else
         contracts = Dir[File.join(dir, '**/*{.json.erb,.json}')]
-        fail Pacto::UI.yellow("No contracts found in directory #{dir}") if contracts.empty?
+        fail Pacto::UI.colorize("No contracts found in directory #{dir}", :yellow) if contracts.empty?
 
         contracts.sort.each do |contract_file|
           yield contract_file

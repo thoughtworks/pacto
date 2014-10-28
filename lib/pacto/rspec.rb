@@ -43,7 +43,7 @@ end
 
 RSpec::Matchers.define :have_validated do |method, uri|
   match do
-    @request_pattern = WebMock::RequestPattern.new(method, uri)
+    @request_pattern = Pacto::RequestPattern.new(method, uri)
     @request_pattern.with(@options) if @options
     validated? @request_pattern
   end
