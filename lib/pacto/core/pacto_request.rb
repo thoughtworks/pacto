@@ -10,8 +10,9 @@ module Pacto
       mash = Hashie::Mash.new data
       @headers = mash.headers.nil? ? {} : mash.headers
       @body    = mash.body
-      @method  = normalize(mash[:method])
+      @method  = mash[:method]
       @uri     = mash.uri
+      normalize
     end
 
     def to_hash
@@ -50,8 +51,9 @@ module Pacto
       headers['Content-Type']
     end
 
-    def normalize(method)
-      method.to_s.downcase.to_sym
+    def normalize
+      @method = @method.to_s.downcase.to_sym
+      @uri = @uri.normalize if @uri
     end
   end
 end

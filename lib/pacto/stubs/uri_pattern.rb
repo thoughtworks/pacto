@@ -10,11 +10,14 @@ module Pacto
 
       def build_template_uri_pattern(request, strict)
         path = request.path.respond_to?(:pattern) ? request.path.pattern : request.path
-        host = request.host ||= 'https://{server}'
+        host = request.host ||= '{server}'
+        scheme, host = host.split('://') if host.include?('://')
+        scheme ||= '{scheme}'
+
         if strict
-          Addressable::Template.new("#{host}#{path}")
+          Addressable::Template.new("#{scheme}://#{host}#{path}")
         else
-          Addressable::Template.new("#{host}#{path}{?anyvars*}")
+          Addressable::Template.new("#{scheme}://#{host}#{path}{?anyvars*}")
         end
       end
 

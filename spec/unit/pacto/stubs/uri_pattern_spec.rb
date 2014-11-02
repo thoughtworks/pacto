@@ -18,7 +18,7 @@ module Pacto
       it 'returns a URITemplate containing the host and path and wildcard vars' do
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/stuff')
         uri_pattern = UriPattern.for(request)
-        expect(uri_pattern.pattern).to eql('myhost.com/stuff{?anyvars*}')
+        expect(uri_pattern.pattern).to eql('{scheme}://myhost.com/stuff{?anyvars*}')
       end
 
       it 'convers segments preceded by : into variables', :deprecated do
@@ -31,15 +31,15 @@ module Pacto
       it 'creates a regex that does not allow additional path elements' do
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         pattern = UriPattern.for(request)
-        expect(pattern).to match('myhost.com/foo')
-        expect(pattern).to_not match('myhost.com/foo/bar')
+        expect(pattern).to match('http://myhost.com/foo')
+        expect(pattern).to_not match('http://myhost.com/foo/bar')
       end
 
       it 'creates a regex that does allow query parameters', :deprecated do
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         pattern = UriPattern.for(request)
-        expect(pattern.match('myhost.com/foo?a=b')). to be_truthy
-        expect(pattern.match('myhost.com/foo?a=b&c=d')).to be_truthy
+        expect(pattern.match('http://myhost.com/foo?a=b')). to be_truthy
+        expect(pattern.match('http://myhost.com/foo?a=b&c=d')).to be_truthy
       end
     end
 
@@ -49,7 +49,7 @@ module Pacto
         Pacto.configuration.strict_matchers = true
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/stuff')
         uri_pattern = UriPattern.for(request)
-        expect(uri_pattern.pattern).to eq('myhost.com/stuff')
+        expect(uri_pattern.pattern).to eq('{scheme}://myhost.com/stuff')
       end
     end
   end
