@@ -1,5 +1,6 @@
 module Pacto
   class Contract < Pacto::Dash
+    property :id
     property :file
     property :request,  required: true
     # Although I'd like response to be required, it complicates
@@ -22,6 +23,7 @@ module Pacto
         opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
         opts[:name] ||= opts[:file]
       end
+      opts[:id] ||= (opts[:summary] || opts[:file])
       super
     end
 

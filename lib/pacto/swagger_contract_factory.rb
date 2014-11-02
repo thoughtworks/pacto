@@ -21,6 +21,7 @@ module Pacto
         request = Pacto::RequestClause.new(request_clause_hash(op, host))
         response = Pacto::ResponseClause.new(response_clause_hash(op, default_response, host))
         Contract.new(
+          id: op.operationId,
           name: op.full_name,
           file: contract_path,
           request: request, response: response,
