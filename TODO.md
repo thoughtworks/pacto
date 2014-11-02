@@ -1,19 +1,42 @@
 # TODO
 
+# v0.4
+
+## Thor
+- Kill rake tasks, replace w/ pacto binary
+- Split Pacto server to separate repo??
+
+## Swagger converter
+- Legacy contracts -> Swagger
+
+## Swagger concepts not yet supported by Pacto
+- Support schemes (multiple)
+- Support multiple report types
+- Validate parameters
+- Support Swagger formats/serializations
+- Support Swagger examples, or extension for examples
+
+## Documentation
+
+- Polytrix samples -> docs
+
+# v0.5
+
+## Swagger
+- Support multiple media types (not just JSON)
+- Extension: templates for more advanced stubbing
+- Patterns: detect creation, auto-delete
+- Configure multiple producers: pacto server w/ multiple ports
+
+# v0.6
+
 ## Nice to have
 
-- Cucumber Tests as docs (see https://relishapp.com/cucumber/cucumber/docs/);
-- Fake Server (sinatra app generating fake responses based on the contracts);
-- Optional "require" format for JSON Schema: # 'required': ['id', 'categorias', 'titulo', ...];
-- Contract variables for easy writing. Such as: 'path': '/member/{id}';
-- Add JSHint rake task to validate contracts syntax;
+
+# Someday
+
 - Pretty output for hash difference (using something like [hashdiff](https://github.com/liufengyun/hashdiff)).
 - A default header in the response marking the response as "mocked"
-- Parameter matcher should use an idea of "subset" instead of matching all the parameters
-- 'default' value to be used when it is present with an array of types
-- Support 'null' attribute type
-- Validate contract structure in a rake task. Then assume all contracts are valid.
-- When a request is not OK (200), the body may not be a json. Add support to ignore the body.
 
 ## Assumptions
 
