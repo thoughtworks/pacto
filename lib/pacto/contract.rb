@@ -14,7 +14,6 @@ module Pacto
     coerce_key :response, ResponseClause
     property :examples
     property :name, required: true
-    property :request_pattern_provider, default: Pacto::RequestPattern
     property :adapter, default: proc { Pacto.configuration.adapter }
     property :consumer, default: proc { Pacto.configuration.default_consumer }
     property :provider, default: proc { Pacto.configuration.default_provider }
@@ -52,7 +51,7 @@ module Pacto
     end
 
     def request_pattern
-      @request_pattern ||= request_pattern_provider.for(request)
+      request.pattern
     end
 
     def response_for(pacto_request)

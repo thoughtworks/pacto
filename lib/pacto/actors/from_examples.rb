@@ -28,10 +28,12 @@ module Pacto
       end
 
       def build_request(contract, values = {})
+        request_values = (values || {}).dup
         if contract.examples?
           example = @selector.select(contract.examples, values)
           data = contract.request.to_hash
-          data['uri'] = build_uri(contract, values)
+          request_values.merge! example_uri_values(contract)
+          data['uri'] = contract.request.uri(request_values)
           data['body'] = example.request.body
           data['method'] = contract.request.http_method
           Pacto::PactoRequest.new(data)
@@ -51,17 +53,14 @@ module Pacto
         end
       end
 
-      def build_uri(contract, values)
-        values ||= {}
-        uri_template = Addressable::Template.new(contract.request.uri)
+      def example_uri_values(contract)
+        uri_template = contract.request.pattern.uri_template
         if contract.examples && contract.examples.values.first[:request][:uri]
           example_uri = contract.examples.values.first[:request][:uri]
-          example_values = uri_template.extract example_uri
-          values = example_values.merge values
+          uri_template.extract example_uri
+        else
+          {}
         end
-        missing_keys = uri_template.keys - values.keys
-        logger.warn "Missing keys for building a complete URL: #{missing_keys.inspect}" unless missing_keys.empty?
-        uri_template.expand values
       end
     end
   end

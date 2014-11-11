@@ -5,6 +5,7 @@ module Pacto
       Pacto::RequestClause.new(
         http_method: 'GET',
         host: 'http://example.com',
+        path: '/',
         schema:  {
           type: 'object',
           required: true # , :properties => double('body definition properties')
@@ -16,7 +17,6 @@ module Pacto
     end
     let(:adapter) { double 'provider' }
     let(:file) { 'contract.json' }
-    let(:request_pattern_provider) { double(for: nil) }
     let(:consumer_driver) { double }
     let(:provider_actor) { double }
 
@@ -25,8 +25,7 @@ module Pacto
         request: request_clause,
         response: response_clause,
         file: file,
-        name: 'sample',
-        request_pattern_provider: request_pattern_provider
+        name: 'sample'
       )
     end
 
@@ -76,11 +75,11 @@ module Pacto
     end
 
     describe '#matches?' do
-      let(:request_pattern) { double(matches?: true) }
-      let(:request_signature)  { double }
+      let(:request_pattern)  { double('request_pattern') }
+      let(:request_signature)  { double('request_signature') }
 
       it 'delegates to the request pattern' do
-        expect(request_pattern_provider).to receive(:for).and_return(request_pattern)
+        expect(Pacto::RequestPattern).to receive(:for).and_return(request_pattern)
         expect(request_pattern).to receive(:matches?).with(request_signature)
 
         contract.matches?(request_signature)

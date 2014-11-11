@@ -1,9 +1,15 @@
 # -*- encoding : utf-8 -*-
 module Pacto
   class RequestPattern < WebMock::RequestPattern
+    attr_accessor :uri_template
+
     def self.for(base_request)
-      uri_pattern = UriPattern.for(base_request)
-      Pacto::RequestPattern.new(base_request.http_method, uri_pattern)
+      new(base_request.http_method, UriPattern.for(base_request))
+    end
+
+    def initialize(http_method, uri_template)
+      @uri_template = uri_template
+      super
     end
 
     def to_s

@@ -1,12 +1,14 @@
 # -*- encoding : utf-8 -*-
 module Pacto
   class RequestClause < Pacto::Dash
+    include Logger
     property :host # required?
     property :http_method, required: true
     property :schema, default: {}
-    property :path
+    property :path, default: '/'
     property :headers
     property :params, default: {}
+    property :request_pattern_provider, default: Pacto::RequestPattern
 
     def initialize(definition)
       mash = Hashie::Mash.new definition
@@ -18,8 +20,20 @@ module Pacto
       normalize(method)
     end
 
-    def uri
-      @uri ||= Pacto::URI.for(host, path, params)
+    def pattern
+      @pattern ||= request_pattern_provider.for(self)
+    end
+
+    def uri(values = {})
+      values ||= {}
+      uri_template = pattern.uri_template
+      missing_keys = uri_template.keys - values.keys
+      values[:scheme] = 'http' if missing_keys.delete(:scheme)
+      values[:server] = 'localhost' if missing_keys.delete(:server)
+      logger.warn "Missing keys for building a complete URL: #{missing_keys.inspect}" unless missing_keys.empty?
+      Addressable::URI.heuristic_parse(uri_template.expand(values)).tap do |uri|
+        uri.query_values = params unless params.nil? || params.empty?
+      end
     end
 
     private
