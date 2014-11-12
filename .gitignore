@@ -25,3 +25,5 @@ tmp
 tags
 pacto.log
 .polytrix/
+.ruby-gemset
+.ruby-version

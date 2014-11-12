@@ -1,3 +1,5 @@
+require 'erb'
+
 module Pacto
   # Builds {Pacto::Contract} instances from Pacto's native Contract format.
   class NativeContractFactory
@@ -8,14 +10,14 @@ module Pacto
     end
 
     def build_from_file(contract_path, host)
-      contract_definition = File.read(contract_path)
-      definition = JSON.parse(contract_definition)
+      definition = parse_json(contract_path)
       schema.validate definition
-      definition['request'].merge!('host' => host)
+
       body_to_schema(definition, 'request', contract_path)
       body_to_schema(definition, 'response', contract_path)
       method_to_http_method(definition, contract_path)
-      request = RequestClause.new(definition['request'])
+
+      request = RequestClause.new(definition['request'].merge('host' => host))
       response = ResponseClause.new(definition['response'])
       Contract.new(request: request, response: response, file: contract_path, name: definition['name'], examples: definition['examples'])
     end
@@ -24,7 +26,7 @@ module Pacto
       full_path = Pathname.new(contracts_dir).realpath
 
       if  full_path.directory?
-        all_json_files = "#{full_path}/**/*.json"
+        all_json_files = "#{full_path}/**/*{.json,.json.erb}"
         Dir.glob(all_json_files).map do |f|
           Pathname.new(f)
         end
@@ -34,6 +36,12 @@ module Pacto
     end
 
     private
+
+    def parse_json(path)
+      contents = File.read(path)
+      contents = ERB.new(contents).result if path.to_s.end_with? '.erb'
+      JSON.parse(contents)
+    end
 
     def body_to_schema(definition, section, file)
       schema = definition[section].delete 'body'
