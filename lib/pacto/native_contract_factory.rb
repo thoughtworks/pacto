@@ -29,7 +29,7 @@ module Pacto
       full_path = Pathname.new(contracts_dir).realpath
 
       if  full_path.directory?
-        all_json_files = "#{full_path}/**/*.json"
+        all_json_files = "#{full_path}/**/*{.json,.json.erb}"
         Dir.glob(all_json_files).map do |f|
           Pathname.new(f)
         end
