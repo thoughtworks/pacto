@@ -39,7 +39,7 @@ module Pacto
 
     def parse_json(path)
       contents = File.read(path)
-      contents = ERB.new(contents).result if path.extname == '.erb'
+      contents = ERB.new(contents).result if path.to_s.end_with? '.erb'
       JSON.parse(contents)
     end
 
