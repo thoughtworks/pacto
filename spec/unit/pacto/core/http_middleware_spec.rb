@@ -23,7 +23,7 @@ module Pacto
           middleware.process request, response
         end
 
-        it 'logs rescues and logs failures' do
+        xit 'logs rescues and logs failures' do
           middleware.add_observer FailingObserver.new, :raise_error
           middleware.process request, response
           # FIXME: Add this assertion after switching to the Logging gem.
