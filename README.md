@@ -52,7 +52,7 @@ You can also use [Pacto Server](#pacto-server-non-ruby-usage) if you are working
 
 ### Configuration
 
-In order to start with Pacto, you just need to require it and optionally customize the default [Configuration](https://www.relishapp.com/maxlinc/pacto/docs/configuration).  For example:
+In order to start with Pacto, you just need to require it and optionally customize the default [Configuration](docs/configuration.md).  For example:
 
 ```ruby
 require 'pacto'
@@ -187,7 +187,7 @@ rake pacto:meta_validate[dir]                   # Validates a directory of contr
 rake pacto:validate[host,dir]                   # Validates all contracts in a given directory against a given host
 ```
 
-The pacto:generate task will take partially defined Contracts and generate the missing pieces.  See [Generate](https://www.relishapp.com/maxlinc/pacto/docs/generate) for more details.
+The pacto:generate task will take partially defined Contracts and generate the missing pieces.  See [Generate](docs/generation.md) for more details.
 
 The pacto:meta_validate task makes sure that your Contracts are valid.  It only checks the Contracts, not the services that implement them.
 
