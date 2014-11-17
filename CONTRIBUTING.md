@@ -72,7 +72,7 @@ tasks:
 
 - Unit tests (`bundle exec rake unit`).
 - Integration tests (`bundle exec rake integration`).
-- User journey tests (`bundle exec rake journey`).
+- User journey tests (`bundle exec rake journeys`).
 
 It is also possible run specific tests:
 
