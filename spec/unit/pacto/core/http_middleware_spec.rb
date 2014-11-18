@@ -23,36 +23,12 @@ module Pacto
           middleware.process request, response
         end
 
-        xit 'logs rescues and logs failures' do
-          middleware.add_observer FailingObserver.new, :raise_error
-          middleware.process request, response
-          # FIXME: Add this assertion after switching to the Logging gem.
-          # expect(@log_output).to include 'InvalidContract'
-        end
-
-        it 'calls the HTTP middleware' do
-        end
-
-        xit 'calls the registered hook' do
-          expect(Pacto.configuration.hook).to receive(:process)
-            .with(anything, a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
-          adapter.process_hooks request_signature, response
-        end
-
-        xit 'calls generate when generate is enabled' do
-          Pacto.generate!
-          expect(WebMockHelper).to receive(:generate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
-          adapter.process_hooks request_signature, response
-        end
-
-        xit 'calls validate when validate mode is enabled' do
-          Pacto.validate!
-          expect(WebMockHelper).to receive(:validate).with(a_kind_of(Pacto::PactoRequest), a_kind_of(Pacto::PactoResponse))
-          adapter.process_hooks request_signature, response
-        end
-        xit 'validates a WebMock request/response pair' do
-          described_class.validate request_signature, response
-        end
+        pending 'logs rescues and logs failures'
+        pending 'calls the HTTP middleware'
+        pending 'calls the registered hook'
+        pending 'calls generate when generate is enabled'
+        pending 'calls validate when validate mode is enabled'
+        pending 'validates a WebMock request/response pair'
       end
     end
   end
