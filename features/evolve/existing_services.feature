@@ -31,6 +31,8 @@ Feature: Existing services journey
 
     """
 
+  # TODO: find where Webmock is being called with and an empty :with
+  # and update it, to not use with so we can upgrade Webmock past 1.20.2
   @no-clobber
   Scenario: Stubbing with the contracts
     Given a file named "test.rb" with:
