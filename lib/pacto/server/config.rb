@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 def token_map
   if File.readable? '.tokens.json'
     MultiJson.load(File.read '.tokens.json')

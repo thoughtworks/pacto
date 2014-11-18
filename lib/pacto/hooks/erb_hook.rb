@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require_relative '../erb_processor'
 
 module Pacto

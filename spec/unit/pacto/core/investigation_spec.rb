@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe Investigation do
     let(:request) { double('request') }

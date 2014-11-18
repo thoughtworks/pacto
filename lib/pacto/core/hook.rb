@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class Hook
     def initialize(&block)

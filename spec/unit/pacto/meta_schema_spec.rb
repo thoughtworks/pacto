@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe MetaSchema do
     let(:valid_contract) do

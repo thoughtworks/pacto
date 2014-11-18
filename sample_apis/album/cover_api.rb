@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module AlbumServices
   class Cover < Grape::API
     format :json

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'pacto/generator/native_contract_generator'
 require 'pacto/generator/hint'
 

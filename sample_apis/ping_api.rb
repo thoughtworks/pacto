@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #  This illustrates a simple get service
 module DummyServices
   class Ping < Grape::API

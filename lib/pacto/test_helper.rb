@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 begin
   require 'pacto'
   require 'goliath/test_helper'

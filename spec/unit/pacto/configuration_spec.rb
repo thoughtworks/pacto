@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe Configuration do
     subject(:configuration) { described_class.new }

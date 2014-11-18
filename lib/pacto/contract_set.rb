@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class ContractSet < Set
     def stub_providers(values = {})

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 describe Pacto::Hooks::ERBHook do
   describe '#process' do
     let(:req) do

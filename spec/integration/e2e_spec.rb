@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 describe Pacto do
   let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
   let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 describe Pacto do
   describe '.configure' do
     let(:contracts_path) { 'path_to_contracts' }

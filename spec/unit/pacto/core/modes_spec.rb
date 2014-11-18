@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 describe Pacto do
   modes = %w(generate validate)
   modes.each do |mode|

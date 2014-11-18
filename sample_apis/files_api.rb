@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # This example should illustrate
 #   - Authentication
 #   - Expect: 100-continue

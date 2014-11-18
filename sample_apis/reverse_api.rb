@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # This illustrates simple get w/ params and post w/ body services
 # It also illustrates having two services w/ the same endpoint (just different HTTP methods)
 module DummyServices

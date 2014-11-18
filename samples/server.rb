@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'pacto/rspec'
 require 'pacto/test_helper'
 

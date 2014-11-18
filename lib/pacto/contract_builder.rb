@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class ContractBuilder < Hashie::Dash # rubocop:disable Metrics/ClassLength
     extend Forwardable

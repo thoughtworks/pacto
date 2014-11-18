@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class InvalidContract < ArgumentError
   attr_reader :errors
 

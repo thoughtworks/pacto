@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class URI
     def self.for(host, path, params = {})

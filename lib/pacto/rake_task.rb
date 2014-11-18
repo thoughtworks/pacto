@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'pacto'
 
 # FIXME: RakeTask is a huge class, refactor this please

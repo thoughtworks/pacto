@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class Contract < Pacto::Dash
     property :id

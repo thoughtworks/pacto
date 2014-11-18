@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe ERBProcessor do
     subject(:processor) { described_class.new }

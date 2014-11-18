@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Some generation related [configuration](configuration.rb).
 require 'pacto'
 WebMock.allow_net_connect!

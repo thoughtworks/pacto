@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'pacto'
 Pacto.load_contracts 'contracts', 'http://localhost:5000'
 WebMock.allow_net_connect!

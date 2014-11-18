@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe Cops do
     let(:investigation_errors) { ['some error', 'another error'] }

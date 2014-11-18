@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class RequestPattern < WebMock::RequestPattern
     def self.for(base_request)

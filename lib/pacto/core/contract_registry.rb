@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class ContractNotFound < StandardError; end
 

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Given(/^Pacto is configured with:$/) do |string|
   steps %(
     Given a file named "pacto_config.rb" with:

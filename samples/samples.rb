@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # # Overview
 # Welcome to the Pacto usage samples!
 # This document gives a quick overview of the main features.

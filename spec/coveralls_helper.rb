@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 unless ENV['NO_COVERAGE']
   require 'simplecov'
   require 'coveralls'

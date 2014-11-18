@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe ContractBuilder do
     let(:data) { subject.build_hash }

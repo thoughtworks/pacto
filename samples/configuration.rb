@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Just require pacto to add it to your project.
 require 'pacto'
 # Pacto will disable live connections, so you will get an error if

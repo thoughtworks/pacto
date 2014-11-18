@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class PactoResponse
     # FIXME: Need case insensitive header lookup, but case-sensitive storage

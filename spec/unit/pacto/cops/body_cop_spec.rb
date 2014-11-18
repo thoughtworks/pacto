@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 RSpec.shared_examples 'a body cop' do | section_to_validate |
   subject(:cop) { described_class }
   let(:request_clause)  { Fabricate(:request_clause, schema: schema) }

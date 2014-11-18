@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   module Forensics
     class FilterExhaustedError < StandardError

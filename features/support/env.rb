@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require_relative '../../spec/coveralls_helper'
 require 'aruba'
 require 'aruba/cucumber'

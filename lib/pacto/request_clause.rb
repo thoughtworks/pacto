@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class RequestClause < Pacto::Dash
     property :host # required?

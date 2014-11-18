@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   module Actors
     class JSONGenerator < Actor

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe Extensions do
     describe '#normalize_header_keys' do

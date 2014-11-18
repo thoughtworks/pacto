@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 RSpec.shared_examples 'uses defaults' do
   it 'uses the default values for the request' do
     expect(request.body['foo']).to eq 'custom default value'

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 describe Pacto::InvestigationRegistry do
   subject(:registry) { described_class.instance }
   let(:request_pattern) { Fabricate(:webmock_request_pattern) }

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   describe RequestClause do
     let(:host)           { 'http://localhost' }

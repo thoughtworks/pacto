@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 RSpec.shared_examples 'an actor' do
   # let(:contract) { Fabricate(:contract) }
   let(:data) do

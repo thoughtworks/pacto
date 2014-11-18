@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'pacto'
 Pacto.configure do |c|
   c.contracts_path = 'contracts'

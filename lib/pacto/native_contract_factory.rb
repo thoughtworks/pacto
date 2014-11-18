@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   # Builds {Pacto::Contract} instances from Pacto's native Contract format.
   class NativeContractFactory

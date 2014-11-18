@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   class Configuration
     attr_accessor :adapter, :strict_matchers,

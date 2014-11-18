@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   module Cops
     class ResponseBodyCop < BodyCop

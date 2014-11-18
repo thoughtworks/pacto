@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Pacto
   # Included this module so that Pacto::Resettable.reset_all will call your class/module's self.reset! method.
   module Resettable

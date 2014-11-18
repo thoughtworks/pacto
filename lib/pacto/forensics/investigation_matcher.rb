@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 RSpec::Matchers.define :have_investigated do |service_name|
   match do
     investigations = Pacto::InvestigationRegistry.instance.investigations

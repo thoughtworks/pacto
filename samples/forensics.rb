@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Pacto has a few RSpec matchers to help you ensure a **consumer** and **producer** are
 # interacting properly. First, let's setup the rspec suite.
 require 'rspec/autorun' # Not generally needed

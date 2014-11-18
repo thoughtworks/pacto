@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require_relative '../../../../lib/pacto/core/contract_registry'
 
 module Pacto

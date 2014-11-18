@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Fabricators for WebMock objects
 
 Fabricator(:webmock_request_signature, from: WebMock::RequestSignature) do
