@@ -1,14 +1,25 @@
 # -*- encoding : utf-8 -*-
 require 'pacto'
+require 'thor'
+require 'pacto/cli'
+require 'pacto/cli/helpers'
 
 # FIXME: RakeTask is a huge class, refactor this please
 # rubocop:disable ClassLength
 module Pacto
   class RakeTask
+    extend Forwardable
+    include Thor::Actions
     include Rake::DSL
+    include Pacto::CLI::Helpers
 
     def initialize
       @exit_with_error = false
+      @cli = Pacto::CLI::Main.new
+    end
+
+    def run(task, args, opts = {})
+      Pacto::CLI::Main.new([], opts).public_send(task, *args)
     end
 
     def install
@@ -23,11 +34,9 @@ module Pacto
     def validate_task
       desc 'Validates all contracts in a given directory against a given host'
       task :validate, :host, :dir do |_t, args|
-        if args.to_a.size < 2
-          fail Pacto::UI.colorize('USAGE: rake pacto:validate[<host>, <contract_dir>]', :yellow)
-        end
-
-        validate_contracts(args[:host], args[:dir])
+        opts = args.to_hash
+        dir = opts.delete :dir
+        run(:validate, dir, opts)
       end
     end
 
@@ -42,51 +51,13 @@ module Pacto
       end
     end
 
-    # FIXME: meta_validate is a big method =(. Needs refactoring
-    # rubocop:disable MethodLength
     def meta_validate
       desc 'Validates a directory of contract definitions'
       task :meta_validate, :dir do |_t, args|
-        if args.to_a.size < 1
-          fail Pacto::UI.colorize('USAGE: rake pacto:meta_validate[<contract_dir>]', :yellow)
-        end
-
-        each_contract(args[:dir]) do |contract_file|
-          fail unless Pacto.validate_contract contract_file
-        end
-        puts 'All contracts successfully meta-validated'
+        run(:meta_validate, *args)
       end
     end
 
-    def validate_contracts(host, dir)
-      WebMock.allow_net_connect!
-      puts "Validating contracts in directory #{dir} against host #{host}\n\n"
-
-      total_failed = 0
-      contracts = []
-      each_contract(dir) do |contract_file|
-        contracts << contract_file
-        print "#{contract_file.split('/').last}:"
-        contract = Pacto.load_contract(contract_file, host)
-        investigation = contract.simulate_request
-
-        if investigation.successful?
-          puts Pacto::UI.colorize(' OK!', :green)
-        else
-          @exit_with_error = true
-          total_failed += 1
-          puts Pacto::UI.colorize(' FAILED!', :red)
-          puts Pacto::UI.colorize(investigation.summary, :red)
-          puts Pacto::UI.colorize(investigation.to_s, :red)
-        end
-      end
-
-      if @exit_with_error
-        fail Pacto::UI.colorize("#{total_failed} of #{contracts.size} failed. Check output for detailed error messages.", :red)
-      else
-        puts Pacto::UI.colorize("#{contracts.size} valid contract#{contracts.size > 1 ? 's' : nil}", :green)
-      end
-    end
     # rubocop:enable MethodLength
 
     # FIXME: generate_contracts is a big method =(. Needs refactoring
@@ -118,21 +89,6 @@ module Pacto
       end
     end
     # rubocop:enable MethodLength
-
-    private
-
-    def each_contract(dir)
-      if File.file? dir
-        yield dir
-      else
-        contracts = Dir[File.join(dir, '**/*{.json.erb,.json}')]
-        fail Pacto::UI.colorize("No contracts found in directory #{dir}", :yellow) if contracts.empty?
-
-        contracts.sort.each do |contract_file|
-          yield contract_file
-        end
-      end
-    end
   end
 end
 # rubocop:enable ClassLength

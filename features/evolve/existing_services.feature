@@ -25,8 +25,8 @@ Feature: Existing services journey
     When I successfully run `bundle exec rake pacto:meta_validate['contracts']`
     Then the stdout should contain exactly:
     """
-    Validating contracts/www.example.com/service1.json
-    Validating contracts/www.example.com/service2.json
+       validated  contracts/www.example.com/service1.json
+       validated  contracts/www.example.com/service2.json
     All contracts successfully meta-validated
 
     """

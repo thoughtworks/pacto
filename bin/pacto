@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'pacto/cli'
+
+Pacto::CLI::Main.start

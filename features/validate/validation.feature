@@ -29,8 +29,7 @@ Feature: Validation
       When I successfully run `bundle exec rake pacto:validate['http://localhost:8000','tmp/aruba/contracts/simple_contract.json']`
       Then the stdout should contain:
         """"
-        Validating contracts in directory tmp/aruba/contracts/simple_contract.json against host http://localhost:8000
-
-        simple_contract.json: OK!
+        Validating contracts against host http://localhost:8000
+                 OK!  simple_contract.json
         1 valid contract
         """

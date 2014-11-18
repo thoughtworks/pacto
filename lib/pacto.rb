@@ -90,16 +90,10 @@ module Pacto
       contract_registry.contracts_for(request_signature)
     end
 
+    # @throws Pacto::InvalidContract
     def validate_contract(contract)
       Pacto::MetaSchema.new.validate contract
-      puts "Validating #{contract}"
       true
-    rescue InvalidContract => exception
-      puts 'Investigation errors detected'
-      exception.errors.each do |error|
-        puts "  Error: #{error}"
-      end
-      false
     end
 
     def load_contract(contract_path, host, format = :default)

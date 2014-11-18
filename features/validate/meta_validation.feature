@@ -40,15 +40,6 @@ Feature: Meta-validation
     When I successfully run `bundle exec rake pacto:meta_validate['tmp/aruba/contracts/my_contract.json']`
     Then the stdout should contain "All contracts successfully meta-validated"
 
-  Scenario: Programmatic meta-validation
-    Given a file named "meta_validate.rb" with:
-    """ruby
-    require 'pacto'
-    Pacto.validate_contract 'contracts/my_contract.json'
-    """
-    When I successfully run `bundle exec ruby meta_validate.rb`
-    Then the stdout should contain "Validating contracts/my_contract.json"
-
 # The tests from here down should probably be specs instead of relish
 
   Scenario: Meta-validation of an invalid contract
