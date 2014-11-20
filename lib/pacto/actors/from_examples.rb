@@ -57,7 +57,7 @@ module Pacto
         uri_template = contract.request.pattern.uri_template
         if contract.examples && contract.examples.values.first[:request][:uri]
           example_uri = contract.examples.values.first[:request][:uri]
-          uri_template.extract example_uri
+          uri_template.extract(example_uri) || {}
         else
           {}
         end
