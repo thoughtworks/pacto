@@ -35,7 +35,7 @@ task :release_gem do
 end
 
 desc 'Releases to RubyGems and GitHub'
-task :release => [:build, :release_gem, :documentation, :package, :create_release, :upload_docs]
+task :release => [:build, :release_gem, :samples, :package, :create_release, :upload_docs]
 
 desc 'Preview the changelog'
 task :changelog do

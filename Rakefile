@@ -40,11 +40,6 @@ task :samples do
   sh 'bundle exec polytrix generate code2doc --solo=samples --solo-glob="*.{rb,sh}"'
 end
 
-desc 'Build the documentation from the samples'
-task :documentation do
-  sh "docco -t #{Dir.pwd}/docco_embeddable_layout/docco.jst samples/*"
-end
-
 desc 'Build gems into the pkg directory'
 task :build do
   FileUtils.rm_rf('pkg')
