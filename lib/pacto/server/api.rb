@@ -7,8 +7,16 @@ module Pacto
       include Pacto::Server::Settings
       use ::Rack::ContentLength
 
+      class << self
+        # We need to store the original pwd, so we can load
+        # things relative to it. Goliath will change the pwd.
+        attr_writer :original_pwd
+
+        attr_reader :original_pwd
+      end
+
       def initialize(*args)
-        @original_pwd = Dir.pwd
+        @original_pwd = self.class.original_pwd
         super
       end
 

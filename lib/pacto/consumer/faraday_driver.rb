@@ -2,9 +2,12 @@
 module Pacto
   class Consumer
     class FaradayDriver
+      include Pacto::Logger
       # Sends a Pacto::PactoRequest
       def execute(req)
-        conn = Faraday.new(url: req.uri.site) do |faraday|
+        conn_options = { url: req.uri.site }
+        conn_options[:proxy] = Pacto.configuration.proxy if Pacto.configuration.proxy
+        conn = Faraday.new(conn_options) do |faraday|
           faraday.response :logger if Pacto.configuration.logger.level == :debug
           faraday.adapter Faraday.default_adapter
         end
