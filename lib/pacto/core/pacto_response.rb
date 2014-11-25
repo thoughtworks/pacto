@@ -5,6 +5,8 @@ module Pacto
     attr_accessor :headers, :body, :status, :parsed_body
     attr_reader :parsed_body
 
+    include BodyParsing
+
     def initialize(data)
       mash = Hashie::Mash.new data
       @headers = mash.headers.nil? ? {} : mash.headers
@@ -22,20 +24,8 @@ module Pacto
 
     def to_s
       string = "STATUS: #{status}"
-      string << " with body (#{body.bytesize} bytes)" if body
+      string << " with body (#{raw_body.bytesize} bytes)" if raw_body
       string
-    end
-
-    def parsed_body
-      if body.is_a?(String) && content_type == 'application/json'
-        JSON.parse(body)
-      else
-        body
-      end
-    end
-
-    def content_type
-      headers['Content-Type']
     end
   end
 end
