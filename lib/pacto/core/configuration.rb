@@ -4,10 +4,10 @@ module Pacto
     attr_accessor :adapter, :strict_matchers,
                   :contracts_path, :logger, :generator_options,
                   :hide_deprecations, :default_consumer, :default_provider,
-                  :stenographer_log_file, :color
+                  :stenographer_log_file, :color, :proxy
     attr_reader :hook
 
-    def initialize
+    def initialize # rubocop:disable Metrics/MethodLength
       @middleware = Pacto::Core::HTTPMiddleware.new
       @middleware.add_observer Pacto::Cops, :investigate
       @generator = Pacto::Generator.contract_generator
@@ -23,6 +23,7 @@ module Pacto
       @hook = Hook.new {}
       @generator_options = { schema_version: 'draft3' }
       @color = $stdout.tty?
+      @proxy = ENV['PACTO_PROXY']
     end
 
     def register_hook(hook = nil, &block)
