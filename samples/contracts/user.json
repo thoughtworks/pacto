@@ -1,0 +1,51 @@
+{
+  "name": "User",
+  "request": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "http_method": "post",
+    "path": "/api/users",
+    "schema": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "type": "object",
+      "properties": {
+        "firstName": {"type": "string", "required": true},
+        "lastName": {"type": "string", "required": true}
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "schema": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "required": true },
+        "firstName": {"type": "string", "required": true},
+        "lastName": {"type": "string", "required": true}
+      }
+    }
+  },
+  "examples": {
+    "max": {
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "firstName": "Max",
+          "lastName": "Lincoln"
+        }
+      },
+      "response": {
+        "body": {
+          "id": "026ed411-6d12-4a76-a3c7-19758a872455",
+          "firstName": "Max",
+          "lastName": "Lincoln"
+        }
+      }
+    }
+  }
+}
+
