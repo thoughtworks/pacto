@@ -10,7 +10,7 @@ LineLength:
   Enabled: false
 
 MethodLength:
-  Max: 15
+  Max: 20
 
 Style/Encoding:
   EnforcedStyle: when_needed
