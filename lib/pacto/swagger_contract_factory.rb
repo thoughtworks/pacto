@@ -1,8 +1,9 @@
 # -*- encoding : utf-8 -*-
 require 'swagger'
+require 'pacto/swagger_contract'
 
 module Pacto
-  # Builds {Pacto::Contract} instances from Swagger documents
+  # Builds {Pacto::SwaggerContract} instances from Swagger documents
   class SwaggerContractFactory
     include Logger
 
@@ -21,7 +22,7 @@ module Pacto
         default_response = op.default_response
         request = Pacto::RequestClause.new(request_clause_hash(op, host))
         response = Pacto::ResponseClause.new(response_clause_hash(op, default_response, host))
-        Contract.new(
+        SwaggerContract.new(
           id: op.operationId,
           name: op.full_name,
           file: contract_path,

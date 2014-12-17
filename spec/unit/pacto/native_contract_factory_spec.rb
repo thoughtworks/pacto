@@ -9,9 +9,9 @@ module Pacto
     let(:contract_path)        { File.join(contracts_path, "#{contract_name}.json") }
     subject(:contract_factory) { described_class.new }
 
-    it 'builds a contract given a JSON file path and a host' do
+    it 'builds a LegacyContract given a JSON file path and a host' do
       contract = contract_factory.build_from_file(contract_path, host)
-      expect(contract).to be_a(Contract)
+      expect(contract).to be_a(LegacyContract)
     end
 
     context 'deprecated contracts' do

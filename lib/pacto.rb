@@ -13,6 +13,7 @@ require 'ostruct'
 require 'erb'
 require 'logger'
 
+# FIXME: There's soo much stuff here! I'd both like to re-roganize and to use autoloading.
 require 'pacto/dash'
 require 'pacto/resettable'
 require 'pacto/exceptions/invalid_contract.rb'

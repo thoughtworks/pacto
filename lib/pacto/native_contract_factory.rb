@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
+require 'pacto/legacy_contract'
+
 module Pacto
-  # Builds {Pacto::Contract} instances from Pacto's native Contract format.
+  # Builds {Pacto::LegacyContract} instances from Pacto's native Contract format.
   class NativeContractFactory
     attr_reader :schema
 
@@ -18,7 +20,7 @@ module Pacto
       method_to_http_method(definition, contract_path)
       request = RequestClause.new(definition['request'])
       response = ResponseClause.new(definition['response'])
-      Contract.new(request: request, response: response, file: contract_path, name: definition['name'], examples: definition['examples'])
+      LegacyContract.new(request: request, response: response, file: contract_path, name: definition['name'], examples: definition['examples'])
     end
 
     def files_for(contracts_dir)

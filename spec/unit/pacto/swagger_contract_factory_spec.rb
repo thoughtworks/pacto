@@ -30,11 +30,11 @@ module Pacto
       end
 
       describe '#build_from_file' do
-        it 'loads Contracts from Swagger' do
+        it 'loads SwaggerContracts from Swagger' do
           contracts = subject.build_from_file(swagger_file)
           expect(contracts.size).to eq(3) # number of API operations
           contracts.each do | contract |
-            expect(contract).to be_a_kind_of(Pacto::Contract)
+            expect(contract).to be_a(Pacto::SwaggerContract)
 
             request_clause = contract.request
             expect(request_clause.host).to eq('petstore.swagger.wordnik.com')
