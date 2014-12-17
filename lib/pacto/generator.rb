@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'pacto/generator/native_contract_generator'
+require 'pacto/generator/legacy_contract_generator'
 require 'pacto/generator/hint'
 
 module Pacto

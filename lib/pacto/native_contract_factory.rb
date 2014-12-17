@@ -2,7 +2,7 @@
 require 'pacto/legacy_contract'
 
 module Pacto
-  # Builds {Pacto::LegacyContract} instances from Pacto's native Contract format.
+  # Builds {Pacto::LegacyContract} instances from Pacto's legacy Contract format.
   class NativeContractFactory
     attr_reader :schema
 
@@ -58,5 +58,5 @@ end
 
 factory = Pacto::NativeContractFactory.new
 
-Pacto::ContractFactory.add_factory(:native, factory)
+Pacto::ContractFactory.add_factory(:legacy, factory)
 Pacto::ContractFactory.add_factory(:default, factory)
