@@ -3,7 +3,7 @@ module Pacto
   module Server
     module Settings
       def options_parser(opts, options) # rubocop:disable MethodLength
-        options[:format] ||= :default
+        options[:format] ||= :legacy
         options[:strict] ||= false
         options[:directory] ||= File.expand_path('contracts', @original_pwd)
         options[:config] ||= File.expand_path('../config.rb', __FILE__)

@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 module Pacto
   class Contract < Pacto::Dash
+    include Logger
+
     property :id
     property :file
     property :request,  required: true

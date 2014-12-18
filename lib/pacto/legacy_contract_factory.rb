@@ -59,4 +59,3 @@ end
 factory = Pacto::NativeContractFactory.new
 
 Pacto::ContractFactory.add_factory(:legacy, factory)
-Pacto::ContractFactory.add_factory(:default, factory)

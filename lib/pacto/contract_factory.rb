@@ -16,14 +16,14 @@ module Pacto
       @factories.delete format
     end
 
-    def build(contract_files, host, format = :default)
+    def build(contract_files, host, format = :legacy)
       factory = @factories[format.to_sym]
       fail "No Contract factory registered for #{format}" if factory.nil?
 
       contract_files.map { |file| factory.build_from_file(file, host) }.flatten
     end
 
-    def load_contracts(contracts_path, host, format = :default)
+    def load_contracts(contracts_path, host, format = :legacy)
       factory = @factories[format.to_sym]
       files = factory.files_for(contracts_path)
       contracts = ContractFactory.build(files, host, format)

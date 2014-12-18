@@ -97,11 +97,11 @@ module Pacto
       true
     end
 
-    def load_contract(contract_path, host, format = :default)
+    def load_contract(contract_path, host, format = :legacy)
       load_contracts(contract_path, host, format).first
     end
 
-    def load_contracts(contracts_path, host, format = :default)
+    def load_contracts(contracts_path, host, format = :legacy)
       contracts = ContractFactory.load_contracts(contracts_path, host, format)
       contracts.each do |contract|
         contract_registry.register(contract)
