@@ -7,4 +7,5 @@ Pacto::Server::API.original_pwd = Dir.pwd
 runner = Goliath::Runner.new(ARGV, Pacto::Server::API.new(:pwd => Dir.pwd))
 runner.log_file = File.expand_path(runner.log_file, Dir.pwd) if runner.log_file
 runner.app = Goliath::Rack::Builder.build(Pacto::Server::API, runner.api)
+Goliath.run_app_on_exit = false
 runner.run
