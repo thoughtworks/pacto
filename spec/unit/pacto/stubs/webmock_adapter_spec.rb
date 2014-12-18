@@ -142,10 +142,8 @@ module Pacto
               )
             end
 
-            it 'uses WebMock to stub the request' do
-              expect(request_pattern).to receive(:with).
-                with({}).
-                and_return(stubbed_request)
+            it 'does not send parameter details to WebMock' do
+              expect(request_pattern).to_not receive(:with)
               adapter.stub_request! contract
             end
           end

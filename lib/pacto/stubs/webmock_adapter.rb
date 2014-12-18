@@ -55,7 +55,10 @@ module Pacto
         uri_pattern = UriPattern.for(request_clause)
         stub = WebMock.stub_request(request_clause.http_method, uri_pattern)
 
-        stub.request_pattern.with(strict_details(request_clause)) if Pacto.configuration.strict_matchers
+        if Pacto.configuration.strict_matchers
+          with_opts = strict_details(request_clause)
+          stub.request_pattern.with(with_opts) unless with_opts.empty?
+        end
 
         stub.to_return do |request|
           pacto_request = Pacto::Adapters::WebMock::PactoRequest.new request
