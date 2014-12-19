@@ -23,3 +23,5 @@ group :samples do
   gem 'pry'
   gem 'rack'
 end
+
+gem 'swagger-core', git: 'foo'

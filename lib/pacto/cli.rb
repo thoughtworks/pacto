@@ -7,8 +7,8 @@ module Pacto
     class Main < Thor
       include Pacto::CLI::Helpers
 
-      desc 'meta_validate [CONTRACTS...]', 'Validates a directory of contract definitions'
-      def meta_validate(*contracts)
+      desc 'lint [CONTRACTS...]', 'Validates a directory of contract definitions'
+      def lint(*contracts)
         invalid = []
         each_contract(*contracts) do |contract_file|
           begin
@@ -24,6 +24,11 @@ module Pacto
         end
         abort "The following contracts were invalid: #{invalid.join(',')}" unless invalid.empty?
         say 'All contracts successfully meta-validated'
+      end
+
+      desc 'meta_validate [CONTRACTS...]', '[Deprecated] Old alias for lint'
+      def meta_validate(*contracts)
+        lint *contracts
       end
 
       desc 'validate [CONTRACTS...]', 'Validates all contracts in a given directory against a given host'
