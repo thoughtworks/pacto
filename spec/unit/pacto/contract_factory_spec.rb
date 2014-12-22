@@ -5,7 +5,7 @@ module Pacto
   describe ContractFactory do
     let(:host)                 { 'http://localhost' }
     let(:contract_name)        { 'contract' }
-    let(:contracts_path)       { %w(spec fixtures contracts) }
+    let(:contracts_path)       { LEGACY_CONTRACTS_DIR }
     let(:contract_path)        { File.join(contracts_path, "#{contract_name}.json") }
     let(:contract_files)       { [contract_path, contract_path] }
     subject(:contract_factory) { described_class }

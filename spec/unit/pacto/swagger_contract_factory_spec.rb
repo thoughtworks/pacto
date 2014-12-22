@@ -2,7 +2,7 @@
 module Pacto
   module Generator
     describe SwaggerContractFactory do
-      let(:swagger_file) { 'spec/fixtures/swagger/petstore.yaml' }
+      let(:swagger_file) { "#{SWAGGER_CONTRACTS_DIR}/petstore.yaml" }
       let(:expected_schema) do
         {
           'type' => 'array',

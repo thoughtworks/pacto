@@ -41,7 +41,7 @@ describe Pacto do
       expect(Pacto::ContractSet).to receive(:new) do |contracts|
         contracts.each { |contract| expect(contract).to be_a_kind_of(Pacto::Contract) }
       end
-      described_class.load_contracts('spec/fixtures/contracts/', host)
+      described_class.load_contracts(DEFAULT_CONTRACTS_DIR, host)
     end
   end
 end

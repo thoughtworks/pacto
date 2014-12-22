@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+require 'pacto/test_helper'
+
 module Pacto
   module DummyServer
     module JRubyWorkaroundHelper
@@ -13,7 +15,7 @@ module Pacto
           yield
           @server.terminate
         else
-          with_pacto(port: 8000, strip_port: true) do
+          with_pacto(port: 8000, strip_port: true, directory: DEFAULT_CONTRACTS_DIR) do
             yield
           end
         end
