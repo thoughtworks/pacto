@@ -13,6 +13,15 @@ module Pacto
 
         super base_data.merge(data)
       end
+
+      def headers
+        h = {}
+        swagger_response.headers.each do |name, metadata|
+          # Note: Can't use header.default because it conflicts w/ Hash#default method!
+          h[name] = metadata['default']
+        end if swagger_response.headers
+        h
+      end
     end
   end
 end

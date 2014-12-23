@@ -31,11 +31,12 @@ module Pacto
         request_values = (values || {}).dup
         if contract.examples?
           example = @selector.select(contract.examples, values)
-          data = contract.request.to_hash
+          data = {} # contract.request.to_hash
           request_values.merge! example_uri_values(contract)
-          data['uri'] = contract.request.uri(request_values)
-          data['body'] = example.request.body
           data['method'] = contract.request.http_method
+          data['uri'] = contract.request.uri(request_values)
+          data['headers'] = contract.request.headers
+          data['body'] = example.request.body
           Pacto::PactoRequest.new(data)
         else
           @fallback_actor.build_request contract, values
