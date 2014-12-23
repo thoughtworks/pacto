@@ -7,6 +7,7 @@ require 'pacto/dummy_server'
 require 'fabrication'
 require 'stringio'
 require 'rspec'
+require 'fixtures_helper'
 
 # Pre-load shared examples
 require_relative 'unit/pacto/actor_spec.rb'

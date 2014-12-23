@@ -1,10 +1,10 @@
 # -*- encoding : utf-8 -*-
-require_relative '../../spec/coveralls_helper'
 require 'aruba'
 require 'aruba/cucumber'
 require 'json_spec/cucumber'
 require 'aruba/jruby' if RUBY_PLATFORM == 'java'
-require 'pacto/test_helper'
+require_relative '../../spec/coveralls_helper'
+require_relative '../../spec/fixtures_helper'
 require_relative '../../spec/pacto/dummy_server'
 
 Pacto.configuration.hide_deprecations = true

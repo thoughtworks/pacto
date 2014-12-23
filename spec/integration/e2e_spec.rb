@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 describe Pacto do
-  let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
-  let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
+  let(:contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/simple_contract.{json,yaml}"].first }
+  let(:strict_contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/strict_contract.{json,yaml}"].first }
 
   before :all do
     WebMock.allow_net_connect!
@@ -16,14 +16,15 @@ describe Pacto do
 
     it 'verifies the contract against a producer' do
       # FIXME: Does this really test what it says it does??
-      contract = described_class.load_contracts(contract_path, 'http://localhost:8000')
-      expect(contract.simulate_consumers.map(&:successful?).uniq).to eq([true])
+      contract = described_class.load_contracts(contract_path, 'http://localhost:8000', DEFAULT_CONTRACT_FORMAT)
+      investigations = contract.simulate_consumers
+      expect(investigations.map(&:successful?).uniq).to eq([true]), investigations.map(&:to_s).join
     end
   end
 
   context 'Stubbing a collection of contracts' do
     it 'generates a server that stubs the contract for consumers' do
-      contracts = described_class.load_contracts(contract_path, 'http://dummyprovider.com')
+      contracts = described_class.load_contracts(contract_path, 'http://dummyprovider.com', DEFAULT_CONTRACT_FORMAT)
       contracts.stub_providers
 
       response = get_json('http://dummyprovider.com/hello')
@@ -38,7 +39,7 @@ describe Pacto do
         c.register_hook Pacto::Hooks::ERBHook.new
       end
 
-      contracts = described_class.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
+      contracts = described_class.load_contracts DEFAULT_CONTRACTS_DIR, 'http://dummyprovider.com', DEFAULT_CONTRACT_FORMAT
       contracts.stub_providers(device_id: 42)
 
       login_response = get_json('http://dummyprovider.com/hello')

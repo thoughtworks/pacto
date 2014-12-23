@@ -22,8 +22,21 @@ module Pacto
 
     def to_s
       string = "STATUS: #{status}"
-      string << " with body (#{body.bytesize} bytes)" if body
+      string << " with body (#{raw_body.bytesize} bytes)" if body
       string
+    end
+
+    def raw_body
+      if content_type == 'application/json'
+        case body
+        when String
+          body
+        else
+          JSON.dump(body)
+        end
+      else
+        body.to_s
+      end
     end
 
     def parsed_body

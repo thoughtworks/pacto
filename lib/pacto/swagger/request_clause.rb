@@ -12,8 +12,22 @@ module Pacto
                               path: swagger_api_operation.path)
       end
 
-      def http_method
-        swagger_api_operation.verb.downcase.to_sym
+      def headers
+        h = {}
+        swagger_api_operation.parameters.each do |parameter|
+          # Note: Can't use parameter.default because it conflicts w/ Hash#default method!
+          h[parameter.name] = parameter['default'] if parameter.in == 'header'
+        end if swagger_api_operation.parameters
+        h
+      end
+
+      def schema
+        schema = {}
+        if swagger_api_operation.parameters
+          body_param = swagger_api_operation.parameters.find { |p| p.in == 'body' }
+          schema = body_param.schema if body_param
+        end
+        schema
       end
     end
   end
