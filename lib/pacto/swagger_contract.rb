@@ -6,22 +6,23 @@ require 'pacto/swagger/response_clause'
 module Pacto
   class SwaggerContract < Pacto::Contract
     attr_reader :swagger_api_operation
+    # def_delegators :@swagger_api_operation, :host
 
-    def initialize(swagger_api_operation, base_data = {})
+    def initialize(swagger_api_operation, overrides = {})
       @swagger_api_operation = swagger_api_operation
-      host = base_data.delete(:host) || swagger_api_operation.host
       default_response = swagger_api_operation.default_response
-      request_clause = Pacto::Swagger::RequestClause.new(swagger_api_operation, host: host)
+      request_clause = Pacto::Swagger::RequestClause.new(swagger_api_operation, overrides.dup)
 
       if default_response.nil?
-        logger.warn("No response defined for #{swagger_api_operation.full_name}")
+        logger.warn("No response defined for #{swagger_api_operation.operationId}")
         response_clause = Pacto::ResponseClause.new(status: 200)
       else
         response_clause = Pacto::Swagger::ResponseClause.new(default_response)
       end
 
       examples = build_examples(default_response)
-      super base_data.merge(
+      overrides.delete(:host)
+      super overrides.merge(
               id: swagger_api_operation.operationId,
               name: swagger_api_operation.full_name,
               request: request_clause, response: response_clause,

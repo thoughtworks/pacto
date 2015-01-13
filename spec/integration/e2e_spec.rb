@@ -14,7 +14,7 @@ describe Pacto do
       end
     end
 
-    it 'verifies the contract against a producer' do
+    it 'verifies the contract against a producer', :legacy do
       # FIXME: Does this really test what it says it does??
       contract = described_class.load_contracts(contract_path, 'http://localhost:8000', DEFAULT_CONTRACT_FORMAT)
       investigations = contract.simulate_consumers

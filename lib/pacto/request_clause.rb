@@ -8,11 +8,12 @@ module Pacto
     property :path, default: '/'
     property :headers
     property :params, default: {}
-    property :request_pattern_provider, default: Pacto::RequestPattern
+    attr_accessor :request_pattern_provider
 
     def initialize(definition)
       mash = Hashie::Mash.new definition
       mash['http_method'] = normalize(mash['http_method'])
+      @request_pattern_provider = Pacto::RequestPattern
       super mash
     end
 
@@ -27,7 +28,7 @@ module Pacto
     def uri(values = {})
       values ||= {}
       uri_template = pattern.uri_template
-      missing_keys = uri_template.keys - values.keys
+      missing_keys = (uri_template.keys - values.keys).map(&:to_sym)
       values[:scheme] = 'http' if missing_keys.delete(:scheme)
       values[:server] = 'localhost' if missing_keys.delete(:server)
       logger.warn "Missing keys for building a complete URL: #{missing_keys.inspect}" unless missing_keys.empty?

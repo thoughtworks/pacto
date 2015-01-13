@@ -2,8 +2,8 @@
 require 'pacto/rspec'
 
 describe 'pacto/rspec' do
-  let(:contract_path) { "#{DEFAULT_CONTRACTS_DIR}/simple_contract.json" }
-  let(:strict_contract_path) { "#{DEFAULT_CONTRACTS_DIR}/strict_contract.json" }
+  let(:contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/simple_contract.{json,yaml}"].first }
+  let(:strict_contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/strict_contract.{json,yaml}"].first }
 
   around :each do |example|
     run_pacto do
@@ -31,7 +31,7 @@ describe 'pacto/rspec' do
 
   context 'successful investigations' do
     let(:contracts) do
-      Pacto.load_contracts DEFAULT_CONTRACTS_DIR, 'http://dummyprovider.com'
+      Pacto.load_contracts DEFAULT_CONTRACTS_DIR, 'http://dummyprovider.com', DEFAULT_CONTRACT_FORMAT
     end
 
     before(:each) do
@@ -56,7 +56,7 @@ describe 'pacto/rspec' do
       # Increasingly strict assertions
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello')
       expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(headers: { 'Accept' => 'application/json' })
-      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/simple_contract.json/)
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/simple_contract/)
     end
 
     it 'supports negative assertions' do

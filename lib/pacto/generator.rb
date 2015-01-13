@@ -37,8 +37,12 @@ module Pacto
         @hints = Set.new
       end
 
-      def hint(name, hint_data)
-        @hints << Pacto::Generator::Hint.new(hint_data.merge(service_name: name))
+      def hint(name, request_data)
+        hint_data = {
+          service_name: name,
+          target_file: request_data.delete(:target_file)
+        }
+        @hints << Pacto::Generator::Hint.new(hint_data, RequestClause.new(request_data))
       end
     end
   end

@@ -94,7 +94,7 @@ module Pacto
 
       def strict_details(request)
         {}.tap do |details|
-          details[webmock_params_key(request)] = request.params unless request.params.empty?
+          details[webmock_params_key(request)] = request.params unless request.params.nil? || request.params.empty?
           details[:headers] = request.headers unless request.headers.empty?
         end
       end

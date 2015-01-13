@@ -3,8 +3,8 @@ require 'pacto/rspec'
 
 module Pacto
   describe '#have_investigated' do
-    let(:contract_path) { "#{DEFAULT_CONTRACTS_DIR}/simple_contract.json" }
-    let(:strict_contract_path) { "#{DEFAULT_CONTRACTS_DIR}/strict_contract.json" }
+    let(:contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/simple_contract.{json,yaml}"].first }
+    let(:strict_contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/strict_contract.{json,yaml}"].first }
 
     around :each do |example|
       run_pacto do
@@ -32,7 +32,7 @@ module Pacto
 
     context 'successful investigations' do
       let(:contracts) do
-        Pacto.load_contracts DEFAULT_CONTRACTS_DIR, 'http://dummyprovider.com'
+        Pacto.load_contracts DEFAULT_CONTRACTS_DIR, 'http://dummyprovider.com', DEFAULT_CONTRACT_FORMAT
       end
 
       before(:each) do
@@ -55,17 +55,17 @@ module Pacto
         expect(Pacto).to_not have_failed_investigations
 
         # Increasingly strict assertions
-        expect(Pacto).to have_investigated('Simple Contract')
-        expect(Pacto).to have_investigated('Simple Contract').with_request(headers: hash_including('Accept' => 'application/json'))
-        expect(Pacto).to have_investigated('Simple Contract').with_request(http_method: :get, url: 'http://dummyprovider.com/hello')
+        expect(Pacto).to have_investigated(/Simple Contract/)
+        expect(Pacto).to have_investigated(/Simple Contract/).with_request(headers: hash_including('Accept' => 'application/json'))
+        expect(Pacto).to have_investigated(/Simple Contract/).with_request(http_method: :get, url: 'http://dummyprovider.com/hello')
       end
 
       it 'supports negative assertions' do
-        expect(Pacto).to_not have_investigated('Strict Contract')
+        expect(Pacto).to_not have_investigated(/Strict Contract/)
         Faraday.get('http://dummyprovider.com/strict') do |req|
           req.headers = { 'Accept' => 'application/json' }
         end
-        expect(Pacto).to have_investigated('Strict Contract')
+        expect(Pacto).to have_investigated(/Strict Contract/)
       end
 
       it 'raises useful error messages' do
@@ -77,13 +77,13 @@ module Pacto
 
       it 'displays Contract investigation problems' do
         play_bad_response
-        expect_to_raise(/investigation errors were found:/) { expect(Pacto).to have_investigated('Strict Contract') }
+        expect_to_raise(/investigation errors were found:/) { expect(Pacto).to have_investigated(/Strict Contract/) }
       end
 
       it 'displays the Contract file' do
         play_bad_response
         schema_file_uri = Addressable::URI.convert_path(File.absolute_path strict_contract_path).to_s
-        expect_to_raise(/in schema #{schema_file_uri}/) { expect(Pacto).to have_investigated('Strict Contract') }
+        expect_to_raise(/in schema #{schema_file_uri}/) { expect(Pacto).to have_investigated(/Strict Contract/) }
       end
     end
   end

@@ -1,7 +1,7 @@
 swagger: 2.0
 info:
   version: 1.0.0
-  title: Simple Contract
+  title: Templated Contract
   license:
     name: MIT
 schemes:
@@ -11,7 +11,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
+  /echo:
     get:
       summary: Hello!
       operationId: hello
@@ -19,16 +19,14 @@ paths:
         - name: Accept
           in: header
           default: application/json
-      responses:
-        200:
-          description: An paged array of pets
-          headers:
-            Content-Type:
-              type: string
-              default: application/json
-            Vary:
-              type: string
-              default: Accept
+        - name: Custom-Auth-Token
+          in: header
+          default: <%= auth_token %>
+        - name: X-Message
+          in: header
+          default: <%= key %>
+        - name: body
+          in: body
           schema:
             $schema: "http://json-schema.org/draft-03/schema#"
             type: object
@@ -37,3 +35,18 @@ paths:
               message:
                 type: string
                 required: true
+      responses:
+        200:
+          description: An paged array of pets
+          headers:
+            Content-Type:
+              type: string
+          schema:
+            $schema: "http://json-schema.org/draft-03/schema#"
+            type: object
+            required: true
+            properties:
+              message:
+                type: string
+                required: true
+                default: <%= req['HEADERS']['X-Message'].reverse %>

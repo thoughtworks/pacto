@@ -10,10 +10,12 @@ module Pacto
     def load_hints(contract_path, host = nil)
       app = ::Swagger.load(contract_path)
       app.operations.map do |op|
+        hint_data = {
+          service_name: op.full_name,
+          target_file: contract_path
+        }
         request_clause = Pacto::Swagger::RequestClause.new(op, host: host)
-        Pacto::Generator::Hint.new(request_clause.to_hash.merge(
-          service_name: op.fetch(:summary)
-        ))
+        Pacto::Generator::Hint.new(hint_data, request_clause)
       end
     end
 

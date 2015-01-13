@@ -2,8 +2,8 @@
 require 'securerandom'
 
 describe 'Templating' do
-  let(:contract_path) { "#{DEFAULT_CONTRACTS_DIR}/templating_contract.json" }
-  let(:contracts) {  Pacto.load_contracts(contract_path, 'http://dummyprovider.com') }
+  let(:contract_path) { Dir["#{DEFAULT_CONTRACTS_DIR}/templating_contract.{json,yaml}"].first }
+  let(:contracts) {  Pacto.load_contracts(contract_path, 'http://dummyprovider.com', DEFAULT_CONTRACT_FORMAT) }
 
   let(:key) { SecureRandom.hex }
   let(:auth_token) { SecureRandom.hex }

@@ -21,14 +21,14 @@ module Pacto
         expect(uri_pattern.pattern).to eql('{scheme}://myhost.com/stuff{?anyvars*}')
       end
 
-      it 'convers segments preceded by : into variables', :deprecated do
+      it 'converts segments preceded by : into variables', :deprecated do
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         uri_pattern = UriPattern.for(request)
         expect(uri_pattern.keys).to include('id')
         expect(uri_pattern.pattern).to_not include(':id')
       end
 
-      it 'creates a regex that does not allow additional path elements' do
+      it 'creates a regex that does not allow additional path elements', :deprecated do
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
         pattern = UriPattern.for(request)
         expect(pattern).to match('http://myhost.com/foo')

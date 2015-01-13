@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 module Pacto
-  describe NativeContractFactory do
+  describe NativeContractFactory, :legacy do
     let(:host)                 { 'http://localhost' }
     let(:contract_name)        { 'contract' }
     let(:contracts_path)       { LEGACY_CONTRACTS_DIR }

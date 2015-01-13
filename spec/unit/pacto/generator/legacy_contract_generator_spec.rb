@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Pacto
   module Generator
-    describe NativeContractGenerator do
+    describe NativeContractGenerator, :legacy do
       let(:record_host) do
         'http://example.com'
       end

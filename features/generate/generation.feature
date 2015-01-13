@@ -27,6 +27,7 @@ Feature: Contract Generation
       }
     """
 
+  @legacy
   Scenario: Generating a contract using the rake task
     Given a directory named "contracts"
     When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:8000']`

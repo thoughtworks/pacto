@@ -4,16 +4,16 @@ require 'hashie/mash'
 
 # Fabricators for contracts or parts of contracts
 
-DEFAULT_PACTO_FORMAT = (ENV['DEFAULT_PACTO_FORMAT'] || 'legacy')
+PACTO_DEFAULT_FORMAT = (ENV['PACTO_DEFAULT_FORMAT'] || 'legacy')
 
 Fabricator(:delegating_fabricator, from: Object) do
-  transient format: DEFAULT_PACTO_FORMAT
+  transient format: PACTO_DEFAULT_FORMAT
   transient :thing
   initialize_with do
     transients = _transient_attributes.dup
     format = transients.delete :format
     thing = transients.delete :thing
-    fabricator = "#{format.to_s}_#{thing.to_s}".to_sym
+    fabricator = "#{format}_#{thing}".to_sym
     data = to_hash.merge(transients)
     Fabricate(fabricator, data)
   end
@@ -43,5 +43,5 @@ end
 
 Fabricator(:an_example, from: :delegating_fabricator) do
   transient thing: :an_example
-    transient name: 'default'
+  transient name: 'default'
 end

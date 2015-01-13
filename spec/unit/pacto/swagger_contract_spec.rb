@@ -24,7 +24,7 @@ module Pacto
       "''
     end
     let(:swagger_definition) do
-      ::Swagger.build(swagger_yaml, format: :yaml)
+      ::Swagger.build_api(swagger_yaml, format: :yaml)
     end
     let(:api_operation) do
       swagger_definition.operations.first

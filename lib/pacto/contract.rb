@@ -2,6 +2,7 @@
 module Pacto
   class Contract < Pacto::Dash
     include Logger
+    extend Forwardable
 
     property :id
     property :file
@@ -19,6 +20,8 @@ module Pacto
     property :adapter, default: proc { Pacto.configuration.adapter }
     property :consumer, default: proc { Pacto.configuration.default_consumer }
     property :provider, default: proc { Pacto.configuration.default_provider }
+
+    def_delegators :request, :host, :uri
 
     def initialize(opts)
       if opts[:file]

@@ -17,6 +17,8 @@ module Pacto
         if strict
           Addressable::Template.new("#{scheme}://#{host}#{path}")
         else
+          # host = '{server}'
+          # scheme = '{scheme}'
           Addressable::Template.new("#{scheme}://#{host}#{path}{?anyvars*}")
         end
       end

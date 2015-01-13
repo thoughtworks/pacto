@@ -3,13 +3,24 @@ module Pacto
   module Swagger
     class RequestClause < Pacto::RequestClause
       attr_reader :swagger_api_operation
+      attr_reader :overrides
 
-      def initialize(swagger_api_operation, base_data = {})
+      def initialize(swagger_api_operation, overrides = {})
         @swagger_api_operation = swagger_api_operation
-        host = base_data[:host] || swagger_api_operation.host
-        super base_data.merge(host: host,
-                              http_method: swagger_api_operation.verb,
-                              path: swagger_api_operation.path)
+        @overrides = overrides
+        @request_pattern_provider = Pacto::RequestPattern
+      end
+
+      def host
+        @overrides[:host] || swagger_api_operation.host
+      end
+
+      def http_method
+        swagger_api_operation.verb
+      end
+
+      def path
+        self[:path] ||= swagger_api_operation.path
       end
 
       def headers
