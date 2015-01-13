@@ -28,7 +28,7 @@ module Pacto
 
       desc 'meta_validate [CONTRACTS...]', '[Deprecated] Old alias for lint'
       def meta_validate(*contracts)
-        lint *contracts
+        lint(*contracts)
       end
 
       desc 'validate [CONTRACTS...]', 'Validates all contracts in a given directory against a given host'
