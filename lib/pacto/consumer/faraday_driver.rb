@@ -15,7 +15,7 @@ module Pacto
         response = conn.send(req.method) do |faraday_request|
           faraday_request.url(req.uri.path, req.uri.query_values)
           faraday_request.headers = req.headers
-          faraday_request.body = req.body
+          faraday_request.body = req.raw_body
         end
 
         faraday_to_pacto_response response
