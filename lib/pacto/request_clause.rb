@@ -6,7 +6,7 @@ module Pacto
     property :http_method, required: true
     property :schema, default: {}
     property :path, default: '/'
-    property :headers
+    property :headers, default: {}
     property :params, default: {}
     property :request_pattern_provider, default: Pacto::RequestPattern
 
