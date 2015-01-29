@@ -1,0 +1,11 @@
+version: 0.0.{build}
+init:
+- gem install bundler --quiet --no-ri --no-rdoc
+- gem install foreman --quiet --no-ri --no-rdoc
+install:
+- bundle install
+build: off
+test_script:
+- START /B foreman start
+- bundle exec rake
+
