@@ -74,7 +74,7 @@ module Pacto
               prepare_contracts Pacto.load_contracts(host_dir, "https://#{host}", options[:format])
             end
           else
-            host_pattern = options[:backend_host] || 'https://{server}'
+            host_pattern = options[:backend_host] || '{scheme}://{server}'
             prepare_contracts Pacto.load_contracts(contracts_path, host_pattern, options[:format])
           end
 
