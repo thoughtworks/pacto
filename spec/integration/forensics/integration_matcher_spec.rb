@@ -6,12 +6,6 @@ module Pacto
     let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
     let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
 
-    around :each do |example|
-      run_pacto do
-        example.run
-      end
-    end
-
     def expect_to_raise(message_pattern = nil, &blk)
       expect { blk.call }.to raise_error(RSpec::Expectations::ExpectationNotMetError, message_pattern)
     end

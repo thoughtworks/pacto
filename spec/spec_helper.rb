@@ -3,7 +3,6 @@ require 'coveralls_helper'
 require 'webmock/rspec'
 require 'pacto'
 require 'pacto/test_helper'
-require 'pacto/dummy_server'
 require 'fabrication'
 require 'stringio'
 require 'rspec'
@@ -14,7 +13,6 @@ require_relative 'unit/pacto/actor_spec.rb'
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   config.include Pacto::TestHelper
-  config.include Pacto::DummyServer::JRubyWorkaroundHelper
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

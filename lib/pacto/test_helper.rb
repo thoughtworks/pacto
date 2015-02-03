@@ -18,7 +18,7 @@ module Pacto
       generate: false,
       verbose: true,
       validate: true,
-      directory: File.join(Dir.pwd, 'spec', 'fixtures', 'contracts'),
+      directory: File.join(Dir.pwd, 'contracts'),
       port: 9000,
       format: :legacy,
       stenographer_log_file: File.expand_path('pacto_stenographer.log', Dir.pwd),

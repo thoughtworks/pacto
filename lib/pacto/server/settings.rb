@@ -75,7 +75,9 @@ module Pacto
             end
           else
             host_pattern = options[:backend_host] || '{scheme}://{server}'
-            prepare_contracts Pacto.load_contracts(contracts_path, host_pattern, options[:format])
+            if File.exist? contracts_path
+              prepare_contracts Pacto.load_contracts(contracts_path, host_pattern, options[:format])
+            end
           end
 
           Pacto.validate! if options[:validate]

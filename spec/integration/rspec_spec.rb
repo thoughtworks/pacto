@@ -6,7 +6,7 @@ describe 'pacto/rspec' do
   let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
 
   around :each do |example|
-    run_pacto do
+    with_pacto(port: 8000) do
       example.run
     end
   end
