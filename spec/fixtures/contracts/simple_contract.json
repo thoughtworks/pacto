@@ -2,7 +2,7 @@
   "name": "Simple Contract",
   "request": {
     "http_method": "GET",
-    "path": "/hello",
+    "path": "/api/hello",
     "headers": {
       "Accept": "application/json"
     },

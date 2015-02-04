@@ -23,7 +23,8 @@ end
 
 Around do | _scenario, block |
   WebMock.allow_net_connect!
-  with_pacto(port: 8000, live: true, backend_host: 'http://localhost:5000') do
+  world = self || PactoWorld.new
+  world.with_pacto(port: 8000, live: true, backend_host: 'http://localhost:5000') do
     block.call
   end
 end

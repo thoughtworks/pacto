@@ -26,6 +26,7 @@ module Pacto
         )
       end
     rescue ArgumentError => e
+      logger.error(e)
       raise "Could not load #{contract_path}: #{e.message}"
     end
 

@@ -10,10 +10,10 @@ Feature: Contract Generation
   Background:
     Given a file named "requests/my_contract.json" with:
     """
-        {
+      {
         "request": {
           "http_method": "GET",
-          "path": "/hello",
+          "path": "/api/ping",
           "headers": {
             "Accept": "application/json"
           }
@@ -29,7 +29,7 @@ Feature: Contract Generation
 
   Scenario: Generating a contract using the rake task
     Given a directory named "contracts"
-    When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:8000']`
+    When I successfully run `bundle exec rake pacto:generate['tmp/aruba/requests','tmp/aruba/contracts','http://localhost:5000']`
     Then the stdout should contain "Successfully generated all contracts"
 
   Scenario: Generating a contract programmatically
@@ -40,25 +40,23 @@ Feature: Contract Generation
 
     WebMock.allow_net_connect!
     generator = Pacto::Generator.contract_generator
-    contract = generator.generate_from_partial_contract('requests/my_contract.json', 'http://localhost:8000')
+    contract = generator.generate_from_partial_contract('requests/my_contract.json', 'http://localhost:5000')
     puts contract
     """
     When I successfully run `bundle exec ruby generate.rb`
     Then the stdout should match this contract:
     """json
     {
-      "name": "/hello",
+      "name": "/api/ping",
       "request": {
         "headers": {
-          "Accept": "application/json"
         },
         "http_method": "get",
-        "path": "/hello"
+        "path": "/api/ping"
       },
       "response": {
         "headers": {
-          "Content-Type": "application/json",
-          "Vary": "Accept"
+          "Content-Type": "application/json"
         },
         "status": 200,
         "schema": {
@@ -67,7 +65,7 @@ Feature: Contract Generation
           "type": "object",
           "required": true,
           "properties": {
-            "message": {
+            "ping": {
               "type": "string",
               "required": true
             }

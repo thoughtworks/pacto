@@ -43,7 +43,7 @@ describe 'pacto/rspec' do
       contracts.stub_providers(device_id: 42)
       Pacto.validate!
 
-      Faraday.get('http://dummyprovider.com/hello') do |req|
+      Faraday.get('http://dummyprovider.com/api/hello') do |req|
         req.headers = { 'Accept' => 'application/json' }
       end
     end
@@ -54,9 +54,9 @@ describe 'pacto/rspec' do
       expect(Pacto).to_not have_failed_investigations
 
       # Increasingly strict assertions
-      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello')
-      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(headers: { 'Accept' => 'application/json' })
-      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/simple_contract.json/)
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello')
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello').with(headers: { 'Accept' => 'application/json' })
+      expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello').against_contract(/simple_contract.json/)
     end
 
     it 'supports negative assertions' do
@@ -77,11 +77,11 @@ describe 'pacto/rspec' do
       expect_to_raise(/the following requests were not matched.*#{Regexp.quote unmatched_url}/m) { expect(Pacto).to_not have_unmatched_requests }
 
       # Expected failures
-      expect_to_raise(/no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with(headers: { 'Accept' => 'text/plain' }) }
+      expect_to_raise(/no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello').with(headers: { 'Accept' => 'text/plain' }) }
       # No support for with accepting a block
-      # expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').with { |req| req.body == "abc" }
-      expect_to_raise(/but it was validated against/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract(/strict_contract.json/) }
-      expect_to_raise(/but it was validated against/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/hello').against_contract('simple_contract.json') }
+      # expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello').with { |req| req.body == "abc" }
+      expect_to_raise(/but it was validated against/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello').against_contract(/strict_contract.json/) }
+      expect_to_raise(/but it was validated against/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/api/hello').against_contract('simple_contract.json') }
       expect_to_raise(/but no matching request was received/) { expect(Pacto).to have_validated(:get, 'http://dummyprovider.com/strict') }
     end
 
