@@ -6,7 +6,7 @@ require 'pacto/server/settings'
 module Pacto
   module Server
     class HTTP < Reel::Server::HTTP
-      def initialize(host = "127.0.0.1", port = 3000, options = {})
+      def initialize(host = '127.0.0.1', port = 3000, options = {})
         # logger = Pacto.configuration.logger
         logger = Celluloid.logger
         Settings::OptionHandler.new(port, logger).handle(options)
@@ -52,7 +52,7 @@ module Pacto
           host, scheme = scheme, host if host.nil?
           host, _port = host.split(':')
           scheme ||= 'https'
-          pacto_request.uri = Addressable::URI.heuristic_parse("#{scheme}://#{host}#{pacto_request.uri.to_s}")
+          pacto_request.uri = Addressable::URI.heuristic_parse("#{scheme}://#{host}#{pacto_request.uri}")
           pacto_request.headers.delete_if { |k, _v| %w(host content-length transfer-encoding).include? k.downcase }
         end
 

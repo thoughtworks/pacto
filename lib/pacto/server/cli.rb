@@ -33,7 +33,7 @@ module Pacto
 
       desc 'stub [CONTRACTS...]', 'Launches a stub server for a set of contracts'
       server_options
-      def stub(*contracts)
+      def stub(*_contracts)
         setup_interrupt
         server_options = options.dup
         server_options[:stub] = true
@@ -42,7 +42,7 @@ module Pacto
 
       desc 'proxy [CONTRACTS...]', 'Launches an intercepting proxy server for a set of contracts'
       method_option :to, type: :string, desc: 'The target host for forwarded requests'
-      def proxy(*contracts)
+      def proxy(*_contracts)
         setup_interrupt
         options = options.dup
         server_options[:live] = true
@@ -52,7 +52,7 @@ module Pacto
       private
 
       def setup_interrupt
-        trap("INT") do
+        trap('INT') do
           say 'Exiting...'
           exit
         end

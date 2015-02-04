@@ -44,7 +44,7 @@ module Pacto
           contracts.stub_providers if options[:stub]
         end
 
-        def handle(options)
+        def handle(options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
           @options = options
           config[:backend_host] = options[:backend_host]
           config[:strip_port] = options[:strip_port]
