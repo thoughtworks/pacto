@@ -1,5 +1,6 @@
 version: 0.0.{build}
 init:
+- choco install openssl.light
 - gem install bundler --quiet --no-ri --no-rdoc
 - gem install foreman --quiet --no-ri --no-rdoc
 install:
