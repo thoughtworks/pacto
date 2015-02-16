@@ -10,7 +10,7 @@ module Pacto
         # logger = Pacto.configuration.logger
         logger = Celluloid.logger
         Settings::OptionHandler.new(port, logger).handle(options)
-        super(host, port, &method(:on_connection))
+        super(host, port, spy: options[:spy], &method(:on_connection))
       end
 
       def on_connection(connection)

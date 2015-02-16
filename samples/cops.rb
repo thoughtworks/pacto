@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
+require 'rspec'
+require 'rspec/autorun'
 require 'pacto'
+
 Pacto.configure do |c|
   c.contracts_path = 'contracts'
 end
