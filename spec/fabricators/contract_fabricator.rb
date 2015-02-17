@@ -3,8 +3,14 @@ require 'pacto'
 require 'hashie/mash'
 
 # Fabricators for contracts or parts of contracts
+unless defined? PACTO_DEFAULT_FORMAT
+  PACTO_DEFAULT_FORMAT = (ENV['PACTO_DEFAULT_FORMAT'] || 'legacy')
+  CONTRACT_CLASS = Pacto::Formats.const_get(PACTO_DEFAULT_FORMAT.capitalize).const_get('Contract')
+  REQUEST_CLAUSE_CLASS = Pacto::Formats.const_get(PACTO_DEFAULT_FORMAT.capitalize).const_get('RequestClause')
+  RESPONSE_CLAUSE_CLASS = Pacto::Formats.const_get(PACTO_DEFAULT_FORMAT.capitalize).const_get('ResponseClause')
+end
 
-Fabricator(:contract, from: Pacto::Contract) do
+Fabricator(:contract, from: CONTRACT_CLASS) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   transient example_count: 0
   name { 'Dummy Contract' }
@@ -25,14 +31,14 @@ Fabricator(:contract, from: Pacto::Contract) do
   end
 end
 
-Fabricator(:partial_contract, from: Pacto::Contract) do
+Fabricator(:partial_contract, from: CONTRACT_CLASS) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   name { 'Dummy Contract' }
   file { 'file:///does/not/exist/dummy_contract.json' }
   request { Fabricate(:request_clause).to_hash }
 end
 
-Fabricator(:request_clause, from: Pacto::RequestClause) do
+Fabricator(:request_clause, from: REQUEST_CLAUSE_CLASS) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   host { 'example.com' }
   http_method { 'GET' }
@@ -49,7 +55,7 @@ Fabricator(:request_clause, from: Pacto::RequestClause) do
   params {}
 end
 
-Fabricator(:response_clause, from: Pacto::ResponseClause) do
+Fabricator(:response_clause, from: RESPONSE_CLAUSE_CLASS) do
   initialize_with { @_klass.new to_hash } # Hash based initialization
   status { 200 }
   headers do

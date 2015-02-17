@@ -6,10 +6,33 @@ require 'pacto/formats/swagger/response_clause'
 module Pacto
   module Formats
     module Swagger
-      class Contract < Pacto::Contract
-        attr_reader :swagger_api_operation
+      class Contract < Pacto::Dash
+        include Pacto::Contract
 
-        def initialize(swagger_api_operation, base_data = {})
+        property :id
+        property :file
+        property :request,  required: true
+        # Although I'd like response to be required, it complicates
+        # the partial contracts used the rake generation task...
+        # yet another reason I'd like to deprecate that feature
+        property :response # , required: true
+        property :values, default: {}
+        # Gotta figure out how to use test doubles w/ coercion
+        coerce_key :request,  RequestClause
+        coerce_key :response, ResponseClause
+        property :examples
+        property :name, required: true
+        property :adapter, default: proc { Pacto.configuration.adapter }
+        property :consumer, default: proc { Pacto.configuration.default_consumer }
+        property :provider, default: proc { Pacto.configuration.default_provider }
+
+        def initialize(swagger_api_operation, base_data = {}) # rubocop:disable Metrics/MethodLength
+          if base_data[:file]
+            base_data[:file] = Addressable::URI.convert_path(File.expand_path(base_data[:file])).to_s
+            base_data[:name] ||= base_data[:file]
+          end
+          base_data[:id] ||= (base_data[:summary] || base_data[:file])
+
           @swagger_api_operation = swagger_api_operation
           host = base_data.delete(:host) || swagger_api_operation.host
           default_response = swagger_api_operation.default_response

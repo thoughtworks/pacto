@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'json/schema_generator'
-require 'pacto/contract_builder'
+require 'pacto/formats/legacy/contract_builder'
 
 module Pacto
   module Formats
