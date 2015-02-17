@@ -12,18 +12,23 @@ module Pacto
       @middleware.add_observer Pacto::Cops, :investigate
       @generator = Pacto::Generator.contract_generator
       @middleware.add_observer @generator, :generate
-      @stenographer_log_file ||= File.expand_path('pacto_stenographer.log')
       @default_consumer = Pacto::Consumer.new
       @default_provider = Pacto::Provider.new
       @adapter = Stubs::WebMockAdapter.new(@middleware)
       @strict_matchers = true
       @contracts_path = '.'
-      @logger = Logger::SimpleLogger.instance
-      define_logger_level
       @hook = Hook.new {}
       @generator_options = { schema_version: 'draft3' }
       @color = $stdout.tty?
       @proxy = ENV['PACTO_PROXY']
+    end
+
+    def logger
+      @logger ||= new_simple_logger
+    end
+
+    def stenographer_log_file
+      @stenographer_log_file ||= File.expand_path('pacto_stenographer.log')
     end
 
     def register_hook(hook = nil, &block)
@@ -37,11 +42,13 @@ module Pacto
 
     private
 
-    def define_logger_level
-      if ENV['PACTO_DEBUG']
-        @logger.level = :debug
-      else
-        @logger.level = :default
+    def new_simple_logger
+      Logger::SimpleLogger.instance.tap do | logger |
+        if ENV['PACTO_DEBUG']
+          logger.level = :debug
+        else
+          logger.level = :default
+        end
       end
     end
   end
