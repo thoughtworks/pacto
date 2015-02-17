@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'pacto/generator/legacy_contract_generator'
+require 'pacto/formats/legacy/contract_generator'
 require 'pacto/generator/hint'
 
 module Pacto
@@ -9,7 +9,7 @@ module Pacto
     class << self
       # Factory method to return the active contract generator implementation
       def contract_generator
-        NativeContractGenerator.new
+        Pacto::Formats::Legacy::ContractGenerator.new
       end
 
       # Factory method to return the active contract generator implementation
