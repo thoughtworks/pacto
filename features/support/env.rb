@@ -5,7 +5,6 @@ require 'aruba/cucumber'
 require 'json_spec/cucumber'
 require 'aruba/jruby' if RUBY_PLATFORM == 'java'
 require 'pacto/test_helper'
-require_relative '../../spec/pacto/dummy_server'
 
 Pacto.configuration.hide_deprecations = true
 
@@ -16,7 +15,6 @@ end
 
 class PactoWorld
   include Pacto::TestHelper
-  include Pacto::DummyServer::JRubyWorkaroundHelper
 end
 
 World do
@@ -24,11 +22,9 @@ World do
 end
 
 Around do | _scenario, block |
-  # This is a cucumber bug (see cucumber #640)
+  WebMock.allow_net_connect!
   world = self || PactoWorld.new
-  world.run_pacto do
-    Bundler.with_clean_env do
-      block.call
-    end
+  world.with_pacto(port: 8000, live: true, backend_host: 'http://localhost:5000') do
+    block.call
   end
 end

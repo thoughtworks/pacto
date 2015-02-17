@@ -6,12 +6,6 @@ module Pacto
     let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
     let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
 
-    around :each do |example|
-      run_pacto do
-        example.run
-      end
-    end
-
     def expect_to_raise(message_pattern = nil, &blk)
       expect { blk.call }.to raise_error(RSpec::Expectations::ExpectationNotMetError, message_pattern)
     end
@@ -44,7 +38,7 @@ module Pacto
         contracts.stub_providers(device_id: 42)
         Pacto.validate!
 
-        Faraday.get('http://dummyprovider.com/hello') do |req|
+        Faraday.get('http://dummyprovider.com/api/hello') do |req|
           req.headers = { 'Accept' => 'application/json' }
         end
       end
@@ -57,7 +51,7 @@ module Pacto
         # Increasingly strict assertions
         expect(Pacto).to have_investigated('Simple Contract')
         expect(Pacto).to have_investigated('Simple Contract').with_request(headers: hash_including('Accept' => 'application/json'))
-        expect(Pacto).to have_investigated('Simple Contract').with_request(http_method: :get, url: 'http://dummyprovider.com/hello')
+        expect(Pacto).to have_investigated('Simple Contract').with_request(http_method: :get, url: 'http://dummyprovider.com/api/hello')
       end
 
       it 'supports negative assertions' do

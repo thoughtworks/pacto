@@ -1,15 +1,13 @@
 # -*- encoding : utf-8 -*-
 begin
   require 'pacto'
-  require 'goliath/test_helper'
   require 'pacto/server'
 rescue LoadError
-  raise 'pacto/test_helper requires the goliath and pacto-server gems'
+  raise 'pacto/test_helper requires the pacto-server gem'
 end
 
 module Pacto
   module TestHelper
-    include Goliath::TestHelper
     DEFAULT_ARGS = {
       stdout: true,
       log_file: 'pacto.log',
@@ -20,18 +18,23 @@ module Pacto
       generate: false,
       verbose: true,
       validate: true,
-      directory: File.join(Dir.pwd, 'spec', 'fixtures', 'contracts'),
-      port: 9000
+      directory: File.join(Dir.pwd, 'contracts'),
+      port: 9000,
+      format: :legacy,
+      stenographer_log_file: File.expand_path('pacto_stenographer.log', Dir.pwd),
+      strip_port: true
     }
 
-    def with_pacto(args = DEFAULT_ARGS)
-      args = DEFAULT_ARGS.merge args
-      with_api(Pacto::Server::API, args) do
-        EM::Synchrony.defer do
-          yield "http://localhost:#{@test_server_port}"
-          EM.stop
-        end
-      end
+    def with_pacto(args = {})
+      start_index = ::Pacto::InvestigationRegistry.instance.investigations.size
+      ::Pacto::InvestigationRegistry.instance.investigations.clear
+      args = DEFAULT_ARGS.merge(args)
+      args[:spy] = args[:verbose]
+      server = Pacto::Server::HTTP.supervise('0.0.0.0', args[:port], args)
+      yield "http://localhost:#{args[:port]}"
+      ::Pacto::InvestigationRegistry.instance.investigations[start_index, -1]
+    ensure
+      server.terminate unless server.nil?
     end
   end
 end

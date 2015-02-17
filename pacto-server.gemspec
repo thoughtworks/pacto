@@ -18,7 +18,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'pacto', Pacto::VERSION
-  gem.add_dependency 'goliath', '~> 1.0'
-  gem.add_dependency 'em-synchrony', '~> 1.0'
-  gem.add_dependency 'em-http-request', '~> 1.1'
+  gem.add_dependency 'reel', '~> 0.5'
 end

@@ -27,7 +27,7 @@ module Pacto
     def uri(values = {})
       values ||= {}
       uri_template = pattern.uri_template
-      missing_keys = uri_template.keys - values.keys
+      missing_keys = uri_template.keys.map(&:to_sym) - values.keys.map(&:to_sym)
       values[:scheme] = 'http' if missing_keys.delete(:scheme)
       values[:server] = 'localhost' if missing_keys.delete(:server)
       logger.warn "Missing keys for building a complete URL: #{missing_keys.inspect}" unless missing_keys.empty?
