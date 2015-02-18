@@ -21,7 +21,7 @@ module Pacto
           ResponseClause.new(status: 200)
         end
         let(:adapter) { double 'provider' }
-        let(:file) { 'contract.json' }
+        let(:file) { contract_file 'contract', 'legacy' }
         let(:consumer_driver) { double }
         let(:provider_actor) { double }
 

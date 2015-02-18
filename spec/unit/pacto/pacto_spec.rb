@@ -17,10 +17,12 @@ describe Pacto do
   end
 
   describe '.validate_contract' do
+    let(:contract_path) { contract_file 'contract' }
+
     context 'valid' do
       it 'returns true' do
         mock_investigation []
-        success = described_class.validate_contract 'my_contract.json'
+        success = described_class.validate_contract contract_path
         expect(success).to be true
       end
     end
@@ -28,20 +30,20 @@ describe Pacto do
     context 'invalid' do
       it 'raises an InvalidContract error' do
         mock_investigation ['Error 1']
-        expect { described_class.validate_contract 'my_contract.json' }.to raise_error(InvalidContract)
+        expect { described_class.validate_contract contract_path }.to raise_error(InvalidContract)
       end
     end
   end
 
   describe 'loading contracts' do
-    let(:contracts_path) { 'path/to/dir' }
+    let(:contracts_path) { contracts_folder }
     let(:host) { 'localhost' }
 
     it 'instantiates a contract list' do
       expect(Pacto::ContractSet).to receive(:new) do |contracts|
         contracts.each { |contract| expect(contract).to be_a_kind_of(Pacto::Contract) }
       end
-      described_class.load_contracts('spec/fixtures/contracts/', host)
+      described_class.load_contracts(contracts_path, host)
     end
   end
 end

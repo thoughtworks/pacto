@@ -3,7 +3,7 @@ module Pacto
   module Formats
     module Swagger
       describe ContractFactory do
-        let(:swagger_file) { 'spec/fixtures/swagger/petstore.yaml' }
+        let(:swagger_file) { contract_file('petstore', 'swagger') }
         let(:expected_schema) do
           {
             'type' => 'array',

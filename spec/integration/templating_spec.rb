@@ -2,7 +2,7 @@
 require 'securerandom'
 
 describe 'Templating' do
-  let(:contract_path) { 'spec/fixtures/contracts/templating_contract.json' }
+  let(:contract_path) { contract_file 'templating_contract' }
   let(:contracts) {  Pacto.load_contracts(contract_path, 'http://dummyprovider.com') }
 
   let(:key) { SecureRandom.hex }

@@ -21,6 +21,20 @@ RSpec.configure do |config|
   end
 end
 
+def default_pacto_format
+  ENV['PACTO_DEFAULT_FORMAT'] || 'legacy'
+end
+
+def contracts_folder(format = default_pacto_format)
+  "spec/fixtures/contracts/#{format}"
+end
+
+def contract_file(name, format = default_pacto_format)
+  file = Dir.glob("#{contracts_folder(format)}/#{name}.*").first
+  fail "Could not find a #{format} contract for #{name}" if file.nil?
+  file
+end
+
 def sample_contract
   # Memoized for test speed
   @sample_contract ||= Fabricate(:contract)

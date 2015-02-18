@@ -6,9 +6,9 @@ module Pacto
     module Legacy
       describe ContractFactory do
         let(:host)                 { 'http://localhost' }
+        let(:contract_format)      { 'legacy' }
         let(:contract_name)        { 'contract' }
-        let(:contracts_path)       { %w(spec fixtures contracts) }
-        let(:contract_path)        { File.join(contracts_path, "#{contract_name}.json") }
+        let(:contract_path)        { contract_file(contract_name, contract_format) }
         subject(:contract_factory) { described_class.new }
 
         it 'builds a Contract given a JSON file path and a host' do
@@ -17,11 +17,10 @@ module Pacto
         end
 
         context 'deprecated contracts' do
-          let(:contracts_path)       { %w(spec fixtures deprecated_contracts) }
+          let(:contract_format)      { 'deprecated' }
           let(:contract_name)        { 'deprecated_contract' }
-          it 'can still be loaded' do
-            contract = contract_factory.build_from_file(contract_path, host)
-            expect(contract).to be_a(Contract)
+          it 'can no longer be loaded' do
+            expect { contract_factory.build_from_file(contract_path, host) }.to raise_error(/old syntax no longer supported/)
           end
         end
       end

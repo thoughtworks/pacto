@@ -32,7 +32,7 @@ module Pacto
           swagger_definition.operations.first
         end
         let(:adapter) { double 'provider' }
-        let(:file) { 'contract.json' }
+        let(:file) { Tempfile.new(['swagger', '.yaml']).path }
         let(:consumer_driver) { double }
         let(:provider_actor) { double }
 
