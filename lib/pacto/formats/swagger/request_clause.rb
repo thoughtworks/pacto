@@ -14,6 +14,7 @@ module Pacto
         def initialize(swagger_api_operation, base_data = {})
           @swagger_api_operation = swagger_api_operation
           @host = base_data[:host] || swagger_api_operation.host
+          @pattern = Pacto::RequestPattern.for(self)
         end
 
         def schema

@@ -26,6 +26,7 @@ module Pacto
           @data = Data.new(mash)
           freeze unless skip_freeze
           super({})
+          @pattern = Pacto::RequestPattern.for(self)
         end
 
         def freeze

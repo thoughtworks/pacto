@@ -8,19 +8,10 @@ module Pacto
     attr_reader :path
     attr_reader :headers
     attr_reader :params
-
-    attr_writer :request_pattern_provider
-
-    def request_pattern_provider
-      @request_pattern_provider ||= Pacto::RequestPattern
-    end
+    attr_reader :pattern
 
     def http_method=(method)
       normalize(method)
-    end
-
-    def pattern
-      @pattern ||= request_pattern_provider.for(self)
     end
 
     def uri(values = {})

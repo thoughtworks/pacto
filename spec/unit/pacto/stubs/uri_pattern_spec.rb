@@ -22,8 +22,9 @@ module Pacto
       end
 
       it 'fails if segment uses : syntax' do
-        request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
-        expect { UriPattern.for(request) }.to raise_error(/old syntax no longer supported/)
+        expect do
+          Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
+        end.to raise_error(/old syntax no longer supported/)
       end
 
       it 'creates a regex that does not allow additional path elements' do
