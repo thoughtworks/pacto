@@ -42,9 +42,9 @@ module Pacto
 
           if default_response.nil?
             logger.warn("No response defined for #{swagger_api_operation.full_name}")
-            response_clause = Pacto::ResponseClause.new(status: 200)
+            response_clause = ResponseClause.new(status: 200)
           else
-            response_clause = Pacto::Formats::Swagger::ResponseClause.new(default_response)
+            response_clause = ResponseClause.new(default_response)
           end
 
           examples = build_examples(default_response)

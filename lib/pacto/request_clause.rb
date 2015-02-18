@@ -1,21 +1,15 @@
 # -*- encoding : utf-8 -*-
 module Pacto
-  class RequestClause < Pacto::Dash
+  module RequestClause
     include Logger
-    property :host # required?
-    property :http_method, required: true
-    property :schema, default: {}
-    property :path, default: '/'
-    property :headers, default: {}
-    property :params, default: {}
+    attr_reader :host
+    attr_reader :http_method
+    attr_reader :schema
+    attr_reader :path
+    attr_reader :headers
+    attr_reader :params
 
     attr_writer :request_pattern_provider
-
-    def initialize(definition)
-      mash = Hashie::Mash.new definition
-      mash['http_method'] = normalize(mash['http_method'])
-      super mash
-    end
 
     def request_pattern_provider
       @request_pattern_provider ||= Pacto::RequestPattern

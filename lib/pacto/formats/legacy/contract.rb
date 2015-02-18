@@ -36,6 +36,13 @@ module Pacto
           super
           freeze unless skip_freeze
         end
+
+        def freeze
+          (keys.map(&:to_sym) - [:values, :adapter, :consumer, :provider]).each do | key |
+            send(key).freeze
+          end
+          self
+        end
       end
     end
   end

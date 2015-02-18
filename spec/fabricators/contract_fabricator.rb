@@ -35,14 +35,14 @@ Fabricator(:contract, from: CONTRACT_CLASS) do
 end
 
 Fabricator(:partial_contract, from: CONTRACT_CLASS) do
-  initialize_with { @_klass.new to_hash } # Hash based initialization
+  initialize_with { @_klass.new(to_hash.merge(skip_freeze: true)) } # Hash based initialization
   name { 'Dummy Contract' }
   file { 'file:///does/not/exist/dummy_contract.json' }
   request { Fabricate(:request_clause).to_hash }
 end
 
 Fabricator(:request_clause, from: REQUEST_CLAUSE_CLASS) do
-  initialize_with { @_klass.new to_hash } # Hash based initialization
+  initialize_with { @_klass.new(to_hash.merge(skip_freeze: true)) } # Hash based initialization
   host { 'example.com' }
   http_method { 'GET' }
   path { '/abcd' }
@@ -59,7 +59,7 @@ Fabricator(:request_clause, from: REQUEST_CLAUSE_CLASS) do
 end
 
 Fabricator(:response_clause, from: RESPONSE_CLAUSE_CLASS) do
-  initialize_with { @_klass.new to_hash } # Hash based initialization
+  initialize_with { @_klass.new(to_hash.merge(skip_freeze: true)) } # Hash based initialization
   status { 200 }
   headers do
     {
