@@ -2,17 +2,28 @@
 module Pacto
   module Formats
     module Swagger
-      class ResponseClause < Pacto::ResponseClause
+      class ResponseClause
+        extend Forwardable
+        include Pacto::ResponseClause
         attr_reader :swagger_response
 
-        def initialize(swagger_response, base_data = {})
-          @swagger_response = swagger_response
-          data = {}.tap do | response_clause |
-            response_clause[:status] = swagger_response.status_code || 200
-            response_clause[:schema] = swagger_response.schema.parse unless swagger_response.schema.nil?
-          end
+        def_delegators :swagger_response, :schema
 
-          super base_data.merge(data)
+        def initialize(swagger_response, _base_data = {})
+          @swagger_response = swagger_response
+        end
+
+        def status
+          swagger_response.status_code || 200
+        end
+
+        def headers
+          swagger_response.headers || {}
+        end
+
+        def schema
+          return nil unless swagger_response.schema
+          swagger_response.schema.parse
         end
       end
     end

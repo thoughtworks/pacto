@@ -55,11 +55,10 @@ describe Pacto::InvestigationRegistry do
   end
 
   describe '.failed_investigations' do
-    let(:contract) { Fabricate(:contract) }
+    let(:contract) { Fabricate(:contract, name: 'test') }
     let(:citations2) { ['a sample citation'] }
 
     it 'returns investigations with unsuccessful citations' do
-      allow(contract).to receive(:name).and_return 'test'
       investigation_with_successful_citations = Pacto::Investigation.new(request_signature, pacto_response, nil, ['error'])
       investigation_with_unsuccessful_citations = Pacto::Investigation.new(request_signature, pacto_response, nil, %w(error2 error3))
 

@@ -18,7 +18,7 @@ module Pacto
         end
 
         let(:response_clause) do
-          Pacto::ResponseClause.new(status: 200)
+          ResponseClause.new(status: 200)
         end
         let(:adapter) { double 'provider' }
         let(:file) { 'contract.json' }

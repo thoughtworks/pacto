@@ -9,6 +9,8 @@ module Pacto
       class Contract < Pacto::Dash
         include Pacto::Contract
 
+        attr_reader :swagger_api_operation
+
         property :id
         property :file
         property :request,  required: true

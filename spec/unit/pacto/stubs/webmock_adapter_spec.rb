@@ -36,7 +36,7 @@ module Pacto
       end
 
       let(:contract) do
-        Fabricate(:contract, request: request, response: response)
+        Fabricate(:contract, request: request, response: response).freeze
       end
 
       let(:body) do

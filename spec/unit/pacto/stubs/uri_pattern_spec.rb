@@ -21,22 +21,20 @@ module Pacto
         expect(uri_pattern.pattern).to eql('{scheme}://myhost.com/stuff{?anyvars*}')
       end
 
-      it 'convers segments preceded by : into variables', :deprecated do
+      it 'fails if segment uses : syntax' do
         request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
-        uri_pattern = UriPattern.for(request)
-        expect(uri_pattern.keys).to include('id')
-        expect(uri_pattern.pattern).to_not include(':id')
+        expect { UriPattern.for(request) }.to raise_error(/old syntax no longer supported/)
       end
 
       it 'creates a regex that does not allow additional path elements' do
-        request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/{id}')
         pattern = UriPattern.for(request)
         expect(pattern).to match('http://myhost.com/foo')
         expect(pattern).to_not match('http://myhost.com/foo/bar')
       end
 
-      it 'creates a regex that does allow query parameters', :deprecated do
-        request = Fabricate(:request_clause, host: 'myhost.com', path: '/:id')
+      it 'creates a regex that does allow query parameters' do
+        request = Fabricate(:request_clause, host: 'myhost.com', path: '/{id}')
         pattern = UriPattern.for(request)
         expect(pattern.match('http://myhost.com/foo?a=b')). to be_truthy
         expect(pattern.match('http://myhost.com/foo?a=b&c=d')).to be_truthy

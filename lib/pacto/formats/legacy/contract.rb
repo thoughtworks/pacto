@@ -26,12 +26,15 @@ module Pacto
         property :provider, default: proc { Pacto.configuration.default_provider }
 
         def initialize(opts)
+          skip_freeze = opts.delete(:skip_freeze)
+
           if opts[:file]
             opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
             opts[:name] ||= opts[:file]
           end
           opts[:id] ||= (opts[:summary] || opts[:file])
           super
+          freeze unless skip_freeze
         end
       end
     end

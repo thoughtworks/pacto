@@ -18,7 +18,7 @@ Feature: Strict Matching
       {
         "request": {
           "http_method": "GET",
-          "path": "/hello/:id",
+          "path": "/hello/{id}",
           "headers": {
             "Accept": "application/json"
           },
@@ -64,7 +64,7 @@ Feature: Strict Matching
       end
 
       print 'Exact: '
-      puts response 'http://dummyprovider.com/hello/:id', headers: {'Accept' => 'application/json' }
+      puts response URI.encode('http://dummyprovider.com/hello/{id}'), headers: {'Accept' => 'application/json' }
 
       print 'Wrong headers: '
       puts response 'http://dummyprovider.com/hello/123', headers: {'Content-Type' => 'application/json' }
@@ -79,7 +79,7 @@ Feature: Strict Matching
       """
       Pacto.configuration.strict_matchers = true
 
-      Exact: WebMock::NetConnectNotAllowedError
+      Exact: {"message":"Hello, world!"}
       Wrong headers: WebMock::NetConnectNotAllowedError
       ID placeholder: {"message":"Hello, world!"}
 
@@ -91,7 +91,7 @@ Feature: Strict Matching
       """
       Pacto.configuration.strict_matchers = false
 
-      Exact: WebMock::NetConnectNotAllowedError
+      Exact: {"message":"Hello, world!"}
       Wrong headers: {"message":"Hello, world!"}
       ID placeholder: {"message":"Hello, world!"}
       """

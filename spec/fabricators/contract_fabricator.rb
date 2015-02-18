@@ -11,7 +11,8 @@ unless defined? PACTO_DEFAULT_FORMAT
 end
 
 Fabricator(:contract, from: CONTRACT_CLASS) do
-  initialize_with { @_klass.new to_hash } # Hash based initialization
+  initialize_with { @_klass.new(to_hash.merge(skip_freeze: true)) } # Hash based initialization
+
   transient example_count: 0
   name { 'Dummy Contract' }
   file { 'file:///does/not/exist/dummy_contract.json' }
@@ -29,6 +30,8 @@ Fabricator(:contract, from: CONTRACT_CLASS) do
       nil
     end
   end
+
+  # after_save { | contract, _transients | contract.freeze }
 end
 
 Fabricator(:partial_contract, from: CONTRACT_CLASS) do
