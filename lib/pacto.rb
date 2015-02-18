@@ -14,9 +14,9 @@ require 'erb'
 require 'logger'
 
 # FIXME: There's soo much stuff here! I'd both like to re-roganize and to use autoloading.
+require 'pacto/errors'
 require 'pacto/dash'
 require 'pacto/resettable'
-require 'pacto/exceptions/invalid_contract.rb'
 require 'pacto/logger'
 require 'pacto/ui'
 require 'pacto/request_pattern'

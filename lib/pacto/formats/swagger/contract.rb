@@ -61,11 +61,17 @@ module Pacto
         def build_examples(response)
           return nil if response.nil? || response.examples.nil? || response.examples.empty?
 
+          if response.examples.empty?
+            response_body = nil
+          else
+            response_body = response.examples.values.first
+          end
+
           {
             default: {
               request: {}, # Swagger doesn't have a clear way to capture request examples
               response: {
-                body: response.examples.values.first.parse
+                body: response_body
               }
             }
           }

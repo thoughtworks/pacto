@@ -19,6 +19,7 @@ module Pacto
 
         def schema
           return nil if body_parameter.nil?
+          return nil if body_parameter.schema.nil?
           body_parameter.schema.parse
         end
 

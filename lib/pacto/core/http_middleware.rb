@@ -15,7 +15,7 @@ module Pacto
         begin
           notify_observers request, response
         rescue StandardError => e
-          logger.error(e)
+          logger.error Pacto::Errors.formatted_trace(e)
         end
       end
     end

@@ -30,7 +30,7 @@ describe Pacto do
     context 'invalid' do
       it 'raises an InvalidContract error' do
         mock_investigation ['Error 1']
-        expect { described_class.validate_contract contract_path }.to raise_error(InvalidContract)
+        expect { described_class.validate_contract contract_path }.to raise_error(Pacto::InvalidContract)
       end
     end
   end
