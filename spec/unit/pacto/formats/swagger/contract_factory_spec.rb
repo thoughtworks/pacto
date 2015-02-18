@@ -18,7 +18,7 @@ module Pacto
           }
         end
         describe '#load_hints' do
-          it 'loads hints from Swagger' do
+          pending 'loads hints from Swagger' do
             hints = subject.load_hints(swagger_file)
             expect(hints.size).to eq(3) # number of API operations
             hints.each do | hint |

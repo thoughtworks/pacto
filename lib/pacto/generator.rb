@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'pacto/formats/legacy/contract_generator'
-require 'pacto/generator/hint'
+require 'pacto/formats/legacy/generator_hint'
 
 module Pacto
   module Generator
@@ -38,7 +38,7 @@ module Pacto
       end
 
       def hint(name, hint_data)
-        @hints << Pacto::Generator::Hint.new(hint_data.merge(service_name: name))
+        @hints << Formats::Legacy::GeneratorHint.new(hint_data.merge(service_name: name))
       end
     end
   end

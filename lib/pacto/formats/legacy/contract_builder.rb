@@ -8,7 +8,7 @@ module Pacto
 
         def initialize(options = {})
           @schema_generator = options[:schema_generator] ||= JSON::SchemaGenerator
-          @filters = options[:filters] ||= Pacto::Generator::Filters.new
+          @filters = options[:filters] ||= Generator::Filters.new
           @data = { request: {}, response: {}, examples: {} }
           @source = 'Pacto' # Currently used by JSONSchemaGeneator, but not really useful
         end

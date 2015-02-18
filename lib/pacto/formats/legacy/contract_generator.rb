@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'json/schema_generator'
 require 'pacto/formats/legacy/contract_builder'
+require 'pacto/formats/legacy/generator/filters'
 
 module Pacto
   module Formats
@@ -11,7 +12,7 @@ module Pacto
         def initialize(_schema_version = 'draft3',
           schema_generator = JSON::SchemaGenerator,
           validator = Pacto::MetaSchema.new,
-          filters = Pacto::Generator::Filters.new,
+          filters = Generator::Filters.new,
           consumer = Pacto::Consumer.new)
           @contract_builder = ContractBuilder.new(schema_generator: schema_generator, filters: filters)
           @consumer = consumer

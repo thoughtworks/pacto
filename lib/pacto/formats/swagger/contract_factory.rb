@@ -9,14 +9,8 @@ module Pacto
       class ContractFactory
         include Logger
 
-        def load_hints(contract_path, host = nil)
-          app = ::Swagger.load(contract_path)
-          app.operations.map do |op|
-            request_clause = Pacto::Formats::Swagger::RequestClause.new(op, host: host)
-            Pacto::Generator::Hint.new(request_clause.to_hash.merge(
-              service_name: op.fetch(:summary)
-            ))
-          end
+        def load_hints(_contract_path, _host = nil)
+          fail NotImplementedError, 'Contract generation from hints is not currently supported for Swagger'
         end
 
         def build_from_file(contract_path, host = nil)

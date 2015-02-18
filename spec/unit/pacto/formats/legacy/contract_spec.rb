@@ -6,7 +6,7 @@ module Pacto
     module Legacy
       describe Contract do
         let(:request_clause) do
-          Pacto::RequestClause.new(
+          Pacto::Formats::Legacy::RequestClause.new(
             http_method: 'GET',
             host: 'http://example.com',
             path: '/',
