@@ -3,14 +3,15 @@ module Pacto
   class UriPattern
     class << self
       def for(request, strict = Pacto.configuration.strict_matchers)
-        fix_deprecations(request)
+        fail_deprecations(request)
 
         build_template_uri_pattern(request, strict)
       end
 
       def build_template_uri_pattern(request, strict)
         path = request.path.respond_to?(:pattern) ? request.path.pattern : request.path
-        host = request.host ||= '{server}'
+        host = request.host
+        host ||= '{server}'
         scheme, host = host.split('://') if host.include?('://')
         scheme ||= '{scheme}'
 
@@ -21,12 +22,11 @@ module Pacto
         end
       end
 
-      def fix_deprecations(request)
+      def fail_deprecations(request)
         return if request.path.is_a? Addressable::Template
         return if request.path == (corrected_path = request.path.gsub(/\/:(\w+)/, '/{\\1}'))
 
-        Pacto::UI.deprecation "Please change path #{request.path} to uri template: #{corrected_path}"
-        request.path = Addressable::Template.new(corrected_path)
+        fail "please change path #{request.path} to uri template: #{corrected_path} - old syntax no longer supported"
       end
     end
   end

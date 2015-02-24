@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 module Pacto
-  class ResponseClause < Pacto::Dash
-    property :status
-    property :headers, default: {}
-    property :schema, default: {}
+  module ResponseClause
+    attr_reader :status
+    attr_reader :headers
+    attr_reader :schema
   end
 end

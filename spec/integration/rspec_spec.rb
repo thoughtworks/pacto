@@ -2,8 +2,8 @@
 require 'pacto/rspec'
 
 describe 'pacto/rspec' do
-  let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
-  let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
+  let(:contract_path) { contract_file 'simple_contract' }
+  let(:strict_contract_path) { contract_file 'strict_contract' }
 
   around :each do |example|
     with_pacto(port: 8000) do
@@ -31,7 +31,7 @@ describe 'pacto/rspec' do
 
   context 'successful investigations' do
     let(:contracts) do
-      Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
+      Pacto.load_contracts contracts_folder, 'http://dummyprovider.com'
     end
 
     before(:each) do

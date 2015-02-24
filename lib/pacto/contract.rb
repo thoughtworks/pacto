@@ -1,32 +1,29 @@
 # -*- encoding : utf-8 -*-
 module Pacto
-  class Contract < Pacto::Dash
+  module Contract
     include Logger
 
-    property :id
-    property :file
-    property :request,  required: true
-    # Although I'd like response to be required, it complicates
-    # the partial contracts used the rake generation task...
-    # yet another reason I'd like to deprecate that feature
-    property :response # , required: true
-    property :values, default: {}
-    # Gotta figure out how to use test doubles w/ coercion
-    coerce_key :request,  RequestClause
-    coerce_key :response, ResponseClause
-    property :examples
-    property :name, required: true
-    property :adapter, default: proc { Pacto.configuration.adapter }
-    property :consumer, default: proc { Pacto.configuration.default_consumer }
-    property :provider, default: proc { Pacto.configuration.default_provider }
+    attr_reader :id
+    attr_reader :file
+    attr_reader :request
+    attr_reader :response
+    attr_reader :values
+    attr_reader :examples
+    attr_reader :name
+    attr_writer :adapter
+    attr_writer :consumer
+    attr_writer :provider
 
-    def initialize(opts)
-      if opts[:file]
-        opts[:file] = Addressable::URI.convert_path(File.expand_path(opts[:file])).to_s
-        opts[:name] ||= opts[:file]
-      end
-      opts[:id] ||= (opts[:summary] || opts[:file])
-      super
+    def adapter
+      @adapter ||= Pacto.configuration.adapter
+    end
+
+    def consumer
+      @consumer ||= Pacto.configuration.default_consumer
+    end
+
+    def provider
+      @provider ||= Pacto.configuration.default_provider
     end
 
     def examples?

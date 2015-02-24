@@ -5,7 +5,7 @@ module Pacto
         prepare_to_forward(pacto_request)
         pacto_response = forward(pacto_request)
         prepare_to_respond(pacto_response)
-        rewrite(pacto_response.body)
+        pacto_response.body = rewrite(pacto_response.body)
         pacto_response
       end
 
@@ -23,11 +23,11 @@ module Pacto
       end
 
       def rewrite(body)
-        return unless body
+        return body unless settings[:strip_dev]
         # FIXME: This is pretty hacky and needs to be rethought, but here to support hypermedia APIs
         # This rewrites the response body so that URLs that may link to other services are rewritten
         # to also passs through the Pacto server.
-        body.gsub('.com', ".dev:#{settings[:port]}").gsub(/https\:([\w\-\.\\\/]+).dev/, 'http:\1.dev') if settings[:strip_dev]
+        body.gsub('.com', ".dev:#{settings[:port]}").gsub(/https\:([\w\-\.\\\/]+).dev/, 'http:\1.dev')
       end
 
       def forward(pacto_request)

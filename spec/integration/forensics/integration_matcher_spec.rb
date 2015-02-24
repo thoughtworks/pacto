@@ -3,8 +3,8 @@ require 'pacto/rspec'
 
 module Pacto
   describe '#have_investigated' do
-    let(:contract_path) { 'spec/fixtures/contracts/simple_contract.json' }
-    let(:strict_contract_path) { 'spec/fixtures/contracts/strict_contract.json' }
+    let(:contract_path) { contract_file 'simple_contract' }
+    let(:strict_contract_path) { contract_file 'strict_contract' }
 
     def expect_to_raise(message_pattern = nil, &blk)
       expect { blk.call }.to raise_error(RSpec::Expectations::ExpectationNotMetError, message_pattern)
@@ -26,7 +26,7 @@ module Pacto
 
     context 'successful investigations' do
       let(:contracts) do
-        Pacto.load_contracts 'spec/fixtures/contracts/', 'http://dummyprovider.com'
+        Pacto.load_contracts contracts_folder, 'http://dummyprovider.com'
       end
 
       before(:each) do

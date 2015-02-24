@@ -37,5 +37,5 @@ module Pacto
   end
 end
 
-require 'pacto/legacy_contract_factory'
-require 'pacto/swagger_contract_factory'
+require 'pacto/formats/legacy/contract_factory'
+require 'pacto/formats/swagger/contract_factory'

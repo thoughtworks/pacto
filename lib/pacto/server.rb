@@ -11,8 +11,8 @@ module Pacto
       include Proxy
 
       def initialize(host = '127.0.0.1', port = 3000, options = {})
+        @logger = options[:pacto_logger] || Pacto.configuration.logger
         @settings = Settings::OptionHandler.new(port, @logger).handle(options)
-        @logger = Pacto.configuration.logger
         logger.info "Pacto Server starting on #{host}:#{port}"
         super(host, port, spy: options[:spy], &method(:on_connection))
       end
@@ -31,10 +31,10 @@ module Pacto
             pacto_response = proxy_request(pacto_request)
             reel_response = ::Reel::Response.new(pacto_response.status, pacto_response.headers, pacto_response.body)
             reel_request.respond(reel_response)
-          rescue WebMock::NetConnectNotAllowedError => e
-            reel_request.respond(500, e.message)
+          rescue WebMock::NetConnectNotAllowedError, Faraday::ConnectionFailed => e
+            reel_request.respond 502, e.message
           rescue => e
-            reel_request.respond(500, e.message)
+            reel_request.respond 500, Pacto::Errors.formatted_trace(e)
           end
         end
       end

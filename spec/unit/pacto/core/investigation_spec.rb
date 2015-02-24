@@ -3,7 +3,8 @@ module Pacto
   describe Investigation do
     let(:request) { double('request') }
     let(:response) { double('response') }
-    let(:contract) { Fabricate(:contract) }
+    let(:file) { 'foobar' }
+    let(:contract) { Fabricate(:contract, file: file) }
     let(:investigation_citations) { [] }
     let(:investigation_citations_with_errors) { ['an error occurred'] }
 
@@ -44,9 +45,9 @@ module Pacto
       end
 
       it 'returns the contract with an exact string name match' do
-        allow(contract).to receive(:file).and_return('foo')
         investigation = Pacto::Investigation.new request, response, contract, investigation_citations
-        expect(investigation.against_contract? 'foo').to eq(contract)
+        expect(investigation.against_contract? 'foobar').to eq(contract)
+        expect(investigation.against_contract? 'foo').to be_nil
         expect(investigation.against_contract? 'bar').to be_nil
       end
 
