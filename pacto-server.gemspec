@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'http://thoughtworks.github.io/pacto/'
   gem.license       = 'MIT'
 
-  gem.files         = `git ls-files -- bin/pacto-server lib/pacto/server`.split($/) # rubocop:disable SpecialGlobalVars
+  gem.files         = `git ls-files -- bin/pacto-server lib/pacto/server.rb lib/pacto/server`.split($/) # rubocop:disable SpecialGlobalVars
   gem.executables   = gem.files.grep(/^bin\//).map { |f| File.basename(f) }
   gem.test_files    = gem.files.grep(/^(test|spec|features)\//)
   gem.require_paths = ['lib']
