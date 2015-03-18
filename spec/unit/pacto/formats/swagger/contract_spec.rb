@@ -6,7 +6,7 @@ module Pacto
     module Swagger
       describe Contract do
         let(:swagger_yaml) do
-          ''"
+          %(
           swagger: '2.0'
           info:
             title: Sample API
@@ -23,7 +23,15 @@ module Pacto
                   200:
                     description: |-
                       Success.
-          "''
+                    examples:
+                      application/json: |-
+                        {
+                          "item": {
+                            "id": 45,
+                            "name": "basketball"
+                          }
+                        }
+          )
         end
         let(:swagger_definition) do
           ::Swagger.build(swagger_yaml, format: :yaml)
@@ -38,6 +46,12 @@ module Pacto
 
         subject(:contract) do
           described_class.new(api_operation, file: file)
+        end
+
+        describe 'contract examples' do
+          let(:example) { contract.examples }
+          it { expect(example).to be_truthy }
+          it { expect(example[:default][:response][:body]).to be_a(Hash) }
         end
 
         it_behaves_like 'a contract'
