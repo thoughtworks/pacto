@@ -18,7 +18,7 @@ module Pacto
       {
         status: status,
         headers: headers,
-        body: body
+        body: format_body(body)
       }
     end
 
@@ -26,6 +26,16 @@ module Pacto
       string = "STATUS: #{status}"
       string << " with body (#{raw_body.bytesize} bytes)" if raw_body
       string
+    end
+
+    private
+
+    def format_body(body)
+      if body.is_a?(Hash) || body.is_a?(Array)
+        body.to_json
+      else
+        body
+      end
     end
   end
 end
