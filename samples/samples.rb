@@ -19,7 +19,7 @@
 require 'pacto'
 require 'pacto/rspec'
 # Pacto will disable live connections, so you will get an error if
-# your code unexpectedly calls an service that was not stubbed.  If you
+# your code unexpectedly calls a service that was not stubbed.  If you
 # want to re-enable connections, run `WebMock.allow_net_connect!`
 WebMock.allow_net_connect!
 
