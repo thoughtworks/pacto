@@ -24,7 +24,29 @@ module Pacto
           generator.build_response contract
         end
       end
-
+      context 'a contract with uri template' do
+        subject(:generator) { described_class.new fallback, Pacto::Actors::NamedExampleSelector }
+        let(:contract) do
+          Fabricate(:contract,
+                    request:
+                      Fabricate(:request_clause,
+                                host: "somewhere.com",
+                                path: "/this_is_something/{b}"),
+                    examples: { "bad" =>
+                      Fabricate(:an_example,
+                                request: {uri: "http://somwer/this_is_not_something/BAD"}),
+                                "good" =>
+                      Fabricate(:an_example,
+                                request: {uri:  "http://somewhere.com/this_is_something/GOOD"})
+                    })
+        end
+        it 'should raise an error if the example uri is incompatible' do
+          expect{generator.build_request(contract, example_name: "bad")}.to raise_error(Pacto::InvalidContract)
+        end
+        it 'should correctly perform substitutions for compatible example uris' do
+          expect(generator.build_request(contract, example_name: "good").uri.to_s).to eq("http://somewhere.com/this_is_something/GOOD")
+        end
+      end
       context 'a contract with examples' do
         let(:contract) { Fabricate(:contract, example_count: 3) }
         let(:request) { generator.build_request contract }

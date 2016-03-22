@@ -42,7 +42,7 @@ Fabricator(:partial_contract, from: CONTRACT_CLASS) do
 end
 
 Fabricator(:request_clause, from: REQUEST_CLAUSE_CLASS) do
-  initialize_with { @_klass.new(to_hash.merge(skip_freeze: true)) } # Hash based initialization
+  initialize_with {  @_klass.new(to_hash.merge(skip_freeze: true)) } # Hash based initialization
   host { 'example.com' }
   http_method { 'GET' }
   path { '/abcd' }
