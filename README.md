@@ -4,13 +4,7 @@
 [![Dependency Status](https://gemnasium.com/thoughtworks/pacto.png)](https://gemnasium.com/thoughtworks/pacto)
 [![Coverage Status](https://coveralls.io/repos/thoughtworks/pacto/badge.png)](https://coveralls.io/r/thoughtworks/pacto)
 
-**Pacto is currently INACTIVE. Although this was a very nice and correct initiative,
-no "big parties" seems to be using it actively, therefore not maintaining this repository anymore. If you are interested in a more maintained Client-Driven Contracts gem, take a look at [Pact](https://github.com/realestate-com-au/pact).**
-
-**If you're viewing this at https://github.com/thoughtworks/pacto,
-you're reading the documentation for the master branch.
-[View documentation for the latest release
-(0.3.0).](https://github.com/thoughtworks/pacto/tree/v0.3.0)**
+**Pacto is currently INACTIVE. Unfortunately none of the maintainers have had enough time to maintain it. While we feel that Pacto had good ideas, we also feel that a lot has changed since Pacto was first conceived (including the [OpenAPIs initiative](https://openapis.org/)) and that too much work would be required to maintain & update Pacto. Instead, we encourage others to use other projects that have focused on Consumer-Driven Contracts, like [Pact](https://github.com/realestate-com-au/pact), or to write their own Pacto-inspired project.**
 
 # [INACTIVE] Pacto
 
