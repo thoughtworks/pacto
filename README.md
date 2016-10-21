@@ -4,12 +4,9 @@
 [![Dependency Status](https://gemnasium.com/thoughtworks/pacto.png)](https://gemnasium.com/thoughtworks/pacto)
 [![Coverage Status](https://coveralls.io/repos/thoughtworks/pacto/badge.png)](https://coveralls.io/r/thoughtworks/pacto)
 
-**If you're viewing this at https://github.com/thoughtworks/pacto,
-you're reading the documentation for the master branch.
-[View documentation for the latest release
-(0.3.0).](https://github.com/thoughtworks/pacto/tree/v0.3.0)**
+**Pacto is currently INACTIVE. Unfortunately none of the maintainers have had enough time to maintain it. While we feel that Pacto had good ideas, we also feel that a lot has changed since Pacto was first conceived (including the [OpenAPIs initiative](https://openapis.org/)) and that too much work would be required to maintain & update Pacto. Instead, we encourage others to use other projects that have focused on Consumer-Driven Contracts, like [Pact](https://github.com/realestate-com-au/pact), or to write their own Pacto-inspired project.**
 
-# Pacto
+# [INACTIVE] Pacto
 
 Pacto is a judge that arbitrates contract disputes between a **service provider** and one or more **consumers**.  In other words, it is a framework for [Integration Contract Testing](http://martinfowler.com/bliki/IntegrationContractTest.html), and helps guide service evolution patterns like [Consumer-Driven Contracts](http://thoughtworks.github.io/pacto/patterns/cdc/) or [Documentation-Driven Contracts](http://thoughtworks.github.io/pacto/patterns/documentation_driven/).
 
@@ -101,7 +98,7 @@ This method will hit the real endpoint, with a request created based on the requ
 The response will be compared against the response part of the contract and any structural difference will
 generate a validation error.
 
-Running this in your build pipeline will ensure that your contracts actually match the real world, and that 
+Running this in your build pipeline will ensure that your contracts actually match the real world, and that
 you can run your acceptance tests against the contract stubs without worries.
 
 ### Stubbing
@@ -114,7 +111,7 @@ contracts.stub_providers
 ```
 
 This method uses webmock to ensure that whenever you make a request against one of contracts you actually get a stubbed response,
-based on the default values specified on the contract, instead of hitting the real provider. 
+based on the default values specified on the contract, instead of hitting the real provider.
 
 You can override any default value on the contracts by providing a hash of optional values to the stub_providers method. This
 will override the keys for every contract in the list
