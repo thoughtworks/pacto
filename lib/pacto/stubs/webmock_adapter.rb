@@ -62,12 +62,7 @@ module Pacto
 
         stub.to_return do |request|
           pacto_request = Pacto::Adapters::WebMock::PactoRequest.new request
-          response = contract.response_for pacto_request
-          {
-            status: response.status,
-            headers: response.headers,
-            body: format_body(response.body)
-          }
+          contract.response_for(pacto_request).to_hash
         end
       end
 
@@ -83,14 +78,6 @@ module Pacto
       end
 
       private
-
-      def format_body(body)
-        if body.is_a?(Hash) || body.is_a?(Array)
-          body.to_json
-        else
-          body
-        end
-      end
 
       def strict_details(request)
         {}.tap do |details|

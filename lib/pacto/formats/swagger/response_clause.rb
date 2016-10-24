@@ -25,6 +25,12 @@ module Pacto
           return nil unless swagger_response.schema
           swagger_response.schema.parse
         end
+
+        def to_hash
+          [:status, :headers, :schema].each_with_object({}) do | key, hash |
+            hash[key.to_s] = send key
+          end
+        end
       end
     end
   end

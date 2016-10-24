@@ -71,7 +71,7 @@ module Pacto
             default: {
               request: {}, # Swagger doesn't have a clear way to capture request examples
               response: {
-                body: response_body
+                body: response_body.parse
               }
             }
           }
