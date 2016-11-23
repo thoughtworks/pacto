@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+require 'pacto/errors'
+
 module Pacto
   module Actors
     class FirstExampleSelector
@@ -32,7 +34,7 @@ module Pacto
         if contract.examples?
           example = @selector.select(contract.examples, values)
           data = contract.request.to_hash
-          request_values.merge! example_uri_values(contract)
+          request_values.merge! example_uri_values(contract, example)
           data['uri'] = contract.request.uri(request_values)
           data['body'] = example.request.body
           data['method'] = contract.request.http_method
@@ -53,11 +55,15 @@ module Pacto
         end
       end
 
-      def example_uri_values(contract)
+      def example_uri_values(contract,example)
         uri_template = contract.request.pattern.uri_template
-        if contract.examples && contract.examples.values.first[:request][:uri]
-          example_uri = contract.examples.values.first[:request][:uri]
-          uri_template.extract example_uri
+        if example && example[:request][:uri]
+          example_uri = example[:request][:uri]
+          extracted_values = uri_template.extract(example_uri)
+          raise InvalidContract.new([
+                  "Example URI #{example_uri} is not compatible with the request URI template #{uri_template.pattern}"]) unless extracted_values
+          return extracted_values
+
         else
           {}
         end
