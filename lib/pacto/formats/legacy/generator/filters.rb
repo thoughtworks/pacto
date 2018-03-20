@@ -16,6 +16,7 @@ module Pacto
           %w(
             Date
             Last-Modified
+            Etag
             ETag
           )
 
