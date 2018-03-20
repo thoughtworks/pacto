@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(/^(test|spec|features)\//)
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'webmock', '~> 1.18'
+  gem.add_dependency 'webmock', '~> 2.1.0'
   gem.add_dependency 'swagger-core', '~> 0.2', '>= 0.2.1'
   gem.add_dependency 'middleware', '~> 0.1'
   gem.add_dependency 'multi_json', '~> 1.8'
