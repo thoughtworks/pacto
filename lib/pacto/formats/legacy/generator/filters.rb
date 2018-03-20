@@ -19,7 +19,12 @@ module Pacto
             ETag
           )
 
-          HEADERS_TO_FILTER = CONNECTION_CONTROL_HEADERS + FRESHNESS_HEADERS
+          IMAGE_HEADERS =
+          %w(
+            Location
+          )
+
+          HEADERS_TO_FILTER = CONNECTION_CONTROL_HEADERS + FRESHNESS_HEADERS + IMAGE_HEADERS
 
           def filter_request_headers(request, response)
             # FIXME: Do we need to handle all these cases in real situations, or just because of stubbing?
