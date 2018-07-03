@@ -1,3 +1,8 @@
+## 0.5.0
+  *New Features:*
+   - #108: Update webmock
+
+
 ## 0.3.2
 
   *New Features:*
