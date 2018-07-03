@@ -11,10 +11,6 @@ Coveralls::RakeTask.new
 require 'pacto/rake_task' # FIXME: This require turns on WebMock
 WebMock.allow_net_connect!
 
-RuboCop::RakeTask.new(:rubocop) do |task|
-  task.fail_on_error = true
-end
-
 Cucumber::Rake::Task.new(:journeys) do |t|
   t.cucumber_opts = 'features --format progress'
 end

@@ -71,11 +71,21 @@ module Pacto
                             headers: @filters.filter_request_headers(request, response),
                             http_method: request.method,
                             params: request.uri.query_values,
-                            path: hint.nil? ? request.uri.path : hint.path
+                            path: hint.nil? ? parse_path(request) : hint.path
                           )
           @data[:request] = request
           self
         end
+
+        def parse_path(request)
+          return request.uri.path unless get_request_with_query? request
+          request.uri.path + "?" + request.uri.query
+        end
+
+        def get_request_with_query?(request)
+          request.method.to_s == "get" && request.uri.query
+        end
+
 
         def generate_response(request, response)
           response = clean(
